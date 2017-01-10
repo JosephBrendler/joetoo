@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<repositories encoding="UTF-8" version="1.1">
+  <repo priority="50" quality="experimental">
+    <name>joetoo</name>
+    <description>ebuilds for my linux utilities</description>
+    <homepage>https://github.com/JosephBrendler/joetoo</homepage>
+    <owner>
+      <email>joseph.brendler@googlemail.com</email>
+      <name>Joe Brendler</name>
+    </owner>
+    <source branch="master" type="git">https://github.com/JosephBrendler/joetoo.git</source>
+  </repo>
+</repositories>
+
