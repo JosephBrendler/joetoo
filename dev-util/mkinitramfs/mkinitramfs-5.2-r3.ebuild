@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # This is the third revision of the second version of my first ebuild
@@ -28,5 +28,5 @@ src_install() {
 	dodir /usr/src/${PN}
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	einfo "Thank you for using mkinitramfs"
-    elog "This is a test of the elog function"
+	elog "This is a test of the elog function"
 }
