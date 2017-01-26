@@ -1,12 +1,13 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
+# This is the third revision of the second version of my first ebuild
 
 EAPI=6
 
 DESCRIPTION="create initramfs for LUKS encrypted / lmv system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-5.2-r2-201701252311.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-5.2-r3-201701261120.tbz2"
 
 #PN="mkinitramfs"
 #PV="5.2"
