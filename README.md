@@ -1,2 +1,2 @@
 # joetoo
-my repository of custome ebuilds for gentoo (partner to my sources infrastructure at myUtilities)
+my repository of custom ebuilds for gentoo (partner to my sources infrastructure at myUtilities)
