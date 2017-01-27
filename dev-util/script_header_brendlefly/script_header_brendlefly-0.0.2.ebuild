@@ -19,8 +19,8 @@ KEYWORDS="~amd64 ~x86 ~arm"
 # fix later - this is to automatically also pull in dev-util/script-header-brendlefly-extended
 IUSE="extended"
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="extended? ( dev-util/script_header_brendlefly_extended )"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	# install utility script header in /usr/local/sbin
@@ -33,6 +33,13 @@ src_install() {
 	dodir usr/local/sbin/
 	einfo "About to execute command cp -R "${S}"/* "${D}"usr/local/sbin/"
 	cp -v "${S}/${PN}" "${D}usr/local/sbin/" || die "Install failed!"
-	einfo "Thank you for using scriptheader"
-	elog "This is a test of the elog function"
+	einfo "Thank you for using script_header"
+	elog "${PN} installed in /usr/local/sbin. Employ its functions by sourcing"
+	elog "(e.g. # source /usr/local/sbin/script_header_brendlefly )"
+	elog "Note: if you enabled the \"extended\" USE flag, then you may"
+	elog "also source and employ the extended function set"
+	elog "(e.g. # source /usr/local/sbin/script_header_brendlefly_extended"
+	elog "After sourcing, use the commands \"summarize_me\" and "
+	elog "\"summarize_my_extension\" repectively for useful summary"
+	elog "information about each package"
 }
