@@ -10,7 +10,7 @@
 	</maintainer>
 	<use>
 		<flag name="extended">
-			Also use the extended set of functions in dev-util/script-header-brendlefly-extended
+			Also use the extended set of functions in dev-util/script_header_brendlefly_extended (doesn't work yet)
 		</flag>
 	</use>
 	<upstream>

@@ -7,7 +7,7 @@ EAPI=6
 
 DESCRIPTION="A script header with easy-to-use formatting colors and functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.0.2.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_extended-0.0.2.tbz2"
 
 S="${WORKDIR}"
 
@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86 ~arm"
 #KEYWORDS=""
 
 # fix later - this is to automatically also pull in dev-util/script-header-brendlefly-extended
-IUSE="extended"
+IUSE="bogus"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
@@ -31,9 +31,8 @@ src_install() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	dodir usr/local/sbin/
-	einfo "Just created usr/local/sbin/ with dodir"
 	einfo "About to execute command cp -R "${S}"/* "${D}"usr/local/sbin/"
-	cp -R "${S}/*" "${D}usr/local/sbin/" || die "Install failed!"
+	cp -v "${S}/${PN}" "${D}usr/local/sbin/" || die "Install failed!"
 	einfo "Thank you for using scriptheader"
 	elog "This is a test of the elog function"
 }
