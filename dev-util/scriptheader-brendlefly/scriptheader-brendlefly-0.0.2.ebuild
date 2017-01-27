@@ -9,7 +9,7 @@ DESCRIPTION="A script header with easy-to-use formatting colors and functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.0.2.tbz2"
 
-S="${WORKDIR}/work/"
+S="${WORKDIR}/"
 
 LICENSE="MIT"
 SLOT="0"
