@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		I'll get around to filling this out later
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="extended">
+			Also use the extended set of functions in dev-util/script-header-brendlefly-extended
+		</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
+
