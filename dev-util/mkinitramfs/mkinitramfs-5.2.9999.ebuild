@@ -17,12 +17,13 @@ S="${WORKDIR}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-#KEYWORDS="~amd64 ~x86 ~arm"
-#KEYWORDS=""
+
+KEYWORDS=""
 IUSE="bogus"
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="dev-util/script_header_brendlefly"
+DEPEND="${RDEPEND}
+	bogus? ( >=dev-util/bogus-2.0 )"
 
 src_install() {
 	# install utility scripts and baseline initramfs sources in /usr/src
@@ -31,3 +32,4 @@ src_install() {
 	einfo "Thank you for using mkinitramfs"
 	elog "This is a test of the elog function"
 }
+
