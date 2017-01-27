@@ -18,7 +18,7 @@ S="${WORKDIR}/${PN}"
 LICENSE="MIT"
 SLOT="0"
 #KEYWORDS="~amd64 ~x86 ~arm"
-KEYWORDS=""
+#KEYWORDS=""
 IUSE="bogus"
 
 DEPEND=""
