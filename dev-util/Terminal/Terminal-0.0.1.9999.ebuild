@@ -5,7 +5,7 @@
 
 EAPI=6
 
-DESCRIPTION="create initramfs for LUKS encrypted / lmv system"
+DESCRIPTION="c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/Terminal-0.0.1.tbz2"
 
