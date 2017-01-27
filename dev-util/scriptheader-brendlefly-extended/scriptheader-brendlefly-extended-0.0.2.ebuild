@@ -1,13 +1,13 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
-# This is the my first 9999 (bleeding edge) version ebuild
+# This is the my first ebuild with dependencies ...
 
 EAPI=6
 
-DESCRIPTION="A header file for your scripts which provides easy-to-use formatting colors and functions"
+DESCRIPTION="A script header with additional easy-to-use formatting and functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly.0.0.2.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_extended-0.0.2.tbz2"
 
 S="${WORKDIR}/${PN}"
 
@@ -26,6 +26,6 @@ src_install() {
 	# install utility script header in /usr/local/sbin
 	dodir /usr/local/sbin/${PN}
 	cp -R "${S}/" "${D}/usr/local/sbin/" || die "Install failed!"
-	einfo "Thank you for using script-header-brendlefly"
+	einfo "Thank you for using scriptheader"
 	elog "This is a test of the elog function"
 }
