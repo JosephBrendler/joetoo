@@ -26,6 +26,10 @@ src_install() {
 	# install utility script header in /usr/local/sbin
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
 	dodir usr/local/sbin/
 	einfo "Just created usr/local/sbin/ with dodir"
 	einfo "About to execute command cp -R "${S}"/* "${D}"usr/local/sbin/"
