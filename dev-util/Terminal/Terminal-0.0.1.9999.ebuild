@@ -21,6 +21,11 @@ IUSE="examples"
 RDEPEND=""
 DEPEND="${RDEPEND}"
 
+src_compile() {
+	einfo 'About to issue command: emake DESTDIR="${D}"'
+	emake DESTDIR="${D}"
+}
+
 src_install() {
 	einfo "S=${S}"
 	einfo "D=${D}"
@@ -33,27 +38,34 @@ src_install() {
 	einfo "KEYWORDS=${KEYWORDS}"
 	einfo "IUSE=${IUSE}"
 	if use examples ; then
-		einfo "  (USE=\"examples\")"
+		einfo "  (USE=\"examples\") (set)"
 	else
-		einfo "  (USE=\"-examples\")"
+		einfo "  (USE=\"-examples\") (unset)"
 	fi
 
 	# install the shared object library in /usr/lib/
 	dodir /usr/lib/ && einfo "Created /usr/lib/ with dodir"
 	dodir /usr/local/bin/ && einfo "Created /usr/local/bin/ with dodir"
-	einfo 'About to issue command: emake DESTDIR="${D}"'
-	emake DESTDIR="${D}"
-	einfo 'About to issue command: emake DESTDIR="${D}" install'
-	emake DESTDIR="${D}" install
+#	einfo 'About to issue command: emake DESTDIR="${D}" install'
+#	emake DESTDIR="${D}" install
+	# instead of using emake DESTDIR="${D}", which didn't work for me, just copy the file(s)
+	einfo 'About to issue command: cp -R '${S}'/libTerminal.so '${D}'/usr/lib/'
+	cp -v "${S}/libTerminal.so" "${D}/usr/lib/" || die "Install failed!"
 	elog "The shared object file libTerminal.so has been installed in /usr/lib/"
 
 	# conditionally install the example executables in /usr/local/bin/
 	if use examples ; then
-		einfo 'About to issue command: emake DESTDIR="${D}" examples_install'
-		emake DESTDIR="${D}" examples_install
+#		einfo 'About to issue command: emake DESTDIR="${D}" examples_install'
+#		emake DESTDIR="${D}" examples_install
+		einfo 'About to issue command: cp -R '${S}'/terminalLibTest '${D}'/usr/local/bin/'
+		cp -v "${S}/terminalLibTest" "${D}/usr/local/bin/" || die "Install failed!"
+		einfo 'About to issue command: cp -R '${S}'/progress '${D}'/usr/local/bin/'
+		cp -v "${S}/progress" "${D}/usr/local/bin/" || die "Install failed!"
 		elog "The example executables terminalLibTest and progress"
 		elog "have been installed in /usr/local/bin/"
 	else
+		ewarn "The example executables terminalLibTest and progress"
+		ewarn "were not installed because of -examples USE flag"
 		elog "The example executables terminalLibTest and progress"
 		elog "were not installed because of -examples USE flag"
 	fi
