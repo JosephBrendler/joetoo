@@ -31,9 +31,8 @@ src_install() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	dodir usr/local/sbin/
-	einfo "Just created usr/local/sbin/ with dodir"
 	einfo "About to execute command cp -R "${S}"/* "${D}"usr/local/sbin/"
-	cp -R "${S}/*" "${D}usr/local/sbin/" || die "Install failed!"
+	cp -v "${S}/${PN}" "${D}usr/local/sbin/" || die "Install failed!"
 	einfo "Thank you for using scriptheader"
 	elog "This is a test of the elog function"
 }
