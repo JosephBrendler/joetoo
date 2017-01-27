@@ -9,7 +9,7 @@ DESCRIPTION="A script header with easy-to-use formatting colors and functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.0.2.tbz2"
 
-#S="${WORKDIR}/"   # unlike mkinitramfs, the source archive contains only a file, do ${PN} directory
+S="${WORKDIR}/"   # unlike mkinitramfs, the source archive contains only a file, do ${PN} directory
 
 LICENSE="MIT"
 SLOT="0"
@@ -25,7 +25,7 @@ RDEPEND="${DEPEND}"
 src_install() {
 	# install utility script header in /usr/local/sbin
 	dodir /usr/local/sbin/
-	cp -R "${S}/" "${D}/usr/local/sbin/" || die "Install failed!"
+	cp -R "${S}/work/" "${D}/usr/local/sbin/" || die "Install failed!"
 	einfo "Thank you for using scriptheader"
 	elog "This is a test of the elog function"
 }
