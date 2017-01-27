@@ -61,6 +61,8 @@ src_install() {
 		cp -v "${S}/terminalLibTest" "${D}/usr/local/bin/" || die "Install failed!"
 		einfo 'About to issue command: cp -R '${S}'/progress '${D}'/usr/local/bin/'
 		cp -v "${S}/progress" "${D}/usr/local/bin/" || die "Install failed!"
+		einfo 'About to issue command: cp -R '${S}'/progress-example.sh '${D}'/usr/local/bin/'
+		cp -v "${S}/progress-example.sh" "${D}/usr/local/bin/" || die "Install failed!"
 		elog "The example executables terminalLibTest and progress"
 		elog "have been installed in /usr/local/bin/"
 	else
