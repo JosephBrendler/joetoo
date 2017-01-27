@@ -22,12 +22,21 @@ KEYWORDS=""
 IUSE="bogus"
 
 RDEPEND="dev-util/script_header_brendlefly"
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND} 
 	bogus? ( >=dev-util/bogus-2.0 )"
 
 src_install() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
 	# install utility scripts and baseline initramfs sources in /usr/src
-	dodir /usr/src/${PN}
+	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
+	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	einfo "Thank you for using mkinitramfs"
 	elog "This is a test of the elog function"
