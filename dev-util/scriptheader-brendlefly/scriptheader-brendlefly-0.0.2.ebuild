@@ -25,7 +25,7 @@ RDEPEND="${DEPEND}"
 src_install() {
 	# install utility script header in /usr/local/sbin
 	dodir /usr/local/sbin/
-	cp -R "${S}/work/" "${D}/usr/local/sbin/" || die "Install failed!"
+	cp -R "${S}/*" "${D}/usr/local/sbin/" || die "Install failed!"
 	einfo "Thank you for using scriptheader"
 	elog "This is a test of the elog function"
 }
