@@ -5,6 +5,8 @@
 
 EAPI=6
 
+inherit eutils
+
 DESCRIPTION="c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/compareConfigs-0.0.1.tbz2"
@@ -58,19 +60,19 @@ src_install() {
 	#   the Makefile's install target writes to the live filesystem) just copy the file(s)
 	einfo 'About to issue command: cp -R '${S}'/libKernelConfig.so '${D}'/usr/lib/'
 	cp -v "${S}/libKernelConfig.so" "${D}/usr/lib/" || die "Install failed!"
-	elog "The shared object file libKernelConfig.so has been installed in /usr/lib/"
+	einfo "The shared object file libKernelConfig.so has been installed in /usr/lib/"
 	einfo 'About to issue command: cp -R '${S}'/KernelConfig.h '${D}'/usr/include/'
 	cp -v "${S}/KernelConfig.h" "${D}/usr/include/" || die "Install failed!"
-	elog "KernelConfig.h has been installed in /usr/include/"
+	einfo "KernelConfig.h has been installed in /usr/include/"
 	einfo 'About to issue command: cp -R '${S}'/compareConfigs '${D}'/usr/local/bin/'
 	cp -v "${S}/compareConfigs" "${D}/usr/local/bin/" || die "Install failed!"
-	elog "compareConfigs has been installed in /usr/local/bin/"
-	elog ""
-	elog "compareConfigs reads all of two config files and outputs colorized side-by-side comparison"
-	elog "useage:   $ compareConfigs <path/to/config1> <path/to/config2>"
-	elog "example:  $ compareConfigs /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo"
-	elog ""
-	elog "Recommend you ensure \"/usr/local/bin\" is in your $PATH"
+	einfo "compareConfigs has been installed in /usr/local/bin/"
+	einfo ""
+	einfo "compareConfigs reads all of two config files and outputs colorized side-by-side comparison"
+	einfo "useage:   $ compareConfigs <path/to/config1> <path/to/config2>"
+	einfo "example:  $ compareConfigs /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo"
+	einfo ""
+	einfo "Recommend you ensure \"/usr/local/bin\" is in your \$PATH"
 
 	# conditionally install the test program in /usr/local/bin/
 	if use testdata ; then
@@ -78,18 +80,16 @@ src_install() {
 		cp -v "${S}/kernelConfigLibTest" "${D}/usr/local/bin/" || die "Install failed!"
 		einfo 'About to issue command: cp -R '${S}'/testconfig* '${D}'/usr/local/bin/'
 		cp -v "${S}/testconfig*" "${D}/usr/local/bin/" || die "Install failed!"
-		elog "The test program kerlenConfigLibTest and associated simple input \"config\" files"
-		elog "have been installed in /usr/local/bin/"
-		elog ""
-		elog "kernelConfigLibTest reads and dumps a single config file,"
-		elog "thus testing the KernelConfig.so library"
-		elog "useage:   $ kernelConfigLibTest <path/to/config1>"
-		elog "example:  $ comparam /home/joe/.config-live-DVD"
+		einfo "The test program kerlenConfigLibTest and associated simple input \"config\" files"
+		einfo "have been installed in /usr/local/bin/"
+		einfo ""
+		einfo "kernelConfigLibTest reads and dumps a single config file,"
+		einfo "thus testing the KernelConfig.so library"
+		einfo "useage:   $ kernelConfigLibTest <path/to/config1>"
+		einfo "example:  $ comparam /home/joe/.config-live-DVD"
 	else
 		ewarn "The test program kerlenConfigLibTest and associated simple input \"config\" files"
 		ewarn "have not been installed because of -testdata USE flag"
-		elog "The test program kerlenConfigLibTest and associated simple input \"config\" files"
-		elog "have not been installed because of -testdata USE flag"
 	fi
 
 	# conditionally install the "concept" scripts in /usr/local/bin/
@@ -98,23 +98,21 @@ src_install() {
 		cp -v "${S}/comparam.sh" "${D}/usr/local/bin/" || die "Install failed!"
 		einfo 'About to issue command: cp -R '${S}'/compare-configs.sh '${D}'/usr/local/bin/'
 		cp -v "${S}/compare-configs.sh" "${D}/usr/local/bin/" || die "Install failed!"
-		elog "The \"concept\" scripts comparm.sh and compare-configs.sh"
-		elog "have been installed in /usr/local/bin/"
-		elog ""
-		elog "comparam.sh compares a single config setting in two config files"
-		elog "useage:   $ comparam <path/to/config1> <path/to/config2> <parameter>"
-		elog "example:  $ comparam /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo iwlwifi"
-		elog ""
-		elog "compare-configs.sh compares all of two config files side-by-side, like compareConfigs binary, just slower"
-		elog "useage:   $ compare-configs.sh <path/to/config1> <path/to/config2>"
-		elog "example:  $ compare-configs.sh /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo"
+		einfo "The \"concept\" scripts comparm.sh and compare-configs.sh"
+		einfo "have been installed in /usr/local/bin/"
+		einfo ""
+		einfo "comparam.sh compares a single config setting in two config files"
+		einfo "useage:   $ comparam <path/to/config1> <path/to/config2> <parameter>"
+		einfo "example:  $ comparam /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo iwlwifi"
+		einfo ""
+		einfo "compare-configs.sh compares all of two config files side-by-side, like compareConfigs binary, just slower"
+		einfo "useage:   $ compare-configs.sh <path/to/config1> <path/to/config2>"
+		einfo "example:  $ compare-configs.sh /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo"
 	else
 		ewarn "The \"concept\" scripts comparm.sh and compare-configs.sh"
 		ewarn "have not been installed because of -scripts USE flag"
-		elog "The \"concept\" scripts comparm.sh and compare-configs.sh"
-		elog "have not been installed because of -scripts USE flag"
 	fi
 
-	elog "Thank you for using compareConfigs and the KernelConfig library"
+	einfo "Thank you for using compareConfigs and the KernelConfig library"
 }
 
