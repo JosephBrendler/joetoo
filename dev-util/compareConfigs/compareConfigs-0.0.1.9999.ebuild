@@ -78,8 +78,10 @@ src_install() {
 	if use testdata ; then
 		einfo 'About to issue command: cp -R '${S}'/kernelConfigLibTest '${D}'/usr/local/bin/'
 		cp -v "${S}/kernelConfigLibTest" "${D}/usr/local/bin/" || die "Install failed!"
-		einfo 'About to issue command: cp -R '${S}'/testconfig* '${D}'/usr/local/bin/'
-		cp -v "${S}/testconfig*" "${D}/usr/local/bin/" || die "Install failed!"
+		einfo 'About to issue command: cp -R '${S}'/testconfig1 '${D}'/usr/local/bin/'
+		cp -v "${S}/testconfig1" "${D}/usr/local/bin/" || die "Install failed!"
+		einfo 'About to issue command: cp -R '${S}'/testconfig2 '${D}'/usr/local/bin/'
+		cp -v "${S}/testconfig2" "${D}/usr/local/bin/" || die "Install failed!"
 		einfo "The test program kerlenConfigLibTest and associated simple input \"config\" files"
 		einfo "have been installed in /usr/local/bin/"
 		einfo ""
