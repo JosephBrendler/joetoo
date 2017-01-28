@@ -44,14 +44,20 @@ src_install() {
 	fi
 
 	# install the shared object library in /usr/lib/
-	dodir /usr/lib/ && einfo "Created /usr/lib/ with dodir"
-	dodir /usr/local/bin/ && einfo "Created /usr/local/bin/ with dodir"
+	dodir /usr/lib/ && einfo "Created ${D}/usr/lib/ with dodir"
+	dodir /usr/local/bin/ && einfo "Created ${D}/usr/local/bin/ with dodir"
+	dodir /usr/include/ && einfo "Created ${D}/usr/include/ with dodir"
 #	einfo 'About to issue command: emake DESTDIR="${D}" install'
 #	emake DESTDIR="${D}" install
 	# instead of using emake DESTDIR="${D}", which didn't work for me, just copy the file(s)
 	einfo 'About to issue command: cp -R '${S}'/libTerminal.so '${D}'/usr/lib/'
 	cp -v "${S}/libTerminal.so" "${D}/usr/lib/" || die "Install failed!"
 	elog "The shared object file libTerminal.so has been installed in /usr/lib/"
+	einfo 'About to issue command: cp -R '${S}'/Terminal.h '${D}'/usr/include/'
+	cp -v "${S}/Terminal.h" "${D}/usr/include/" || die "Install failed!"
+	einfo 'About to issue command: cp -R '${S}'/colorHeader.h '${D}'/usr/include/'
+	cp -v "${S}/colorHeader.h" "${D}/usr/include/" || die "Install failed!"
+	elog "Terminal.h and colorHeader.h have been installed in /usr/include/"
 
 	# conditionally install the example executables in /usr/local/bin/
 	if use examples ; then
