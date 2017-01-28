@@ -22,62 +22,64 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	einfo 'About to issue command: emake DESTDIR="${D}"'
+	elog 'About to issue command: emake DESTDIR="${D}"'
 	emake DESTDIR="${D}"
 }
 
 src_install() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
-	einfo "KEYWORDS=${KEYWORDS}"
-	einfo "IUSE=${IUSE}"
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "RDEPEND=${RDEPEND}"
+	elog "DEPEND=${DEPEND}"
+	elog "KEYWORDS=${KEYWORDS}"
+	elog "IUSE=${IUSE}"
 	if use examples ; then
-		einfo "  (USE=\"examples\") (set)"
+		elog "  (USE=\"examples\") (set)"
 	else
-		einfo "  (USE=\"-examples\") (unset)"
+		elog "  (USE=\"-examples\") (unset)"
 	fi
+	elog ""
 
 	# install the shared object library in /usr/lib/
-	dodir /usr/lib/ && einfo "Created ${D}/usr/lib/ with dodir"
-	dodir /usr/local/bin/ && einfo "Created ${D}/usr/local/bin/ with dodir"
-	dodir /usr/include/ && einfo "Created ${D}/usr/include/ with dodir"
-#	einfo 'About to issue command: emake DESTDIR="${D}" install'
-#	emake DESTDIR="${D}" install
-	# instead of using emake DESTDIR="${D}", which didn't work for me, just copy the file(s)
-	einfo 'About to issue command: cp -R '${S}'/libTerminal.so '${D}'/usr/lib/'
+	dodir /usr/lib/ && elog "Created ${D}/usr/lib/ with dodir"
+	dodir /usr/local/bin/ && elog "Created ${D}/usr/local/bin/ with dodir"
+	dodir /usr/include/ && elog "Created ${D}/usr/include/ with dodir"
+	# Instead of using emake DESTDIR="${D}" install, which causes sandbox errors because"
+	# the Makefile writes directly to the live filesystem, just copy the file(s)
+	elog 'About to issue command: cp -R '${S}'/libTerminal.so '${D}'/usr/lib/'
 	cp -v "${S}/libTerminal.so" "${D}/usr/lib/" || die "Install failed!"
 	elog "The shared object file libTerminal.so has been installed in /usr/lib/"
-	einfo 'About to issue command: cp -R '${S}'/Terminal.h '${D}'/usr/include/'
+	elog ""
+	elog 'About to issue command: cp -R '${S}'/Terminal.h '${D}'/usr/include/'
 	cp -v "${S}/Terminal.h" "${D}/usr/include/" || die "Install failed!"
-	einfo 'About to issue command: cp -R '${S}'/colorHeader.h '${D}'/usr/include/'
+	elog ""
+	elog 'About to issue command: cp -R '${S}'/colorHeader.h '${D}'/usr/include/'
 	cp -v "${S}/colorHeader.h" "${D}/usr/include/" || die "Install failed!"
 	elog "Terminal.h and colorHeader.h have been installed in /usr/include/"
+	elog ""
 
 	# conditionally install the example executables in /usr/local/bin/
 	if use examples ; then
-#		einfo 'About to issue command: emake DESTDIR="${D}" examples_install'
-#		emake DESTDIR="${D}" examples_install
-		einfo 'About to issue command: cp -R '${S}'/terminalLibTest '${D}'/usr/local/bin/'
+		elog 'About to issue command: cp -R '${S}'/terminalLibTest '${D}'/usr/local/bin/'
 		cp -v "${S}/terminalLibTest" "${D}/usr/local/bin/" || die "Install failed!"
-		einfo 'About to issue command: cp -R '${S}'/progress '${D}'/usr/local/bin/'
+		elog 'About to issue command: cp -R '${S}'/progress '${D}'/usr/local/bin/'
 		cp -v "${S}/progress" "${D}/usr/local/bin/" || die "Install failed!"
-		einfo 'About to issue command: cp -R '${S}'/progress-example.sh '${D}'/usr/local/bin/'
+		elog 'About to issue command: cp -R '${S}'/progress-example.sh '${D}'/usr/local/bin/'
 		cp -v "${S}/progress-example.sh" "${D}/usr/local/bin/" || die "Install failed!"
 		elog "The example executables terminalLibTest and progress"
 		elog "have been installed in /usr/local/bin/"
+		elog ""
 	else
 		ewarn "The example executables terminalLibTest and progress"
 		ewarn "were not installed because of -examples USE flag"
-		elog "The example executables terminalLibTest and progress"
-		elog "were not installed because of -examples USE flag"
+		elog ""
 	fi
 
 	elog "Thank you for using Terminal"
+	elog ""
 }
 
