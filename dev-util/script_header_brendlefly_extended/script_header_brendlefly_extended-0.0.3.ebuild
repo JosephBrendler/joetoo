@@ -9,7 +9,7 @@ inherit eutils
 
 DESCRIPTION="A script header with easy-to-use formatting colors and functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_extended-0.0.2.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_extended-0.0.3.tbz2"
 
 S="${WORKDIR}"
 

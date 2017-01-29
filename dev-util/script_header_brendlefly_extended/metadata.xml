@@ -9,9 +9,6 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="bogus">
-			Just a placeholder, this does nothing at the moment
-		</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
