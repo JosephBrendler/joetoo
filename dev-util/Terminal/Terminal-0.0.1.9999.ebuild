@@ -15,7 +15,7 @@ LICENSE="MIT"
 SLOT="0"
 
 #KEYWORDS="~amd64 ~x86 ~arm"
-KEYWORDS=""
+#KEYWORDS=""
 IUSE="examples"
 
 RDEPEND=""
@@ -82,4 +82,3 @@ src_install() {
 	elog "Thank you for using Terminal"
 	elog ""
 }
-

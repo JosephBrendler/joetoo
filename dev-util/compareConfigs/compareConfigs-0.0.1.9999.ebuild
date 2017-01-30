@@ -7,7 +7,7 @@ EAPI=6
 
 inherit eutils
 
-DESCRIPTION="c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples"
+DESCRIPTION="color side-by-side compare of all parameters in two kernel configuration files"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/compareConfigs-0.0.1.tbz2"
 
@@ -126,4 +126,3 @@ src_install() {
 	elog "Thank you for using compareConfigs and the KernelConfig library"
 	elog ""
 }
-

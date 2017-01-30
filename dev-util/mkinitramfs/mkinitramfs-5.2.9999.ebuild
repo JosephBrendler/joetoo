@@ -22,8 +22,8 @@ KEYWORDS=""
 IUSE="bogus"
 
 RDEPEND="dev-util/script_header_brendlefly"
-DEPEND="${RDEPEND} 
-	bogus? ( >=dev-util/bogus-2.0 )"
+DEPEND="${RDEPEND}"
+#	bogus? ( >=dev-util/bogus-2.0 )"
 
 src_install() {
 	einfo "S=${S}"
@@ -41,4 +41,3 @@ src_install() {
 	einfo "Thank you for using mkinitramfs"
 	elog "This is a test of the elog function"
 }
-
