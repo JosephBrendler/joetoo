@@ -32,8 +32,8 @@ src_install() {
 	einfo "PVR=${PVR}"
 	dodir usr/local/sbin/
 	dodir /etc/
-	einfo "About to execute command cp -R "${S}/" "${D}"usr/local/sbin/"
-	cp -v "${S}/" "${D}usr/local/sbin/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/*" "${D}"usr/local/sbin/"
+	cp -v "${S}/*" "${D}usr/local/sbin/" || die "Install failed!"
 	elog "${PN} installed in /usr/local/sbin"
 	einfo "About to execute command cp -R "${S}/${PN}.conf" "${D}"etc/"
 	cp -v "${S}/${PN}.conf" "${D}etc/" || die "Install failed!"
