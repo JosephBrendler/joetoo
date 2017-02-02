@@ -30,13 +30,17 @@ src_install() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	dodir usr/local/sbin/
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
+	# install utility in /usr/local/bin; .conf file in /etc/ ... note: both files, which
+	# are named after ${PN} are also archived for distribution in a directory named ${PN}
+	dodir usr/local/bin/
 	dodir /etc/
-	einfo "About to execute command cp -R "${S}/*" "${D}"usr/local/sbin/"
-	cp -v "${S}/*" "${D}usr/local/sbin/" || die "Install failed!"
-	elog "${PN} installed in /usr/local/sbin"
-	einfo "About to execute command cp -R "${S}/${PN}.conf" "${D}"etc/"
-	cp -v "${S}/${PN}.conf" "${D}etc/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/local/bin/"
+	cp -v "${S}/${PN}/${PN}" "${D}usr/local/bin/" || die "Install failed!"
+	elog "${PN} installed in /usr/local/bin"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/"
+	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
 ## Note: I don't think there's a function like do/newconfd available to help with this...
 	elog "The package is released for testing (~), but this ebuild is beta"
