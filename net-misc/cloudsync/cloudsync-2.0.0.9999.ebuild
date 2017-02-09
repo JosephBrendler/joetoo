@@ -14,7 +14,7 @@ S="${WORKDIR}"
 LICENSE="MIT"
 SLOT="0"
 #KEYWORDS="~amd64 ~x86 ~arm"
-KEYWORDS=""
+#KEYWORDS=""
 
 # automatically also pull in dev-util/script-header-brendlefly-extended
 IUSE=""
