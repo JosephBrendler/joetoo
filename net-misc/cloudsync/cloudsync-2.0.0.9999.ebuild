@@ -44,7 +44,12 @@ src_install() {
 	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
 ## Note: I don't think there's a function like do/newconfd available to help with this...
-	elog "The package is released for testing (~), but this ebuild is beta"
+	elog "Starting with version 2.0, there are now distinct option flags for the"
+	elog "push and pull (PUT and GET) functions. The default cloudsync.conf is"
+	elog "distributed with both set FALSE.  To use cloudsync, you will need to"
+	elog "either set PUT and/or GET to TRUE in your cloudsync.conf, or you will"
+	elog "have to use the -p|--put and/or -g|--get flags among your commadn line"
+	elog "option.  Also, keep this in mind if you run cloudsync as a cron job."
 	elog ""
 	elog "Thank you for using cloudsync"
 
