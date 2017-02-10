@@ -43,7 +43,8 @@ src_install() {
 	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/"
 	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
-## Note: I don't think there's a function like do/newconfd available to help with this...
+	## Note: I don't think there's a function like do/newconfd available to help with this...
+	elog ""
 	elog "Starting with version 2.0, there are now distinct option flags for the"
 	elog "push and pull (PUT and GET) functions. The default cloudsync.conf is"
 	elog "distributed with both set FALSE.  To use cloudsync, you will need to"
