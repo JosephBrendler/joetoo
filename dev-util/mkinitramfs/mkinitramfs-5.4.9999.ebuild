@@ -6,19 +6,23 @@ EAPI=6
 
 DESCRIPTION="create initramfs for LUKS encrypted / lmv system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-5.3.0.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-5.4.9999.tbz2"
 
 S="${WORKDIR}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="~amd64 ~x86 ~arm"
+KEYWORDS=""
 IUSE="bogus"
 
-RDEPEND=">=dev-util/script_header_brendlefly-0.1.2-r2
-	>=sys-libs/glibc-2.23"
+RDEPEND="dev-util/script_header_brendlefly
+	>=sys-apps/which-2.21
+	>=app-misc/pax-utils-1.1.7
+	>=sys-libs/glibc-2.23
+	>=sys-apps/file-5.29"
 DEPEND="${RDEPEND}"
+#	bogus? ( >=dev-util/bogus-2.0 )"
 
 src_install() {
 	einfo "S=${S}"
@@ -29,12 +33,13 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
-	einfo "KEYWORDS=${KEYWORDS}"
-	einfo "IUSE=${IUSE}"
-
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
 	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
+	elog ""
+	elog "mkinitramfs-5.4 is a significant rewrite of the package."
+	elog "Please report any bugs you find to the maintainer."
+	elog ""
 	elog "Thank you for using mkinitramfs"
 }
