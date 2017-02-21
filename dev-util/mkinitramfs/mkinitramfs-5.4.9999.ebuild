@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="bogus"
 
-RDEPEND="dev-util/script_header_brendlefly
+RDEPEND=">=dev-util/script_header_brendlefly-0.2.2
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7
 	>=sys-libs/glibc-2.23
