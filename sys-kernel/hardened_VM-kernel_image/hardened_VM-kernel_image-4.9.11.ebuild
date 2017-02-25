@@ -35,8 +35,8 @@ src_install() {
     fi
 	# install kernel and associated modules
 	dodir / && einfo "Created / with dodir"
-	einfo 'About to issue command: cp -R '${S}'* '${D}
-	cp -R "${S}*" "${D}" || die "Install failed!"
+	einfo 'About to issue command: cp -R '${S}'{boot,lib64} '${D}
+	cp -R "${S}{boot,lib64}" "${D}" || die "Install failed!"
 	elog ""
 	elog "kernel image has been copied to /boot/ and modules"
 	elog "have been copied to /lib/modules/"
