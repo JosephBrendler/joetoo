@@ -8,7 +8,7 @@ DESCRIPTION="kernel image for my hardened gentoo VMs"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/hardened_VM-kernel_image-4.9.11.tar.bz2"
 
-S="${WORKDIR}/${PN}"
+S="${WORKDIR}/"
 
 LICENSE="MIT"
 SLOT="0"
