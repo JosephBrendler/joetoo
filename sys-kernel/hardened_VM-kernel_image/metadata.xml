@@ -9,6 +9,9 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
+	<flag name="symlink">
+            Create/update symlink in /boot directory 
+        </flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
