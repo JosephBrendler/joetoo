@@ -47,9 +47,9 @@ src_install() {
 	elog ""
     # conditionally install the symlink
     if use symlink ; then
-		k=$(echo vmlinuz-${PV})
-		c=$(echo config-${PV})
-		s=$(echo System.map-${PV})
+		k=$(echo vmlinuz-${PV}-hardened)
+		c=$(echo config-${PV}-hardened)
+		s=$(echo System.map-${PV}-hardened)
 		[[ -L /boot/vmlinuz ]] && kold=$(readlink /boot/vmlinuz -f --canonicalize) || kold=$(echo vmlinuz-$(uname -r))
 		[[ -L /boot/config ]] && cold=$(readlink /boot/config -f --canonicalize) || cold=$(echo config-$(uname -r))
 		[[ -L /boot/System.map ]] && sold=$(readlink /boot/System.map -f --canonicalize) || sold=$(echo System.map-$(uname -r))
