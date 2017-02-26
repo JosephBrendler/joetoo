@@ -50,25 +50,25 @@ src_install() {
 		k=$(echo vmlinuz-${PV})
 		c=$(echo config-${PV})
 		s=$(echo System.map-${PV})
-		[[ -L /boot/vmlinuz ]] && k.old=$(readlink /boot/vmlinuz -f --canonicalize) || k.old=$(echo vmlinuz-$(uname -r))
-		[[ -L /boot/config ]] && c.old=$(readlink /boot/config -f --canonicalize) || c.old=$(echo config-$(uname -r))
-		[[ -L /boot/System.map ]] && s.old=$(readlink /boot/System.map -f --canonicalize) || s.old=$(echo System.map-$(uname -r))
+		[[ -L /boot/vmlinuz ]] && kold=$(readlink /boot/vmlinuz -f --canonicalize) || kold=$(echo vmlinuz-$(uname -r))
+		[[ -L /boot/config ]] && cold=$(readlink /boot/config -f --canonicalize) || cold=$(echo config-$(uname -r))
+		[[ -L /boot/System.map ]] && sold=$(readlink /boot/System.map -f --canonicalize) || sold=$(echo System.map-$(uname -r))
 		einfo "k = [${k}]"
 		einfo "c = [${c}]"
 		einfo "s = [${s}]"
-		einfo "k.old = [${k.old}]"
-		einfo "c.old = [${c.old}]"
-		einfo "s.old = [${s.old}]"
-		einfo "About to issue command: ln -snf ${D}boot/${k.old} ${D}boot/vmlinuz.old "
-		ln -snf ${D}boot/${k.old} ${D}boot/vmlinuz.old
+		einfo "kold = [${kold}]"
+		einfo "cold = [${cold}]"
+		einfo "sold = [${sold}]"
+		einfo "About to issue command: ln -snf ${D}boot/${kold} ${D}boot/vmlinuz.old "
+		ln -snf ${D}boot/${kold} ${D}boot/vmlinuz.old
 		einfo "About to issue command: ln -snf ${D}boot/${k} ${D}boot/vmlinuz "
 		ln -snf ${D}boot/${k} ${D}boot/vmlinuz
-		einfo "About to issue command: ln -snf ${D}boot/${c.old} ${D}boot/config.old "
-		ln -snf ${D}boot/${c.old} ${D}boot/config.old
+		einfo "About to issue command: ln -snf ${D}boot/${cold} ${D}boot/config.old "
+		ln -snf ${D}boot/${cold} ${D}boot/config.old
 		einfo "About to issue command: ln -snf ${D}boot/${c} ${D}boot/config "
 		ln -snf ${D}boot/${c} ${D}boot/config
-		einfo "About to issue command: ln -snf ${D}boot/${s.old} ${D}boot/System.map.old "
-		ln -snf ${D}boot/${s.old} ${D}boot/System.map.old
+		einfo "About to issue command: ln -snf ${D}boot/${sold} ${D}boot/System.map.old "
+		ln -snf ${D}boot/${sold} ${D}boot/System.map.old
 		einfo "About to issue command: ln -snf ${D}boot/${s} ${D}boot/System.map "
 		ln -snf ${D}boot/${s} ${D}boot/System.map
 		elog "Symlinks installed as requested"
