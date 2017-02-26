@@ -53,12 +53,12 @@ src_install() {
 		[[ -L /boot/vmlinuz ]] && k.old=$(readlink /boot/vmlinuz -f --canonicalize) || k.old=$(echo vmlinuz-$(uname -r))
 		[[ -L /boot/config ]] && c.old=$(readlink /boot/config -f --canonicalize) || c.old=$(echo config-$(uname -r))
 		[[ -L /boot/System.map ]] && s.old=$(readlink /boot/System.map -f --canonicalize) || s.old=$(echo System.map-$(uname -r))
-		einfo "k[${k}]"
-		einfo "c=[${c}]"
-		einfo "s=[${s}]"
-		einfo "k.old=[${k.old}]"
-		einfo "c.old=[${c.old}]"
-		einfo "s.old=[${s.old}]"
+		einfo "k = [${k}]"
+		einfo "c = [${c}]"
+		einfo "s = [${s}]"
+		einfo "k.old = [${k.old}]"
+		einfo "c.old = [${c.old}]"
+		einfo "s.old = [${s.old}]"
 		einfo "About to issue command: ln -snf ${D}boot/${k.old} ${D}boot/vmlinuz.old "
 		ln -snf ${D}boot/${k.old} ${D}boot/vmlinuz.old
 		einfo "About to issue command: ln -snf ${D}boot/${k} ${D}boot/vmlinuz "
