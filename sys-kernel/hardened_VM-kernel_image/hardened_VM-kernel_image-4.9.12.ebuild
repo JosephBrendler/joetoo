@@ -59,18 +59,18 @@ src_install() {
 		einfo "kold = [${kold}]"
 		einfo "cold = [${cold}]"
 		einfo "sold = [${sold}]"
-		einfo "About to issue command: ln -snf ${kold} ${D}boot/vmlinuz.old "
-		ln -snf ${kold} ${D}boot/vmlinuz.old
-		einfo "About to issue command: ln -snf ${k} ${D}boot/vmlinuz "
-		ln -snf ${k} ${D}boot/vmlinuz
-		einfo "About to issue command: ln -snf ${cold} ${D}boot/config.old "
-		ln -snf ${cold} ${D}boot/config.old
-		einfo "About to issue command: ln -snf ${c} ${D}boot/config "
-		ln -snf ${c} ${D}boot/config
-		einfo "About to issue command: ln -snf ${sold} ${D}boot/System.map.old "
-		ln -snf ${sold} ${D}boot/System.map.old
-		einfo "About to issue command: ln -snf ${s} ${D}boot/System.map "
-		ln -snf ${s} ${D}boot/System.map
+		einfo "About to issue command: ln -snf ${kold} ${D}vmlinuz.old "
+		ln -snf ${kold} ${D}vmlinuz.old
+		einfo "About to issue command: ln -snf ${k} ${D}vmlinuz "
+		ln -snf ${k} ${D}vmlinuz
+		einfo "About to issue command: ln -snf ${cold} ${D}config.old "
+		ln -snf ${cold} ${D}config.old
+		einfo "About to issue command: ln -snf ${c} ${D}config "
+		ln -snf ${c} ${D}config
+		einfo "About to issue command: ln -snf ${sold} ${D}System.map.old "
+		ln -snf ${sold} ${D}System.map.old
+		einfo "About to issue command: ln -snf ${s} ${D}System.map "
+		ln -snf ${s} ${D}System.map
 		elog "Symlinks installed as requested"
     else
         ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
