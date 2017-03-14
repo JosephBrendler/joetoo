@@ -23,6 +23,7 @@ RDEPEND=">=sys-apps/portage-2.3.3
 	>=app-portage/portage-utils-0.62
 	>=dev-util/script_header_brendlefly-0.1.2-r2
 	>=app-portage/eix-0.32.4
+	>=app-shells/push-2.0
 	distcc? ( >=sys-devel/distcc-3.1-r10 )"
 # app-portage/show-elogs  --- I haven't packaged this yet
 DEPEND="${RDEPEND}"
