@@ -56,9 +56,9 @@ src_install() {
 	elog "${PN}.conf installed in /etc"
 	## Note: I don't think there's a function like do/newconfd available to help with this...
 	if use distcc ; then
-		einfo "About to execute command cp -R "${S}/${PN}/distcc-unfriendly" "${D}"var/lib/portage/"
-		cp -v "${S}/${PN}/distcc-unfriendly" "${D}var/lib/portage/" || die "Install failed!"
-		elog "file distcc-unfriendly installed in /var/lib/portage/"
+		einfo "About to execute command cp -R "${S}/${PN}/distcc_unfriendly" "${D}"var/lib/portage/"
+		cp -v "${S}/${PN}/distcc_unfriendly" "${D}var/lib/portage/" || die "Install failed!"
+		elog "file distcc_unfriendly installed in /var/lib/portage/"
 	fi
 	elog ""
 	elog "Thank you for using gus"
