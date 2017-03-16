@@ -40,27 +40,31 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	if use distcc ; then
-		einfo "  (USE=\"distcc\") (set)"
+		elog "  (USE=\"distcc\") (set)"
+		einfo "About to execute command sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${S}/${PN}/${PN}.conf"
 		sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${S}/${PN}/${PN}.conf
 	else
-		einfo "  (USE=\"-distcc\") (unset)"
+		elog "  (USE=\"-distcc\") (unset)"
+		einfo "About to execute command sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${S}/${PN}/${PN}.conf"
 		sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${S}/${PN}/${PN}.conf
 	fi
 	if use eix ; then
-		einfo "  (USE=\"eix\") (set)"
+		elog "  (USE=\"eix\") (set)"
+		einfo "About to execute command sed -i 's/^EIX="no"/EIX="yes"/' ${S}/${PN}/${PN}.conf"
 		sed -i 's/^EIX="no"/EIX="yes"/' ${S}/${PN}/${PN}.conf
 	else
-		einfo "  (USE=\"-eix\") (unset)"
+		elog "  (USE=\"-eix\") (unset)"
+		einfo "About to execute command sed -i 's/^?EIX="yes"/EIX="no"/' ${S}/${PN}/${PN}.conf"
 		sed -i 's/^?EIX="yes"/EIX="no"/' ${S}/${PN}/${PN}.conf
 	fi
 
 	# install utility in /usr/local/bin; .conf file in /etc/ ... note: both files, which
 	# are named after ${PN} are also archived for distribution in a directory named ${PN}
 	dodir usr/local/bin/
-	dodir /etc/${PN}
+	dodir /etc/${PN}/
 	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/local/bin/"
 	cp -v "${S}/${PN}/${PN}" "${D}usr/local/bin/" || die "Install failed!"
-	elog "${PN} installed in /usr/local/bin"
+	elog "${PN} installed in /usr/local/bin/"
 	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/${PN}/"
 	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/${PN}/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc/${PN}/"
