@@ -12,6 +12,9 @@
 		<flag name="distcc">
 			facilitate distributed compiling support. (avoid conflicts with distcc-unfriendly packages, etc)
 		</flag>
+		<flag name="eix">
+			facilitate package indexing support. (speeds up the update sequence significantly)
+		</flag>
 
 	</use>
 	<upstream>

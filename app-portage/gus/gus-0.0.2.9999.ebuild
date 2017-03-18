@@ -42,20 +42,20 @@ src_install() {
 	if use distcc ; then
 		elog "  (USE=\"distcc\") (set)"
 		einfo "About to execute command sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${S}/${PN}/${PN}.conf"
-		sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${S}/${PN}/${PN}.conf
+		sed -i 's/^DISTCC="no"/DISTCC="yes"/' "${S}"/"${PN}"/"${PN}".conf
 	else
 		elog "  (USE=\"-distcc\") (unset)"
 		einfo "About to execute command sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${S}/${PN}/${PN}.conf"
-		sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${S}/${PN}/${PN}.conf
+		sed -i 's/^?DISTCC="yes"/DISTCC="no"/' "${S}"/"${PN}"/"${PN}".conf
 	fi
 	if use eix ; then
 		elog "  (USE=\"eix\") (set)"
 		einfo "About to execute command sed -i 's/^EIX="no"/EIX="yes"/' ${S}/${PN}/${PN}.conf"
-		sed -i 's/^EIX="no"/EIX="yes"/' ${S}/${PN}/${PN}.conf
+		sed -i 's/^EIX="no"/EIX="yes"/' "${S}"/"${PN}"/"${PN}".conf
 	else
 		elog "  (USE=\"-eix\") (unset)"
 		einfo "About to execute command sed -i 's/^?EIX="yes"/EIX="no"/' ${S}/${PN}/${PN}.conf"
-		sed -i 's/^?EIX="yes"/EIX="no"/' ${S}/${PN}/${PN}.conf
+		sed -i 's/^?EIX="yes"/EIX="no"/' "${S}"/"${PN}"/"${PN}".conf
 	fi
 
 	# install utility in /usr/local/bin; .conf file in /etc/ ... note: both files, which
