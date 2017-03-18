@@ -28,11 +28,11 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
-    if use symlink ; then
-        elog "  (USE=\"symlink\") (set)"
-    else
-        elog "  (USE=\"-symlink\") (unset)"
-    fi
+	if use symlink ; then
+		elog "  (USE=\"symlink\") (set)"
+	else
+		elog "  (USE=\"-symlink\") (unset)"
+	fi
 	# install kernel and associated modules
 	dodir / && einfo "Created / with dodir"
 	dodir /boot && einfo "Created /boot with dodir"
@@ -45,8 +45,8 @@ src_install() {
 	elog "kernel image has been copied to /boot/ and modules"
 	elog "have been copied to /lib/modules/"
 	elog ""
-    # conditionally install the symlink
-    if use symlink ; then
+	# conditionally install the symlink
+	if use symlink ; then
 		k=$(echo vmlinuz-${PV}-hardened)
 		c=$(echo config-${PV}-hardened)
 		s=$(echo System.map-${PV}-hardened)
@@ -60,21 +60,21 @@ src_install() {
 		einfo "cold = [${cold}]"
 		einfo "sold = [${sold}]"
 		einfo "About to issue command: ln -snf ${kold} ${D}vmlinuz.old "
-		ln -snf ${kold} ${D}vmlinuz.old
+		ln -snf "${kold}" "${D}"vmlinuz.old
 		einfo "About to issue command: ln -snf ${k} ${D}vmlinuz "
-		ln -snf ${k} ${D}vmlinuz
+		ln -snf "${k}" "${D}"vmlinuz
 		einfo "About to issue command: ln -snf ${cold} ${D}config.old "
-		ln -snf ${cold} ${D}config.old
+		ln -snf "${cold}" "${D}"config.old
 		einfo "About to issue command: ln -snf ${c} ${D}config "
-		ln -snf ${c} ${D}config
+		ln -snf "${c}" "${D}"config
 		einfo "About to issue command: ln -snf ${sold} ${D}System.map.old "
-		ln -snf ${sold} ${D}System.map.old
+		ln -snf "${sold}" "${D}"System.map.old
 		einfo "About to issue command: ln -snf ${s} ${D}System.map "
-		ln -snf ${s} ${D}System.map
+		ln -snf "${s}" "${D}"System.map
 		elog "Symlinks installed as requested"
-    else
-        ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
-        elog ""
-    fi
+	else
+		ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
+		elog ""
+	fi
 	elog "Thank you for using vm-kernel-image"
 }
