@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~arm ~x86 ~amd64"
 IUSE="symlink"
 
-RDEPEND="=sys-kernel/hardened-sources-4.9.15"
+RDEPEND="=sys-kernel/hardened-sources-4.9.16"
 DEPEND="${RDEPEND}"
 
 src_install() {
@@ -76,5 +76,5 @@ src_install() {
 		ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
 		elog ""
 	fi
-	elog "Thank you for using vm-kernel-image"
+	elog "Thank you for using hardened_VM-kernel_image"
 }
