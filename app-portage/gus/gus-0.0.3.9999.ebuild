@@ -76,6 +76,7 @@ src_install() {
 		elog "Note: versions prior to 0.0.2 used /var/lib/portage/distcc_unfriendly"
 		elog "As of version 0.0.2 distcc_unfriendly has been moved to /etc/${PN}/"
 		elog "You may/should remove the legacy file if you have not already."
+		elog "---| This is version 0.0.3.9999 |---"
 	fi
 	elog ""
 	elog "Thank you for using gus"
