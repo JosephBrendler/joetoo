@@ -9,7 +9,7 @@ inherit eutils
 
 DESCRIPTION="Extends script_header_brendlefly with line/box drawing functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_noninteractive-0.0.1.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly_noninteractive-0.0.2.tbz2"
 
 S="${WORKDIR}"
 
