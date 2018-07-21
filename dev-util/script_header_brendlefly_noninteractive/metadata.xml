@@ -2,19 +2,13 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I'll get around to filling this out later
+		includes a checkshell() function which will reset colors if the current shell is not interactive
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="extended">
-			Also use the extended set of functions in dev-util/script_header_brendlefly_extended
-		</flag>
-		<flag name="niopt">
-			Include code for the checkshell() function which will reset colors if the current shell is not interactive
-		</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
