@@ -11,7 +11,7 @@ SRC_URI=""
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~arm64"
-IUSE="innercore +boot-fw +lamp +nextcloud"
+IUSE="+boot-fw +innercore +lamp +nextcloud -pitop"
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )"
