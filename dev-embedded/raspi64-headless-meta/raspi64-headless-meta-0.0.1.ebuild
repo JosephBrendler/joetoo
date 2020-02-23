@@ -81,7 +81,6 @@ RDEPEND="
 		>=net-analyzer/nmap-7.80
 		>=net-analyzer/tcpdump-4.9.3
 		>=net-vpn/openvpn-2.4.7-r1
-		>=sys-apps/smartmontools-7.0-r1
 		>=sys-fs/ncdu-1.14.1
 		>=sys-power/powertop-2.10
 		>=sys-process/htop-2.2.0
