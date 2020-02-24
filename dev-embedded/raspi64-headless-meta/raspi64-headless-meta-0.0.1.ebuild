@@ -86,6 +86,14 @@ RDEPEND="
 		>=sys-process/htop-2.2.0
 		>=sys-process/iotop-0.6
 	)
+	lamp? (
+		>=dev-db/mysql-5.7.27-r1
+		>=www-servers/apache-2.4.41
+		dev-lang/php:7.3
+	)
+	nextcloud? (
+		>=www-apps/nextcloud-18.0.1[vhosts(-)]
+	)
 "
 
 src_install() {
