@@ -20,7 +20,8 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.1
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7
 	>=sys-libs/glibc-2.23
-	>=sys-apps/file-5.29"
+	>=sys-apps/file-5.29
+	>=app-arch/cpio-2.12-r1"
 DEPEND="${RDEPEND}"
 #	bogus? ( >=dev-util/bogus-2.0 )"
 
