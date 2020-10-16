@@ -5,7 +5,7 @@
 
 EAPI=6
 
-DESCRIPTION="A simple gentoo update sequence (gus)"
+DESCRIPTION="A simple joetoo update sequence (jus)"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/jus-6.0.3.9999.tbz2"
 
@@ -73,8 +73,8 @@ src_install() {
 	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/${PN}/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc/${PN}/"
 	elog ""
-	elog "Version 6.0.1.9999 is the initial version of jus, adapted from gus-5.3.1.9999"
-	elog "  -- now includes rebuild update sequnce companion script (rus)"
+	elog "Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
+	elog "  6.0.3 -- now includes rebuild update sequnce companion script (rus)"
 	elog ""
 	elog "Thank you for using jus"
 
