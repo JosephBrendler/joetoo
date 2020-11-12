@@ -7,7 +7,7 @@ EAPI=6
 
 DESCRIPTION="A script header with easy-to-use formatting colors and misc functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.3.6.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.3.6a.tbz2"
 
 S="${WORKDIR}"
 
