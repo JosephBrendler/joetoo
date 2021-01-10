@@ -1,6 +1,5 @@
-# Copyright (c) brendlefly joseph.brendler@gmail.com
-# License: GPL v3+
-# NO WARRANTY
+# Copyright 2021-2051 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
@@ -10,7 +9,6 @@ SRC_URI=""
 
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64"
 IUSE="+innercore +lamp +nextcloud +mkinitramfs"
 REQUIRED_USE="
 	innercore
@@ -78,7 +76,7 @@ RDEPEND="
 	mkinitramfs? (
 		>=sys-apps/busybox-1.32.0[static(-)]
 		>=sys-fs/lvm2-2.02.187[udev(-)]
-		>=sys-fs/cryptsetup[urandom]
+		>=sys-fs/cryptsetup-2.3.2[urandom(+)]
 		>=dev-util/mkinitramfs-5.9
 	)
 "
