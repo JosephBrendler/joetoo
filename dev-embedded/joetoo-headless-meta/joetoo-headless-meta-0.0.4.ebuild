@@ -9,6 +9,8 @@ SRC_URI=""
 
 LICENSE="metapackage"
 SLOT="0"
+#KEYWORDS="~amd64 ~arm ~arm64"
+#getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
 IUSE="+innercore +lamp +nextcloud +mkinitramfs"
 REQUIRED_USE="
 	innercore
@@ -34,22 +36,17 @@ RDEPEND="
 		>=app-misc/screen-4.7.0
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
-		>=app-portage/jus-6.0.4
+		app-portage/jus
 		>=app-text/tree-1.8.0
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
 		>=net-misc/chrony-3.5-r2
-		>=net-misc/cloudsync-2.0.2
-		>=net-misc/dhcpcd-8.1.2
-		>=net-misc/netifrc-0.5.1
+		net-misc/cloudsync
 		>=net-misc/ntp-4.2.8
 		>=sys-apps/util-linux-2.34-r3
 		>=net-analyzer/nmap-7.80
-		>=net-analyzer/tcpdump-4.9.3
 		>=net-vpn/openvpn-2.4.7-r1
-		>=net-wireless/wireless-tools-30_pre9
 		>=net-wireless/wpa_supplicant-2.9-r1
-		>=sys-apps/file-5.37-r1
 		>=sys-apps/mlocate-0.26-r2
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
@@ -58,12 +55,8 @@ RDEPEND="
 		>=sys-fs/dosfstools-4.1
 		>=sys-fs/eudev-3.2.9
 		>=sys-kernel/linux-firmware-20200619
-		>=sys-kernel/linux-headers-5.10
+		>=sys-kernel/linux-headers-5.4
 		>=sys-process/cronie-1.5.5
-		>=sys-fs/ncdu-1.14.1
-		>=sys-power/powertop-2.10
-		>=sys-process/htop-2.2.0
-		>=sys-process/iotop-0.6
 	)
 	lamp? (
 		>=dev-db/mysql-5.7.27-r1
@@ -71,13 +64,13 @@ RDEPEND="
 		dev-lang/php:7.3
 	)
 	nextcloud? (
-		>=www-apps/nextcloud-18.0.1[vhosts(-)]
+		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
 	)
 	mkinitramfs? (
-		>=sys-apps/busybox-1.32.0[static(-)]
-		>=sys-fs/lvm2-2.02.187[udev(-)]
-		>=sys-fs/cryptsetup-2.3.2[urandom(+)]
-		>=dev-util/mkinitramfs-5.9
+		>=sys-apps/busybox-1.32.0[-static(-)]
+		>=sys-fs/lvm2-2.02.187[-udev(-)]
+		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
+		dev-util/mkinitramfs
 	)
 "
 
@@ -98,7 +91,7 @@ pkg_postinst() {
 	einfo "DEPEND=${DEPEND}"
 	elog ""
 	elog "joetoo-headless-meta installed"
-	elog "version 0.0.1 is preliminary. please report bugs to the maintainer."
+	elog "this version is preliminary. please report bugs to the maintainer."
 	elog ""
 	elog "Thank you for using joetoo-headless-meta"
 }
