@@ -18,3 +18,5 @@
 #
 # NB the main point of these USE flags is just to let
 # you reduce what is in your @world set (/var/lib/portage/world)
+
+dev-embedded/raspi64-headless-meta -pigpio
