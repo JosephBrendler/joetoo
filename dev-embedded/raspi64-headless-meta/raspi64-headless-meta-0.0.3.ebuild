@@ -42,7 +42,7 @@ RDEPEND="
 	>=sys-firmware/bluez-firmware-1.2
 	>=sys-firmware/brcm43430-firmware-20190812-r1[43455-fix]
 	innercore? (
-		>=dev-embedded/joetoo-headless-meta-0.0.1
+		>=dev-embedded/joetoo-headless-meta-0.0.4
 		>=media-libs/raspberrypi-userland-1.20191214
 		>=net-wireless/rpi3-wifi-regdom-1.1-r1
 		>=sys-apps/rpi-gpio-1.0.0-r1
@@ -56,10 +56,10 @@ RDEPEND="
 		>=dev-libs/pigpio-71-r1
 	)
 	lamp? (
-		>=dev-embedded/joetoo-headless-meta[lamp]
+		>=dev-embedded/joetoo-headless-meta-0.0.4[lamp]
 	)
 	nextcloud? (
-		>=dev-embedded/joetoo-headless-meta[lamp]
+		>=dev-embedded/joetoo-headless-meta-0.0.4[lamp]
 	)
 "
 
