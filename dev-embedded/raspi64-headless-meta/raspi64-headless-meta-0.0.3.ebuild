@@ -56,10 +56,10 @@ RDEPEND="
 		>=dev-libs/pigpio-71-r1
 	)
 	lamp? (
-		>=joetoo-headless-meta[lamp]
+		>=dev-embedded/joetoo-headless-meta[lamp]
 	)
 	nextcloud? (
-		>=joetoo-headless-meta[lamp]
+		>=dev-embedded/joetoo-headless-meta[lamp]
 	)
 "
 
