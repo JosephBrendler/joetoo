@@ -1,4 +1,4 @@
-# Copyright (c) brendlefly joseph.brendler@gmail.com
+# Copyright (c) brendlefly  joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 
