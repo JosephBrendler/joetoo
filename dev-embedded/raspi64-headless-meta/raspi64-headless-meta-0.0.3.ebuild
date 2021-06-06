@@ -11,7 +11,7 @@ SRC_URI=""
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~arm64"
-IUSE="+boot-fw +innercore +lamp +nextcloud -pitop"
+IUSE="+boot-fw +innercore +lamp +nextcloud +pigpio -pitop"
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )"
@@ -53,13 +53,15 @@ RDEPEND="
 		>=sys-apps/rpi-video-1.0.0-r1
 		>=sys-apps/rng-tools-6.8
 		>=sys-boot/rpi3-boot-config-1.0.9[pitop(-)?]
-		>=dev-libs/pigpio-71-r1
 	)
 	lamp? (
 		>=dev-embedded/joetoo-headless-meta-0.0.4[lamp]
 	)
 	nextcloud? (
 		>=dev-embedded/joetoo-headless-meta-0.0.4[lamp]
+	)
+	pigpio? (
+		>=dev-libs/pigpio-71-r1
 	)
 "
 

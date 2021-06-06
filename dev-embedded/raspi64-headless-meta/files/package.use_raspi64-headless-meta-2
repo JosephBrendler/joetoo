@@ -14,6 +14,7 @@
 #  + innercore : Pull in baseline packages required by the headless meta
 #  + lamp      : Pull in packages required for a LAMP server
 #  + nextcloud : Pull in the nextcloud package and its dependencies
+#  + pigpio    : Pull in the pigpio package and its dependencies
 #
 # NB the main point of these USE flags is just to let
 # you reduce what is in your @world set (/var/lib/portage/world)
