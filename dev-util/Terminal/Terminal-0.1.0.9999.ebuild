@@ -7,7 +7,7 @@ EAPI=6
 
 DESCRIPTION="c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/Terminal-0.0.2.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/Terminal-0.1.0.tbz2"
 
 S="${WORKDIR}/${PN}"
 
