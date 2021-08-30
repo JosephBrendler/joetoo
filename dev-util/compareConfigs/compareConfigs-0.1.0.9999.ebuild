@@ -9,7 +9,7 @@ inherit eutils
 
 DESCRIPTION="color side-by-side compare of all parameters in two kernel configuration files"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/compareConfigs-0.0.1.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/compareConfigs-0.1.0.tbz2"
 
 S="${WORKDIR}/${PN}"
 
@@ -54,41 +54,41 @@ src_install() {
 	fi
 	elog ""
 
-	# install the shared object library in /usr/lib/
-	dodir /usr/lib/ && elog "Created ${D}/usr/lib/ with dodir"
-	dodir /usr/local/bin/ && elog "Created ${D}/usr/local/bin/ with dodir"
+	# install the shared object library in /usr/lib64/
+	dodir /usr/lib64/ && elog "Created ${D}/usr/lib64/ with dodir"
+	dodir /usr/bin/ && elog "Created ${D}/usr/bin/ with dodir"
 	dodir /usr/include/ && elog "Created ${D}/usr/include/ with dodir"
 	# Instead of using emake DESTDIR="${D}" (which would cause sandbox errors because
 	#   the Makefile's install target writes to the live filesystem) just copy the file(s)
-	elog 'About to issue command: cp -R '${S}'/libKernelConfig.so '${D}'/usr/lib/'
-	cp -v "${S}/libKernelConfig.so" "${D}/usr/lib/" || die "Install failed!"
-	elog "The shared object file libKernelConfig.so has been installed in /usr/lib/"
+	elog 'About to issue command: cp -R '${S}'/libKernelConfig.so '${D}'/usr/lib64/'
+	cp -v "${S}/libKernelConfig.so" "${D}/usr/lib64/" || die "Install failed!"
+	elog "The shared object file libKernelConfig.so has been installed in /usr/lib64/"
 	elog ""
 	elog 'About to issue command: cp -R '${S}'/KernelConfig.h '${D}'/usr/include/'
 	cp -v "${S}/KernelConfig.h" "${D}/usr/include/" || die "Install failed!"
 	elog "KernelConfig.h has been installed in /usr/include/"
 	elog ""
-	elog 'About to issue command: cp -R '${S}'/compareConfigs '${D}'/usr/local/bin/'
-	cp -v "${S}/compareConfigs" "${D}/usr/local/bin/" || die "Install failed!"
-	elog "compareConfigs has been installed in /usr/local/bin/"
+	elog 'About to issue command: cp -R '${S}'/compareConfigs '${D}'/usr/bin/'
+	cp -v "${S}/compareConfigs" "${D}/usr/bin/" || die "Install failed!"
+	elog "compareConfigs has been installed in /usr/bin/"
 	elog ""
 	elog "compareConfigs reads all of two config files and outputs colorized side-by-side comparison"
 	elog "useage:   $ compareConfigs <path/to/config1> <path/to/config2>"
 	elog "example:  $ compareConfigs /home/joe/.config-live-DVD /boot/config-4.4.39-gentoo"
 	elog ""
-	elog "Recommend you ensure \"/usr/local/bin\" is in your \$PATH"
+	elog "Recommend you ensure \"/usr/bin\" is in your \$PATH"
 	elog ""
 
-	# conditionally install the test program in /usr/local/bin/
+	# conditionally install the test program in /usr/bin/
 	if use testdata ; then
-		elog 'About to issue command: cp -R '${S}'/kernelConfigLibTest '${D}'/usr/local/bin/'
-		cp -v "${S}/kernelConfigLibTest" "${D}/usr/local/bin/" || die "Install failed!"
-		elog 'About to issue command: cp -R '${S}'/testconfig1 '${D}'/usr/local/bin/'
-		cp -v "${S}/testconfig1" "${D}/usr/local/bin/" || die "Install failed!"
-		elog 'About to issue command: cp -R '${S}'/testconfig2 '${D}'/usr/local/bin/'
-		cp -v "${S}/testconfig2" "${D}/usr/local/bin/" || die "Install failed!"
+		elog 'About to issue command: cp -R '${S}'/kernelConfigLibTest '${D}'/usr/bin/'
+		cp -v "${S}/kernelConfigLibTest" "${D}/usr/bin/" || die "Install failed!"
+		elog 'About to issue command: cp -R '${S}'/testconfig1 '${D}'/usr/bin/'
+		cp -v "${S}/testconfig1" "${D}/usr/bin/" || die "Install failed!"
+		elog 'About to issue command: cp -R '${S}'/testconfig2 '${D}'/usr/bin/'
+		cp -v "${S}/testconfig2" "${D}/usr/bin/" || die "Install failed!"
 		elog "The test program kerlenConfigLibTest and associated simple input \"config\" files"
-		elog "have been installed in /usr/local/bin/"
+		elog "have been installed in /usr/bin/"
 		elog ""
 		elog "kernelConfigLibTest reads and dumps a single config file,"
 		elog "thus testing the KernelConfig.so library"
@@ -101,14 +101,14 @@ src_install() {
 		elog ""
 	fi
 
-	# conditionally install the "concept" scripts in /usr/local/bin/
+	# conditionally install the "concept" scripts in /usr/bin/
 	if use scripts ; then
-		elog 'About to issue command: cp -R '${S}'/comparam.sh '${D}'/usr/local/bin/'
-		cp -v "${S}/comparam.sh" "${D}/usr/local/bin/" || die "Install failed!"
-		elog 'About to issue command: cp -R '${S}'/compare-configs.sh '${D}'/usr/local/bin/'
-		cp -v "${S}/compare-configs.sh" "${D}/usr/local/bin/" || die "Install failed!"
+		elog 'About to issue command: cp -R '${S}'/comparam.sh '${D}'/usr/bin/'
+		cp -v "${S}/comparam.sh" "${D}/usr/bin/" || die "Install failed!"
+		elog 'About to issue command: cp -R '${S}'/compare-configs.sh '${D}'/usr/bin/'
+		cp -v "${S}/compare-configs.sh" "${D}/usr/bin/" || die "Install failed!"
 		elog "The \"concept\" scripts comparm.sh and compare-configs.sh"
-		elog "have been installed in /usr/local/bin/"
+		elog "have been installed in /usr/bin/"
 		elog ""
 		elog "comparam.sh compares a single config setting in two config files"
 		elog "useage:   $ comparam <path/to/config1> <path/to/config2> <parameter>"
@@ -124,6 +124,11 @@ src_install() {
 		elog ""
 	fi
 
+        elog "Version 0.1.0.9999 includes a number of bugfixes --"
+        elog "(1) multilib-strict issue: now installs libKernelConfig.so to /usr/lib64 rather than /usr/lib"
+        elog "(2) Gentoo QA issue: now installs executables to /usr/bin rather than /usr/local/sbin"
+        elog "(3) Mirror download issue: now includes RESTRICT='mirror'"
+        elog ""
 	elog "Thank you for using compareConfigs and the KernelConfig library"
 	elog ""
 }
