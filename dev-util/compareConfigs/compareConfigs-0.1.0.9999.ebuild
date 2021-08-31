@@ -7,7 +7,7 @@ EAPI=6
 
 inherit eutils
 
-DESCRIPTION="color side-by-side compare of all parameters in two kernel configuration files"
+DESCRIPTION="Color side-by-side compare of all parameters in two kernel configuration files"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/compareConfigs-0.1.0.tbz2"
 
