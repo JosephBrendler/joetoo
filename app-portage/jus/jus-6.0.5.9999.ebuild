@@ -18,6 +18,7 @@ KEYWORDS=""
 
 # automatically also pull in dev-util/script-header-brendlefly-extended
 IUSE="distcc eix"
+RESTRICT="mirror"
 
 RDEPEND=">=sys-apps/portage-2.3.3
 	>=app-portage/portage-utils-0.62
