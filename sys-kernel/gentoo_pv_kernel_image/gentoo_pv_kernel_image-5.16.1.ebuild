@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my gentoo pv VMs"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/gentoo_pv_kernel_image-5.15.6.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/gentoo_pv_kernel_image-5.16.1.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,7 +17,7 @@ KEYWORDS="~arm ~x86 ~amd64"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-5.15.6"
+RDEPEND="=sys-kernel/gentoo-sources-5.16.1"
 DEPEND="${RDEPEND}"
 
 src_install() {
