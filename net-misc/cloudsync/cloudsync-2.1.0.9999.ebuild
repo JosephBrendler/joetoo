@@ -25,7 +25,7 @@ RDEPEND="net-misc/rsync
 DEPEND="${RDEPEND}"
 
 src_install() {
-	# install utility script header in /usr/local/sbin
+	# Note: utility script header still installs in /usr/local/sbin
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "P=${P}"
@@ -34,13 +34,13 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
-	# install utility in /usr/local/bin; .conf file in /etc/ ... note: both files, which
+	# install utility in /usr/bin; .conf file in /etc/ ... note: both files, which
 	# are named after ${PN} are also archived for distribution in a directory named ${PN}
-	dodir usr/local/bin/
+	dodir usr/bin/
 	dodir /etc/
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/local/bin/"
-	cp -v "${S}/${PN}/${PN}" "${D}usr/local/bin/" || die "Install failed!"
-	elog "${PN} installed in /usr/local/bin"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/bin/"
+	cp -v "${S}/${PN}/${PN}" "${D}usr/bin/" || die "Install failed!"
+	elog "${PN} installed in /usr/bin"
 	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/"
 	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
