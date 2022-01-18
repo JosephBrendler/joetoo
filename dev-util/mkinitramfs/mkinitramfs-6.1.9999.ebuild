@@ -25,7 +25,8 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.1
 	>=app-arch/cpio-2.12-r1
 	>=sys-boot/grub-2.06-r1
 	>=sys-fs/lvm2-2.02.188-r2
-	>=sys-fs/cryptsetup-2.3.6-r2"
+	>=sys-fs/cryptsetup-2.3.6-r2
+	>=sys-apps/busybox-1.34.1"
 DEPEND="${RDEPEND}"
 #	bogus? ( >=dev-util/bogus-2.0 )"
 
