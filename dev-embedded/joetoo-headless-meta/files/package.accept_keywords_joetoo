@@ -1,0 +1,10 @@
+dev-util/Terminal ** ~amd64
+dev-util/compareConfigs ** ~amd64
+app-portage/jus ** ~amd64
+dev-util/mkinitramfs ** ~amd64
+net-misc/cloudsync ** ~amd64
+
+dev-util/script_header_brendlefly ~amd64
+dev-util/script_header_brendlefly_extended ~amd64
+dev-util/script_header_brendlefly_noninteractive ~amd64
+

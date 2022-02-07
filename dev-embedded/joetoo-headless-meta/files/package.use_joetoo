@@ -1,0 +1,20 @@
+#-----[ specific to joetoo setup ]------------------------
+dev-util/script_header_brendlefly extended niopt
+dev-util/mkinitramfs -bogus
+dev-util/Terminal examples
+dev-util/compareConfigs scripts testdata
+app-portage/jus distcc eix
+sys-kernel/gentoo_pv_kernel_image -symlink
+
+sys-devel/distcc crossdev hardened
+sys-kernel/gentoo-sources symlink
+dev-libs/openssl tls-heartbeat zlib -bindist
+net-misc/openssh hpn pam pie security-key ssl -bindist
+sys-fs/lvm2 readline thin -udev
+dev-libs/boost threads python tools
+sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
+sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
+sys-apps/busybox mdev math -static
+# use below instead for a xen pv domU
+#sys-apps/busybox -pam -static -debug -ipv6 -livecd -make-symlinks -math -mdev -savedconfig -sep-usr -syslog -systemd
+

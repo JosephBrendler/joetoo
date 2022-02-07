@@ -1,0 +1,2 @@
+# Prefer wpa_supplicant over wireless-tools
+modules="wpa_supplicant"
