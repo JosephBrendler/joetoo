@@ -19,7 +19,7 @@ sys-apps/busybox mdev math -static
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-kernel/gentoo-sources symlink
 
-dev-lang/php acl apache2 bcmath bzip2 cgi cli ctype curl fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json libedit mysql opcache pdo phar posix readline session simplexml sqlite ssl threads tokenizer truetype unicode xml xmlreader xmlwriter zip zlib
+dev-lang/php acl apache2 bcmath bzip2 cgi cli ctype curl fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json mysql opcache pdo phar posix readline session simplexml sqlite ssl threads tokenizer truetype unicode xml xmlreader xmlwriter zip zlib
 
 
 */* PYTHON_TARGETS: -python2_7
