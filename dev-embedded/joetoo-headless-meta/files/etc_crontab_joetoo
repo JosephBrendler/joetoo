@@ -23,14 +23,11 @@ HOME=/
 9    3  *  *  * root       rm -f /var/spool/cron/lastrun/cron.daily
 19   4  *  *  6 root       rm -f /var/spool/cron/lastrun/cron.weekly
 29   5  1  *  * root       rm -f /var/spool/cron/lastrun/cron.monthly
-*/10 *  *  *  * root       { test -x /usr/sbin/run-crons && /usr/sbin/run-crons ; }
+*/10 *  *  *  * root       test -x /usr/sbin/run-crons && /usr/sbin/run-crons
 
 9    7  *  *  * root       /usr/local/bin/cloudsync
 7    1  *  *  * root       /usr/local/sbin/gen_admin_daily_msg_file
-46   1  *  *  * root       /usr/local/sbin/01_logrotate
 6    2  *  *  * root       /usr/local/sbin/eix_update
-*/10 *  *  *  * root       /usr/local/sbin/binhost_cleanup
-11 5,13,17,23 * * *	root       /usr/local/sbin/post_wan_ip.sh
 
 # crontab fields:
 # 0 or 7=Sunday, 1=Monday 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
