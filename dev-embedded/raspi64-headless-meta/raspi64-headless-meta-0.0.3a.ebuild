@@ -44,7 +44,6 @@ RDEPEND="
 		>=dev-embedded/joetoo-headless-meta-0.0.4
 		>=media-libs/raspberrypi-userland-1.20191214
 		>=net-wireless/rpi3-wifi-regdom-1.1-r1
-		>=sys-apps/rpi-gpio-1.0.0-r1
 		>=sys-apps/rpi-i2c-1.0.0-r3
 		>=sys-apps/rpi-onetime-startup-1.0-r4
 		>=sys-apps/rpi-serial-1.0.0-r1
