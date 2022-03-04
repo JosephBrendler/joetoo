@@ -7,24 +7,20 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 sys-kernel/gentoo_pv_kernel_image -symlink
 
-#-----[ standardized for baseline joetoo setup ]------------------------
-net-misc/openssh hpn pam pie security-key ssl -bindist
-dev-libs/openssl tls-heartbeat zlib -bindist
-sys-fs/lvm2 readline thin -udev
-sys-fs/cryptsetup openssl udev urandom
-sys-apps/busybox mdev math -static
-# use below instead for a xen pv domU
-#sys-apps/busybox -pam -static -debug -ipv6 -livecd -make-symlinks -math -mdev -savedconfig -sep-usr -syslog -systemd
-
-#-----[ standardized for additional joetoo setup ]------------------------
-sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
-dev-libs/boost threads python tools
-sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
+#-----[ standardized for joetoo setup ]------------------------
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
 dev-lang/php acl apache2 bcmath bzip2 cgi cli ctype curl fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json mysql opcache pdo phar posix readline session simplexml sqlite ssl threads tokenizer truetype unicode xml xmlreader xmlwriter zip zlib
 dev-libs/boost threads python tools
+dev-libs/openssl tls-heartbeat zlib -bindist
 >=media-gfx/imagemagick-7.0.9.5 -openmp
+net-misc/openssh hpn pam pie security-key ssl -bindist
 sys-devel/distcc crossdev hardened
+sys-fs/lvm2 readline thin -udev
+sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
+sys-apps/busybox mdev math -static
+# use below instead for a xen pv domU
+#sys-apps/busybox -pam -static -debug -ipv6 -livecd -make-symlinks -math -mdev -savedconfig -sep-usr -syslog -systemd
+sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-kernel/gentoo-sources symlink
 www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
