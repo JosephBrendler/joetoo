@@ -62,7 +62,7 @@ RDEPEND="
 	lamp? (
 		>=dev-db/mysql-5.7.27-r1
 		>=www-servers/apache-2.4.41
-		dev-lang/php:7.3
+		dev-lang/php
 	)
 	nextcloud? (
 		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
