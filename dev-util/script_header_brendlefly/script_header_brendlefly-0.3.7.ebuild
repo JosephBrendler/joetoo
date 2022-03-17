@@ -7,7 +7,7 @@ EAPI=6
 
 DESCRIPTION="A script header with easy-to-use formatting colors and misc functions"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.3.6a.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/script_header_brendlefly-0.3.7.tbz2"
 
 S="${WORKDIR}"
 
@@ -58,8 +58,9 @@ src_install() {
 	elog "shell with the checkshell() function, which will reset color if the"
 	elog "current shell is not interactive"
 	elog ""
-	elog "Note: version 0.3.6 introduces the swr() function, which uses the"
-	elog "pur() function to enable you to ssh-when-ready to a target host"
+	elog "Note: version 0.3.7 updates the swr() function, to use nmap after pur(),"
+	elog "to determine when the ssh port is open, to enable you to ssh-when-ready"
+	elog "to a target host"
 	elog ""
 	elog "Thank you for using script_header"
 }
