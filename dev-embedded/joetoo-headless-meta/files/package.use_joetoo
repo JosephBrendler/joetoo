@@ -21,14 +21,22 @@ sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 dev-libs/boost threads python tools
 sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
-dev-lang/php acl apache2 bcmath bzip2 cgi cli ctype curl fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json mysql opcache pdo phar posix readline session simplexml sqlite ssl threads tokenizer truetype unicode xml xmlreader xmlwriter zip zlib
+dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
 dev-libs/boost threads python tools
 >=media-gfx/imagemagick-7.0.9.5 -openmp
+sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
 sys-kernel/gentoo-sources symlink
+virtual/linux-sources firmware
 www-apps/nextcloud curl imagemagick mysql vhosts
+www-apache/mod_security fuzzyhash geoip
 www-servers/apache threads
 
 */* PYTHON_TARGETS: -python2_7
 
 */* PHP_TARGETS: php7-4 php8-0 -php7-2 -php7-3 -php8-1
+
+*/* RUBY_TARGETS: ruby31
+
+*/* LLVM_TARGETS: ARM X86
+
