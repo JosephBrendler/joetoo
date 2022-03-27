@@ -15,6 +15,12 @@
 		<flag name="mkinitramfs">Pull in the joetoo's initramfs builder and required components</flag>
 		<flag name="mysql">Pull in the mysql database and required components</flag>
 		<flag name="mariadb">Pull in the mariadb database and required components</flag>
+		<flag name="ntp">Pull in ntp to sync with time source</flag>
+		<flag name="chrony">Pull in chrony to sync with time source</flag>
+		<flag name="sysklogd">Pull in sysklogd as system logger</flag>
+		<flag name="syslog-ng">Pull in syslog-ng as system logger</flag>
+		<flag name="netifrc">Pull in netifrc to manage network</flag>
+		<flag name="networkmanager">Pull in networkmanager to manage network</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
