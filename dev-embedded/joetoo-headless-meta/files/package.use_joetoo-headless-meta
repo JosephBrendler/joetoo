@@ -12,10 +12,12 @@
 #
 #  + innercore   : Pull in baseline packages required by the headless meta
 #  + lamp        : Pull in packages required for a LAMP server
+#    + mysql       : pull in the mysql database and required packages
+#    - mariadb     : pull in the mariadb database and required packages
 #  + mkinitramfs : pull in the joetoo initramfs builder packages
 #  + nextcloud   : Pull in the nextcloud package and its dependencies
 #
 # NB the main point of these USE flags is just to let
 # you reduce what is in your @world set (/var/lib/portage/world)
 
-dev-embedded/joetoo-headless-meta -mkinitramfs
+dev-embedded/joetoo-headless-meta lamp mysql -mkinitramfs

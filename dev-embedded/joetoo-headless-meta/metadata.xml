@@ -13,6 +13,8 @@
 		<flag name="lamp">Pull in packages required for a LAMP server</flag>
 		<flag name="nextcloud">Pull in the nextcloud package and its dependencies</flag>
 		<flag name="mkinitramfs">Pull in the joetoo's initramfs builder and required components</flag>
+		<flag name="mysql">Pull in the mysql database and required components</flag>
+		<flag name="mariadb">Pull in the mariadb database and required components</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>

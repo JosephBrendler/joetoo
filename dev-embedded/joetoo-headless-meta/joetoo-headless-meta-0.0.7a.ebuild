@@ -11,10 +11,11 @@ LICENSE="metapackage"
 SLOT="0"
 #KEYWORDS="~amd64 ~arm ~arm64"
 #getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
-IUSE="+innercore +lamp +nextcloud +mkinitramfs"
+IUSE="+innercore +lamp +nextcloud +mkinitramfs -mysql -mariadb"
 REQUIRED_USE="
 	innercore
-	nextcloud? ( lamp )"
+	nextcloud? ( lamp )
+	lamp? ^^(mysql mariadb)"
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
@@ -60,7 +61,8 @@ RDEPEND="
 		>=sys-process/cronie-1.5.5
 	)
 	lamp? (
-		>=dev-db/mysql-5.7.27-r1
+		mysql? ( >=dev-db/mysql-5.7.27-r1 )
+		mariadb? ( >=dev-db/mariadb-10.5 )
 		>=www-servers/apache-2.4.41
 		dev-lang/php
 	)
