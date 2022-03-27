@@ -1,6 +1,5 @@
 #-----[ specific to joetoo setup ]------------------------
 app-portage/jus eix -distcc
-dev-embedded/joetoo-headless-meta lamp nextcloud
 dev-util/compareConfigs scripts testdata
 dev-util/mkinitramfs -bogus
 dev-util/script_header_brendlefly extended niopt
