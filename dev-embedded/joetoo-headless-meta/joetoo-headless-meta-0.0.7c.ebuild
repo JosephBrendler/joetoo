@@ -11,11 +11,10 @@ LICENSE="metapackage"
 SLOT="0"
 #KEYWORDS="~amd64 ~arm ~arm64"
 #getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
-IUSE="+innercore +lamp +nextcloud +mkinitramfs -mysql -mariadb"
+IUSE="+innercore +lamp +nextcloud +mkinitramfs mysql mariadb"
 REQUIRED_USE="
 	innercore
-	nextcloud? ( lamp )
-	lamp? ^^(mysql mariadb)"
+	nextcloud? ( lamp? ^^(mysql mariadb) )"
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
