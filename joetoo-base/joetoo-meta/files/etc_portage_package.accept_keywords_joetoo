@@ -1,5 +1,5 @@
 app-portage/jus ** ~*
-dev-embedded/joetoo-headless-meta::joetoo ** ~*
+dev-embedded/joetoo-meta::joetoo ** ~*
 dev-util/compareConfigs ** ~*
 dev-util/mkinitramfs ** ~*
 dev-util/script_header_brendlefly ~*
