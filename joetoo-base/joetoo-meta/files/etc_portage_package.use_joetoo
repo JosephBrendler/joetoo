@@ -27,11 +27,14 @@
 #  +compareConfigs           : pull in the joetoo kernel config comparison utility
 #  -gentoo_pv_kernel_image   : pull in the joetoo standard xen pv kernel image and utilities
 #  +cloudsync                : pull in the joetoo file synchronization utility
+#  +headless                 : (default) pull in packages required and configure joetoo system as headless server
+#  +plasma                   : (to do) pull in packages required and configure joetoo system as a plasma desktop
+#  +gnome                    : (to do) pull in packages required and configure joetoo system as a gnome desktop
 #
 # NB the main point of these meta-package USE flags is to reduce what you have to
 # manually specify in your @world set (/var/lib/portage/world)
 
-dev-embedded/joetoo-headless-meta lamp mysql
+joetoo-base/joetoo-meta-0.0.1::joetoo headless lamp mkinitramfs mysql netifrc nextcloud ntp sysklogd -chrony -gentoo_pv_kernel_image -networkmanager -plasma -gnome -mariadb -syslog-ng
 
 #-----[ specific to joetoo setup ]------------------------
 # This section allows you to configure packages that exist only in the joetoo github overlay
