@@ -66,7 +66,7 @@ sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
->=sys-devel/gcc-11.2.1_p20220115 -fortran hardened
+>=sys-devel/gcc-11.2.1_p20220115 fortran hardened
 sys-kernel/gentoo-sources symlink
 virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
