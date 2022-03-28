@@ -1,9 +1,9 @@
 app-portage/jus ** ~*
-dev-embedded/joetoo-meta::joetoo ** ~*
 dev-util/compareConfigs ** ~*
 dev-util/mkinitramfs ** ~*
 dev-util/script_header_brendlefly ~*
 dev-util/script_header_brendlefly_extended ~*
 dev-util/script_header_brendlefly_noninteractive ~*
 dev-util/Terminal ** ~*
+joetoo-base/joetoo-meta::joetoo ** ~*
 net-misc/cloudsync ** ~*
