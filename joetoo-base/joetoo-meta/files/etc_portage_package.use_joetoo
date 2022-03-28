@@ -60,13 +60,20 @@ sys-fs/lvm2 readline thin -udev
 # differ from those default choices that joetoo developers have made
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
 dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
+>=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
->=media-gfx/imagemagick-7.0.9.5 -openmp
+>=dev-libs/libpcre2-10.39-r1 jit
+>=dev-libs/libxml2-2.9.9-r3 python
+>=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png svg tiff truetype xml zlib -openmp
+media-libs/freetype harfbuzz
+net-nds/openldap crypt cxx gnutls ipv6 odbc perl samba sasl sha2 ssl syslog
+sys-apps/kmod lzma tools zlib
 sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
 >=sys-devel/gcc-11.2.1_p20220115 fortran hardened
+sys-fs/eudev blkid efi hwdb introspection kmod rule-generator
 sys-kernel/gentoo-sources symlink
 virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
