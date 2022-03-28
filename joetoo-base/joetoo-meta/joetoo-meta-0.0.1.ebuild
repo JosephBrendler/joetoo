@@ -192,5 +192,9 @@ pkg_postinst() {
 	elog "joetoo-meta installed"
 	elog "This version is preliminary. Please report bugs to the maintainer."
 	elog ""
+	elog "Note that install phase will fail if config files (such as resolv.conf) have immutable"
+	elog "attribute set. If this is so, run as root, for example: chattr -i /etc/resolv.conf"
+	elog "and then run again with +i after install"
+	elog ""
 	elog "Thank you for using joetoo-meta"
 }
