@@ -177,6 +177,8 @@ src_install() {
 		newins "${FILESDIR}/etc_ssh_sshd_config_joetoo" "sshd_config"
 	insinto "/etc/wpa_supplicant/"
 		newins "${FILESDIR}/etc_wpa_supplicant_wpa_supplicant-conf_joetoo" "wpa_supplicant.conf"
+	insinto "/var/db/repos/joetoo/profiles/"
+		newins "${FILESDIR}/var_db_repos_joetoo_profiles_categories" "categories"
 }
 
 pkg_postinst() {
