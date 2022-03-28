@@ -87,10 +87,10 @@ RDEPEND="
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		dev-util/mkinitramfs
-	jus? ( app-portage/jus[eix -distcc] )
-	script_header_brendlefly? ( dev-util/script_header_brendlefly[extended niopt] )
+	jus? ( app-portage/jus[eix,-distcc] )
+	script_header_brendlefly? ( dev-util/script_header_brendlefly[extended,niopt] )
 	Terminal? ( dev-util/Terminal[examples] )
-	compareConfigs? ( dev-util/compareConfigs[scripts testdata] )
+	compareConfigs? ( dev-util/compareConfigs[scripts,testdata] )
 	gentoo_pv_kernel_image? ( sys-kernel/gentoo_pv_kernel_image[-symlink] )
 	cloudsync? ( net-misc/cloudsync )
 	)
