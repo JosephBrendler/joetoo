@@ -1,0 +1,7 @@
+# Simple case: WPA-PSK, PSK as an ASCII passphrase, allow all valid ciphers
+network={
+        ssid="Oromis"
+        psk=""
+        priority=5
+}
+

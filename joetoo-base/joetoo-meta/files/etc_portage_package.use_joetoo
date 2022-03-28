@@ -1,0 +1,81 @@
+# This per-package USE file enables the tailored configuration of a joetoo system
+#
+# The first section allows you to enable/disable any metapackage USE flags you want,
+# after which you should then re-emerge joetoo-base/joetoo-meta to have the effect taken up
+# e.g. you might set (uncommented):
+#
+#     joetoo-base/joetoo-meta -lamp
+#
+# Unless you override them, the default metapackage flags are used.
+# At the time of writing, default flag status is as shown below with "+" or "-" :
+#
+#  + innercore     : pull in baseline packages required by the headless meta
+#  + lamp          : pull in packages required for a LAMP server
+#    + mysql         : pull in the mysql database and required packages
+#    - mariadb       : pull in the mariadb database and required packages
+#  + nextcloud     : pull in the nextcloud package and its dependencies
+#  +ntp            : pull in ntp to sync with time source
+#  -chrony         : pull in chrony to sync with time source
+#  +sysklogd       : pull in sysklogd as system logger
+#  -syslog-ng      : pull in syslog-ng as system logger
+#  +netifrc        : pull in netifrc to manage network
+#  -networkmanager : pull in netifrc to manage network
+#  + mkinitramfs             : pull in the joetoo initramfs builder packages
+#  +jus                      : pull in the joetoo update sequence script
+#  +script_header_brendlefly : pull in the joetoo script header
+#  +Terminal                 : pull in the joetoo Terminal c++ shared obj library and test program
+#  +compareConfigs           : pull in the joetoo kernel config comparison utility
+#  -gentoo_pv_kernel_image   : pull in the joetoo standard xen pv kernel image and utilities
+#  +cloudsync                : pull in the joetoo file synchronization utility
+#
+# NB the main point of these meta-package USE flags is to reduce what you have to
+# manually specify in your @world set (/var/lib/portage/world)
+
+dev-embedded/joetoo-headless-meta lamp mysql
+
+#-----[ specific to joetoo setup ]------------------------
+# This section allows you to configure packages that exist only in the joetoo github overlay
+app-portage/jus eix -distcc
+dev-util/mkinitramfs -bogus
+dev-util/script_header_brendlefly extended niopt
+dev-util/compareConfigs scripts testdata
+dev-util/Terminal examples
+sys-kernel/gentoo_pv_kernel_image -symlink
+
+#-----[ standardized for baseline joetoo setup ]------------------------
+# This section allows you to configure packages that joetoo developers have chosen as joetoo baseline
+net-misc/openssh hpn pam pie security-key ssl -bindist
+dev-libs/openssl tls-heartbeat zlib -bindist
+sys-fs/lvm2 readline thin -udev
+sys-fs/cryptsetup openssl udev urandom
+sys-apps/busybox mdev math -static
+# use below instead for a xen pv domU
+#sys-apps/busybox -pam -static -debug -ipv6 -livecd -make-symlinks -math -mdev -savedconfig -sep-usr -syslog -systemd
+
+#-----[ standardized for additional joetoo setup ]------------------------
+# This section establishes the defaults for joetoo and allows you to configure packages in ways that
+# differ from those default choices that joetoo developers have made
+sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
+dev-libs/boost threads python tools
+sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
+>=app-eselect/eselect-php-0.9.5 apache2 fpm
+dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
+dev-libs/boost threads python tools
+>=media-gfx/imagemagick-7.0.9.5 -openmp
+sys-devel/binutils multitarget
+sys-devel/distcc crossdev hardened
+sys-kernel/gentoo-sources symlink
+virtual/linux-sources firmware
+www-apps/nextcloud curl imagemagick mysql vhosts
+www-apache/mod_security fuzzyhash geoip
+www-servers/apache threads
+
+#-----[ standardized TARGETS for joetoo ]-------------------------------
+# This section is self-explanatory.  Note that default CPU flags are set in the included file
+# /etc/portage/package.use/00cpu_flags and are commented out by default because they depend on arch
+# Note that many other standardized configuration choices are provided in the included default
+# make.conf file
+*/* PYTHON_TARGETS: -python2_7
+*/* PHP_TARGETS: php7-4 php8-0 -php7-2 -php7-3 -php8-1
+*/* RUBY_TARGETS: ruby31
+*/* LLVM_TARGETS: ARM X86
