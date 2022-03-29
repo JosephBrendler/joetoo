@@ -25,30 +25,37 @@ net-misc/cloudsync ** ~*
 media-libs/raspberrypi-userland **
 sys-boot/raspberrypi-firmware **
 sys-kernel/raspberrypi-sources **
-media-libs/mesa **
-
-#-----[ unstable OK ]----------------------------------------
-sys-kernel/gentoo-sources ~*
-dev-libs/icu ~*
-sys-libs/gdbm ~*
-dev-libs/libical ~*
-media-gfx/imagemagick ~*
-virtual/libffi ~*
-dev-libs/libffi ~*
-dev-lang/perl ~*
-
 dev-java/rxtx
 dev-embedded/arduino
 dev-embedded/avrdude
+media-libs/mesa **
+
+#-----[ unstable OK ]----------------------------------------
+# uncomment as desired
+#sys-kernel/gentoo-sources ~*
+#dev-libs/icu ~*
+#sys-libs/gdbm ~*
+#dev-libs/libical ~*
+#media-gfx/imagemagick ~*
+#virtual/libffi ~*
+#dev-libs/libffi ~*
+#dev-lang/perl ~*
 
 #-----[ stabilize toolchain ]-------------------------------
 >sys-libs/glibc-2.34-r8  -~*
+<=sys-libs/glibc-2.34-r8  ~*
 >sys-devel/binutils-2.37_p1-r2 -~*
+<=sys-devel/binutils-2.37_p1-r2 ~*
 >sys-devel/binutils-config-5.4 -~*
+<=sys-devel/binutils-config-5.4 ~*
 >sys-devel/libtool-2.4.6-r6 -~*
+<=sys-devel/libtool-2.4.6-r6 ~*
 >sys-devel/gcc-11.2.1_p20220115 -~*
+<=sys-devel/gcc-11.2.1_p20220115 ~*
 >sys-kernel/linux-headers-5.16 -~*
+<=sys-kernel/linux-headers-5.16 ~*
 >sys-devel/gcc-config-2.5-r1 -~*
+<=sys-devel/gcc-config-2.5-r1 ~*
 
 #-----[ stable virtualbox ]----------------------------------
 app-emulation/virtualbox -~*
