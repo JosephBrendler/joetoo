@@ -59,7 +59,7 @@ sys-fs/lvm2 readline thin -udev
 # This section establishes the defaults for joetoo and allows you to configure packages in ways that
 # differ from those default choices that joetoo developers have made
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
-dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
+dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter -xpm zip zlib -snmp
 >=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
 >=dev-libs/libpcre2-10.39-r1 jit

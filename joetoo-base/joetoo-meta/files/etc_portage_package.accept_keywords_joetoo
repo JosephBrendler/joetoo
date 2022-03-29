@@ -1,3 +1,16 @@
+#**** default package.accept_keywords for joetoo systems ***
+# Joe Brendler 29 Mar 2022
+# Intended to standardize a minimal set of package configurations across
+# my cluster of joetoo systems.  E.g. toolchain version is particularly
+# important for systems that cross-compile for one another.
+# Note the use of "*" below can be modified to match your choce in the
+# ACCEPT_KEYWORDS= statement in your /etc/portage/make.conf
+# but this default assumes (for most uses) the system is probably
+# a 32- or 64-bit version of x86 or arm (x86, amd64, arm, arm64)
+# We make a few choices that may differ from the global assignment in
+# make.conf, as explained by category below
+#
+#-----[ packages only found in joetoo ]---------------------
 app-portage/jus ** ~*
 dev-util/compareConfigs ** ~*
 dev-util/mkinitramfs ** ~*
@@ -7,3 +20,55 @@ dev-util/script_header_brendlefly_noninteractive ~*
 dev-util/Terminal ** ~*
 joetoo-base/joetoo-meta::joetoo ** ~*
 net-misc/cloudsync ** ~*
+
+#-----[ bleeding edge ]--------------------------------------
+media-libs/raspberrypi-userland **
+sys-boot/raspberrypi-firmware **
+sys-kernel/raspberrypi-sources **
+media-libs/mesa **
+
+#-----[ unstable OK ]----------------------------------------
+sys-kernel/gentoo-sources ~*
+dev-libs/icu ~*
+sys-libs/gdbm ~*
+dev-libs/libical ~*
+media-gfx/imagemagick ~*
+virtual/libffi ~*
+dev-libs/libffi ~*
+dev-lang/perl ~*
+
+dev-java/rxtx
+dev-embedded/arduino
+dev-embedded/avrdude
+
+#-----[ stabilize toolchain ]-------------------------------
+>sys-libs/glibc-2.34-r8  -~*
+>sys-devel/binutils-2.37_p1-r2 -~*
+>sys-devel/binutils-config-5.4 -~*
+>sys-devel/libtool-2.4.6-r6 -~*
+>sys-devel/gcc-11.2.1_p20220115 -~*
+>sys-kernel/linux-headers-5.16 -~*
+>sys-devel/gcc-config-2.5-r1 -~*
+
+#-----[ stable virtualbox ]----------------------------------
+app-emulation/virtualbox -~*
+app-emulation/virtualbox-additions -~*
+app-emulation/virtualbox-extpack-oracle -~*
+app-emulation/virtualbox-modules -~*
+
+#-----[ stable xen ]-----------------------------------------
+app-emulation/xen -~*
+app-emulation/xen-pvgrub -~*
+app-emulation/xen-tools -~*
+
+#-----[ other packages I want stabile ]----------------------
+sys-auth/ykpers -~*
+app-text/asciidoc -~*
+sys-boot/grub -~*
+dev-lang/perl -~*
+dev-python/docutils -~*
+dev-python/sphinx -~*
+app-misc/tracker -~*
+app-misc/tracker-miners -~*
+gnome-base/nautilus -~*
+net-fs/samba -~*
