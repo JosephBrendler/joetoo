@@ -9,27 +9,28 @@
 # Unless you override them, the default metapackage flags are used.
 # At the time of writing, default flag status is as shown below with "+" or "-" :
 #
-#  + innercore     : pull in baseline packages required by the headless meta
-#  + lamp          : pull in packages required for a LAMP server
-#    + mysql         : pull in the mysql database and required packages
-#    - mariadb       : pull in the mariadb database and required packages
-#  + nextcloud     : pull in the nextcloud package and its dependencies
-#  +ntp            : pull in ntp to sync with time source
-#  -chrony         : pull in chrony to sync with time source
-#  +sysklogd       : pull in sysklogd as system logger
-#  -syslog-ng      : pull in syslog-ng as system logger
-#  +netifrc        : pull in netifrc to manage network
-#  -networkmanager : pull in netifrc to manage network
-#  + mkinitramfs             : pull in the joetoo initramfs builder packages
-#  +jus                      : pull in the joetoo update sequence script
-#  +script_header_brendlefly : pull in the joetoo script header
-#  +Terminal                 : pull in the joetoo Terminal c++ shared obj library and test program
-#  +compareConfigs           : pull in the joetoo kernel config comparison utility
-#  -gentoo_pv_kernel_image   : pull in the joetoo standard xen pv kernel image and utilities
-#  +cloudsync                : pull in the joetoo file synchronization utility
-#  +headless                 : (default) pull in packages required and configure joetoo system as headless server
-#  +plasma                   : (to do) pull in packages required and configure joetoo system as a plasma desktop
-#  +gnome                    : (to do) pull in packages required and configure joetoo system as a gnome desktop
+#  + innercore      : pull in baseline packages required by the headless meta
+#  + lamp           : pull in packages required for a LAMP server
+#    + mysql          : pull in the mysql database and required packages
+#    - mariadb        : pull in the mariadb database and required packages
+#  + nextcloud      : pull in the nextcloud package and its dependencies
+#  - samba          : pull in samba for wins, file service, etc.
+#  + ntp            : pull in ntp to sync with time source
+#  - chrony         : pull in chrony to sync with time source
+#  + sysklogd       : pull in sysklogd as system logger
+#  - syslog-ng      : pull in syslog-ng as system logger
+#  + netifrc        : pull in netifrc to manage network
+#  - networkmanager : pull in netifrc to manage network
+#  + mkinitramfs              : pull in the joetoo initramfs builder packages
+#  + jus                      : pull in the joetoo update sequence script
+#  + script_header_brendlefly : pull in the joetoo script header
+#  + Terminal                 : pull in the joetoo Terminal c++ shared obj library and test program
+#  + compareConfigs           : pull in the joetoo kernel config comparison utility
+#  - gentoo_pv_kernel_image   : pull in the joetoo standard xen pv kernel image and utilities
+#  + cloudsync                : pull in the joetoo file synchronization utility
+#  + headless                 : (default) pull in packages required and configure joetoo system as headless server
+#  + plasma                   : (to do) pull in packages required and configure joetoo system as a plasma desktop
+#  + gnome                    : (to do) pull in packages required and configure joetoo system as a gnome desktop
 #
 # NB the main point of these meta-package USE flags is to reduce what you have to
 # manually specify in your @world set (/var/lib/portage/world)
@@ -66,6 +67,7 @@ dev-libs/boost threads python tools
 >=dev-libs/libxml2-2.9.9-r3 python
 >=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png svg tiff truetype xml zlib -openmp
 media-libs/freetype harfbuzz
+net-fs/samba acl aio caps client examples fam gnutls netapi pam readline server smbclient smbsharemodes syslog winbind -cups
 net-nds/openldap crypt cxx gnutls ipv6 odbc perl samba sasl sha2 ssl syslog
 sys-apps/kmod lzma tools zlib
 sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
@@ -79,6 +81,7 @@ virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
 www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
+
 
 #-----[ standardized TARGETS for joetoo ]-------------------------------
 # This section is self-explanatory.  Note that default CPU flags are set in the included file
