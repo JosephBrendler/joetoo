@@ -70,7 +70,7 @@ RDEPEND="
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
 		!raspberry? (
 			>=sys-kernel/gentoo-sources-5.15.26
-			>=sys-boot/grub2.06-r1
+			>=sys-boot/grub-2.06-r1
 		)
 		>=sys-kernel/linux-firmware-20200619
 		>=sys-kernel/linux-headers-5.4
