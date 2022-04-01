@@ -58,14 +58,20 @@ RDEPEND="
 		>=net-analyzer/nmap-7.80
 		>=net-vpn/openvpn-2.4.7-r1
 		>=net-wireless/wpa_supplicant-2.9-r1
+		>=sys-apps/busybox-1.32.0[-static(-)]
 		>=sys-apps/lshw-02.19.2b_p20210121-r3
 		>=sys-apps/mlocate-0.26-r2
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
 		>=sys-devel/bc-1.07.1
 		>=sys-devel/distcc-3.3.3
+		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		>=sys-fs/dosfstools-4.1
-		!raspberry? ( >=sys-kernel/gentoo-sources-5.15.26 )
+		>=sys-fs/lvm2-2.02.187[-udev(-)]
+		!raspberry? (
+			>=sys-kernel/gentoo-sources-5.15.26
+			>=sys-boot/grub2.06-r1
+		)
 		>=sys-kernel/linux-firmware-20200619
 		>=sys-kernel/linux-headers-5.4
 		>=sys-process/cronie-1.5.5
@@ -91,9 +97,6 @@ RDEPEND="
 		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
 	)
 	mkinitramfs? (
-		>=sys-apps/busybox-1.32.0[-static(-)]
-		>=sys-fs/lvm2-2.02.187[-udev(-)]
-		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		dev-util/mkinitramfs
 	jus? ( app-portage/jus )
 	script_header_brendlefly? ( dev-util/script_header_brendlefly )

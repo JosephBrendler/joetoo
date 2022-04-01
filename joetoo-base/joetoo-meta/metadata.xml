@@ -25,6 +25,7 @@
 		<flag name="syslog-ng">Pull in syslog-ng as system logger</flag>
 		<flag name="netifrc">Pull in netifrc to manage network</flag>
 		<flag name="networkmanager">Pull in networkmanager to manage network</flag>
+		<flag name="raspberry">Exclude packages that aren't needed on a Raspberry Pik</flag>
 		<flag name="mkinitramfs">Pull in joetoo's initramfs builder and required components</flag>
 		<flag name="jus">Pull in the joetoo update sequence script and dependencies</flag>
 		<flag name="script_header_brendlefly">Pull in the joetoo script header</flag>
