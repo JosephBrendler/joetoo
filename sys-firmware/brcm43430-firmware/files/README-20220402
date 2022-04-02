@@ -1,0 +1,13 @@
+# populated from /home/joe/firmware-nonfree/debian/config/brcm80211/brcm/brcmfmac434{30,55}*
+# (downloaded from HOMEPAGE below with --
+# git clone --depth 1 https://github.com/RPi-Distro/firmware-nonfree.git )
+#
+# for x in /home/joe/firmware-nonfree/debian/config/brcm80211/brcm/brcmfmac434{30,55}*
+# do
+#    cp -v $x ./$(basename $x)-20220402
+# done
+# (THIS PRODUCES MORE FILES THAN NEEDED BY EBUILD - BUT OK)
+#
+# also converted one NVRAM file to match sakaki's old work, using command -
+# strip_blanklines_and_comments.sh brcmfmac43430-sdio.raspberrypi,3-model-b.txt-20220402 | \
+#    sort > brcmfmac43430-sdio.raspberrypi-rpi.txt-20220402
