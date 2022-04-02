@@ -12,4 +12,7 @@
 # strip_blanklines_and_comments.sh brcmfmac43430-sdio.raspberrypi,3-model-b.txt-20220402 | \
 #    sort > brcmfmac43430-sdio.raspberrypi-rpi.txt-20220402
 #
+# also had to run rm *,* since filenames with commas seemed to corrupt the manifest
+#   (and they aren't needed by the ebuild)
+#
 # don't forget to set ownership of all files in repository to joe:joe
