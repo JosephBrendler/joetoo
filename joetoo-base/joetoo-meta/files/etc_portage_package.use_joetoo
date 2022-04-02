@@ -21,6 +21,7 @@
 #  - syslog-ng      : pull in syslog-ng as system logger
 #  + netifrc        : pull in netifrc to manage network
 #  - networkmanager : pull in netifrc to manage network
+#  - raspberry      : exclude packages not needed in an Rpi
 #  + mkinitramfs              : pull in the joetoo initramfs builder packages
 #  + jus                      : pull in the joetoo update sequence script
 #  + script_header_brendlefly : pull in the joetoo script header
@@ -35,7 +36,7 @@
 # NB the main point of these meta-package USE flags is to reduce what you have to
 # manually specify in your @world set (/var/lib/portage/world)
 
->=joetoo-base/joetoo-meta-0.0.1::joetoo headless lamp mkinitramfs mysql netifrc nextcloud ntp sysklogd -chrony -gentoo_pv_kernel_image -networkmanager -plasma -gnome -mariadb -syslog-ng
+>=joetoo-base/joetoo-meta-0.0.1::joetoo headless lamp mkinitramfs mysql netifrc nextcloud ntp sysklogd -chrony -gentoo_pv_kernel_image -networkmanager -plasma -gnome -mariadb -syslog-ng -raspberry
 
 #-----[ specific to joetoo setup ]------------------------
 # This section allows you to configure packages that exist only in the joetoo github overlay
