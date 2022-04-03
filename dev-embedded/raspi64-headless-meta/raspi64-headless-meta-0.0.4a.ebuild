@@ -53,7 +53,7 @@ RDEPEND="
 		>=sys-boot/rpi3-boot-config-1.0.9[pitop(-)?]
 	)
 	pigpio? (
-		>=dev-libs/pigpio-71-r1
+		>=dev-libs/pigpio-79
 		>=sys-apps/rpi-gpio-1.0.1
 	)
 "
