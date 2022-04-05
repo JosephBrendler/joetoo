@@ -79,6 +79,7 @@ net-vpn/openvpn ssl
 net-wireless/wpa_supplicant dbus gnutls readline ssl -qt5
 sys-apps/kmod lzma tools zlib
 sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
+>=sys-block/parted-3.4 readline device-mapper
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
