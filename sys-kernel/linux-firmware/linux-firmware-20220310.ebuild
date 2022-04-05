@@ -259,7 +259,10 @@ src_prepare() {
 
         # don't install the 43455 firmware blob if it is provided by another
         # ebuild
-        use 43455-fix && rm -f brcm/brcmfmac43455-sdio.bin
+        if use 43455-fix; then
+		einfo "removing brcm/brcmfmac43455-sdio.bin as raspi64 fix"
+		rm -f brcm/brcmfmac43455-sdio.bin
+	fi
 
 	restore_config ${PN}.conf
 }
