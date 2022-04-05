@@ -235,6 +235,11 @@ src_prepare() {
 		lgs8g75.fw
 	)
 
+	local brcm_43455_files=(
+		brcm/brcmfmac43455-sdio.bin
+		brcm/brcmfmac43455-sdio.clm_blob
+	)
+
 	if use !unknown-license; then
 		einfo "Removing files with unknown license ..."
 		rm -v "${unknown_license[@]}" || die
@@ -260,9 +265,12 @@ src_prepare() {
         # don't install the 43455 firmware blob if it is provided by another
         # ebuild
         if use 43455-fix; then
-		einfo "removing brcm/brcmfmac43455-sdio.bin as raspi64 fix"
-		rm -f brcm/brcmfmac43455-sdio.bin
-	fi
+                elog "Removing files installed by brcm43430-firmware ..."
+                elog "S: ${S}"
+                elog "T: ${T}"
+                elog "PV: ${PV}"
+                rm -v "${brcm_43455_files_license[@]}" || die
+        fi
 
 	restore_config ${PN}.conf
 }
