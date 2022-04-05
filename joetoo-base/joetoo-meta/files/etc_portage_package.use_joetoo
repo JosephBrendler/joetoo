@@ -60,7 +60,11 @@ sys-fs/lvm2 readline thin -udev
 #-----[ standardized for additional joetoo setup ]------------------------
 # This section establishes the defaults for joetoo and allows you to configure packages in ways that
 # differ from those default choices that joetoo developers have made
+app-emulation/qemu bzip2 lzo ncurses pin-upstream-blobs seccomp threads usb vhost-net vnc xattr xen -debug -pulseaudio -test
+app-emulation/xen -custom-cflags -debug -efi -flask
+app-emulation/xen-tools api -custom-cflags -debug -doc -flask hvm ocaml -ovmf pam -pygrub -python qemu qemu-traditional screen -sdl -static-libs -system-qemu -xend
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
+app-portage/gemato blake2 bzip2 gpg lzma sha3
 dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter -xpm zip zlib -snmp
 >=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
@@ -68,8 +72,11 @@ dev-libs/boost threads python tools
 >=dev-libs/libxml2-2.9.9-r3 python
 >=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png svg tiff truetype xml zlib -openmp
 media-libs/freetype harfbuzz
+net-firewall/iptables conntrack netlink
 net-fs/samba acl aio caps client examples fam gnutls netapi pam readline server smbclient smbsharemodes syslog winbind -cups
 net-nds/openldap crypt cxx gnutls ipv6 odbc perl samba sasl sha2 ssl syslog
+net-vpn/openvpn ssl
+net-wireless/wpa_supplicant dbus gnutls readline ssl -qt5
 sys-apps/kmod lzma tools zlib
 sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
@@ -82,7 +89,6 @@ virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
 www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
-
 
 #-----[ standardized TARGETS for joetoo ]-------------------------------
 # This section is self-explanatory.  Note that default CPU flags are set in the included file
