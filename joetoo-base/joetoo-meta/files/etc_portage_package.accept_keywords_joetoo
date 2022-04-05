@@ -32,8 +32,8 @@ media-libs/mesa **
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired
-#<sys-kernel/gentoo-sources-5.16.16 ~amd64
-#>=sys-kernel/gentoo-sources-5.16.16 -~amd64
+#>sys-kernel/gentoo-sources-5.16.16 -~amd64
+#<=sys-kernel/gentoo-sources-5.16.16 ~amd64
 #dev-libs/icu ~amd64
 #sys-libs/gdbm ~amd64
 #dev-libs/libical ~amd64
