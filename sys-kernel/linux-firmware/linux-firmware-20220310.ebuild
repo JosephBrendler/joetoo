@@ -269,7 +269,9 @@ src_prepare() {
                 elog "S: ${S}"
                 elog "T: ${T}"
                 elog "PV: ${PV}"
-                rm -v "${brcm_43455_files[@]}" || die
+                for $((i=0; i<${#brcm_43455_files[@]}; i++));  do
+			rm -v ${S}/${brcm_43455_files[i]} || die
+		done
         fi
 
 	restore_config ${PN}.conf
