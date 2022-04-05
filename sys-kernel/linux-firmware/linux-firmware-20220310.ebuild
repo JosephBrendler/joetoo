@@ -269,7 +269,7 @@ src_prepare() {
                 elog "S: ${S}"
                 elog "T: ${T}"
                 elog "PV: ${PV}"
-                rm -v "${brcm_43455_files_license[@]}" || die
+                rm -v "${brcm_43455_files[@]}" || die
         fi
 
 	restore_config ${PN}.conf
