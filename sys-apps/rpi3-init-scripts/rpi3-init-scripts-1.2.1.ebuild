@@ -29,7 +29,6 @@ RDEPEND="${DEPEND}
 
 src_install() {
 	newinitd "${FILESDIR}/init.d_autoexpand_root-4" "${AR_SVCNAME}"
-	newins "${FILESDIR}/50-hostname-mode-none.conf-1" "50-hostname-mode-none.conf"
 	insinto "/etc/sysctl.d"
 	newins "${FILESDIR}/35-low-memory-cache-settings.conf-1" "35-low-memory-cache-settings.conf"
 }
