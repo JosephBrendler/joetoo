@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer status="active">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+</maintainer>
+<upstream>
+		<maintainer status="inactive">
+				<email>sakaki@deciban.com</email>
+				<name>sakaki</name>
+		</maintainer>
+		<bugs-to>mailto:sakaki@deciban.com</bugs-to>
+</upstream>
+<longdescription>
+		This provides a few simple init scripts for the
+		gentoo-on-rpi3-64bit image (to autoexpand the root partition
+		on first boot, disable XVideo, setup appropriate low-memory
+		cache settings etc.) (Adapted from work abandoned by sakaki
+		in 2020 - don't know if he will respond to bugs, but he did
+		identify himself as upstream)
+</longdescription>
+</pkgmetadata>
