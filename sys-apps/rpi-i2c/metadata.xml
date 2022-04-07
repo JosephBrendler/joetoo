@@ -6,8 +6,9 @@
 		<name>Joe Brendler</name>
 </maintainer>
 <longdescription>
-		udev rules for GPIO access on the Raspberry Pi 3 and 4.
-		Ensures GPIO can be used by anyone in the gpio group
-                (not just root). (Adapted from work abandoned by sakaki)
+		Service and udev rule for SPI access on the RPi 3 and 4.
+		Ensures I2C can be used by anyone in the i2c group
+                (not just root), and that the i2c_dev kernel module is
+                loaded. (Adapted from work abandoned by sakaki)
 </longdescription>
 </pkgmetadata>

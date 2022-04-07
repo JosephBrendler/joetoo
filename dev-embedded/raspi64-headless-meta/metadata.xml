@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		Meta package for standard joetoo raspi64 setup. Depends on
-		Depends on dev-embedded/joetoo-headless-meta::joetoo
+		Meta package for standard joetoo raspi64 setup.
+		Optionally uses dev-embedded/joetoo-meta::joetoo
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -13,6 +13,7 @@
 		<flag name="boot-fw">Pull in the /boot firmware, configs and bootloader</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
 		<flag name="pigpio">Pull in the pigpio package and its dependencies</flag>
+		<flag name="joetoo">Pull in the joetoo-meta package and its dependencies</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>

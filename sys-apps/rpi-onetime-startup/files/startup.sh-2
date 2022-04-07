@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+# Perform one-time startup tasks here
+# This script will only be run _after_ the partition resizing has
+# completed
+#
+# Copyright (c) 2022-2052 Joe Brendler <joseph.brendler@gmail.com>
+# Adapted from work abandoned in 2020 by sakaki <sakaki@deciban.com>
+# License: GPL v3+
+# NO WARRANTY
+#
+
+#################################################################
+#                 Networking setup examples                     #
+#################################################################
+
+# Some simple examples follow.
+
+# Example 1
+# To setup WiFi to ESSID "MyWiFi", passphrase "my secret passphrase"
+# fixed IP 192.168.1.111/24, DNS 8.8.8.8 and 8.8.4.4 (Google),
+# gateway 192.168.1.1, emerge networkmanager and uncomment the following
+# (obviously, adapt as appropriate)
+#
+#echo "Setting up WiFi with fixed IP address..."
+#nmcli con del "MyWiFi-fixed-IP"
+#nmcli con add con-name "MyWiFi-fixed-IP" type wifi \
+#  ifname wlan0 ssid "MyWiFi" -- \
+#  wifi-sec.key-mgmt wpa-psk \
+#  wifi-sec.psk "my secret passphrase" \
+#  ipv4.method manual \
+#  ipv4.address 192.168.1.111/24 \
+#  ipv4.dns 8.8.8.8,8.8.4.4 \
+#  ipv4.gateway 192.168.1.1
+#nmcli con up "MyWiFi-fixed-IP"
+
+# Example 2
+# To setup WiFi to ESSID "MyWiFi", passphrase "my secret passphrase"
+# DHCP-assigned (automatic) IP address, gateway and
+# DNS, emerge networkmanager and uncomment the following
+# (obviously, adapt as appropriate)
+#
+#echo "Setting up WiFi with automatically assigned address..."
+#nmcli con del "MyWiFi-DHCP-IP"
+#nmcli con add con-name "MyWiFi-DHCP-IP" type wifi \
+#  ifname wlan0 ssid "MyWiFi" -- \
+#  wifi-sec.key-mgmt wpa-psk \
+#  wifi-sec.psk "my secret passphrase" \
+#  ipv4.method auto
+#nmcli con up "MyWiFi-DHCP-IP"
+
+# Example 3
+# To setup the Pi's Ethernet port with a
+# fixed IP 192.168.1.111/24, DNS 8.8.8.8 and 8.8.4.4 (Google),
+# gateway 192.168.1.1, emerge networkmanager and uncomment the following
+# (obviously, adapt as appropriate)
+#
+#echo "Setting up Ethernet with fixed IP address..."
+#nmcli con del "eth0-fixed-IP"
+#nmcli con add con-name "eth0-fixed-IP" type ethernet \
+#  ifname eth0 -- \
+#  ipv4.method manual \
+#  ipv4.address 192.168.1.111/24 \
+#  ipv4.dns 8.8.8.8,8.8.4.4 \
+#  ipv4.gateway 192.168.1.1
+#nmcli con up "eth0-fixed-IP"
+
+# DHCP client on eth0 is enabled automatically in absence
+# of any other settings
+
+#################################################################
+#          Running this script again on next boot               #
+#################################################################
+
+# The rpi-onetime-startup service that calls this script disables
+# itself from further boot-time triggers beforehand, for security.
+# However, if you _want_ the service to trigger next boot too,
+# re-enable it by uncommenting the following line (you must do
+# this _before_ first boot).
+#rc-update add rpi-onetime-startup default

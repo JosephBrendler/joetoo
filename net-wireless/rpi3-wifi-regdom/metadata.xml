@@ -6,8 +6,8 @@
 		<name>Joe Brendler</name>
 </maintainer>
 <longdescription>
-		udev rules for GPIO access on the Raspberry Pi 3 and 4.
-		Ensures GPIO can be used by anyone in the gpio group
-                (not just root). (Adapted from work abandoned by sakaki)
+		Sets the WiFi regulatory domain on an RPi3, using
+		the country code from /etc/conf.d/rpi3-wifi-regdom.
+		(Adapted from work abandoned by sakaki)
 </longdescription>
 </pkgmetadata>
