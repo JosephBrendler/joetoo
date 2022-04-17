@@ -1,6 +1,9 @@
 #!/bin/bash
 arg=""; ip_address=""; class_c=""; resolveconf_file=""; twait=""  #initialize null
 
+#ENABLE="true"
+ENABLE="false"
+
 twait=5
 blinkwait=0.05
 blinklongwait=0.5
@@ -36,6 +39,8 @@ blink_light() {
 }
 
 #-----[ main ]-----------------------------------
+[[ "${ENABLE}" == "false" ]] && exit 
+
 blink_off
 case ${class_c} in
   "192.168.62"|"192.168.3"|"192.168.7") arg="l";;
