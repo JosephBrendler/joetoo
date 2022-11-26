@@ -53,7 +53,7 @@ dev-libs/openssl tls-heartbeat zlib -bindist
 net-misc/openssh hpn pam pie security-key ssl -bindist
 sys-apps/busybox mdev math -static
 sys-fs/cryptsetup openssl udev urandom
-sys-fs/lvm2 readline thin -udev
+sys-fs/lvm2 lvm readline thin -udev
 # use below instead for a xen pv domU
 #sys-apps/busybox -pam -static -debug -ipv6 -livecd -make-symlinks -math -mdev -savedconfig -sep-usr -syslog -systemd
 
@@ -97,6 +97,6 @@ www-servers/apache threads
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* PHP_TARGETS: php7-4 php8-0 -php7-2 -php7-3 -php8-1
+*/* PHP_TARGETS: php8-0 -php7-2 -php7-3 -php7-4 -php8-1
 */* RUBY_TARGETS: ruby31
 */* LLVM_TARGETS: ARM X86

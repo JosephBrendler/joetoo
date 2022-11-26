@@ -69,7 +69,7 @@ app-emulation/xen -~amd64
 app-emulation/xen-pvgrub -~amd64
 app-emulation/xen-tools -~amd64
 
-#-----[ other packages I want stabile ]----------------------
+#-----[ other packages I want stable ]----------------------
 sys-auth/ykpers -~amd64
 app-text/asciidoc -~amd64
 sys-boot/grub -~amd64
