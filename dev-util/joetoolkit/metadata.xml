@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		I intend for this to be the meta-ebuild for joetoolkit utilities
+		(with gentoo thus being "upstream" generally).  More to follow...
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="iptools">Install tools helpful for ip networking</flag>
+		<flag name="xenvmfiles">Install /etc/portage files used by joetoo xen vms</flag>
+		<flag name="backup_utilities">Install example joetoo backup utilities (must be customized)</flag>
+		<flag name="utility_archive">Pull in extra utilities that have come and gone</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
