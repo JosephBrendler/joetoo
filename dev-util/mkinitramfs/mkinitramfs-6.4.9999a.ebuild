@@ -44,7 +44,7 @@ src_install() {
 	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	elog ""
-	dodir usr/local/bin/
+	dodir usr/bin/
 	einfo "About to execute command cp -R "${S}"/ckinitramfs "${D}"usr/bin/"
 	cp -v "${S}/ckinitramfs" "${D}usr/bin/" || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
