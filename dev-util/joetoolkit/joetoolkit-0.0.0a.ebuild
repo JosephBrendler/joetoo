@@ -58,7 +58,7 @@ src_install() {
 	for x in $(find ${FILESDIR}/joetoolkit/);
 	do
 		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/||");
-		newins ${x} ${z};
+		newins "${x}" "${z}";
 	done
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
 	cp -v "${FILESDIR}/joetoolkit/*" "${D}/usr/local/sbin/" || die "Install failed!"
