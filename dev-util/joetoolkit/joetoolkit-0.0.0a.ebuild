@@ -56,14 +56,21 @@ src_install() {
 #	insinto "/usr/local/sbin/"
 	dodir "/usr/local/sbin/"
 #		newins "${FILESDIR}/joetoolkit/*" .
-	for x in $(find ${FILESDIR}/joetoolkit/);
+	for x in $(find ${FILESDIR}/joetoolkit/ -maxdepth 1 -type f);
 	do
 		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/||");
 		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
 		cp -v "${x}" "${D}/usr/local/sbin/${z}";
 	done
+	dodir "/usr/local/sbin/server_certs"
+	for x in $(find ${FILESDIR}/joetoolkit/server_certs/ -maxdepth 1 -type f);
+	do
+		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/server_certs/||");
+		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/server_certs/"${z}";"
+		cp -v "${x}" "${D}/usr/local/sbin/${z}";
+	done
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
-	cp -v "${FILESDIR}/joetoolkit/*" "${D}/usr/local/sbin/" || die "Install failed!"
+#	cp -v "${FILESDIR}/joetoolkit/*" "${D}/usr/local/sbin/" || die "Install failed!"
 #	elog "${PN} installed in /usr/local/sbin."
 #	elog ""
 
