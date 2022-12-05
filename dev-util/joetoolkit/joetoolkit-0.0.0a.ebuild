@@ -44,8 +44,17 @@ src_install() {
 #	dodir "/usr/local/sbin/"
 
 	# basic set of utilities for joetoo
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "FILESDIR=${FILESDIR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
 	insinto "/usr/local/sbin/"
-		newins "${FILESDIR}/joetoolkit/*" .
+		newins "${FILESDIR}/${PN}/files/joetoolkit/*" .
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
 #	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
 #	elog "${PN} installed in /usr/local/sbin."
@@ -77,15 +86,15 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
-	einfo "FILESDIR=${FILESDIR}"
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "FILESDIR=${FILESDIR}"
+	elog "RDEPEND=${RDEPEND}"
+	elog "DEPEND=${DEPEND}"
 	elog ""
 	elog "joetoolkit installed"
 	elog "This version is preliminary. Please report bugs to the maintainer."
