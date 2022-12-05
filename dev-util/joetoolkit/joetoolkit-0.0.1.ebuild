@@ -29,10 +29,6 @@ RDEPEND="
 	iptools? (
 		>=net-analyzer/nmap-7.93
 	)
-	xenvmfiles? (
-		>=app-emulation/xen-4.15
-		>=app-emulation/xen-tools-4.15
-	)
 	backup_utilities? (
 		>=net-misc/rsync-3.2.4
 	)
