@@ -41,7 +41,7 @@ RDEPEND="
 
 src_install() {
 	# install utilities into /usr/local/sbin (for now)
-	dodir "/usr/local/sbin/"
+#	dodir "/usr/local/sbin/"
 
 	# basic set of utilities for joetoo
 	einfo "S=${S}"
@@ -53,8 +53,13 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
-#	insinto "/usr/local/sbin/"
+	insinto "/usr/local/sbin/"
 #		newins "${FILESDIR}/joetoolkit/*" .
+	for x in $(find ${FILESDIR}/joetoolkit/);
+	do
+		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/||");
+		newins ${x} ${z};
+	done
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
 	cp -v "${FILESDIR}/joetoolkit/*" "${D}/usr/local/sbin/" || die "Install failed!"
 #	elog "${PN} installed in /usr/local/sbin."
