@@ -18,7 +18,7 @@ IUSE="+iptools -xenvmfiles -backup_utilities -utility_archive"
 # note; for now, use joetoo
 REQUIRED_USE=""
 
-RESTRICT="mirror"
+RESTRICT=""
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
@@ -45,44 +45,35 @@ src_install() {
 	# install utilities into /usr/local/sbin (for now)
 	dodir "/usr/local/sbin/"
 
-        # basic set of utilities for joetoo
-        einfo "About to execute command cp -R "${S}"/files/joetoolkit/*" "${D}"usr/local/sbin/"
-        cp -v "${S}/files/joetoolkit/*" "${D}usr/local/sbin/" || die "Install failed!"
-        elog "${PN} installed in /usr/local/sbin."
-        elog ""
+	# basic set of utilities for joetoo
+	einfo "About to execute command cp -R "${FILESDIR}"/joetoolkit/*" "${D}"usr/local/sbin/"
+	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die "Install failed!"
+	elog "${PN} installed in /usr/local/sbin."
+	elog ""
 
 	# ip tools
-	if use iptools ; then
-        einfo "About to execute command cp -R "${S}"/files/iptools/*" "${D}"usr/local/sbin/"
-        cp -v "${S}/files/iptools/*" "${D}usr/local/sbin/" || die "Install failed!"
-        elog "${PN} iptools installed in /usr/local/sbin."
-        elog ""
+#	if use iptools
+#	then
+#		einfo "About to execute command cp -R "${FILESDIR}"/iptools/*" "${D}"usr/local/sbin/"
+#		cp -v "${FILESDIR}/iptools/*" "${D}usr/local/sbin/" || die "Install failed!"
+#		elog "${PN} iptools installed in /usr/local/sbin."
+#		elog ""
+#	fi
 
-	else
-		einfo "USE=iptools not selected"
-		elog "USE=iptools not selected"
-	fi
+	#xenvmfiles
+	## if use xenvmfiles ; then
+	#else
+	#fi
 
-       # xenvmfiles
-        if use xenvmfiles ; then
+	# backup_utilities
+	#if use backup_utilities ; then
+	#else
+	#fi
 
-        else
-
-        fi
-
-       # backup_utilities
-        if use backup_utilities ; then
-
-        else
-
-        fi
-
-       # utility_archive
-        if use utility_archive ; then
-
-        else
-
-        fi
+	# utility_archive
+	#if use utility_archive ; then
+	#else
+	#fi
 }
 
 pkg_postinst() {
@@ -94,6 +85,7 @@ pkg_postinst() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
+	einfo "FILESDIR=${FILESDIR}"
 	elog ""
 	elog "joetoolkit installed"
 	elog "This version is preliminary. Please report bugs to the maintainer."
