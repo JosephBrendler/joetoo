@@ -45,7 +45,7 @@ src_install() {
 
 	# basic set of utilities for joetoo
 	insinto "/usr/local/sbin/"
-		newins "${FILESDIR}/joetoolkit/*"
+		newins "${FILESDIR}/joetoolkit/*" .
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
 #	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
 #	elog "${PN} installed in /usr/local/sbin."
