@@ -18,8 +18,6 @@ IUSE="+iptools -xenvmfiles -backup_utilities -utility_archive"
 # note; for now, use joetoo
 REQUIRED_USE=""
 
-RESTRICT=""
-
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
@@ -43,13 +41,15 @@ RDEPEND="
 
 src_install() {
 	# install utilities into /usr/local/sbin (for now)
-	dodir "/usr/local/sbin/"
+#	dodir "/usr/local/sbin/"
 
 	# basic set of utilities for joetoo
-	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
-	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
-	elog "${PN} installed in /usr/local/sbin."
-	elog ""
+	insinto "/usr/local/sbin/"
+		newins "${FILESDIR}/joetoolkit/*"
+#	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
+#	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
+#	elog "${PN} installed in /usr/local/sbin."
+#	elog ""
 
 	# ip tools
 #	if use iptools
