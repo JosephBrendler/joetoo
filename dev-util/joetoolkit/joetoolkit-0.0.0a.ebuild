@@ -54,7 +54,7 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	insinto "/usr/local/sbin/"
-		newins "${FILESDIR}/${PN}/files/joetoolkit/*" .
+		newins "${FILESDIR}/joetoolkit/*" .
 #	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
 #	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
 #	elog "${PN} installed in /usr/local/sbin."
