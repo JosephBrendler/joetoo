@@ -46,15 +46,15 @@ src_install() {
 	dodir "/usr/local/sbin/"
 
 	# basic set of utilities for joetoo
-	einfo "About to execute command cp -R "${FILESDIR}"/joetoolkit/*" "${D}"usr/local/sbin/"
-	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die "Install failed!"
+	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
+	cp -v "${FILESDIR}/joetoolkit/*" "${D}usr/local/sbin/" || die"Install failed!"
 	elog "${PN} installed in /usr/local/sbin."
 	elog ""
 
 	# ip tools
 #	if use iptools
 #	then
-#		einfo "About to execute command cp -R "${FILESDIR}"/iptools/*" "${D}"usr/local/sbin/"
+#		einfo "About to execute command cp -R "${FILESDIR}"/iptools/* "${D}"usr/local/sbin/"
 #		cp -v "${FILESDIR}/iptools/*" "${D}usr/local/sbin/" || die "Install failed!"
 #		elog "${PN} iptools installed in /usr/local/sbin."
 #		elog ""
