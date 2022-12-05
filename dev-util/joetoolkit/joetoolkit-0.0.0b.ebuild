@@ -41,9 +41,7 @@ RDEPEND="
 
 src_install() {
 	# install utilities into /usr/local/sbin (for now)
-#	dodir "/usr/local/sbin/"
 
-	# basic set of utilities for joetoo
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "P=${P}"
@@ -53,40 +51,49 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
-#	insinto "/usr/local/sbin/"
+
+	# basic set of utilities for joetoo
 	dodir "/usr/local/sbin/"
-#		newins "${FILESDIR}/joetoolkit/*" .
 	for x in $(find ${FILESDIR}/joetoolkit/ -maxdepth 1 -type f);
 	do
 		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/||");
 		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
 		cp -v "${x}" "${D}/usr/local/sbin/${z}";
 	done
+
+	# server certificates for joetoo servers
 	dodir "/usr/local/sbin/server_certs"
 	for x in $(find ${FILESDIR}/joetoolkit/server_certs/ -maxdepth 1 -type f);
 	do
 		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/server_certs/||");
 		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/server_certs/"${z}";"
-		cp -v "${x}" "${D}/usr/local/sbin/${z}";
+		cp -v "${x}" "${D}/usr/local/sbin/server_certs/${z}";
 	done
-#	einfo "About to execute command cp -v "${FILESDIR}"/joetoolkit/* "${D}"usr/local/sbin/"
-#	cp -v "${FILESDIR}/joetoolkit/*" "${D}/usr/local/sbin/" || die "Install failed!"
-#	elog "${PN} installed in /usr/local/sbin."
-#	elog ""
 
 	# ip tools
-#	if use iptools
-#	then
-#		einfo "About to execute command cp -R "${FILESDIR}"/iptools/* "${D}"usr/local/sbin/"
-#		cp -v "${FILESDIR}/iptools/*" "${D}usr/local/sbin/" || die "Install failed!"
-#		elog "${PN} iptools installed in /usr/local/sbin."
-#		elog ""
-#	fi
+	if use iptools;
+	then
+		for x in $(find ${FILESDIR}/iptools/ -maxdepth 1 -type f);
+		do
+			z=$(echo ${x} | sed "s|${FILESDIR}/iptools/||");
+			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
+			cp -v "${x}" "${D}/usr/local/sbin/${z}";
+		done
+	else
+		elog "USE flag \"iptools\" not selected iptools/ not copied"
+	fi
 
 	#xenvmfiles
-	## if use xenvmfiles ; then
-	#else
-	#fi
+	if use xenvmfiles ; then
+		for x in $(find ${FILESDIR}/xenvmfiles_joetoo/ -maxdepth 1 -type f);
+		do
+			z=$(echo ${x} | sed "s|${FILESDIR}/xenvmfiles_joetoo/||");
+			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
+			cp -v "${x}" "${D}/usr/local/sbin/${z}";
+		done
+	else
+		elog "USE flag \"xenvmtools\" not selected; xenvmfiles_joetoo/ not copied"
+	fi
 
 	# backup_utilities
 	#if use backup_utilities ; then
