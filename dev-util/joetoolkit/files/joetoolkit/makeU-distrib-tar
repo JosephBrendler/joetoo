@@ -12,11 +12,6 @@ MODULES=$TRUE
 TAR=$TRUE
 
 old_dir=$PWD
-# must be in a linux sources directory to use this script
-#[[ "$(basename $old_dir | cut -c1-6)" != "linux-" ]] && \
-#    E_message "${BRon}must be in a version-numbered linux sources directory to use this script${Boff}" && exit
-#myversion=${old_dir:$(expr index "$old_dir" "-")}
-#myversion_number=${myversion:0:$(($(expr index "$myversion" "-")-1))}
 
 myversion=$(file /usr/src/linux | cut -d'-' -f2-)
 myversion_number=$(file /usr/src/linux | cut -d'-' -f2)

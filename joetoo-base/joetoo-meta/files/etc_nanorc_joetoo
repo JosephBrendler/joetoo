@@ -20,7 +20,6 @@
 ## tabs and/or spaces as the preceding line -- or as the next line
 ## if the preceding line is the beginning of a paragraph.
 # set autoindent
-unset autoindent
 
 ## Back up files to the current filename plus a tilde.
 # set backup
@@ -58,6 +57,10 @@ unset autoindent
 ## paragraphs.  If the specified value is 0 or less, the wrapping point
 ## will be the terminal's width minus this number.
 # set fill -8
+
+## Draw a vertical stripe at the given column, to help judge text width.
+## (This option does not have a default value.)
+# set guidestripe 75
 
 ## Remember the used search/replace strings for the next session.
 # set historylog
@@ -143,7 +146,6 @@ unset autoindent
 
 ## Save a changed buffer automatically on exit; don't prompt.
 # set saveonexit
-## (The old form of this option, 'set tempfile', is deprecated.)
 
 ## Put the cursor on the highlighted item in the file browser, and
 ## show the cursor in the help viewer; useful for people who use a
@@ -178,6 +180,9 @@ unset tabstospaces
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
 # set trimblanks
+
+## Save files by default in Unix format (also when they were DOS or Mac).
+# set unix
 
 ## The two single-column characters used to display the first characters
 ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
@@ -238,90 +243,6 @@ unset tabstospaces
 ## To include most of the existing syntax definitions, you can do:
 include "/usr/share/nano/*.nanorc"
 
-## Or you can select just the ones you need.  For example:
-include "/usr/share/nano/html.nanorc"
-include "/usr/share/nano/python.nanorc"
-include "/usr/share/nano/sh.nanorc"
-
-## Nanorc files
- include "/usr/share/nano/nanorc.nanorc"
-
-## C/C++
- include "/usr/share/nano/c.nanorc"
-
-## Makefiles
- include "/usr/share/nano/makefile.nanorc"
-
-## Cascading Style Sheets
- include "/usr/share/nano/css.nanorc"
-
-## Debian files
- include "/usr/share/nano/debian.nanorc"
-
-## Gentoo files
- include "/usr/share/nano/gentoo.nanorc"
-
-## HTML
- include "/usr/share/nano/html.nanorc"
-
-## PHP
- include "/usr/share/nano/php.nanorc"
-
-## TCL
-# include "/usr/share/nano/tcl.nanorc"
-
-## TeX
-# include "/usr/share/nano/tex.nanorc"
-
-## Quoted emails (under e.g. mutt)
-# include "/usr/share/nano/mutt.nanorc"
-
-## Patch files
- include "/usr/share/nano/patch.nanorc"
-
-## Manpages
- include "/usr/share/nano/man.nanorc"
-
-## Groff
-# include "/usr/share/nano/groff.nanorc"
-
-## Perl
- include "/usr/share/nano/perl.nanorc"
-
-## Python
- include "/usr/share/nano/python.nanorc"
-
-## Ruby
-# include "/usr/share/nano/ruby.nanorc"
-
-## Java
- include "/usr/share/nano/java.nanorc"
-
-## Fortran
-# include "/usr/share/nano/fortran.nanorc"
-
-## Objective-C
-# include "/usr/share/nano/objc.nanorc"
-
-## OCaml
-# include "/usr/share/nano/ocaml.nanorc"
-
-## AWK
- include "/usr/share/nano/awk.nanorc"
-
-## Assembler
- include "/usr/share/nano/asm.nanorc"
-
-## Bourne shell scripts
- include "/usr/share/nano/sh.nanorc"
-
-## POV-Ray
-# include "/usr/share/nano/pov.nanorc"
-
-## In /usr/share/nano/ you can find some syntaxes that are
-## specific for certain distros or for some less common languages.
-
-
 ## If <Tab> should always produce four spaces when editing a Python file,
 ## independent of the settings of 'tabsize' and 'tabstospaces':
 # extendsyntax python tabgives "    "
@@ -356,19 +277,28 @@ include "/usr/share/nano/sh.nanorc"
 # unbind M-T main
 ## (Those functions are still accessible through ^T^J and ^T^V.)
 
-## For quickly uppercasing or lowercasing the word under the cursor.
-## (These effectively do a Ctrl+Right followed by a Shift+Ctrl+Left,
-## and then pipe the selected text through a sed command.)
-# bind Sh-M-U "Oc[1;6D|sed 's/.*/\U&/'" main
-# bind Sh-M-L "Oc[1;6D|sed 's/.*/\L&/'" main
+## For quickly uppercasing or lowercasing the word under or after the cursor.
+## (These effectively select a word and pipe it through a sed command.)
+#bind Sh-M-U "{nextword}{mark}{prevword}{execute}|sed 's/.*/\U&/'{enter}" main
+#bind Sh-M-L "{nextword}{mark}{prevword}{execute}|sed 's/.*/\L&/'{enter}" main
+
+## For copying a marked region to the system clipboard:
+# bind Sh-M-T "{execute}|xsel -ib{enter}{undo}" main
+
+## For snipping trailing blanks when you save a file:
+# bind ^S "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
 
 ## If you would like nano to have keybindings that are more "usual",
 ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
 ## then uncomment these:
+#bind ^X cut main
+#bind ^C copy main
+#bind ^V paste all
 #bind ^Q exit all
 #bind ^S savefile main
 #bind ^W writeout main
 #bind ^O insert main
+#set multibuffer
 #bind ^H help all
 #bind ^H exit help
 #bind ^F whereis all
@@ -376,24 +306,18 @@ include "/usr/share/nano/sh.nanorc"
 #bind ^B wherewas all
 #bind ^D findprevious all
 #bind ^R replace main
-#bind ^X cut main
-#bind ^C copy main
-#bind ^V paste all
-#bind ^P location main
-#bind ^E execute main
-#bind ^A mark main
+#bind ^Z undo main
+#bind ^Y redo main
 #unbind ^K main
 #unbind ^U all
 #unbind ^N main
 #unbind ^Y all
 #unbind M-J main
 #unbind M-T main
+#bind ^A mark main
+#bind ^P location main
 #bind ^T gotoline main
 #bind ^T gotodir browser
 #bind ^T cutrestoffile execute
 #bind ^L linter execute
-#bind M-U undo main
-#bind M-R redo main
-#bind ^Z undo main
-#bind ^Y redo main
-#set multibuffer
+#bind ^E execute main

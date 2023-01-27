@@ -97,6 +97,6 @@ www-servers/apache threads
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* PHP_TARGETS: php8-0 -php7-2 -php7-3 -php7-4 -php8-1
+*/* PHP_TARGETS: php8-1 -php7-2 -php7-3 -php7-4 -php8-0
 */* RUBY_TARGETS: ruby31
 */* LLVM_TARGETS: ARM X86

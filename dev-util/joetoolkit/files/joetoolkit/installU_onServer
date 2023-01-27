@@ -31,6 +31,8 @@ version_number=$(file /usr/src/linux | cut -d'-' -f2)
 
 echo; message "copying package ${distrib_dir}/${kernel_image_name}-${version_number}.tar.bz2 to ${devel_dir}/"
 cp -v ${distrib_dir}/${kernel_image_name}-${version_number}.tar.bz2 ${devel_dir}/
+message "changing ownership for upload"
+chown joe:joe ${devel_dir}/${kernel_image_name}-${version_number}.tar.bz2
 
 echo; message "copying kernel [ vmlinuz-${version_number} ] files to server at [ ${server_kernel_dir} ]"
 cp -v ${distrib_dir}/boot/* ${server_kernel_dir}/
