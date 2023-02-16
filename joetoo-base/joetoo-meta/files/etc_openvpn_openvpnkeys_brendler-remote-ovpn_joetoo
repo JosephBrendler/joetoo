@@ -5,7 +5,8 @@ persist-tun
 #remote 100.36.173.128 9006 
 #remote 71.178.211.183 9006 
 #remote 100.36.134.143 9006 
-remote 100.36.170.233 9006 
+#remote 100.36.170.233 9006 
+remote 100.36.171.83 9006 
 comp-lzo adaptive
 keepalive 10 60
 resolv-retry infinite

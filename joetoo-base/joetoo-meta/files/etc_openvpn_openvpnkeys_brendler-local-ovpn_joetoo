@@ -3,7 +3,8 @@ dev tun
 persist-tun
 #remote 10.17.31.15 9006 
 #remote 192.168.2.31 9006 
-remote 192.168.3.29 9006 
+#remote 192.168.3.29 9006 
+remote 192.168.1.1 9006 
 comp-lzo adaptive
 keepalive 10 60
 resolv-retry infinite

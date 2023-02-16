@@ -13,7 +13,7 @@ my_short_date() {
 old_dir=$(pwd)
 cd /home/joe
 
-WAN_IP=$(/root/bin/get_wan_ip.sh) && \
+WAN_IP=$(/root/bin/get_new_wan_ip.sh) && \
 #echo ${WAN_IP} > /home/joe/Dropbox/wan_ip/wan_ip.txt && \
 #echo ${WAN_IP} > /home/joe/Dropbox/wan_ip/wan_ip-${WAN_IP}-$(my_short_date).txt
 echo "${WAN_IP} [$(my_short_date)]" > /home/joe/Dropbox/wan_ip/${WAN_IP}
