@@ -1,0 +1,13 @@
+DEFINED_PHASES=install
+DEPEND==sys-kernel/gentoo-sources-6.1.12
+DESCRIPTION=kernel image for my gentoo pv VMs
+EAPI=6
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=symlink
+KEYWORDS=~arm ~x86 ~amd64
+LICENSE=MIT
+RDEPEND==sys-kernel/gentoo-sources-6.1.12
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/gentoo_pv_kernel_image-6.1.12.tar.bz2
+_md5_=db71c8d83e45fb25f107418ac6980ce9
