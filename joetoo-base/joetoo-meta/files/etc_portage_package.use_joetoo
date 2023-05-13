@@ -50,7 +50,7 @@ sys-kernel/gentoo_pv_kernel_image -symlink
 #-----[ standardized for baseline joetoo setup ]------------------------
 # This section allows you to configure packages that joetoo developers have chosen as joetoo baseline
 dev-libs/openssl tls-heartbeat zlib -bindist
-net-misc/openssh hpn pam pie security-key ssl -bindist
+net-misc/openssh pam pie security-key ssl -bindist -hpn
 sys-apps/busybox mdev math -static
 sys-fs/cryptsetup openssl udev urandom
 sys-fs/lvm2 lvm readline thin -udev

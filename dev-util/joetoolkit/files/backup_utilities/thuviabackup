@@ -9,62 +9,60 @@ verbosity=2
 
 #---[ variables ]-----------------------------------------------------------
 # sync all content in these directories (restrict each to single LV filesystem)
+# (joetoo expects each of these to be implemented as a separate block device)
 #dirlist="/ home opt usr var srv tmp"
 ### To Do -- add a drive so I have room to back up /srv and /home/virtualmachines
 dirlist="/ home opt usr var"
 
+# todo - implement separate exclude lists for each dir...
 
-# Exclude file/dirs matching these patterns
-excludestring="--exclude='/mnt/*'"
-excludestring+=" --exclude='/tmp/*'"
-excludestring+=" --exclude='/var/tmp/*'"
-excludestring+=" --exclude='/var/log/*'"
-excludestring+=" --exclude='/var/cache/*'"
-excludestring+=" --exclude='/proc/*'"
-excludestring+=" --exclude='/sys/*'"
-# This to try to match subdirs of changed default directory
-excludestring+=" --exclude='cache/*'"
-excludestring+=" --exclude='tmp/*'"
-excludestring+=" --exclude='db/pkg/*'"
-excludestring+=" --exclude='armv*/*'"
-excludestring+=" --exclude='aarch*/*'"
-excludestring+=" --exclude='avr/*'"
-excludestring+=" --exclude='joe/hobbyCloud/*'"
-excludestring+=" --exclude='joe/card_backup/*'"
-excludestring+=" --exclude='joe/MyRaspberryFiles/*'"
-excludestring+=" --exclude='joe/musicCloud/*'"
-excludestring+=" --exclude='joe/MyTinkerboardFiles/*'"
-#excludestring+=" --exclude='joe/businessCloud/*'"
-excludestring+=" --exclude='joe/MyRaspi464Files/*'"
-excludestring+=" --exclude='joe/familyPictureCloud/*'"
-excludestring+=" --exclude='www/*'"
+# Exclude file/dirs matching these patterns, using bash array list
+excludelist=('/mnt/*'
+             '/srv/*'
+             '/dev/*'
+             '/usr/armv*/*'
+             '/root/.ccache/*'
+             '/root/.distcc/*'
+             '/root/build/*'
+             '/home/*/.ccache/*'
+             '/home/*/.distcc/*'
+             '/home/virtualmachines/*'
+             '/home/joe/nextCloud/*'
+             '/home/joe/MyRaspberryFiles/*'
+             '/home/joe/Dropbox/*'
+             '/home/joe/Downloads/*'
+             '/home/joe/.*/*'
+             '/home/joe/Desktop/pascalCloud/*'
+             '/usr/src/linux*'
+             '/usr/src/initramfs*'
+             '/usr/portage/*'
+             '/proc/*'
+             '/sys/*'
+             'tmp/*'
+             'var/tmp/*'
+             'var/log/*'
+             'var/cache/*'
+             'cache/*'
+             'tmp/*'
+             'db/pkg/*'
+             'armv*/*'
+             'aarch*/*'
+             'avr/*'
+             'joe/hobbyCloud/*'
+             'joe/card_backup/*'
+             'joe/MyRaspberryFiles/*'
+             'joe/musicCloud/*'
+             'joe/MyTinkerboardFiles/*'
+             'joe/MyRaspi464Files/*'
+             'joe/familyPictureCloud/*'
+             'www/*'
+            )
 
-# to do - remove this
-excludestring+=" --exclude='/srv/*'"
-excludestring+=" --exclude='/dev/*'"
-excludestring+=" --exclude='/usr/armv*/*'"
-excludestring+=" --exclude='/root/.ccache/*'"
-excludestring+=" --exclude='/root/.distcc/*'"
-excludestring+=" --exclude='/root/build/*'"
-excludestring+=" --exclude='/home/*/.ccache/*'"
-excludestring+=" --exclude='/home/*/.distcc/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/virtualmachines/*'"
-# to do - remove this
-#excludestring+=" --exclude='/home/joe/nextCloud/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/joe/MyRaspberryFiles/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/joe/Dropbox/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/joe/Downloads/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/joe/.*/*'"
-# to do - remove this
-excludestring+=" --exclude='/home/joe/Desktop/pascalCloud/*'"
-excludestring+=" --exclude='/usr/src/linux*'"
-excludestring+=" --exclude='/usr/src/initramfs*'"
-excludestring+=" --exclude='/usr/portage/*'"
+for ((i=0; i<${#excludelist[@]}; i++))
+do
+  excludestring+=" --exclude='${excludelist[i]}'"
+done
+[[ ${VERBOSE} ]] && echo -e "${BYon}excludestring: [ ${Boff}${excludestring} ${BYon}]${Boff}"
 
 #---[ functions ]-----------------------------------------------------------
 
@@ -76,17 +74,8 @@ useage() {
 checkroot
 separator "thuviabackup-${BUILD}"
 
-#message_n "mounting LVs on /mnt/thuviabackupROOT..."
-#mount /dev/mapper/vg_thuviabackup-thuviabackupROOT /mnt/thuviabackupROOT && \
-#mount /dev/mapper/vg_thuviabackup-thuviabackupUSR /mnt/thuviabackupROOT/usr/ && \
-#mount /dev/mapper/vg_thuviabackup-home  /mnt/thuviabackupROOT/home && \
-#mount /dev/mapper/vg_thuviabackup-var   /mnt/thuviabackupROOT/var && \
-#mount /dev/mapper/vg_thuviabackup-opt   /mnt/thuviabackupROOT/opt && \
-#right_status $?; echo
+# call backup_mount
 thuviabackup_mount
-
-message "mounted LVs on /mnt/thuviabackupROOT as shown below:"
-mount | grep thuviabackupROOT
 
 echo; message "Running backup sync..."
 for dir in ${dirlist}
@@ -103,10 +92,5 @@ do
   eval ${cmd}
 done
 
-#echo; message_n "unmounting ..."
-#umount /mnt/thuviabackupROOT{/opt,/var,/home/,/usr,}
-#right_status $?; echo
+# call backup_umount
 thuviabackup_umount
-
-echo; message "un-mounted thuviabackup"
-mount | grep thuviabackupROOT
