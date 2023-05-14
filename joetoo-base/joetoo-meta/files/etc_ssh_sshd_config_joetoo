@@ -1,9 +1,13 @@
 #	$OpenBSD: sshd_config,v 1.104 2021/07/02 05:11:21 dtucker Exp $
 
+#
+# 14 May 2023 - moved to /etc/ssh/sshd_config.d/ in accordance with gentoo
+# News release "2023-05-11-openssh" 
+# The default sshd_config now >>Includes<< files in /etc/ssh/sshd_config.d/
+# to enable "drop-in" over-ride config files
+
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
-
-# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
 
 # The strategy used for options in the default sshd_config shipped with
 # OpenSSH is to specify options with their default value where
@@ -90,14 +94,20 @@ UsePAM yes
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PermitTTY yes
-PrintMotd no
-PrintLastLog no
+
+### over-ride setting in new default /etc/ssh/sshd_config.d/9999999gentoo-pam.conf config file
+# PrintMotd no
+# PrintLastLog no
+PrintMotd yes
+PrintLastLog yes
+
 #TCPKeepAlive yes
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
 #ClientAliveCountMax 3
 #UseDNS no
+UseDNS yes
 #PidFile /run/sshd.pid
 #MaxStartups 10:30:100
 #PermitTunnel no
@@ -111,31 +121,18 @@ Banner /etc/ssh/sshd_banner
 # override default of no subsystems
 Subsystem	sftp	/usr/lib64/misc/sftp-server
 
-# the following are HPN related configuration options
-# tcp receive buffer polling. disable in non autotuning kernels
-#TcpRcvBufPoll yes
+# HPN functionality deprecated
 
-# disable hpn performance boosts
-#HPNDisabled no
-
-# buffer size for hpn to non-hpn connections
-#HPNBufferSize 2048
-
-# allow the use of the none cipher
-#NoneEnabled no
-
-# allow the use of the none MAC
-#NoneMacEnabled no
-
-# Example of overriding settings on a per-user basis
+# Example of overriding settings on a per-user basis 
+## not here... do this now in /etc/ssh/sshd_config.d/
 #Match User anoncvs
 #	X11Forwarding no
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
 
+# These are now provided in /etc/ssh/sshd_config.d/files
 # Allow client to pass locale environment variables. #367017
-AcceptEnv LANG LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME LANGUAGE LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_NAME LC_PAPER LC_TELEPHONE
-
+#AcceptEnv LANG LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME LANGUAGE LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_NAME LC_PAPER LC_TELEPHONE
 # Allow client to pass COLORTERM to match TERM. #658540
-AcceptEnv COLORTERM
+#AcceptEnv COLORTERM
