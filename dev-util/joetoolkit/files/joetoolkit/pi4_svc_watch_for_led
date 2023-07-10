@@ -4,6 +4,7 @@ vcgencmdfile=/usr/bin/vcgencmd
 SVCs_LED=3         # raspi gpio pin 3 (Services LED)(yellow)
 blinkwait=0.05     # s wait during fluttler blink
 blinklongwait=0.5  # s wait during blink between flutters
+pi4_svc_watch_program=/usr/local/sbin/pi4_svc_watch_for_led
 
 #-----[ functions ]---------------------------
 initialize_pig() {
@@ -30,10 +31,23 @@ blink_light() {
   done
 }
 
+listmatchedprocs() {
+  ps -aef | grep ${1} | grep -v grep | sed 's/  */ /g' | \
+                   cut -d' ' -f2 | sort
+}
 
-#-----[ main script ]-----------------------------------
+killotherslikeme() {
+  # kill other instances of this program
+  keeper=$$   # get my own process number
+  for x in $(listmatchedprocs ${pi4_svc_watch_program} | grep -v ${keeper})
+  do
+    kill -9 ${x}
+  done
+}
 
-killall pi4_svc_watch_for_led   # kill any residual svc-watch (if run interactively)
+#-----[ main script ]-----------------------
+
+killotherslikeme
 
 initialize_pig ${SVCs_LED}
 
