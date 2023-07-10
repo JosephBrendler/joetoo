@@ -39,6 +39,9 @@ check_vpn() {
 }
 
 #-----[ main script ]-----------------------------------
+
+killall pi4_vpn_watch_for_led   # kill any residual vpn-watch (if run interactively)
+
 initialize_pig ${VPN_LED}
 
 while [[ $TRUE ]]

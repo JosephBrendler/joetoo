@@ -33,6 +33,9 @@ blink_light() {
 }
 
 #-----[ main script ]-----------------------------------
+
+killall pi4_temp_watch_for_led  # kill any residual temp-watch (if run interactively)
+
 pigs m ${TEMP_LED} w         # set mode output
 pigs w ${TEMP_LED} 0
 

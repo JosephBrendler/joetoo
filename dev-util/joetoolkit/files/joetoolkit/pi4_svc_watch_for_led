@@ -32,6 +32,9 @@ blink_light() {
 
 
 #-----[ main script ]-----------------------------------
+
+killall pi4_svc_watch_for_led   # kill any residual svc-watch (if run interactively)
+
 initialize_pig ${SVCs_LED}
 
 while [[ $TRUE ]]
