@@ -6,7 +6,6 @@ temp_threshold=60  # deg celcius above which to consider cpu to be hot
 TEMP_LED=4         # raspi gpio pin 4 (VPN LED)(red)
 blinkwait=0.05     # s wait during fluttler blink
 blinklongwait=0.5  # s wait during blink between flutters
-pi4_temp_watch_program=/usr/local/sbin/pi4_temp_watch_for_led
 
 [[ $# -eq 0 ]] && echo "Missing argument. Please supply threshold temp." && exit
 if [[ $1 -gt 0 ]] && [[ $1 -le 99 ]]
@@ -33,24 +32,7 @@ blink_light() {
   pigs w ${LED} 1           # now keep LED on
 }
 
-
-listmatchedprocs() {
-  ps -aef | grep ${1} | grep -v grep | sed 's/  */ /g' | \
-                   cut -d' ' -f2 | sort
-}
-
-killotherslikeme() {
-  # kill other instances of this program
-  keeper=$$   # get my own process number
-  for x in $(listmatchedprocs ${pi4_temp_watch_program} | grep -v ${keeper})
-  do
-    kill -9 ${x}
-  done
-}
-
 #-----[ main script ]-----------------------
-
-killotherslikeme
 
 pigs m ${TEMP_LED} w         # set mode output
 pigs w ${TEMP_LED} 0

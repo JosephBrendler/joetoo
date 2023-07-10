@@ -7,7 +7,6 @@ blinklongwait=0.5  # s wait during blink between flutters
 wait_time=2        # s wait for ping
 vpn_server_ip="192.168.63.1"
 result=100         # % packet loss (want 0)
-pi4_vpn_watch_program=/usr/local/sbin/pi4_vpn_watch_for_led
 
 #-----[ functions ]---------------------------
 initialize_pig() {
@@ -39,21 +38,7 @@ check_vpn() {
            cut -d',' -f3 | cut -d'%' -f1 | sed 's/ //g')
 }
 
-listmatchedprocs() {
-  ps -aef | grep ${1} | grep -v grep | sed 's/  */ /g' | \
-                   cut -d' ' -f2 | sort
-}
-
-killotherslikeme() {
-  # kill other instances of this program
-  keeper=$$   # get my own process number
-  for x in $(listmatchedprocs ${pi4_vpn_watch_program} | grep -v ${keeper})
-  do
-    kill -9 ${x}
-  done
-}
 #-----[ main script ]-----------------------
-killotherslikeme
 
 initialize_pig ${VPN_LED}
 
