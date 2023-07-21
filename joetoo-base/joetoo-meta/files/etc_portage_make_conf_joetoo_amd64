@@ -1,0 +1,139 @@
+# These settings were derived from ones set by the catalyst build script that automatically
+# built this stage.
+# Please consult /usr/share/portage/config/make.conf.example for a more
+# detailed example.
+
+#CFLAGS march chosen and confirmed using procedure at https://wiki.gentoo.org/wiki/Safe_CFLAGS
+#CFLAGS="-march=native -O2 -pipe"
+#CFLAGS="-march=core-avx-i -O2 -pipe"
+CFLAGS="-march=ivybridge -O2 -pipe"
+CXXFLAGS="${CFLAGS}"
+
+# WARNING: Changing your CHOST is not something that should be done lightly.
+# Please consult http://www.gentoo.org/doc/en/change-chost.xml before changing.
+CHOST="x86_64-pc-linux-gnu"
+#MAKEOPTS="-j5"
+# 2 remote host with 4 cores + 0 remote hosts with 2 cores = 8 cores remote
+# 1 local host with 4 cores = 4 cores local
+# total number of cores is 12, so N = 2*12+1=25 and M=4; set MAKEOPTS="-jN -lM"
+#MAKEOPTS="-j25 -l4"
+MAKEOPTS="-j4 -l4"
+#MAKEOPTS="-j1"
+
+ACCEPT_KEYWORDS="~amd64"
+#ACCEPT_KEYWORDS="amd64"
+
+ACCEPT_LICENSE="* -@EULA"
+
+FEATURES="parallel-fetch fixlafiles"
+FEATURES=${FEATURES}" buildpkg"
+FEATURES=${FEATURES}" getbinpkg"
+FEATURES=${FEATURES}" binpkg-logs"
+#FEATURES="ccache "${FEATURES}
+FEATURES="${FEATURES} distcc"
+FEATURES="${FEATURES} -distcc-pump"
+#FEATURES=${FEATURES}" webrsync-gpg"
+FEATURES=${FEATURES}" -multilib-strict"
+#FEATURES=${FEATURES}" sign"
+
+CCACHE_SIZE="2G"
+CCACHE_DIR="/var/tmp/ccache"
+
+PORTAGE_TMPDIR="/var/tmp"
+DISTCC_DIR="${PORTAGE_TMPDIR}/.distcc"
+USER_TIME_QUOTA=20.8
+
+PORTDIR="/var/db/repos/gentoo"
+DISTDIR="/var/cache/distfiles"
+PKGDIR="/var/cache/binpkgs"
+#PORTDIR="/usr/portage"
+#DISTDIR="${PORTDIR}/distfiles"
+#PKGDIR="${PORTDIR}/packages"
+
+PORT_LOGDIR="/var/log/portage"
+PORTAGE_ELOG_CLASSES="warn error log"
+PORTAGE_ELOG_SYSTEM="save"
+
+PORTAGE_GPG_DIR="/home/joe/.gnupg/"
+PORTAGE_GPG_KEY="1497D63496FFDBCFFAF96214044BCAFC3A4C15DB"
+
+VIDEO_CARDS="intel i915"
+#INPUT_DEVICES="keyboard evdev synaptics mouse tslib"
+INPUT_DEVICES="libinput tslib evdev"
+ALSA_CARDS="intel8x0"
+
+LANG="en_US"
+LINGUAS="en_US"
+LC_COLLATE="C"
+LC_CTYPE=C
+
+ABI_X86="64"
+
+CURL_SSL="openssl"
+
+KERNEL="linux"
+QEMU_SOFTMMU_TARGETS="aarch64 arm armeb i386 x86_64"
+QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb i386 x86_64"
+
+GRUB_PLATFORMS="pc multiboot"
+
+PHP_INI_VERSION="production"
+
+SANE_BACKENDS="hp"
+
+LLVM_TARGETS="ARM X86"
+
+CAMERAS="adc65 agfa_cl20 aox ax203 barbie canon casio_qv clicksmart310 digigr8 digita dimagev dimera3500 \
+  directory enigma13 fuji gsmart300 hp215 iclick jamcam jd11 jl2005a jl2005c kodak_dc120 kodak_dc210 \
+  kodak_dc240 kodak_dc3200 kodak_ez200 konica konica_qm150 largan lg_gsm mars mustek panasonic_coolshot \
+  panasonic_dc1000 panasonic_dc1580 panasonic_l859 pccam300 pccam600 pentax polaroid_pdc320 polaroid_pdc640 \
+  polaroid_pdc700 ptp2 ricoh ricoh_g3 samsung sierra sipix_blink2 sipix_web2 smal sonix sony_dscf1 \
+  sony_dscf55 soundvision spca50x sq905 st2205 stv0674 stv0680 sx330z topfield toshiba_pdrm11 tp6801"
+
+CPU_FLAGS_X86="aes avx f16c mmx mmxext pclmul popcnt sse sse2 sse3 sse4_1 sse4_2 ssse3"
+
+# These are the USE flags that were used in addition to what is provided by the
+# profile used for building.
+
+### **** removed "hardened" 5 March 2015; reinserted hardened 25 June 2018 ****
+### minimal USEs for rebuild ----
+#USE="acpi apic bzip2 caps crypt cxx dbus evdev hardened logrotate \
+#  pam ssl threads udev usb wifi zlib \
+#  -gtk -ldap -introspection -X -xorg -embedded -handbook -ipv6 -isdnlog -kerberos -libav -nocxx -mudflap -openmp -pppd -systemd -zeroconf"
+
+# These are the USE and USE_EXPAND flags that were used for
+# buidling in addition to what is provided by the profile.
+USE="acpi alsa apache2 apic bash-completion bluetooth bzip2 \
+  caps cdr cgi cracklib crypt cxx dbus \
+  dvd dvdr evdev firefox gd gif git glamor \
+  gnutls gpm hardened introspection jpeg libnotify \
+  logrotate lxde modules mp3 mp4 mpeg mplayer mtp mysql networkmanager \
+  odbc ogg opengl pam pdf perl phonon php png policykit \
+  samba scanner sound spell \
+  ssl startup-notification svg threads tiff truetype udev udisks unicode upnp \
+  upnp-av upower urandom verify-sig usb widgets wifi X x264 xcb \
+  xorg xscreensaver zlib \
+  elogind \
+  -consolekit -systemd -rdp \
+  -acl -bindist -isdnlog -kerberos -libav -mudflap -nocxx -openmp \
+  -kaccounts -webengine -rss \
+  -pppd -debug -designer -webkit -test -doc -handbook -nls"
+
+INSTALL_MASK="/usr/share/dev-perl/DBD-mysqllocale \
+  -/usr/share/locale/en \
+  -/usr/share/locale/en_US \
+  -/usr/share/locale/kf5_all_languages \
+  -/usr/share/locale/locale.alias"
+
+PORTAGE_BINHOST="http://slim/packages/x86_64-pc-linux-gnu-packages/"
+
+GENTOO_MIRRORS="http://www.gtlib.gatech.edu/pub/gentoo
+rsync://rsync.gtlib.gatech.edu/gentoo
+ftp://ftp.ussg.iu.edu/pub/linux/gentoo
+http://lug.mtu.edu/gentoo/
+http://gentoo.osuosl.org/
+rsync://mirrors.rit.edu/gentoo/
+ftp://mirrors.rit.edu/gentoo/
+http://mirrors.rit.edu/gentoo/
+http://mirror.lug.udel.edu/pub/gentoo/
+http://gentoo.cs.utah.edu/"
