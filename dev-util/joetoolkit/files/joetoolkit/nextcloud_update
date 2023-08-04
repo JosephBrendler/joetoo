@@ -1,0 +1,9 @@
+#!/bin/bash
+old_dir=$PWD
+cd /var/www/localhost/htdocs/myCloud/
+echo "switched from ${old_dir} to $PWD
+echo 'about to upgrade with command:  [ sudo -u apache php ./occ upgrade ]'
+echo "don't forget to switch back to ${old_dir} when complete"
+sudo -u apache php ./occ upgrade
+#cd ${old_dir}
+
