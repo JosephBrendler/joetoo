@@ -1,0 +1,27 @@
+#!/bin/bash
+# nextcloud_upgrade
+# joe brendler 6 August 2023
+#
+source /usr/local/sbin/script_header_brendlefly
+newversion="$1"
+myCloud_dir="/var/www/localhost/htdocs/myCloud/"
+old_dir=$PWD
+BUILD=0.0.1
+
+#-----[ main script ]-----------------
+separator "nextcloud_upgrade-${BUILD}"
+checkroot
+
+message "$BWon}About to upgrade with command:  [ ${BGon}webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion} ${BWon}] ${BRon}CTRL-C to abort${Boff}"
+sh_countdown 5
+webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion}
+
+cd ${myCloud_dir}
+message "switched from ${old_dir} to $PWD
+
+message "${BWon}About to upgrade with command:  [ ${BGon}sudo -u apache php ./occ upgrade ${BWon}] ${BRon}CTRL-C to abort${Boff}"
+echo
+message "don't forget to switch back to ${old_dir} when complete"
+sudo -u apache php ./occ upgrade
+#cd ${old_dir}
+
