@@ -67,7 +67,7 @@ make_tinker+="make O=${tinker_dir}/ ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-
 
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
-version_number=$(${make_tinker} kernelversion)
+version_number=$(eval ${make_tinker} kernelversion)
 d_message "version_number: ${version_number}" 2
 myversion="${version_number}-gentoo"
 kernel_image_name="${kernel_basename}-${version_number}"
@@ -82,15 +82,15 @@ nodist_path && echo $PATH
 
 command_sequence=(
 'cp -v ${tinker_config} ${config_dir}/.config.bak'
-'${make_tinker} mrproper'
+'eval ${make_tinker} mrproper'
 'cp -v ${config_dir}/.config.bak ${tinker_config}'
-'${make_tinker} prepare'
-'${make_tinker} oldconfig'
-'${make_tinker} menuconfig'
+'eval ${make_tinker} prepare'
+'eval ${make_tinker} oldconfig'
+'eval ${make_tinker} menuconfig'
 'cp -v ${tinker_config} ${config_dir}/.config.${version_number}'
-'${make_tinker} zImage'
-'${make_tinker} modules'
-'${make_tinker} rk3288-tinker-s.dtb'
+'eval ${make_tinker} zImage'
+'eval ${make_tinker} modules'
+'eval ${make_tinker} rk3288-tinker-s.dtb'
 'clean_distrib_dirs'
 'install_kernel_and_dtb_file'
 'install_modules'
