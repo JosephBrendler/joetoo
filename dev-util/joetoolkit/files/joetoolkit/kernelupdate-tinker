@@ -62,7 +62,8 @@ lib_dir="${distrib_dir}/lib"
 [[ ! -d "${lib_dir}" ]] && mkdir -pv "${lib_dir}"
 
 # set up the cross-building make command
-make_tinker="make O=${tinker_dir}/ ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf- -j16"
+make_tinker='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
+make_tinker+="make O=${tinker_dir}/ ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf- "
 
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
