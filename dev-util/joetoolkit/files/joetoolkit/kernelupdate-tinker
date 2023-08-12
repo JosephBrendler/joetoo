@@ -43,6 +43,7 @@ build_root="/home/joe/MyTinkerboardFiles"
 sources_dir="${build_root}/linux"
 config_dir="${build_root}/kernelconfigs"
 build_dir="${build_root}/build"
+status_file="${build_dir}/status"
 tinker_dir="${build_dir}/tinker"
 tinker_config="${tinker_dir}/.config"
 kernel_image_dir="${build_dir}/tinker_kernel_images"
@@ -121,8 +122,8 @@ d_message "${LBon}...kernel_basename=[${BWon}$kernel_basename${LBon}]${Boff}" 1
 d_message "${LBon}.kernel_image_name=[${BWon}$kernel_image_name${LBon}]${Boff}" 1
 d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
 d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
+d_message "${LBon}..     status_file=[${BWon}$status_file${LBon}]${Boff}" 1
 d_message "${LBon}..publish_cmd_file=[${BWon}$publish_cmd_file${LBon}]${Boff}" 1
-kernel_basename="linux-rk3288-tinker-s_kernel_image-"
 }
 
 clean_distrib_dirs()
@@ -223,8 +224,8 @@ old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_d
 echo "old version: ${old_version}"
 echo "new version: ${version_number}"
 
-echo "cp ${ebuild_dir}/${kernel_image_name}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}-${version_number}.ebuild" >> ${publish_cmd_file}
-echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}-${version_number}.ebuild" >> ${publish_cmd_file}
+echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
+echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
 echo "rm ${ebuild_dir}/Manifest" >> ${publish_cmd_file}
 echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_cmd_file}
 echo "git pull" >> ${publish_cmd_file}
@@ -245,26 +246,67 @@ chmod +x ${publish_cmd_file}
 sudo -u joe ${publish_cmd_file}
 }
 
+usage() {
+  message "Usage: kernelupdate-tinker [-s|-r]"
+  message "  -s | --status --> return status (next step, step_number)"
+  message "  -r | --resume --> resume proccessing (with next step, step_number)"
+  exit
+}
+
 #-----[ main script ]------------------------------------------------
+checkroot
 separator "kernelupdate-tinker-${BUILD}"
+starting_step=0
+
+[[ $# -gt 1 ]] && E_message "Invalid Arguments" && usage
+
+[[ $# -eq 1 ]] && case $1 in
+  "-s" | "--status" )
+      read starting_step < ${status_file};
+      message "${BWon}Status: Step $(($starting_step - 1)) complete; next step would be [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
+      exit;
+      ;;
+  "-r" | "--resume" )
+      read starting_step < ${status_file};
+      message "${BWon}Resuming at step [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
+      ;;
+  *             )
+      # default - error
+      E_message "Error: bad argument [ $1 ]";
+      usage;
+      ;;
+esac
+
+
 display_config
 sh_countdown 5
 
 answer=""
-do_first_prompt="${BMon}Remember, you must first run --\n${BGon}  cd ${sources_dir}\n  git branch --list --remotes\n  git checkout linux-<newversion>\n${Boff}"
-prompt "${do_first_prompt}${BMon}Did you already do that? ${Boff}?"
-[[ ! $answer == [Yy] ]] && exit
-for ((i=0; i<${#command_sequence[@]}; i++))
+if [[ $starting_step -eq 0 ]]
+then
+  do_first_prompt="${BMon}Remember, you must first run --\n${BGon}  cd ${sources_dir}\n  git branch --list --remotes\n  git checkout linux-<newversion>\n${Boff}"
+  prompt "${do_first_prompt}${BMon}Did you already do that? ${Boff}?"
+  [[ ! $answer == [Yy] ]] && exit
+else
+  do_first_prompt="${BMon}Resuming at step [ ${BWon}$starting_step${BMon} ] ( ${BGon}${command_sequence[starting_step]}${BMon} )${Boff}\n"
+  do_first_prompt+="${BYon}Please verify configuration above.${Boff}"
+  prompt "${do_first_prompt}\n${LBon} Continue? ${Boff}?"
+  [[ ! $answer == [Yy] ]] && exit
+fi
+
+for ((step_number=${starting_step}; step_number<${#command_sequence[@]}; step_number++))
 do
+  d_message "Writing step_number [ $step_number ] to status_file ( $status_file )" 2
+  echo $step_number > ${status_file}
   answer=""
-  new_prompt "${BMon}Are you ready to run ${BGon}\"${command_sequence[i]}\"${BMon}?${Boff}"
+  new_prompt "${BMon}Are you ready to run ${BGon}\"${command_sequence[step_number]}\"${BMon}?${Boff}"
   case $answer in
     [Yy] )  # execute this command and continue
-      message "${LBon}About to run \"${BYon}${command_sequence[i]}${LBon}\"...${Boff}" ; \
-      eval ${command_sequence[i]}; right_status $? ;;
+      message "${LBon}About to run \"${BYon}${command_sequence[step_number]}${LBon}\"...${Boff}" ; \
+      eval ${command_sequence[step_number]}; right_status $? ;;
     [Ss] ) ;; # skip this command and continue
     *    )  # abort due to negative answer
-      message "${BRon}As instructed, not running ${BGon}\"${command_sequence[i]}\"${BRon}. Quitting...${Boff}" ; \
+      message "${BRon}As instructed, not running ${BGon}\"${command_sequence[step_number]}\"${BRon}. Quitting...${Boff}" ; \
       exit ;;
   esac
 done
