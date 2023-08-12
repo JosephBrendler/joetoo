@@ -160,9 +160,13 @@ install_modules()
   lnstall_cmd='${make_tinker} INSTALL_MOD_PATH="$distrib_dir" modules_install'
   eval $lnstall_cmd
 
-  # fix the build symlink
+  # fix the build and source symlinks
   message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/build symlink...${Boff}"
   link_command="ln -snf /usr/src/linux-${myversion} ${lib_dir}/modules/${version_number}/build"
+  eval $link_command
+  message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/source symlink...${Boff}"
+  rm -v ${lib_dir}/modules/${version_number}/source
+  link_command="ln -snf /usr/src/linux-${myversion} ${lib_dir}/modules/${version_number}/source"
   eval $link_command
   cd $old_dir && message "Now working in $PWD"
 }
@@ -177,7 +181,7 @@ make_tarball()
   message "${LBon}Creating the tar archive...${Boff}"
 
   tar_command="tar \
-    --exclude lib/modules/${myversion}/source/ \
+    --exclude lib/modules/${version_number}/source/ \
     --exclude lib/firmware \
     -cvjf ${kernel_image_name}.tar.bz2 \
     boot lib"
