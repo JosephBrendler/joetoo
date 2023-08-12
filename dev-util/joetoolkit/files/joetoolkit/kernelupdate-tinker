@@ -91,6 +91,7 @@ command_sequence=(
 'clean_distrib_dirs'
 'install_kernel_and_dtb_file'
 'install_modules'
+'make_tarball'
 'publish_source_and_ebuild_update'
 )
 
@@ -163,7 +164,7 @@ install_modules()
   cd $old_dir && message "Now working in $PWD"
 }
 
-make_tar()
+make_tarball()
 {
   message "${BGon}Entering distrib_dir${Boff}"
   cd $distrib_dir
