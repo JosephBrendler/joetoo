@@ -76,8 +76,10 @@ ebuild_dir="/home/joe/joetoo/sys-kernel/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]] && mkdir -pv "${ebuild_dir}"
 
+message "${BMon}About to run ${BGon}nodist_path${BMon} ..."
+nodist_path && echo $PATH
+
 command_sequence=(
-'nodist_path && echo $PATH'
 'cp -v ${tinker_config} ${config_dir}/.config.bak'
 '${make_tinker} mrproper'
 'cp -v ${config_dir}/.config.bak ${tinker_config}'
