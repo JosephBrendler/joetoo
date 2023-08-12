@@ -215,18 +215,17 @@ echo  >> ${publish_cmd_file}
 echo "cd ${ebuild_dir}/" >> ${publish_cmd_file}
 echo "echo new PWD: \${PWD}" >> ${publish_cmd_file}
 ebuild_list=()
-#kernel_image_name="linux-${myversion}_rk3288-tinker-s_kernel_image"
 
 for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
 do
 ebuild_list+=("${x}")
 done
-old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}||" | sed 's|.ebuild||')
+old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
 echo "old version: ${old_version}"
 echo "new version: ${version_number}"
 
 echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
-echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
+echo "sed - \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
 echo "rm ${ebuild_dir}/Manifest" >> ${publish_cmd_file}
 echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_cmd_file}
 echo "git pull" >> ${publish_cmd_file}
