@@ -17,11 +17,11 @@ sh_countdown 5
 webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion}
 
 cd ${myCloud_dir}
-message "switched from ${old_dir} to $PWD
+message "switched from ${old_dir} to $PWD"
 
 message "${BWon}About to upgrade with command:  [ ${BGon}sudo -u apache php ./occ upgrade ${BWon}] ${BRon}CTRL-C to abort${Boff}"
 echo
-message "don't forget to switch back to ${old_dir} when complete"
+message "do not forget to switch back to ${old_dir} when complete"
 sudo -u apache php ./occ upgrade
 #cd ${old_dir}
 

@@ -43,6 +43,9 @@ alias ras2make='make ARCH=arm CROSS_COMPILE=/usr/bin/armv7a-hardfloat-linux-gnue
 alias ras332make='make ARCH=arm CROSS_COMPILE=/usr/bin/armv7a-hardfloat-linux-gnueabi- INSTALL_MOD_PATH=/mnt/gentoo/ INSTALL_PATH=/mnt/gentoo/'
 alias ras364make='make ARCH=arm64 CROSS_COMPILE=aarch64-unknown-linux-gnu- INSTALL_MOD_PATH=/mnt/gentoo/ INSTALL_PATH=/mnt/gentoo/'
 
+alias tinkermerge='PORTAGE_CONFIGROOT=$ROOT MAKEOPTS="-j16 -l4" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf- emerge -av1'
+alias make_tinker='MAKEOPTS="-j16 -l4" FEATURES=" -getbinpkgs -userpriv -distcc -distcc-pump" make O=/home/joe/MyTinkerboardFiles/build/tinker/ ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf-'
+
 #-----[ my commonly used functions ]----------------------------------------------------
 #source /usr/local/sbin/script_header_brendlefly
 #source /home/joe/myUtilities/script_header_brendlefly
