@@ -6,13 +6,13 @@ source /usr/local/sbin/script_header_brendlefly
 newversion="$1"
 myCloud_dir="/var/www/localhost/htdocs/myCloud/"
 old_dir=$PWD
-BUILD=0.0.1
+BUILD=0.1.3
 
 #-----[ main script ]-----------------
 separator "nextcloud_upgrade-${BUILD}"
 checkroot
 
-message "$BWon}About to upgrade with command:  [ ${BGon}webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion} ${BWon}] ${BRon}CTRL-C to abort${Boff}"
+message "${BWon}About to upgrade with command:  [ ${BGon}webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion} ${BWon}] ${BRon}CTRL-C to abort${Boff}"
 sh_countdown 5
 webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion}
 
