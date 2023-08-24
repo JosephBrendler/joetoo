@@ -50,16 +50,29 @@ kernel_image_dir="${build_dir}/tinker_kernel_images"
 kernel_basename="linux-rk3288-tinker-s_kernel_image"
 
 # create the build directory structure if it does not exist (-p makes parents)
-[[ ! -d "${tinker_dir}" ]] && mkdir -pv "${tinker_dir}"
-[[ ! -d "${kernel_image_dir}" ]] && mkdir -pv "${kernel_image_dir}"
+build_root="/home/joe/MyTinkerboardFiles"
+sources_dir="${build_root}/linux"
+config_dir="${build_root}/kernelconfigs"
+build_dir="${build_root}/build"
+status_file="${build_dir}/status"
+tinker_dir="${build_dir}/tinker"
+tinker_config="${tinker_dir}/.config"
+kernel_image_dir="${build_dir}/tinker_kernel_images"
+kernel_basename="linux-rk3288-tinker-s_kernel_image"
+[[ ! -d "${build_root}" ]]         && mkdir -pv "${build_root}"
+[[ ! -d "${sources_dir}" ]]        && mkdir -pv "${sources_dir}"
+[[ ! -d "${config_dir}" ]]         && mkdir -pv "${config_dir}"
+[[ ! -d "${build_dir}" ]]          && mkdir -pv "${build_dir}"
+[[ ! -d "${tinker_dir}" ]]         && mkdir -pv "${tinker_dir}"
+[[ ! -d "${kernel_image_dir}" ]]   && mkdir -pv "${kernel_image_dir}"
 
 # create the staging directory structure if it does not exist
 distrib_dir="${tinker_dir}/tmp/distrib"
 kernel_distrib_dir="${distrib_dir}/boot"
 lib_dir="${distrib_dir}/lib"
-[[ ! -d "${distrib_dir}" ]] && mkdir -pv "${distrib_dir}"
+[[ ! -d "${distrib_dir}" ]]        && mkdir -pv "${distrib_dir}"
 [[ ! -d "${kernel_distrib_dir}" ]] && mkdir -pv "${kernel_distrib_dir}"
-[[ ! -d "${lib_dir}" ]] && mkdir -pv "${lib_dir}"
+[[ ! -d "${lib_dir}" ]]            && mkdir -pv "${lib_dir}"
 
 # set up the cross-building make command
 make_tinker='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
@@ -75,7 +88,7 @@ kernel_image_name="${kernel_basename}-${version_number}"
 devel_dir="/home/joe/myUtilities"
 ebuild_dir="/home/joe/joetoo/sys-kernel/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
-[[ ! -d "${ebuild_dir}" ]] && mkdir -pv "${ebuild_dir}"
+[[ ! -d "${ebuild_dir}" ]]         && mkdir -pv "${ebuild_dir}"
 
 message "${BMon}About to run ${BGon}nodist_path${BMon} ..."
 nodist_path && echo $PATH
@@ -157,7 +170,7 @@ install_modules()
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the modules...${Boff}"
-  eval ${make_tinker} INSTALL_MOD_PATH="$distrib_dir" modules_install
+  eval "${make_tinker} INSTALL_MOD_PATH=${distrib_dir} modules_install"
 
   # fix the build and source symlinks
   message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/build symlink...${Boff}"
