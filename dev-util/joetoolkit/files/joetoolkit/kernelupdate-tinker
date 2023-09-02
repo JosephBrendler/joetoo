@@ -90,9 +90,6 @@ ebuild_dir="/home/joe/joetoo/sys-kernel/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]]         && mkdir -pv "${ebuild_dir}"
 
-message "${BMon}About to run ${BGon}nodist_path${BMon} ..."
-nodist_path && echo $PATH
-
 command_sequence=(
 'cp -v ${tinker_config} ${config_dir}/.config.bak'
 'eval ${make_tinker} mrproper'
@@ -112,15 +109,12 @@ command_sequence=(
 )
 
 #-----[ functions ]--------------------------------------------------
-nodist_path() { export PATH=$(echo $PATH | sed 's|/usr/lib/distcc/bin:||' | sed 's|/usr/lib/ccache/bin:||'); }
 
 new_prompt()        # set external variable $answer based on reponse to prompt $1
 { ps=$1; echo; echo; CUU; SCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; # '=~' not in busybox
 while ! expr "${answer:0:1}" : [yYnNsS] >/dev/null;  # answer not a regex match
 do RCP; echo -en "$(repeat ' ' $(termwidth))";  ## blank the line
 RCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; done; }
-
-#-----[ local functions ]-------------------------------------------------------
 
 display_config()
 {
@@ -143,6 +137,7 @@ d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
 d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
 d_message "${LBon}..     status_file=[${BWon}$status_file${LBon}]${Boff}" 1
 d_message "${LBon}..publish_cmd_file=[${BWon}$publish_cmd_file${LBon}]${Boff}" 1
+d_message "${LBon}.......tinker_make=[${BWon}$tinker_make${LBon}]${Boff}" 1
 }
 
 clean_distrib_dirs()
@@ -353,6 +348,11 @@ else
   prompt "${do_first_prompt}\n${LBon} Continue? ${Boff}?"
   [[ ! $answer == [Yy] ]] && exit
 fi
+
+# nodist_path is an alias in joetoo's cusotom bashrc_aliases_include_joe_brendler, 
+#  which sources joetoo's custom setnodistpath tool, to drop distcc and ccache from PATH
+message "${BMon}About to run ${BGon}nodist_path${BMon} ..."
+nodist_path && echo "PATH:  $PATH"
 
 for ((step_number=${starting_step}; step_number<${#command_sequence[@]}; step_number++))
 do
