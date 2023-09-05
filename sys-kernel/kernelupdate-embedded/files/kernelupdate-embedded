@@ -1,10 +1,10 @@
 #!/bin/bash
-# kernelupdate-tinker -- Joe Brendler 11 August 2023
+# kernelupdate-embedded -- Joe Brendler 11 August 2023
 # adapted from kernelupdate-dom0 of October 2021,
 #   makeU-distrib-tar of February 2022, and
 #   installU_onServer of February 2022
 #
-# Interactively issue the sequence of commands that accomplishes a kernel update for a tinkerboard
+# Interactively issue the sequence of commands that accomplishes a kernel update for (e.g.) tinkerboard
 #
 # this process assumes you have already cloned the kernel sources and built a kernel at least once --
 # build cross compiler
@@ -21,7 +21,7 @@
 #-----[ configure kernel ]-----------------------------------------------
 # make ARCH=arm miniarm-rk3288_defconfig -j16
 # make ARCH=arm menuconfig -j16
-# cp .config /home/joe/MyTinkerboardFiles/.config-6.4.y-baseline
+# cp .config /home/joe/MyEmbeddedProjectFiles/.config-6.4.y-baseline
 #
 # see also instructions at "tinker04-NEW-kernel-custom-rebuild-commands"
 #
@@ -35,26 +35,26 @@ eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
 eval $( grep ^DISTDIR /etc/portage/make.conf )
 
-# custom configuration (to do - override from /etc/kernelupdate-tinker.conf)
+# custom configuration (to do - override from /etc/kernelupdate-embedded.conf)
 VERBOSE=$TRUE
 verbosity=3
 
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
-build_root="/home/joe/MyTinkerboardFiles"
+build_root="/home/joe/MyEmbeddedProjectFiles"
 my_devel_dir="/home/joe/myUtilities"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 
-# source kernelupdate-tinker.conf in order to load customized settings
+# source kernelupdate-embedded.conf in order to load customized settings
 #   check each setting below to assign, if needed
-#   Note: kernelupdate-tinker.conf in /etc/kernelupdate-tinker/ will override one in pwd
-[[ -e kernelupdate-tinker.conf ]] && \
-    source kernelupdate-tinker.conf && \
-    CONF_DIR=$PWD"/kernelupdate-tinker.conf"
-[[ -e /etc/kernelupdate-tinker/kernelupdate-tinker.conf ]] && \
-    source /etc/kernelupdate-tinker/kernelupdate-tinker.conf && \
-    CONF_DIR="/etc/kernelupdate-tinker/kernelupdate-tinker.conf"
+#   Note: kernelupdate-embedded.conf in /etc/kernelupdate-embedded/ will override one in pwd
+[[ -e kernelupdate-embedded.conf ]] && \
+    source kernelupdate-embedded.conf && \
+    CONF_DIR=$PWD"/kernelupdate-embedded.conf"
+[[ -e /etc/kernelupdate-embedded/kernelupdate-embedded.conf ]] && \
+    source /etc/kernelupdate-embedded/kernelupdate-embedded.conf && \
+    CONF_DIR="/etc/kernelupdate-embedded/kernelupdate-embedded.conf"
 
 # you should not need to edit anything below this point
 sources_dir="${build_root}/linux"
@@ -197,8 +197,8 @@ install_dtbs()
   message "${LBon}Staging the device tree files (dtbs)...${Boff}"
   eval "${make_model} INSTALL_DTBS_PATH=${kernel_distrib_dir}/dts/ dtbs_install"
   # copy the one dtb file we need up to boot
-  message "${LBon}Staging the tinker-s dtb file...${Boff}"
-  cp -av ${kernel_distrib_dir}/dts/rk3288-tinker-s.dtb ${kernel_distrib_dir}/
+  message "${LBon}Staging the dtb file...${Boff}"
+  cp -av ${kernel_distrib_dir}/dts/${model}.dtb ${kernel_distrib_dir}/
 }
 
 make_tarball()
@@ -285,7 +285,7 @@ sudo -u joe ${publish_cmd_file}
 }
 
 usage() {
-  message "Usage: kernelupdate-tinker [-s|-r]"
+  message "Usage: kernelupdate-embedded [-s|-r]"
   message "  -s | --status --> return status (next step, step_number)"
   message "  -r | --resume --> resume proccessing (with next step, step_number)"
   exit
@@ -293,7 +293,7 @@ usage() {
 
 #-----[ main script ]------------------------------------------------
 checkroot
-separator "kernelupdate-tinker-${BUILD}"
+separator "kernelupdate-embedded-${BUILD}"
 starting_step=0
 
 [[ $# -gt 1 ]] && E_message "Invalid Arguments" && usage
@@ -337,8 +337,8 @@ then
   do_first_prompt+="${BWon}  curl -L https://raw.githubusercontent.com/TinkerBoard/debian_kernel/develop/arch/arm/configs/miniarm-rk3288_defconfig '\' \n${Boff}"
   do_first_prompt+="${BWon}    -o arch/arm/configs/miniarm-rk3288_defconfig\n${Boff}"
   do_first_prompt+="${BWon}  cd /home/joe/\n${Boff}"
-  do_first_prompt+="${BWon}  mkdir MyTinkerboardFiles\n${Boff}"
-  do_first_prompt+="${BWon}  cd MyTinkerboardFiles/\n${Boff}"
+  do_first_prompt+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
+  do_first_prompt+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
   do_first_prompt+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux\n${Boff}"
   do_first_prompt+="\n"
   do_first_prompt+="${LBon}# Just wget the current version (e.g. below, 6.4.12) from kernel.org --\n${Boff}"
@@ -346,8 +346,8 @@ then
   do_first_prompt+="${BWon}  wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.12.tar.xz\n${Boff}"
   do_first_prompt+="${BWon}  tar xvpf linux-6.4.12.tar.xz\n${Boff}"
   do_first_prompt+="${BWon}  cd /home/joe/\n${Boff}"
-  do_first_prompt+="${BWon}  mkdir MyTinkerboardFiles\n${Boff}"
-  do_first_prompt+="${BWon}  cd MyTinkerboardFiles/\n${Boff}"
+  do_first_prompt+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
+  do_first_prompt+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
   do_first_prompt+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux-6.5.1 linux\n${Boff}"
   do_first_prompt+="\n"
   do_first_prompt+="${LBon}# Manually clone raspberry-pi sources\n${Boff}"
@@ -390,6 +390,6 @@ do
       exit ;;
   esac
 done
-final_msg="${BMon}zImage, modules, and dtb file for rk2388-tinker-s successfully staged in\n"
+final_msg="${BMon}zImage, modules, and dtb file for ${model} successfully staged in\n"
 final_msg+="${build_dir}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
 message "${final_msg}"

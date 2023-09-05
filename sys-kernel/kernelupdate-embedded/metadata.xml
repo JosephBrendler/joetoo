@@ -10,8 +10,8 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="tinker-s">Install default tinker-s config file</flag>
-		<flag name="tinker2-s">Install default tinker2-s config file</flag>
+		<flag name="rk3288-tinker-s">Install default tinker-s config file</flag>
+		<flag name="rk3288-tinker">Install default tinker2-s config file</flag>
 		<flag name="raspi3">Install default raspi3 config file</flag>
 		<flag name="raspi4b">Install default raspi4b config file</flag>
 	</use>
