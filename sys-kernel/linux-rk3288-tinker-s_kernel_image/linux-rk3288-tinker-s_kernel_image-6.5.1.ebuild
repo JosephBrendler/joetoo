@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my ASUS Tinkerboard S"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3288-tinker-s_kernel_image-6.5.1-gentoo.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3288-tinker-s_kernel_image-6.5.1.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-6.5.1-gentoo"
+RDEPEND="=sys-kernel/gentoo-sources-6.5.1"
 DEPEND="${RDEPEND}"
 
 src_install() {
