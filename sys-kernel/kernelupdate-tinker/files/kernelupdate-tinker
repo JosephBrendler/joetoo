@@ -29,18 +29,22 @@
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-VERBOSE=$TRUE
-verbosity=3
 BUILD="0.1.0-20230904"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
 eval $( grep ^DISTDIR /etc/portage/make.conf )
 
+# custom configuration (to do - override from /etc/kernelupdate-tinker.conf)
+VERBOSE=$TRUE
+verbosity=3
+
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
-
+model="tinker-s"
 build_root="/home/joe/MyTinkerboardFiles"
+
+# you should not need to edit anything below this point
 sources_dir="${build_root}/linux"
 config_dir="${build_root}/kernelconfigs"
 build_dir="${build_root}/build"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		kernel update utility for embedded systems running joetoo linux
+		(with gentoo thus being "upstream" generally).  More to follow...
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="tinker-s">Install default tinker-s config file</flag>
+		<flag name="tinker2-s">Install default tinker2-s config file</flag>
+		<flag name="raspi3">Install default raspi3 config file</flag>
+		<flag name="raspi4b">Install default raspi4b config file</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
