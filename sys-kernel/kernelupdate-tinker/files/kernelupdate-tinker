@@ -41,71 +41,75 @@ verbosity=3
 
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
-model="tinker-s"
+model="rk3288-tinker-s"
 build_root="/home/joe/MyTinkerboardFiles"
+my_devel_dir="/home/joe/myUtilities"
+my_ebuild_dir="/home/joe/joetoo/sys-kernel"
+
+# source kernelupdate-tinker.conf in order to load customized settings
+#   check each setting below to assign, if needed
+#   Note: kernelupdate-tinker.conf in /etc/kernelupdate-tinker/ will override one in pwd
+[[ -e kernelupdate-tinker.conf ]] && \
+    source kernelupdate-tinker.conf && \
+    CONF_DIR=$PWD"/kernelupdate-tinker.conf"
+[[ -e /etc/kernelupdate-tinker/kernelupdate-tinker.conf ]] && \
+    source /etc/kernelupdate-tinker/kernelupdate-tinker.conf && \
+    CONF_DIR="/etc/kernelupdate-tinker/kernelupdate-tinker.conf"
 
 # you should not need to edit anything below this point
 sources_dir="${build_root}/linux"
 config_dir="${build_root}/kernelconfigs"
 build_dir="${build_root}/build"
 status_file="${build_dir}/status"
-tinker_dir="${build_dir}/tinker"
-tinker_config="${tinker_dir}/.config"
-kernel_image_dir="${build_dir}/tinker_kernel_images"
-kernel_basename="linux-rk3288-tinker-s_kernel_image"
+model_dir="${build_dir}/${model}"
+model_config="${model_dir}/.config"
+kernel_image_dir="${build_dir}/${model}_kernel_images"
+kernel_basename="linux-${model}_kernel_image"
+distrib_dir="${model_dir}/tmp/distrib"
+kernel_distrib_dir="${distrib_dir}/boot"
+lib_dir="${distrib_dir}/lib"
 
 # create the build directory structure if it does not exist (-p makes parents)
-build_root="/home/joe/MyTinkerboardFiles"
-sources_dir="${build_root}/linux"
-config_dir="${build_root}/kernelconfigs"
-build_dir="${build_root}/build"
-status_file="${build_dir}/status"
-tinker_dir="${build_dir}/tinker"
-tinker_config="${tinker_dir}/.config"
-kernel_image_dir="${build_dir}/tinker_kernel_images"
-kernel_basename="linux-rk3288-tinker-s_kernel_image"
 [[ ! -d "${build_root}" ]]         && mkdir -pv "${build_root}"
 [[ ! -d "${sources_dir}" ]]        && mkdir -pv "${sources_dir}"
 [[ ! -d "${config_dir}" ]]         && mkdir -pv "${config_dir}"
 [[ ! -d "${build_dir}" ]]          && mkdir -pv "${build_dir}"
-[[ ! -d "${tinker_dir}" ]]         && mkdir -pv "${tinker_dir}"
+[[ ! -d "${model_dir}" ]]          && mkdir -pv "${model_dir}"
 [[ ! -d "${kernel_image_dir}" ]]   && mkdir -pv "${kernel_image_dir}"
 
 # create the staging directory structure if it does not exist
-distrib_dir="${tinker_dir}/tmp/distrib"
-kernel_distrib_dir="${distrib_dir}/boot"
-lib_dir="${distrib_dir}/lib"
 [[ ! -d "${distrib_dir}" ]]        && mkdir -pv "${distrib_dir}"
 [[ ! -d "${kernel_distrib_dir}" ]] && mkdir -pv "${kernel_distrib_dir}"
 [[ ! -d "${lib_dir}" ]]            && mkdir -pv "${lib_dir}"
 
 # set up the cross-building make command
-make_tinker='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
-make_tinker+="make O=${tinker_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
+make_model='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
+make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
+# get and set version number and name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
-version_number=$(eval ${make_tinker} -s kernelversion)
+version_number=$(eval ${make_model} -s kernelversion)
 d_message "version_number: ${version_number}" 2
 myversion="${version_number}-gentoo"
 kernel_image_name="${kernel_basename}-${version_number}"
 
-devel_dir="/home/joe/myUtilities"
-ebuild_dir="/home/joe/joetoo/sys-kernel/${kernel_basename}"
+devel_dir="${my_devel_dir}"
+ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]]         && mkdir -pv "${ebuild_dir}"
 
 command_sequence=(
-'cp -v ${tinker_config} ${config_dir}/.config.bak'
-'eval ${make_tinker} mrproper'
-'cp -v ${config_dir}/.config.bak ${tinker_config}'
-'eval ${make_tinker} prepare'
-'eval ${make_tinker} oldconfig'
-'eval ${make_tinker} menuconfig'
-'cp -v ${tinker_config} ${config_dir}/.config.${version_number}'
-'eval ${make_tinker} zImage'
-'eval ${make_tinker} modules'
-'eval ${make_tinker} dtbs'
+'cp -v ${model_config} ${config_dir}/.config.bak'
+'eval ${make_model} mrproper'
+'cp -v ${config_dir}/.config.bak ${model_config}'
+'eval ${make_model} prepare'
+'eval ${make_model} oldconfig'
+'eval ${make_model} menuconfig'
+'cp -v ${model_config} ${config_dir}/.config.${version_number}'
+'eval ${make_model} zImage'
+'eval ${make_model} modules'
+'eval ${make_model} dtbs'
 'clean_distrib_dirs'
 'install_kernel'
 'install_modules'
@@ -125,14 +129,15 @@ RCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; done; }
 display_config()
 {
 message "${BMon}Current Configuration:${Boff}"
+d_message "${LBon}..........CONF_DIR=[${BWon}$CONF_DIR${LBon}]${Boff}" 1
 d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
 d_message "${LBon}........config_dir=[${BWon}$config_dir${LBon}]${Boff}" 1
 d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
-d_message "${LBon}........tinker_dir=[${BWon}$tinker_dir${LBon}]${Boff}" 1
-d_message "${LBon}.....tinker_config=[${BWon}$tinker_config${LBon}]${Boff}" 1
+d_message "${LBon}........model_dir=[${BWon}$model_dir${LBon}]${Boff}" 1
+d_message "${LBon}.....model_config=[${BWon}$model_config${LBon}]${Boff}" 1
 d_message "${LBon}.......distrib_dir=[${BWon}$distrib_dir${LBon}]${Boff}" 1
 d_message "${LBon}..kernel_image_dir=[${BWon}$kernel_image_dir${LBon}]${Boff}" 1
 d_message "${LBon}kernel_distrib_dir=[${BWon}$kernel_distrib_dir${LBon}]${Boff}" 1
@@ -143,7 +148,7 @@ d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
 d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
 d_message "${LBon}..     status_file=[${BWon}$status_file${LBon}]${Boff}" 1
 d_message "${LBon}..publish_cmd_file=[${BWon}$publish_cmd_file${LBon}]${Boff}" 1
-d_message "${LBon}.......make_tinker=[${BWon}$make_tinker${LBon}]${Boff}" 1
+d_message "${LBon}.......make_model=[${BWon}$make_model${LBon}]${Boff}" 1
 }
 
 clean_distrib_dirs()
@@ -163,7 +168,7 @@ install_kernel()
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the kernel...${Boff}"
-  cp -av ${tinker_dir}/arch/arm/boot/zImage ${kernel_distrib_dir}/
+  cp -av ${model_dir}/arch/arm/boot/zImage ${kernel_distrib_dir}/
 }
 
 install_modules()
@@ -171,7 +176,7 @@ install_modules()
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the modules...${Boff}"
-  eval "${make_tinker} INSTALL_MOD_PATH=${distrib_dir} modules_install"
+  eval "${make_model} INSTALL_MOD_PATH=${distrib_dir} modules_install"
 
   # fix the build and source symlinks
   message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/build symlink...${Boff}"
@@ -190,7 +195,7 @@ install_dtbs()
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the device tree files (dtbs)...${Boff}"
-  eval "${make_tinker} INSTALL_DTBS_PATH=${kernel_distrib_dir}/dts/ dtbs_install"
+  eval "${make_model} INSTALL_DTBS_PATH=${kernel_distrib_dir}/dts/ dtbs_install"
   # copy the one dtb file we need up to boot
   message "${LBon}Staging the tinker-s dtb file...${Boff}"
   cp -av ${kernel_distrib_dir}/dts/rk3288-tinker-s.dtb ${kernel_distrib_dir}/
@@ -227,7 +232,7 @@ chown joe:joe ${devel_dir}/${kernel_image_name}.tar.bz2
 echo; message "copying kernel [ ${kernel_image_name}-${version_number} ] files to server at [ ${kernel_image_dir} ]"
 cp -v ${distrib_dir}/boot/* ${kernel_image_dir}/
 
-echo; message "Updating symlink to kernel for tinker"
+echo; message "Updating symlink to kernel for ${model}"
 
 cd ${kernel_image_dir} && message "Now working in $PWD"
 ln -snf zImage-${version_number}-gentoo zImage
@@ -355,7 +360,7 @@ then
   do_first_prompt+="${BWon}  emerge sys-kernel/raspberrypi-sources \n${Boff}"
   do_first_prompt+="${BWon}  ln -snf /usr/src/linux-<identifier> linux\n${Boff}"
   do_first_prompt+="${LBon}  ... to link to /usr/source/linux\n${Boff}"
-  do_first_prompt+="${LBon}  ( IF gentoo-sources can make dtbs [wich as of 6.5.1 it cannot])\n\n${Boff}"
+  do_first_prompt+="${LBon}  ( IF gentoo-sources can make dtbs [which as of 6.5.1 it cannot] )\n\n${Boff}"
   prompt "${do_first_prompt}${BYon}Did you already do this? ${Boff}?"
   [[ ! $answer == [Yy] ]] && exit
 else
@@ -386,5 +391,5 @@ do
   esac
 done
 final_msg="${BMon}zImage, modules, and dtb file for rk2388-tinker-s successfully staged in\n"
-final_msg+="${build_dir}/tinker and published in ${kernel_image_name}.ebuild${Boff}"
+final_msg+="${build_dir}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
 message "${final_msg}"
