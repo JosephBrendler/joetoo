@@ -72,7 +72,6 @@ lib_dir="${distrib_dir}/lib"
 
 # create the build directory structure if it does not exist (-p makes parents)
 [[ ! -d "${build_root}" ]]         && mkdir -pv -m 755 "${build_root}"          && chown ${user}:${user} "${build_root}"
-[[ ! -d "${sources_dir}" ]]        && mkdir -pv -m 755 "${sources_dir}"         && chown ${user}:${user} "${sources_dir}"
 [[ ! -d "${config_dir}" ]]         && mkdir -pv -m 755 "${config_dir}"          && chown ${user}:${user} "${config_dir}"
 [[ ! -d "${build_dir}" ]]          && mkdir -pv -m 755 "${build_dir}"           && chown ${user}:${user} "${build_dir}"
 [[ ! -d "${model_dir}" ]]          && mkdir -pv -m 755 "${model_dir}"           && chown ${user}:${user} "${model_dir}"
@@ -292,6 +291,47 @@ usage() {
   exit
 }
 
+make_sources_message() {
+  mksrcmsg="\n${BYon}Remember, you must first have valid sources in '${sources_dir}'. Here are several ways -- \n${Boff}"
+  mksrcmsg+="\n"
+  mksrcmsg+="${LBon}# Clone from kernel.org, Github's torvalds/linux only mirrors the\n${Boff}"
+  mksrcmsg+="${LBon}# master branch, not the LTS ones (see https://github.com/torvalds/linux/branches).\n${Boff}"
+  mksrcmsg+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
+  mksrcmsg+="${BWon}  git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git\n${Boff}"
+  mksrcmsg+="${BWon}  cd linux\n${Boff}"
+  mksrcmsg+="${BWon}  git branch --list --remotes\n${Boff}"
+  mksrcmsg+="${BWon}  git branch --show-current\n${Boff}"
+  mksrcmsg+="${BWon}  git checkout linux-<new_LTS_version>.y\n${Boff}"
+  mksrcmsg+="${LBon}# Fetch Tinkerboard kernel config\n${Boff}"
+  mksrcmsg+="${BWon}  curl -L https://raw.githubusercontent.com/TinkerBoard/debian_kernel/develop/arch/arm/configs/miniarm-rk3288_defconfig '\' \n${Boff}"
+  mksrcmsg+="${BWon}    -o arch/arm/configs/miniarm-rk3288_defconfig\n${Boff}"
+  mksrcmsg+="${BWon}  cd /home/joe/\n${Boff}"
+  mksrcmsg+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
+  mksrcmsg+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
+  mksrcmsg+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux\n${Boff}"
+  mksrcmsg+="\n"
+  mksrcmsg+="${LBon}# Just wget the current version (e.g. below, 6.4.12) from kernel.org --\n${Boff}"
+  mksrcmsg+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
+  mksrcmsg+="${BWon}  wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.12.tar.xz\n${Boff}"
+  mksrcmsg+="${BWon}  tar xvpf linux-6.4.12.tar.xz\n${Boff}"
+  mksrcmsg+="${BWon}  cd /home/joe/\n${Boff}"
+  mksrcmsg+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
+  mksrcmsg+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
+  mksrcmsg+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux-6.5.1 linux\n${Boff}"
+  mksrcmsg+="\n"
+  mksrcmsg+="${LBon}# Manually clone raspberry-pi sources\n${Boff}"
+  mksrcmsg+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
+  mksrcmsg+="${BWon}  git clone --depth 1 git://github.com/raspberrypi/linux.git\n${Boff}"
+  mksrcmsg+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux\n${Boff}"
+  mksrcmsg+="\n"
+  mksrcmsg+="${LBon}# Alternatively, you might be able to \n${Boff}"
+  mksrcmsg+="${BWon}  emerge sys-kernel/gentoo-sources ${LBon}or\n${Boff}"
+  mksrcmsg+="${BWon}  emerge sys-kernel/raspberrypi-sources \n${Boff}"
+  mksrcmsg+="${BWon}  ln -snf /usr/src/linux-<identifier> linux\n${Boff}"
+  mksrcmsg+="${LBon}  ... to link to /usr/source/linux\n${Boff}"
+  mksrcmsg+="${LBon}  ( IF gentoo-sources can make dtbs [which as of 6.5.1 it cannot] )\n\n${Boff}"
+  message "${mksrcmsg}"
+}
 #-----[ main script ]------------------------------------------------
 checkroot
 separator "kernelupdate-embedded-${BUILD}"
@@ -323,47 +363,14 @@ sh_countdown 4
 answer=""
 if [[ $starting_step -eq 0 ]]
 then
-
-  do_first_prompt="\n${BYon}Remember, you must first have valid sources in '${sources_dir}'. Here are several ways -- \n${Boff}"
-  do_first_prompt+="\n"
-  do_first_prompt+="${LBon}# Clone from kernel.org, Github's torvalds/linux only mirrors the\n${Boff}"
-  do_first_prompt+="${LBon}# master branch, not the LTS ones (see https://github.com/torvalds/linux/branches).\n${Boff}"
-  do_first_prompt+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
-  do_first_prompt+="${BWon}  git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git\n${Boff}"
-  do_first_prompt+="${BWon}  cd linux\n${Boff}"
-  do_first_prompt+="${BWon}  git branch --list --remotes\n${Boff}"
-  do_first_prompt+="${BWon}  git branch --show-current\n${Boff}"
-  do_first_prompt+="${BWon}  git checkout linux-<new_LTS_version>.y\n${Boff}"
-  do_first_prompt+="${LBon}# Fetch Tinkerboard kernel config\n${Boff}"
-  do_first_prompt+="${BWon}  curl -L https://raw.githubusercontent.com/TinkerBoard/debian_kernel/develop/arch/arm/configs/miniarm-rk3288_defconfig '\' \n${Boff}"
-  do_first_prompt+="${BWon}    -o arch/arm/configs/miniarm-rk3288_defconfig\n${Boff}"
-  do_first_prompt+="${BWon}  cd /home/joe/\n${Boff}"
-  do_first_prompt+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
-  do_first_prompt+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
-  do_first_prompt+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux\n${Boff}"
-  do_first_prompt+="\n"
-  do_first_prompt+="${LBon}# Just wget the current version (e.g. below, 6.4.12) from kernel.org --\n${Boff}"
-  do_first_prompt+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
-  do_first_prompt+="${BWon}  wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.12.tar.xz\n${Boff}"
-  do_first_prompt+="${BWon}  tar xvpf linux-6.4.12.tar.xz\n${Boff}"
-  do_first_prompt+="${BWon}  cd /home/joe/\n${Boff}"
-  do_first_prompt+="${BWon}  mkdir MyEmbeddedProjectFiles\n${Boff}"
-  do_first_prompt+="${BWon}  cd MyEmbeddedProjectFiles/\n${Boff}"
-  do_first_prompt+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux-6.5.1 linux\n${Boff}"
-  do_first_prompt+="\n"
-  do_first_prompt+="${LBon}# Manually clone raspberry-pi sources\n${Boff}"
-  do_first_prompt+="${BWon}  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src\n${Boff}"
-  do_first_prompt+="${BWon}  git clone --depth 1 git://github.com/raspberrypi/linux.git\n${Boff}"
-  do_first_prompt+="${BWon}  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux\n${Boff}"
-  do_first_prompt+="\n"
-  do_first_prompt+="${LBon}# Alternatively, you might be able to \n${Boff}"
-  do_first_prompt+="${BWon}  emerge sys-kernel/gentoo-sources ${LBon}or\n${Boff}"
-  do_first_prompt+="${BWon}  emerge sys-kernel/raspberrypi-sources \n${Boff}"
-  do_first_prompt+="${BWon}  ln -snf /usr/src/linux-<identifier> linux\n${Boff}"
-  do_first_prompt+="${LBon}  ... to link to /usr/source/linux\n${Boff}"
-  do_first_prompt+="${LBon}  ( IF gentoo-sources can make dtbs [which as of 6.5.1 it cannot] )\n\n${Boff}"
-  prompt "${do_first_prompt}${BYon}Did you already do this? ${Boff}?"
-  [[ ! $answer == [Yy] ]] && exit
+  if [[ ! -e "${sources_dir}" ]]
+  then
+    make_sources_message
+    exit
+  else
+    prompt "${BYon}Starting kernelupdate-embedded.\n Please confirm configuration above.\n${LBon}Continue? ${Boff}?"
+    [[ ! $answer == [Yy] ]] && exit
+  fi
 else
   do_first_prompt="${BMon}Resuming at step [ ${BWon}$starting_step${BMon} ] ( ${BGon}${command_sequence[starting_step]}${BMon} )${Boff}\n"
   do_first_prompt+="${BYon}Please verify configuration above.${Boff}"
