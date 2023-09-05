@@ -39,6 +39,7 @@ eval $( grep ^DISTDIR /etc/portage/make.conf )
 VERBOSE=$TRUE
 verbosity=3
 
+user="joe"
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
@@ -70,17 +71,17 @@ kernel_distrib_dir="${distrib_dir}/boot"
 lib_dir="${distrib_dir}/lib"
 
 # create the build directory structure if it does not exist (-p makes parents)
-[[ ! -d "${build_root}" ]]         && mkdir -pv "${build_root}"
-[[ ! -d "${sources_dir}" ]]        && mkdir -pv "${sources_dir}"
-[[ ! -d "${config_dir}" ]]         && mkdir -pv "${config_dir}"
-[[ ! -d "${build_dir}" ]]          && mkdir -pv "${build_dir}"
-[[ ! -d "${model_dir}" ]]          && mkdir -pv "${model_dir}"
-[[ ! -d "${kernel_image_dir}" ]]   && mkdir -pv "${kernel_image_dir}"
+[[ ! -d "${build_root}" ]]         && mkdir -pv -m 755 "${build_root}"          && chown ${user}:${user} "${build_root}"
+[[ ! -d "${sources_dir}" ]]        && mkdir -pv -m 755 "${sources_dir}"         && chown ${user}:${user} "${sources_dir}"
+[[ ! -d "${config_dir}" ]]         && mkdir -pv -m 755 "${config_dir}"          && chown ${user}:${user} "${config_dir}"
+[[ ! -d "${build_dir}" ]]          && mkdir -pv -m 755 "${build_dir}"           && chown ${user}:${user} "${build_dir}"
+[[ ! -d "${model_dir}" ]]          && mkdir -pv -m 755 "${model_dir}"           && chown ${user}:${user} "${model_dir}"
+[[ ! -d "${kernel_image_dir}" ]]   && mkdir -pv -m 755 "${kernel_image_dir}"    && chown ${user}:${user} "${kernel_image_dir}"
 
 # create the staging directory structure if it does not exist
-[[ ! -d "${distrib_dir}" ]]        && mkdir -pv "${distrib_dir}"
-[[ ! -d "${kernel_distrib_dir}" ]] && mkdir -pv "${kernel_distrib_dir}"
-[[ ! -d "${lib_dir}" ]]            && mkdir -pv "${lib_dir}"
+[[ ! -d "${distrib_dir}" ]]        && mkdir -pv -m 755 "${distrib_dir}"         && chown ${user}:${user} "${distrib_dir}"
+[[ ! -d "${kernel_distrib_dir}" ]] && mkdir -pv -m 755 "${kernel_distrib_dir}"  && chown ${user}:${user} "${kernel_distrib_dir}"
+[[ ! -d "${lib_dir}" ]]            && mkdir -pv -m 755 "${lib_dir}"             && chown ${user}:${user} "${lib_dir}"
 
 # set up the cross-building make command
 make_model='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
@@ -97,7 +98,7 @@ kernel_image_name="${kernel_basename}-${version_number}"
 devel_dir="${my_devel_dir}"
 ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
-[[ ! -d "${ebuild_dir}" ]]         && mkdir -pv "${ebuild_dir}"
+[[ ! -d "${ebuild_dir}" ]]         && mkdir -pv -m 755 "${ebuild_dir}"          && chown ${user}:${user} "${ebuild_dir}"
 
 command_sequence=(
 'cp -v ${model_config} ${config_dir}/.config.bak'
