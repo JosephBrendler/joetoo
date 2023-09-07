@@ -100,13 +100,13 @@ publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]]         && mkdir -pv -m 755 "${ebuild_dir}"          && chown ${user}:${user} "${ebuild_dir}"
 
 command_sequence=(
-'cp -v ${model_config} ${config_dir}/.config.bak'
+'backup_config'
 'eval ${make_model} mrproper'
 'cp -v ${config_dir}/.config.bak ${model_config}'
 'eval ${make_model} prepare'
 'eval ${make_model} oldconfig'
 'eval ${make_model} menuconfig'
-'cp -v ${model_config} ${config_dir}/.config.${version_number}'
+'save_new_config'
 'eval ${make_model} zImage'
 'eval ${make_model} modules'
 'eval ${make_model} dtbs'
@@ -115,7 +115,8 @@ command_sequence=(
 'install_modules'
 'install_dtbs'
 'make_tarball'
-'publish_source_and_ebuild_update'
+'pre_publish'
+'publish'
 )
 
 #-----[ functions ]--------------------------------------------------
@@ -130,9 +131,16 @@ display_config()
 {
 message "${BMon}Current Configuration:${Boff}"
 d_message "${LBon}..........CONF_DIR=[${BWon}$CONF_DIR${LBon}]${Boff}" 1
+d_message "${BWon}-----[ ${BYon}
+separator "From Config File"
+d_message "${LBon}..............ARCH=[${BWon}$arch${LBon}]${Boff}" 1
+d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
+d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
+d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
+d_message "${BWon}-----[ ${BYon}
+separator "Auto-configured"
 d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
-d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
 d_message "${LBon}........config_dir=[${BWon}$config_dir${LBon}]${Boff}" 1
 d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
@@ -149,6 +157,23 @@ d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
 d_message "${LBon}..     status_file=[${BWon}$status_file${LBon}]${Boff}" 1
 d_message "${LBon}..publish_cmd_file=[${BWon}$publish_cmd_file${LBon}]${Boff}" 1
 d_message "${LBon}........make_model=[${BWon}$make_model${LBon}]${Boff}" 1
+}
+
+backup_config() {
+  if [[ -f ${model_config} ]]
+  then
+    cp -v ${model_config} ${config_dir}/.config.bak
+  else
+    msg="Config file [ ${model_config} ] not found.\n"
+    msg+="${BYon} Please put a .config file in build directory [ ${build_dir} ],\n"
+    msg+=" or manually run an appropriate \"make xxx_defconfig\" command in build directory"
+    E_message "$msg"
+    exit
+  fi
+}
+
+save_new_config () {
+  cp -v ${model_config} ${config_dir}/.config.${model}-${version_number}
 }
 
 clean_distrib_dirs()
@@ -222,7 +247,7 @@ make_tarball()
   cd $old_dir && message "Now working in $PWD"
 }
 
-publish_source_and_ebuild_update()
+pre_publish()
 {
 echo; message "copying package ${distrib_dir}/${kernel_image_name}.tar.bz2 to ${devel_dir}/"
 cp -v ${distrib_dir}/${kernel_image_name}.tar.bz2 ${devel_dir}/
@@ -281,7 +306,10 @@ cat ${publish_cmd_file}
 separator "running ${publish_cmd_file}" $(hostname)
 chown joe:joe ${publish_cmd_file}
 chmod +x ${publish_cmd_file}
-sudo -u joe ${publish_cmd_file}
+}
+
+publish() {
+  sudo -u ${user} ${publish_cmd_file}
 }
 
 usage() {
