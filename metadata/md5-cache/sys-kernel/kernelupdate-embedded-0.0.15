@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst
+DEPEND=>=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-meta-0.0.4b
+DESCRIPTION=kernel builder program for embedded systems (tinkerboard s)
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=+rk3288-tinker-s rk3288-tinker raspi3 bcm2711-rpi-4-b
+LICENSE=MIT
+RDEPEND=>=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-meta-0.0.4b
+REQUIRED_USE=|| ( rk3288-tinker-s rk3288-tinker raspi3 bcm2711-rpi-4-b )
+SLOT=0
+_md5_=37ad4b9929cf26d57f5ae851cce34b3f

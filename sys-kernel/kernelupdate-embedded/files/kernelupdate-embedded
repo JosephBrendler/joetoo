@@ -195,7 +195,7 @@ install_kernel()
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the kernel...${Boff}"
-  cp -av ${model_dir}/arch/arm/boot/${image} ${kernel_distrib_dir}/
+  cp -av ${model_dir}/arch/${arch}/boot/${image} ${kernel_distrib_dir}/
 }
 
 install_modules()
