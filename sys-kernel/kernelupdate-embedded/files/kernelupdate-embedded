@@ -136,7 +136,6 @@ d_message "${LBon}..............ARCH=[${BWon}$arch${LBon}]${Boff}" 1
 d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
 d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
-d_message "${BWon}-----[ ${BYon}
 separator "Auto-configured"
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
 d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
