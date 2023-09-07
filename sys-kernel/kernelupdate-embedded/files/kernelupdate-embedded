@@ -43,6 +43,7 @@ user="joe"
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
+image="zImage"
 build_root="/home/joe/MyEmbeddedProjectFiles"
 my_devel_dir="/home/joe/myUtilities"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
@@ -108,7 +109,7 @@ command_sequence=(
 'eval ${make_model} oldconfig'
 'eval ${make_model} menuconfig'
 'save_new_config'
-'eval ${make_model} zImage'
+'eval ${make_model} ${image}'
 'eval ${make_model} modules'
 'eval ${make_model} dtbs'
 'clean_distrib_dirs'
@@ -193,7 +194,7 @@ install_kernel()
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the kernel...${Boff}"
-  cp -av ${model_dir}/arch/arm/boot/zImage ${kernel_distrib_dir}/
+  cp -av ${model_dir}/arch/arm/boot/${image} ${kernel_distrib_dir}/
 }
 
 install_modules()
@@ -259,8 +260,8 @@ cp -v ${distrib_dir}/boot/* ${kernel_image_dir}/
 
 echo; message "Updating symlink to kernel for ${model}"
 cd ${kernel_image_dir} && message "Now working in $PWD"
-mv zImage zImage-${model}-${myversion}
-ln -snf zImage-${model}-${myversion} zImage
+mv ${image} ${image}-${model}-${myversion}
+ln -snf ${image}-${model}-${myversion} ${image}
 cd ${old_dir} && message "Now working in $PWD"
 
 message "Listing contents of ${kernel_image_dir}"
@@ -426,6 +427,6 @@ do
       exit ;;
   esac
 done
-final_msg="${BMon}zImage, modules, and dtb file for ${model} successfully staged in\n"
+final_msg="${BMon}${image}, modules, and dtb file for ${model} successfully staged in\n"
 final_msg+="${build_dir}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
 message "${final_msg}"
