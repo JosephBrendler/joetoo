@@ -131,7 +131,6 @@ display_config()
 {
 message "${BMon}Current Configuration:${Boff}"
 d_message "${LBon}..........CONF_DIR=[${BWon}$CONF_DIR${LBon}]${Boff}" 1
-d_message "${BWon}-----[ ${BYon}
 separator "From Config File"
 d_message "${LBon}..............ARCH=[${BWon}$arch${LBon}]${Boff}" 1
 d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
@@ -139,13 +138,13 @@ d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 d_message "${BWon}-----[ ${BYon}
 separator "Auto-configured"
-d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
+d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
 d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
 d_message "${LBon}........config_dir=[${BWon}$config_dir${LBon}]${Boff}" 1
 d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
-d_message "${LBon}........model_dir=[${BWon}$model_dir${LBon}]${Boff}" 1
-d_message "${LBon}.....model_config=[${BWon}$model_config${LBon}]${Boff}" 1
+d_message "${LBon}.........model_dir=[${BWon}$model_dir${LBon}]${Boff}" 1
+d_message "${LBon}......model_config=[${BWon}$model_config${LBon}]${Boff}" 1
 d_message "${LBon}.......distrib_dir=[${BWon}$distrib_dir${LBon}]${Boff}" 1
 d_message "${LBon}..kernel_image_dir=[${BWon}$kernel_image_dir${LBon}]${Boff}" 1
 d_message "${LBon}kernel_distrib_dir=[${BWon}$kernel_distrib_dir${LBon}]${Boff}" 1
@@ -165,8 +164,8 @@ backup_config() {
     cp -v ${model_config} ${config_dir}/.config.bak
   else
     msg="Config file [ ${model_config} ] not found.\n"
-    msg+="${BYon} Please put a .config file in build directory [ ${build_dir} ],\n"
-    msg+=" or manually run an appropriate \"make xxx_defconfig\" command in build directory"
+    msg+="${BYon} Please put a .config file in model build directory [ ${model_dir} ],\n"
+    msg+=" or manually run an appropriate \"make xxx_defconfig\" command in model build directory${Boff}"
     E_message "$msg"
     exit
   fi
