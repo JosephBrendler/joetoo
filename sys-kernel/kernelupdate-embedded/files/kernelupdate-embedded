@@ -90,7 +90,7 @@ make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 version_number=$(eval ${make_model} -s kernelversion)
-d_message "version_number: ${version_number}" 2
+d_message "version_number: ${version_number}" 3
 myversion="${version_number}-gentoo"
 kernel_image_name="${kernel_basename}-${version_number}"
 
@@ -98,6 +98,7 @@ devel_dir="${my_devel_dir}"
 ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
 publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]]         && mkdir -pv -m 755 "${ebuild_dir}"          && chown ${user}:${user} "${ebuild_dir}"
+d_message "done auto-configure" 3
 
 command_sequence=(
 'backup_config'
@@ -118,6 +119,7 @@ command_sequence=(
 'pre_publish'
 'publish'
 )
+d_message "done setting command sequence" 3
 
 #-----[ functions ]--------------------------------------------------
 
@@ -170,7 +172,7 @@ backup_config() {
   fi
 }
 
-save_new_config () {
+save_new_config() {
   cp -v ${model_config} ${config_dir}/.config.${model}-${version_number}
 }
 
