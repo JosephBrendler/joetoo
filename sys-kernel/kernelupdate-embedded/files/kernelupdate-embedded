@@ -44,6 +44,7 @@ arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
 image="zImage"
+dtb_folder=""
 build_root="/home/joe/MyEmbeddedProjectFiles"
 my_devel_dir="/home/joe/myUtilities"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
@@ -57,6 +58,9 @@ my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 [[ -e /etc/kernelupdate-embedded/kernelupdate-embedded.conf ]] && \
     source /etc/kernelupdate-embedded/kernelupdate-embedded.conf && \
     CONF_DIR="/etc/kernelupdate-embedded/kernelupdate-embedded.conf"
+
+# append "/" to dtb_folder if missing and not null
+( [[ ${#dtb_folder} -gt 0 ]] && [[ ! "${dtb_folder: -1}" == "/" ]] ) && dtb_folder+="/"
 
 # you should not need to edit anything below this point
 sources_dir="${build_root}/linux"
@@ -94,6 +98,11 @@ version_number=$(eval ${make_model} -s kernelversion)
 d_message "version_number: ${version_number}" 3
 myversion="${version_number}-gentoo"
 kernel_image_name="${kernel_basename}-${version_number}"
+
+# create the version-numbered staging directory for modules (and parent)
+[[ ! -d "${lib_dir}/modules/${version_number}" ]] && \
+    mkdir -pv -m 755 "${lib_dir}/modules/${version_number}" && \
+    chown -R ${user}:${user} "${lib_dir}"
 
 devel_dir="${my_devel_dir}"
 ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
@@ -139,6 +148,7 @@ d_message "${LBon}..............ARCH=[${BWon}$arch${LBon}]${Boff}" 1
 d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
 d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
 d_message "${LBon}.............image=[${BWon}$image${LBon}]${Boff}" 1
+d_message "${LBon}........dtb_folder=[${BWon}$dtb_folder${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 separator "Auto-configured"
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
@@ -225,7 +235,7 @@ install_dtbs()
   eval "${make_model} INSTALL_DTBS_PATH=${kernel_distrib_dir}/dts/ dtbs_install"
   # copy the one dtb file we need up to boot
   message "${LBon}Staging the dtb file...${Boff}"
-  cp -av ${kernel_distrib_dir}/dts/${model}.dtb ${kernel_distrib_dir}/
+  cp -av ${kernel_distrib_dir}/dts/${dtb_folder}${model}.dtb ${kernel_distrib_dir}/
 }
 
 make_tarball()
@@ -371,11 +381,13 @@ starting_step=0
 
 [[ $# -eq 1 ]] && case $1 in
   "-s" | "--status" )
+      message "${BYon}reading status file: [ ${BWon}${status_file}${BYon}  ]${Boff}"
       read starting_step < ${status_file};
       message "${BWon}Status: Step $(($starting_step - 1)) complete; next step would be [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
       exit;
       ;;
   "-r" | "--resume" )
+      message "${BYon}reading status file: [ ${BWon}${status_file}${BYon}  ]${Boff}"
       read starting_step < ${status_file};
       message "${BWon}Resuming at step [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
       ;;
