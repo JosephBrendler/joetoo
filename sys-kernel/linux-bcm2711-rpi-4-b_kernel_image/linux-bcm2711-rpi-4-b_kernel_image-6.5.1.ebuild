@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-6.5.1"
+RDEPEND="=sys-kernel/gentoo-sources-6.5.1::joetoo"
 DEPEND="${RDEPEND}"
 
 src_install() {
