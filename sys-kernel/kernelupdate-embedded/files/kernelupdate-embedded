@@ -247,11 +247,11 @@ make_tarball()
   # create staged tar archive
   message "${LBon}Creating the tar archive...${Boff}"
 
-  # create tarball from staged contents; don't include kernel sources, firmware, or extra device tree files
+  # create tarball from staged contents; don't include kernel sources or firmware
+#  tar_command+="  --exclude boot/dts"
   tar_command="tar "
   tar_command+="  --exclude lib/modules/${version_number}/source/"
   tar_command+="  --exclude lib/firmware"
-  tar_command+="  --exclude boot/dts"
   tar_command+="  -cvjf ${kernel_image_name}.tar.bz2 boot lib"
   eval $tar_command && \
   message "${BYon}Complete.  Your tarball is located in the ${LBon}${distrib_dir}${BYon} directory${Boff}" || \
