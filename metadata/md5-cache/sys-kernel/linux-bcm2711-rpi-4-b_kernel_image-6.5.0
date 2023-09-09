@@ -1,6 +1,6 @@
 DEFINED_PHASES=install
 DEPEND==sys-kernel/gentoo-sources-6.5.0
-DESCRIPTION=kernel image for my ASUS Tinkerboard S
+DESCRIPTION=kernel image for my raspberry pi 4 model B embedded system
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
 IUSE=symlink
@@ -10,4 +10,4 @@ RDEPEND==sys-kernel/gentoo-sources-6.5.0
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.5.0.tar.bz2
-_md5_=c9f3766fccbc77ba99f65aefab07a701
+_md5_=96128ff363224eb96c22d3f394ed508f

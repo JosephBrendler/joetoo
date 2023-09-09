@@ -4,7 +4,7 @@
 
 EAPI=6
 
-DESCRIPTION="kernel image for my ASUS Tinkerboard S"
+DESCRIPTION="kernel image for my raspberry pi 4 model B embedded system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.5.0.tar.bz2"
 
