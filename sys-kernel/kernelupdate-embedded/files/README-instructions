@@ -1,0 +1,58 @@
+Remember, you must first have valid sources in ''. Here are several ways -- 
+
+#-------[  Clone from kernel.org ]-----------------------
+  # if you haven't run it before, run step 0 to build directory tree
+  kernelupdate-embedded
+  # Github's torvalds/linux only mirrors the master branch, 
+  # not the LTS ones (see https://github.com/torvalds/linux/branches).
+  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src
+  git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+  cd linux
+  git branch --list --remotes
+  git branch --show-current
+  git checkout linux-<new_LTS_version>.y
+  cd /home/joe/MyEmbeddedProjectFiles
+  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux
+  cp kernelconfigs/.config.<model>-<version> build/<model>/
+  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  #   symlink points to the right (rk3288-tinker-s or bcm2711-rpi-4) config file
+  kernelupdate-embedded
+
+#------[ Tinker: Just wget the current version ]------------------
+#(e.g. below, 6.5.1) from kernel.org
+  # if you haven't run it before, run step 0 to build directory tree
+  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src
+# browse https://cdn.kernel.org/pub/linux/kernel/ to identify the latest version number
+  wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.5.1.tar.xz
+  tar xvpf linux-6.5.1.tar.xz
+  cd /home/joe/MyEmbeddedProjectFiles
+  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux-6.5.1 linux
+  cp kernelconfigs/.config.<model>-<version> build/<model>/
+  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  #   symlink points to the right (rk3288-tinker-s or bcm2711-rpi-4) config file
+  kernelupdate-embedded
+
+#------[ Raspberry Pi:  Manually clone ]--------------------------
+  # if you haven't run it before, run step 0 to build directory tree
+  kernelupdate-embedded
+  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src
+  git clone --depth 1 --branch rpi-6.5.y https://github.com/raspberrypi/linux.git
+  cd /home/joe/MyEmbeddedProjectFiles
+  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux
+  cp kernelconfigs/.config.<model>-<version> build/<model>/
+  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  #   symlink points to the right (rk3288-tinker-s or bcm2711-rpi-4) config file
+  kernelupdate-embedded
+
+# Alternatively, someday you might be able to 
+  emerge sys-kernel/gentoo-sources
+  # or
+  emerge sys-kernel/raspberrypi-sources 
+  ln -snf /usr/src/linux-<identifier> linux
+  ... to link to /usr/source/linux
+  # ( IF gentoo-sources can make dtbs [which as of 6.5.1 it cannot] )
+
+#------[ You may want to  Fetch defconfig ]--------------
+  curl -L https://raw.githubusercontent.com/TinkerBoard/debian_kernel/develop/arch/arm/configs/miniarm-rk3288_defconfig '\' 
+    -o arch/arm/configs/miniarm-rk3288_defconfig
+
