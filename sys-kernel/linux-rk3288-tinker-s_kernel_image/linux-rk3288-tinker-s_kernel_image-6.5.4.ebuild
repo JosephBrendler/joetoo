@@ -17,7 +17,8 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-6.5.4"
+#RDEPEND="=sys-kernel/gentoo-sources-6.5.4"
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
