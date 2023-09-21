@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		kernel zImage, device tree binary file, and modules for a gentoo-sources kernel built for ASUS Tinkerboard S
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+	<flag name="symlink">
+            Create/update symlink in /boot directory 
+        </flag>
+	</use>
+	<upstream>
+		<remote-id type="github">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
+
