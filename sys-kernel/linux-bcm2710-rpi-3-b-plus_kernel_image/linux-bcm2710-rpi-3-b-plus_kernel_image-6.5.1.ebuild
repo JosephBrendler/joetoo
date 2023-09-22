@@ -4,7 +4,7 @@
 
 EAPI=6
 
-DESCRIPTION="kernel image for my raspberry pi 4 model B embedded system"
+DESCRIPTION="kernel image for my raspberry pi 3 model B+ embedded system(s)"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2710-rpi-3-b-plus_kernel_image-6.5.1.tar.bz2"
 
@@ -17,7 +17,8 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-6.5.1"
+#RDEPEND="=sys-kernel/gentoo-sources-6.5.1"
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
