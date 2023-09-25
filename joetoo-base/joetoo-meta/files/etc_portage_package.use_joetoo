@@ -61,7 +61,7 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 sys-kernel/gentoo_pv_kernel_image -symlink
 
-dev-util/joetoolkit -iptools -xenvmfiles backup_utilities -utility_archive
+dev-util/joetoolkit iptools -xenvmfiles -backup_utilities -utility_archive
 sys-kernel/kernelupdate-embedded bcm2710-rpi-3-b-plus  bcm2711-rpi-4-b rk3288-tinker-s rk3399-rock-pi-4c-plus
 
 #-----[ standardized for baseline joetoo setup ]------------------------
@@ -114,6 +114,6 @@ www-servers/apache threads
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* PHP_TARGETS: php8-1 -php7-2 -php7-3 -php7-4 -php8-0
+*/* PHP_TARGETS: php8-2 php8-1 -php7-2 -php7-3 -php7-4 -php8-0
 */* RUBY_TARGETS: ruby31
 */* LLVM_TARGETS: ARM X86

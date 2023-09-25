@@ -7,7 +7,7 @@
 # Note: Configurations that use IPv6 but not IPv4-mapped addresses need two
 # Listen directives: "Listen [::]:443" and "Listen 0.0.0.0:443"
 Listen 443
-	ServerName thuvia.brendler
+	ServerName tinker04.brendler
 
 <VirtualHost _default_:443>
 #	ServerName localhost
@@ -46,8 +46,7 @@ Listen 443
 	# and a DSA certificate you can configure both in parallel (to also allow
 	# the use of DSA ciphers, etc.)
 #	SSLCertificateFile /etc/ssl/apache2/server.crt
-#	SSLCertificateFile /etc/ssl/apache2/server.new.crt
-	SSLCertificateFile /etc/apache2/ssl/thuvia.crt
+	SSLCertificateFile /etc/apache2/ssl/tinker04.crt
 
 	## Server Private Key:
 	# If the key is not combined with the certificate, use this directive to
@@ -55,7 +54,7 @@ Listen 443
 	# private key you can configure both in parallel (to also allow the use of
 	# DSA ciphers, etc.)
 #	SSLCertificateKeyFile /etc/ssl/apache2/server.key
-	SSLCertificateKeyFile /etc/apache2/ssl/thuvia.key
+        SSLCertificateKeyFile /etc/apache2/ssl/tinker04.key
 
 	## Server Certificate Chain:
 	# Point SSLCertificateChainFile at a file containing the concatenation of 

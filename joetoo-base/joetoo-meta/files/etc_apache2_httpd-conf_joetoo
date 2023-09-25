@@ -37,7 +37,7 @@
 # at a local disk.  If you wish to share the same ServerRoot for multiple
 # httpd daemons, you will need to change at least LockFile and PidFile.
 # Comment: The LockFile directive has been replaced by the Mutex directive
-ServerRoot "/usr/lib64/apache2"
+ServerRoot "/usr/lib/apache2"
 
 # Dynamic Shared Object (DSO) Support
 #
