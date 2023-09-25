@@ -3,7 +3,7 @@
 #-----[ USE specific to joetoo-meta ]------------------------
 # The main point of meta-package USE flags is to reduce
 #   what you have to manually install/specify in your @world set (/var/lib/portage/world)
-# With USE embedded, you must also set USE for exactly one of the supported board model names
+# With USE "sbc", you must also set USE for exactly one of the supported board model names
 # Currently supported boards include --
 #   bcm2711-rpi-4-b, bcm2710-rpi-3-b-plus, rk3288-tinker-s, and rk3399-rock-pi-4c-plus
 #
@@ -61,10 +61,13 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 sys-kernel/gentoo_pv_kernel_image -symlink
 
+dev-util/joetoolkit -iptools -xenvmfiles backup_utilities -utility_archive
+sys-kernel/kernelupdate-embedded bcm2710-rpi-3-b-plus  bcm2711-rpi-4-b rk3288-tinker-s rk3399-rock-pi-4c-plus
+
 #-----[ standardized for baseline joetoo setup ]------------------------
 # This section allows you to configure packages that joetoo developers have chosen as joetoo baseline
 dev-libs/openssl tls-heartbeat zlib -bindist
-net-misc/openssh pam pie security-key ssl -bindist -hpn
+net-misc/openssh pam pie ssl -bindist -hpn -security-key
 sys-apps/busybox mdev math -static
 sys-fs/cryptsetup openssl udev urandom
 sys-fs/lvm2 lvm readline thin -udev
@@ -79,10 +82,10 @@ app-emulation/xen -custom-cflags -debug -efi -flask
 app-emulation/xen-tools api -custom-cflags -debug -doc -flask hvm ocaml -ovmf pam -pygrub -python qemu qemu-traditional screen -sdl -static-libs -system-qemu -xend
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
 app-portage/gemato blake2 bzip2 gpg lzma sha3
-dev-lang/php acl apache2 bcmath berkdb bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sqlite sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter -xpm zip zlib -snmp
+dev-lang/php acl apache2 bcmath bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
 >=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
->=dev-libs/libpcre2-10.39-r1 jit
+>=dev-libs/libpcre2-10.39-r1 jit pcre32
 >=dev-libs/libxml2-2.9.9-r3 python
 >=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png svg tiff truetype xml zlib -openmp
 media-libs/freetype harfbuzz
@@ -97,7 +100,7 @@ sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
->=sys-devel/gcc-11.2.1_p20220115 fortran hardened
+>=sys-devel/gcc-11.2.1_p20220115 fortran hardened go default-stack-clash-protection default-znow
 sys-fs/eudev blkid efi hwdb introspection kmod rule-generator
 sys-kernel/gentoo-sources symlink
 virtual/linux-sources firmware
