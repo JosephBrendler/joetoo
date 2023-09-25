@@ -1,44 +1,58 @@
-# This per-package USE file enables the tailored configuration of a joetoo system
+# This package.use file enables the tailored configuration of a joetoo system
 #
-# The first section allows you to enable/disable any metapackage USE flags you want,
-# after which you should then re-emerge joetoo-base/joetoo-meta to have the effect taken up
-# e.g. you might set (uncommented):
+#-----[ USE specific to joetoo-meta ]------------------------
+# The main point of meta-package USE flags is to reduce
+#   what you have to manually install/specify in your @world set (/var/lib/portage/world)
+# With USE embedded, you must also set USE for exactly one of the supported board model names
+# Currently supported boards include --
+#   bcm2711-rpi-4-b, bcm2710-rpi-3-b-plus, rk3288-tinker-s, and rk3399-rock-pi-4c-plus
 #
-#     joetoo-base/joetoo-meta -lamp
+# headless ...................: Configure joetoo for use as a headless server</flag>
+# plasma .....................: (to do) Configure joetoo for use with a plasma desktop</flag>
+# gnome ......................: (to do) Configure joetoo for use with a gnome desktop</flag>
+# innercore ..................: Pull in baseline packages required by the headless meta</flag>
+# lamp .......................: Pull in packages required for a LAMP server</flag>
+# mysql ......................: (default) Pull in the mysql database and required components</flag>
+# mariadb ....................: Pull in the mariadb database and required components</flag>
+# nextcloud ..................: Pull in the nextcloud package and its dependencies</flag>
+# ntp ........................: Pull in ntp to sync with time source</flag>
+# samba ......................: Pull in samba for wins, file service, etc.</flag>
+# chrony .....................: Pull in chrony to sync with time source</flag>
+# sysklogd ...................: Pull in sysklogd as system logger</flag>
+# syslog-ng ..................: Pull in syslog-ng as system logger</flag>
+# netifrc ....................: Pull in netifrc to manage network</flag>
+# networkmanager .............: Pull in networkmanager to manage network</flag>
+# mkinitramfs ................: Pull in joetoo's initramfs builder and required components</fla>
+# jus ........................: Pull in the joetoo update sequence script and dependencies</flag>
+# script_header_brendlefly ...: Pull in the joetoo script header</flag>
+# compareConfigs .............: Pull in the joetoo's initramfs builder and required componen>
+# Terminal ...................: Pull in the joetoo Terminal c++ shared obj library and test progra>
+# cloudsync ..................: Cron scrit to sync content, scripts, binary packages across multi>
+# gentoo_pv_kernel_image .....: Pull in the joetoostandard xen pv kernel image and u>
+# sbc ........................: Tailor for single board computer (SBC) system, require board model sele>
+# bcm2710-rpi-3-b-plus .......: Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
+# bcm2711-rpi-4-b ............: Tailor for Raspberry Pi 4 B (armv8/64)</flag>
+# rk3288-tinker-s ............: Tailor for Tinkerboard s (armv7/32)</flag>
+# rk3399-rock-pi-4c-plus .....: Tailor for Rock Pi 4c Plus (armv8/64)</flag>
 #
-# Unless you override them, the default metapackage flags are used.
-# At the time of writing, default flag status is as shown below with "+" or "-" :
+# This should be good for a new amd64 install start point; add more later.  It will resolve to -- 
+#    +innercore
+#    +headless -plasma -gnome
+#    -lamp -nextcloud -mysql -mariadb
+#    +cloudsync
+#    +mkinitramfs +jus
+#    +netifrc -networkmanager
+#    +ntp -chrony
+#    +sysklogd -syslog-ng
+#    +script_header_brendlefly
+#    -compareConfigs -Terminal
+#    -gentoo_pv_kernel_image
+#    -samba
+#    -sbc -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -rk3288-tinker-s -rk3399-rock-pi-4c-plus
 #
-#  + innercore      : pull in baseline packages required by the headless meta
-#  + lamp           : pull in packages required for a LAMP server
-#    + mysql          : pull in the mysql database and required packages
-#    - mariadb        : pull in the mariadb database and required packages
-#  + nextcloud      : pull in the nextcloud package and its dependencies
-#  - samba          : pull in samba for wins, file service, etc.
-#  + ntp            : pull in ntp to sync with time source
-#  - chrony         : pull in chrony to sync with time source
-#  + sysklogd       : pull in sysklogd as system logger
-#  - syslog-ng      : pull in syslog-ng as system logger
-#  + netifrc        : pull in netifrc to manage network
-#  - networkmanager : pull in netifrc to manage network
-#  - raspberry      : exclude packages not needed in an Rpi
-#  + mkinitramfs              : pull in the joetoo initramfs builder packages
-#  + jus                      : pull in the joetoo update sequence script
-#  + script_header_brendlefly : pull in the joetoo script header
-#  + Terminal                 : pull in the joetoo Terminal c++ shared obj library and test program
-#  + compareConfigs           : pull in the joetoo kernel config comparison utility
-#  - gentoo_pv_kernel_image   : pull in the joetoo standard xen pv kernel image and utilities
-#  + cloudsync                : pull in the joetoo file synchronization utility
-#  + headless                 : (default) pull in packages required and configure joetoo system as headless server
-#  + plasma                   : (to do) pull in packages required and configure joetoo system as a plasma desktop
-#  + gnome                    : (to do) pull in packages required and configure joetoo system as a gnome desktop
-#
-# NB the main point of these meta-package USE flags is to reduce what you have to
-# manually specify in your @world set (/var/lib/portage/world)
+>=joetoo-base/joetoo-meta-0.0.1::joetoo cloudsync headless innercore jus mkinitramfs netifrc ntp script_header_brendlefly sysklogd 
 
->=joetoo-base/joetoo-meta-0.0.1::joetoo headless lamp mkinitramfs mysql netifrc nextcloud ntp sysklogd -chrony -gentoo_pv_kernel_image -networkmanager -plasma -gnome -mariadb -syslog-ng -raspberry
-
-#-----[ specific to joetoo setup ]------------------------
+#-----[ specific to joetoo system setup ]------------------------
 # This section allows you to configure packages that exist only in the joetoo github overlay
 app-portage/jus eix -distcc
 dev-util/mkinitramfs -bogus
