@@ -2,7 +2,9 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I'll get around to filling this out later
+		This package provides two simple update-sequence scripts --
+                  jus - joetoo update sequence (routine updates with lots of options)
+                  rus - rebuild update sequence (full system rebuild, starting with toolchain)
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
