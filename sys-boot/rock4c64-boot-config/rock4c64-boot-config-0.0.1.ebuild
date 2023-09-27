@@ -30,10 +30,17 @@ pkg_preinst() {
 
 src_install() {
         # 'starter' versions of these files, will be CONFIG_PROTECTed
-	insinto /boot
-		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_boot.scr" boot.scr
-		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_boot.cmd" boot.cmd
-		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_joetooEnv.txt" joetooEnv.txt
+	dodir /boot
+		for x in $(find ${FILESDIR}/ -maxdepth 1 -type f | grep -v config_protect);
+                do
+			z=$(echo $(basename ${x}) | sed "s|rk3399-rock-pi-4c-plus_||");
+			cp -v "${x}" "${D}/boot/${z}"
+		done
+	dodir /boot/u-boot_reflash
+		for x in $(find ${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash/ -maxdepth 1 -type f);
+		do
+			cp -v "${x}" "${D}/boot/u-boot_reflash/$(basename ${x})"
+		done
 		newins -r "${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash" u-boot_reflash
 	newenvd "${FILESDIR}"/config_protect_boot 99${PN}_boot
 }
