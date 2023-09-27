@@ -36,7 +36,10 @@ RDEPEND="
 	>=sys-firmware/b43-firmware-5.100.138
 	innercore? (
 		>=sys-kernel/linux-firmware-20220310
-# not yet sure what to do here
+		>=sys-apps/rng-tools-6.8
+		>=sys-boot/rock4c64-boot-config-0.0.1
+# boot-config may be moved to kernel package
+# not yet sure what to do with the rest of these
 #		>=sys-apps/rpi-gpio-1.0.1
 #		>=sys-apps/rpi-i2c-1.0.1
 #		>=sys-apps/rpi-spi-1.0.1
@@ -44,16 +47,13 @@ RDEPEND="
 #		>=sys-apps/rpi-onetime-startup-1.0-r4
 #		>=sys-apps/rpi-serial-1.0.0-r1
 #		>=sys-apps/rpi-video-1.0.0-r1
-		>=sys-apps/rng-tools-6.8
-# boot-config may be moved to kernel package
-		>=sys-boot/rock4c64-boot-config-0.0.1
 	)
-	gpio? (
+#	gpio? (
 # not yet sure what to do here
 #		>=dev-libs/pigpio-79
-	)
+#	)
 	joetoo? (
-		>=joetoo-base/joetoo-meta-0.0.3c
+		>=joetoo-base/joetoo-meta-0.2.0
 	)
 "
 
