@@ -34,7 +34,7 @@ src_install() {
 		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_boot.scr" boot.scr
 		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_boot.cmd" boot.cmd
 		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_joetooEnv.txt" joetooEnv.txt
-		newins "${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash" u-boot_reflash
+		newins -r "${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash" u-boot_reflash
 	newenvd "${FILESDIR}"/config_protect_boot 99${PN}_boot
 }
 
