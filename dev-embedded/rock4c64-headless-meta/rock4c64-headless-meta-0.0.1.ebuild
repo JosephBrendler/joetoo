@@ -2,7 +2,7 @@
 # License: GPL v3+
 # NO WARRANTY
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Baseline packages for a headless server with gentoo on rock4c64"
 HOMEPAGE="https://github.com/joetoo"
@@ -18,26 +18,35 @@ REQUIRED_USE="
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-DEPEND="
+BDEPEND="
 	>=sys-apps/openrc-0.42.1
 	>=app-shells/bash-5.0"
 
 # to do: version 0.0.4 starts migration of required packages to joetoo
 #   so you won't need the genpi overlay
 RDEPEND="
-	${DEPEND}
-	!dev-embedded/raspi64-headless-meta
-	boot-fw? (
-		>=sys-boot/rock4c64-firmware-1.20230926
-	)
-	!boot-fw? (
-		!sys-boot/rock4c64-firmware
-	)
+	${BDEPEND}
 	>=sys-firmware/b43-firmware-5.100.138
 	innercore? (
 		>=sys-kernel/linux-firmware-20220310
 		>=sys-apps/rng-tools-6.8
 		>=sys-boot/rock4c64-boot-config-0.0.1
+	)
+	joetoo? (
+		>=joetoo-base/joetoo-meta-0.2.0
+	)
+"
+#	boot-fw? (
+#		>=sys-boot/rock4c64-firmware-1.20230926
+#	)
+#	!boot-fw? (
+#		!sys-boot/rock4c64-firmware
+#	)
+#	gpio? (
+# not yet sure what to do here
+#		>=dev-libs/pigpio-79
+#	)
+# ----[ from innercore ]-----
 # boot-config may be moved to kernel package
 # not yet sure what to do with the rest of these
 #		>=sys-apps/rpi-gpio-1.0.1
@@ -47,15 +56,7 @@ RDEPEND="
 #		>=sys-apps/rpi-onetime-startup-1.0-r4
 #		>=sys-apps/rpi-serial-1.0.0-r1
 #		>=sys-apps/rpi-video-1.0.0-r1
-	)
-#	gpio? (
-# not yet sure what to do here
-#		>=dev-libs/pigpio-79
-#	)
-	joetoo? (
-		>=joetoo-base/joetoo-meta-0.2.0
-	)
-"
+
 
 src_install() {
 	# basic framework file to enable / disable USE flags for this package

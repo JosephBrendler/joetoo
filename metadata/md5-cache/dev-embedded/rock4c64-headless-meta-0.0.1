@@ -1,12 +1,12 @@
+BDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0
 DEFINED_PHASES=install postinst
-DEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0
 DESCRIPTION=Baseline packages for a headless server with gentoo on rock4c64
-EAPI=6
+EAPI=7
 HOMEPAGE=https://github.com/joetoo
 IUSE=-boot-fw +innercore -gpio +joetoo
 KEYWORDS=~arm64
 LICENSE=metapackage
-RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 !dev-embedded/raspi64-headless-meta boot-fw? ( >=sys-boot/rock4c64-firmware-1.20230926 ) !boot-fw? ( !sys-boot/rock4c64-firmware ) >=sys-firmware/b43-firmware-5.100.138 innercore? ( >=sys-kernel/linux-firmware-20220310 >=sys-apps/rng-tools-6.8 >=sys-boot/rock4c64-boot-config-0.0.1 # boot-config may be moved to kernel package # not yet sure what to do with the rest of these # >=sys-apps/rpi-gpio-1.0.1 # >=sys-apps/rpi-i2c-1.0.1 # >=sys-apps/rpi-spi-1.0.1 # >=net-wireless/rpi3-wifi-regdom-1.1-r1 # >=sys-apps/rpi-onetime-startup-1.0-r4 # >=sys-apps/rpi-serial-1.0.0-r1 # >=sys-apps/rpi-video-1.0.0-r1 ) # gpio? ( # not yet sure what to do here # >=dev-libs/pigpio-79 # ) joetoo? ( >=joetoo-base/joetoo-meta-0.2.0 )
+RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 >=sys-firmware/b43-firmware-5.100.138 innercore? ( >=sys-kernel/linux-firmware-20220310 >=sys-apps/rng-tools-6.8 >=sys-boot/rock4c64-boot-config-0.0.1 ) joetoo? ( >=joetoo-base/joetoo-meta-0.2.0 )
 REQUIRED_USE=innercore
 SLOT=0
-_md5_=2b9eb2d1556d96649f7cedd899d04ae7
+_md5_=815c982e78cb941e89330f2afceb8321
