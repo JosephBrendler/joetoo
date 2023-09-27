@@ -1,0 +1,11 @@
+DEFINED_PHASES=install preinst
+DESCRIPTION=Raspberry PI boot loader and firmware, for 64-bit mode
+EAPI=8
+HOMEPAGE=https://github.com/raspberrypi/firmware
+IUSE=+dtbo
+KEYWORDS=~arm64
+LICENSE=GPL-2 raspberrypi-videocore-bin Broadcom
+RDEPEND=>=sys-boot/rock4c64-boot-config-0.0.1 !sys-boot/raspberrypi-firmware
+RESTRICT=mirror
+SLOT=0
+_md5_=39ed644c9405581e4f58cdb70e8db9f0

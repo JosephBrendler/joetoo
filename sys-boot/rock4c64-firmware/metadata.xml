@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">raspberrypi/firmware</remote-id>
+	</upstream>
+	<use>
+		<flag name="dtbo">Supply device tree blob overlays (/boot/dtb/rockchip/overlay).</flag>
+	</use>
+	<longdescription>
+		Rock 4c firmware for 64 bit mode
+		(preliminary placeholder; no functionality)
+		(/boot/dtb/rockchip/[overlay/] may be provided by the binary kernel package)
+	</longdescription>
+</pkgmetadata>
