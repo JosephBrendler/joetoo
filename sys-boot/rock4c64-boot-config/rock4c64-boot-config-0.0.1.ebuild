@@ -41,7 +41,6 @@ src_install() {
 		do
 			cp -v "${x}" "${D}/boot/u-boot_reflash/$(basename ${x})"
 		done
-		newins -r "${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash" u-boot_reflash
 	newenvd "${FILESDIR}"/config_protect_boot 99${PN}_boot
 }
 
