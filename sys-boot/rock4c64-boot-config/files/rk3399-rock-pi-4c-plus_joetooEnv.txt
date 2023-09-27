@@ -1,0 +1,7 @@
+verbosity=1
+bootlogo=false
+overlay_prefix=rockchip
+fdtfile=rockchip/rk3399-rock-pi-4c-plus.dtb
+rootdev=UUID=8870f459-a625-47c4-84f2-21f3a24b1818
+rootfstype=ext4
+usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
