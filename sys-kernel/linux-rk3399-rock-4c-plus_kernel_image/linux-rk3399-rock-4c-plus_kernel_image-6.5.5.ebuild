@@ -2,11 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=7
 
-DESCRIPTION="kernel image for my ASUS Tinkerboard S"
-HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-rock-pi-4c_kernel_image-6.5.1.tar.bz2"
+model="rk3399-rock-4c-plus"
+image="Image"
+
+DESCRIPTION="kernel image for my Radxa Rock 4c Plus SBC"
+HOMEPAGE="https://github.com/JosephBrendler/joetoo"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-${model}_kernel_image-${PV}.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,9 +20,9 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-#RDEPEND="=sys-kernel/gentoo-sources-6.5.4"
-RDEPEND=""
-DEPEND="${RDEPEND}"
+# to do - implement a sources package for this SBC
+BDEPEND=""
+RDEPEND="${BDEPEND}"
 
 src_install() {
 	einfo "S=${S}"
@@ -49,26 +52,27 @@ src_install() {
 	elog ""
 	# conditionally install the symlink
 	if use symlink ; then
-		k=$(echo zImage-${PV}-gentoo)
-		d=$(echo rk3288-tinker-s.dtb-${PV}-gentoo)
-		[[ -L /boot/zImage ]] && kold=$(readlink /boot/zImage -f --canonicalize) || kold=$(echo zImage-$(uname -r))
-		[[ -L /boot/rk3288-tinker-s.dtb ]] && dold=$(readlink /boot/rk3288-tinker-s.dtb -f --canonicalize) || dold=$(echo rk3288-tinker-s.dtb-$(uname -r))
+		k=$(echo ${image}-${PV}-gentoo)
+		d=$(echo ${model}.dtb-${PV}-gentoo)
+		# to do - deak with this when links don't exist
+		[[ -L /boot/${image} ]] && kold=$(readlink /boot/${image} -f --canonicalize)
+		[[ -L /boot/${model}.dtb ]] && dold=$(readlink /boot/${model}.dtb -f --canonicalize)
 		einfo "k = [${k}]"
 		einfo "d = [${d}]"
 		einfo "kold = [${kold}]"
 		einfo "dold = [${dold}]"
-		einfo "About to issue command: ln -snf ${kold} ${D}zImage.old "
-		ln -snf "${kold}" "${D}"zImage.old
-		einfo "About to issue command: ln -snf ${k} ${D}zImage "
-		ln -snf "${k}" "${D}"zImage
-		einfo "About to issue command: ln -snf ${dold} ${D}rk3288-tinker-s.dtb.old "
-		ln -snf "${dold}" "${D}"rk3288-tinker-s.dtb.old
-		einfo "About to issue command: ln -snf ${c} ${D}rk3288-tinker-s.dtb "
-		ln -snf "${d}" "${D}"rk3288-tinker-s.dtb
+		einfo "About to issue command: ln -snf ${kold} ${D}${image}.old "
+		ln -snf "${kold}" "${D}"${image}.old
+		einfo "About to issue command: ln -snf ${k} ${D}${image} "
+		ln -snf "${k}" "${D}"${image}
+		einfo "About to issue command: ln -snf ${dold} ${D}${model}.dtb.old "
+		ln -snf "${dold}" "${D}"${model}.dtb.old
+		einfo "About to issue command: ln -snf ${d} ${D}${model}.dtb "
+		ln -snf "${d}" "${D}"${model}.dtb
 		elog "Symlinks installed as requested"
 	else
 		ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
 		elog ""
 	fi
-	elog "Thank you for using linux-rk3288-tinker-s_kernel_image"
+	elog "Thank you for using linux-${model}_kernel_image"
 }

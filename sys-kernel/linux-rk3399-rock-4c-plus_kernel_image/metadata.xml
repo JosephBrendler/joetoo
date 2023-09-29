@@ -2,16 +2,16 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		kernel zImage, device tree binary file, and modules for a gentoo-sources kernel built for ASUS Tinkerboard S
+		kernel Image, device tree blob files, and modules for a gentoo-sources
+		kernel built for Radxa Rock 4c Plus SBC
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-	<flag name="symlink">
-            Create/update symlink in /boot directory 
-        </flag>
+		<flag name="overlays"> (to do) optionally deploy .dtbo files generated during kernel build</flag>
+		<flag name="symlink"> Create/update symlink in /boot directory </flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
