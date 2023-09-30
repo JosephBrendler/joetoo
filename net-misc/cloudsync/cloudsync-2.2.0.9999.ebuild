@@ -36,12 +36,12 @@ src_install() {
 	# install utility in /usr/bin; .conf file in /etc/ ... note: both files, which
 	# are named after ${PN} are also archived for distribution in a directory named ${PN}
 	dodir usr/bin/
-	dodir /etc/
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/bin/"
-	cp -v "${S}/${PN}/${PN}" "${D}usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"/usr/bin/"
+	cp -v "${S}/${PN}/${PN}" "${D}/usr/bin/" || die "Install failed!"
 	elog "${PN} installed in /usr/bin"
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/"
-	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/" || die "Install failed!"
+	dodir /etc/
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"/etc/"
+	cp -v "${S}/${PN}/${PN}.conf" "${D}/etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
 	## Note: I don't think there's a function like do/newconfd available to help with this...
 	elog ""

@@ -8,4 +8,4 @@ RDEPEND=net-misc/rsync >=dev-util/script_header_brendlefly-0.3.0[niopt]
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/cloudsync-2.2.0.9999.tbz2
-_md5_=ce73b7b4321be15c3d237f7fcaae6e11
+_md5_=eb2e36562d61a7f97c5dbaae8f111602
