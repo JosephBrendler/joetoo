@@ -2,7 +2,9 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I'll get around to filling this out later
+		Provides an rsync-wrapper to facilitate synchronization of three categories
+		of local user files -- (1) content such as music, documents, or project
+		folders, (2) scripts, (3) binary software packages built by emerge
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
