@@ -3,16 +3,43 @@
 # joe brendler 6 August 2023
 #
 source /usr/local/sbin/script_header_brendlefly
-newversion="$1"
+newversion=""
 myCloud_dir="/var/www/localhost/htdocs/myCloud/"
 old_dir=$PWD
 BUILD=0.1.3
+VERBOSE=$TRUE
+verbosity=2
 
 #-----[ main script ]-----------------
 separator "nextcloud_upgrade-${BUILD}"
 checkroot
+[ $# -gt 1 -o $# -eq 0 ] && echo "please provide exactly one argument (new version #)" && exit 1
+newversion="$1"
 
-message "${BWon}About to upgrade with command:  [ ${BGon}webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion} ${BWon}] ${BRon}CTRL-C to abort${Boff}"
+message "${BYon}Checing current version${Boff}"
+filename=$(find /var/www/localhost/htdocs/myCloud -maxdepth 1 -iname '*nextcloud*')
+version=${filename##*-}
+message_n "Requested Version: $1"
+vercomp $1 $version
+result=$?
+echo -e " $(show_result $result) $version (currently installed)"
+d_message "result: $result" 3
+case $result in
+  0) # =
+    E_message "Exiting; requested version is already installed"
+    exit 1
+    ;;
+  1) # >
+    message "Proceeding with nextcloud_upgrade"
+    ;;
+  2) # <
+    E_message "Exiting; nextcloud_upgrade does not support downgrades (yet)"
+    exit 1
+    ;;
+esac
+exit 1
+
+"${BWon}About to upgrade with command:  [ ${BGon}webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion} ${BWon}] ${BRon}CTRL-C to abort${Boff}"
 sh_countdown 5
 webapp-config -d $(basename ${myCloud_dir}) -U nextcloud ${newversion}
 
