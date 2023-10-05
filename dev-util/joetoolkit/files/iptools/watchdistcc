@@ -1,15 +1,15 @@
 #!/bin/bash
-# count_distcc_jobs - count the number of jobs compiled for remote
+# watchdistcc - count the number of jobs compiled for remote
 #   clients and recorded in log file
 #   (log file must be in /var/log/ and can have any name with "distcc" in it)
 # You must emerge net-dns/bind-tools for nslookup functionality
 # Joe Brendler - 3 Feb 2014
 #   rev 4 Feb 2014 - generalized for any log file name with "distcc" in the name
-
+#   rev 5 Oct 2023 - incorporated count_distcc_jobs into a continuous watch
 source /usr/local/sbin/script_header_brendlefly
 
 # ---[ Define local variables ]-----------------------------------
-BUILD="1.1 (20151030)"
+BUILD="0.1 (20231005)"
 
 ROOT_UID=0       # Only users with $UID 0 have root privileges
 
@@ -50,25 +50,22 @@ get_log_file()
     # if there is no such file, assume logging to syslog (messages)
     [ -z "${distcc_log}" ] && distcc_log="/var/log/messages" \
         || distcc_log="/var/log/distcc/"${distcc_log}
-    message "Starting with this distcc log file: "${distcc_log}
+    message "${LBon}Analyzing log file [${BWon}${distcc_log}${LBon}]${Boff}"
 
-    echo -en "\n"$BGon"* "$BBon"Enter distcc log filename ("$distcc_log") : "$Boff
-    read reply
-    [ ! -z "${reply}" ] && distcc_log="$reply"
-    if [ -e $distcc_log ]
-    then
-        message "counting distcc jobs in ${distcc_log} ..."
-    else
-        E_message "Error: log file ${distcc_log} does not exist."
-        echo && exit 1
-    fi
+#    echo -en "\n"$BGon"* "$BBon"Enter distcc log filename ("$distcc_log") : "$Boff
+#    read reply
+#    [ ! -z "${reply}" ] && distcc_log="$reply"
+#    if [ -e $distcc_log ]
+#    then
+#        message "counting distcc jobs in ${distcc_log} ..."
+#    else
+#        E_message "Error: log file ${distcc_log} does not exist."
+#        echo && exit 1
+#    fi
 
 }
 
-#---[ Main Script ]-----------------------
-separator "Running count_distcc_jobs-${BUILD}"
-checkroot
-
+count_my_distcc_jobs() {
 get_log_file
 filter_log
 
@@ -77,3 +74,20 @@ message "(This may take a few minutes to time out if the hosts are not on line)"
 ip_lookup
 
 rm ${tempfile}
+}
+
+
+watch_my_distcc ()
+{
+    CLR;
+    while [ 1 ]; do
+        CUP 1 1;
+        separator "watchdistcc-${BUILD}"
+        echo | count_my_distcc_jobs 2> /dev/null;
+        sleep 2;
+    done
+}
+
+#---[ Main Script ]-----------------------
+checkroot
+watch_my_distcc
