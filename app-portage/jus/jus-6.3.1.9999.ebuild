@@ -64,14 +64,14 @@ src_install() {
 	# are named after ${PN} are also archived for distribution in a directory named ${PN}
 	dodir usr/bin/
 	dodir /etc/${PN}/
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"usr/bin/"
-	cp -v "${S}/${PN}/${PN}" "${D}usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"/usr/bin/"
+	cp -v "${S}/${PN}/${PN}" "${D}/usr/bin/" || die "Install failed!"
 	elog "${PN} installed in /usr/bin/"
-	einfo "About to execute command cp -R "${S}/${PN}/rus" "${D}"usr/bin/"
-	cp -v "${S}/${PN}/rus" "${D}usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}/rus" "${D}"/usr/bin/"
+	cp -v "${S}/${PN}/rus" "${D}/usr/bin/" || die "Install failed!"
 	elog "rus installed in /usr/bin/"
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"etc/${PN}/"
-	cp -v "${S}/${PN}/${PN}.conf" "${D}etc/${PN}/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"/etc/${PN}/"
+	cp -v "${S}/${PN}/${PN}.conf" "${D}/etc/${PN}/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc/${PN}/"
 	elog ""
 	elog "Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
