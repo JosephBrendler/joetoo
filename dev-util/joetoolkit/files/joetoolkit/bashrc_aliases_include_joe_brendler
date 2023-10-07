@@ -27,39 +27,16 @@ alias joemerge='emerge --keep-going --with-bdeps=y --binpkg-respect-use=y --binp
 alias nobinmerge='MAKEOPTS="-j2 -l2" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" emerge -1'
 alias j1merge='MAKEOPTS="-j1" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" emerge -1'
 alias nodistmerge='MAKEOPTS="-j2 -l2" FEATURES=" -userpriv -distcc -distcc-pump" emerge -1'
-alias nodistmake='MAKEOPTS="-j2 -l2" FEATURES=" -userpriv -distcc -distcc-pump" make'
 alias distmon='DISTCC_DIR="/var/tmp/.distcc" distccmon-text 1'
 alias distgui='DISTCC_DIR="/var/tmp/.distcc" distccmon-gui'
 
-alias rasmerge='emerge-wrapper --target armv6j-hardfloat-linux-gnueabi'
-alias rasmake='make ARCH=arm CROSS_COMPILE=/usr/bin/armv6j-hardfloat-linux-gnueabi- INSTALL_MOD_PATH=/mnt/raspberrypiroot/'
-
-alias ras3merge='emerge-wrapper --target armv7a-unknown-linux-gnueabihf'
-alias ras2merge='FEATURES="${FEATURES} -selinux" emerge-wrapper --target armv7a-hardfloat-linux-gnueabi'
-alias nodistras2merge='FEATURES="${FEATURES} -selinux -distcc -distcc-pump" emerge-wrapper --target armv7a-hardfloat-linux-gnueabi'
-alias nobinras2merge='FEATURES="${FEATURES} -selinux -distcc -distcc-pump -getbinpkg" emerge-wrapper --target armv7a-hardfloat-linux-gnueabi'
-alias ras2make='make ARCH=arm CROSS_COMPILE=/usr/bin/armv7a-hardfloat-linux-gnueabi- INSTALL_MOD_PATH=/mnt/raspberrypiroot/'
-
-alias ras332make='make ARCH=arm CROSS_COMPILE=/usr/bin/armv7a-hardfloat-linux-gnueabi- INSTALL_MOD_PATH=/mnt/gentoo/ INSTALL_PATH=/mnt/gentoo/'
-alias ras364make='make ARCH=arm64 CROSS_COMPILE=aarch64-unknown-linux-gnu- INSTALL_MOD_PATH=/mnt/gentoo/ INSTALL_PATH=/mnt/gentoo/'
-
-alias tinkermerge='PORTAGE_CONFIGROOT=$ROOT MAKEOPTS="-j16 -l4" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf- emerge -av1'
+# others like this are defined local to specific joetoo scripts
 alias make_tinker='MAKEOPTS="-j16 -l4" FEATURES=" -getbinpkgs -userpriv -distcc -distcc-pump" make O=/home/joe/MyTinkerboardFiles/build/tinker/ ARCH=arm CROSS_COMPILE=armv7a-unknown-linux-gnueabihf-'
 
 #-----[ my commonly used functions ]----------------------------------------------------
-#source /usr/local/sbin/script_header_brendlefly
-#source /home/joe/myUtilities/script_header_brendlefly
+# to do  -- rename these "-joetoo" and then fix everything that breaks
 source /usr/local/sbin/script_header_brendlefly
 source /usr/local/sbin/script_header_brendlefly_extended
-fe() { echo "looking for ebuild(s) matching filter: $1"; find / -iname "*$1*.ebuild" -type f -print; }
-which() { (alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@ ; } ; export -f which
-
-# TODO -- if I'm going to source the script_header(s) in my shell, do I need additional
-#  "common" functions defined in a bashrc-include? OR, if I'm going to source the above
-#  aliases in my shell, do I maybe want to source them in my scripts, too?
-#  -- i.e. do I really need both this bashrc-include AND script_header(s)?
-#  (for now, I'll put common functions here until I build them into the next version
-#   of the script_headers)
 
 #-----[ my PATH ]-----------------------------------------------------------------------
 export PATH=/usr/lib/distcc/bin:/usr/lib/ccache/bin:/root/bin:/usr/local/sbin:/usr/local/bin:${PATH}:/opt/bin:/home/joe/script
@@ -68,14 +45,11 @@ export PATH=/usr/lib/distcc/bin:/usr/lib/ccache/bin:/root/bin:/usr/local/sbin:/u
 #/usr/lib/llvm/6/bin:
 #/usr/sbin:/usr/bin:/sbin:/bin:
 
-alias dist_path='export PATH=/usr/lib/distcc/bin:/usr/lib/ccache/bin:/root/bin:/usr/local/sbin:/usr/local/bin:${PATH}:/opt/bin:/home/joe/script'
-#alias nodist_path='export PATH=/root/bin:/usr/local/sbin:/usr/local/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/7.3.0:/usr/x86_64-pc-linux-gnu/armv7a-hardfloat-linux-gnueabi/gcc-bin/6.4.0:/usr/lib/llvm/6/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/home/joe/script'
+alias dist_path='export PATH=/usr/lib/distcc/bin:/root/bin:/usr/local/sbin:/usr/local/bin:${PATH}:/opt/bin:/home/joe/script'
 
 alias nodist_path='source /usr/local/sbin/setnodistpath'
-#alias nodist_path="export PATH=$(echo $PATH | sed 's|/usr/lib/distcc/bin:/usr/lib/ccache/bin:||')"
 
 #-----[ PORTDIR, PKGDIR, DISTDIR ]-----------------------------------------------------
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
 eval $( grep ^DISTDIR /etc/portage/make.conf )
-
