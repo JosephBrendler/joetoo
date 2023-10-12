@@ -30,12 +30,12 @@ RDEPEND="
 	innercore? (
 		>=sys-kernel/linux-firmware-20220310
 		>=sys-apps/rng-tools-6.8
-#		>=sys-boot/tinker264-boot-config-0.0.1
 	)
 	joetoo? (
 		>=joetoo-base/joetoo-meta-0.2.0
 	)
 "
+#		>=sys-boot/tinker264-boot-config-0.0.1
 #	boot-fw? (
 #		>=sys-boot/rock4c64-firmware-1.20230926
 #	)
