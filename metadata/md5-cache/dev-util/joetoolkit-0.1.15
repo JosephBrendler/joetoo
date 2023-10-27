@@ -1,0 +1,10 @@
+DEFINED_PHASES=install postinst
+DEPEND=>=joetoo-base/joetoo-meta-0.0.4b
+DESCRIPTION=Utilities for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=+iptools -xenvmfiles -backup_utilities -utility_archive
+LICENSE=MIT
+RDEPEND=>=joetoo-base/joetoo-meta-0.0.4b iptools? ( >=net-analyzer/nmap-7.92 >=net-dns/bind-tools-9.16 ) backup_utilities? ( >=net-misc/rsync-3.2.4 )
+SLOT=0
+_md5_=665a90547a899f74c32b2cf79adf5601
