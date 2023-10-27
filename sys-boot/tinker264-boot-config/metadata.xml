@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<longdescription>
+		Rock 4c Plus u-boot files boot.cmd, boot.scr, joetooEnv.txt
+		expected by u-boot bootloader and u-boot_reflash instructions
+		for reflashing u-boot if necessary (use at your own risk)
+		(inspired by Armbian and Sakaki's abandoned work on Genpi64)
+	</longdescription>
+</pkgmetadata>
