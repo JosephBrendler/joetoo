@@ -1,0 +1,12 @@
+DEFINED_PHASES=install
+DEPEND=>=dev-util/script_header_brendlefly-0.3.9 >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7 >=sys-libs/glibc-2.23 >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-boot/grub-2.06-r1 >=sys-fs/lvm2-2.02.188-r2 >=sys-fs/cryptsetup-2.3.6-r2 >=sys-apps/busybox-1.34.1
+DESCRIPTION=create initramfs for LUKS encrypted / lmv system
+EAPI=7
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=bogus
+LICENSE=MIT
+RDEPEND=>=dev-util/script_header_brendlefly-0.3.9 >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7 >=sys-libs/glibc-2.23 >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-boot/grub-2.06-r1 >=sys-fs/lvm2-2.02.188-r2 >=sys-fs/cryptsetup-2.3.6-r2 >=sys-apps/busybox-1.34.1
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-6.7.9999.tbz2
+_md5_=171d34adb942e5a143b17ae55a3166fa
