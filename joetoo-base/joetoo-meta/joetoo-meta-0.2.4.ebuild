@@ -242,7 +242,7 @@ src_install() {
 	insinto "/etc/ssh/ssh_config.d/"
 		newins "${FILESDIR}/etc_ssh_ssh_config_joetoo" "01_joetoo_ssh_config.conf"
 	insinto "/etc/ssh/sshd_config.d/"
-		newins "${FILESDIR}/etc_ssh_sshd_config_joetoo" "01_joetoo_sshd_config"
+		newins "${FILESDIR}/etc_ssh_sshd_config_joetoo" "01_joetoo_sshd_config.conf"
 	insinto "/etc/wpa_supplicant/"
 		newins "${FILESDIR}/etc_wpa_supplicant_wpa_supplicant-conf_joetoo" "wpa_supplicant.conf"
 	insinto "/var/db/repos/joetoo/profiles/"
