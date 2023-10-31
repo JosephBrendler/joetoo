@@ -136,17 +136,18 @@ src_prepare() {
 
 	cd "${WORKDIR}/${P}" || die
 
-	if use wimax; then
+# [joe] this file doesn't exist
+#	if use wimax; then
 		# generate-libeap-peer.patch comes before
 		# fix-undefined-reference-to-random_get_bytes.patch
-		eapply "${FILESDIR}/${P}-generate-libeap-peer.patch"
+#		eapply "${FILESDIR}/${P}-generate-libeap-peer.patch"
 
 		# multilib-strict fix (bug #373685)
-		sed -e "s/\/usr\/lib/\/usr\/$(get_libdir)/" -i src/eap_peer/Makefile || die
-	fi
+#		sed -e "s/\/usr\/lib/\/usr\/$(get_libdir)/" -i src/eap_peer/Makefile || die
+#	fi
 
 	# bug (320097)
-#	eapply "${FILESDIR}/${PN}-2.6-do-not-call-dbus-functions-with-NULL-path.patch"
+	eapply "${FILESDIR}/${PN}-2.6-do-not-call-dbus-functions-with-NULL-path.patch"
 
 	# bug (640492)
 	sed -i 's#-Werror ##' wpa_supplicant/Makefile || die
