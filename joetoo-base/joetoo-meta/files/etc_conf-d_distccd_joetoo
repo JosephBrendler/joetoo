@@ -34,7 +34,11 @@ DISTCCD_EXEC="/usr/bin/distccd"
 
 # set this for niceness
 # Default is 15
-DISTCCD_OPTS="${DISTCCD_OPTS} -N 15 --port 3632 --log-file /var/log/distcc/distccd.log --log-level info --allow 192.168.0.0/22 --allow 192.168.60.0/22"
+DISTCCD_OPTS="${DISTCCD_OPTS} -N 15 --port 3632"
+DISTCCD_OPTS="${DISTCCD_OPTS} --log-file /var/log/distcc/distccd.log --log-level info"
+DISTCCD_OPTS="${DISTCCD_OPTS} --allow 192.168.64.0/22"
+DISTCCD_OPTS="${DISTCCD_OPTS} --allow 192.168.60.0/22"
+DISTCCD_OPTS="${DISTCCD_OPTS} --allow 192.168.0.0/22"
 
 # By default distccd stores temporary files in /tmp
 # Make sure to give distcc user write permission to
