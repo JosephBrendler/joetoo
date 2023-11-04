@@ -1,16 +1,17 @@
 #!/bin/bash
 #mysubnet="192.168.7.0/24"
-#mysubnet="192.168.63.0/24"
-#mysubnet="192.168.62.0/24"
-#mysubnet="192.168.3.0/24"
-#mysubnet="192.168.60.0/22"
+#mysubnet="192.168.67.0/24"
+#mysubnet="192.168.66.0/24"
+#mysubnet="192.168.1.0/24"
+#mysubnet="192.168.64.0/22"
 
 outfile=/home/joe/nmap_report
 
 ABnet="192.168"
 #ABnet="10.0"
-Cnet="60"
-#Cnet="3"
+#Cnet="64"
+Cnet="66"
+#Cnet="1"
 #MASKbits="22"
 MASKbits="24"
 

@@ -26,9 +26,9 @@ get_client_list() {
     # if this is the routing table section, stop capture
     length=${#line};  trim=${line%%"ROUTING"*}; index=${#trim}
     [[ ${index} -lt ${length} ]] && CAPTURE=${FALSE}
-    # add just the client_name to the client list // trim the "client_" that I use
-    [[ ${CAPTURE} ]] && client_list+=($(echo "${line}" | grep client_ \
-                           | cut -d',' -f1 | sed 's/client_//'))
+    # add just the nuoromisclient_name to the client list // trim the "nuoromisclient_" that I use
+    [[ ${CAPTURE} ]] && client_list+=($(echo "${line}" | grep nuoromisclient_ \
+                           | cut -d',' -f1 | sed 's/nuoromisclient_//'))
   done < ${log_file}
 }
 

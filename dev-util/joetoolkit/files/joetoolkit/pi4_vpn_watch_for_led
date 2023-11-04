@@ -5,7 +5,7 @@ VPN_LED=2          # raspi gpio pin 3 (Services LED)(yellow)
 blinkwait=0.05     # s wait during fluttler blink
 blinklongwait=0.5  # s wait during blink between flutters
 wait_time=2        # s wait for ping
-vpn_server_ip="192.168.63.1"
+vpn_server_ip="192.168.67.1"
 result=100         # % packet loss (want 0)
 
 #-----[ functions ]---------------------------

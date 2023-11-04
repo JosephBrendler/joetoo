@@ -81,7 +81,7 @@ for x in ${TEMP_LED} ${SVCs_LED} ${VPN_LED}; do light_off $x; done
 get_ip
 
 case ${class_c} in
-  "192.168.62"|"192.168.3") arg="l";;
+  "192.168.66"|"192.168.3") arg="l";;
   *) arg="r";;
 esac
 

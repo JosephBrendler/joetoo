@@ -43,7 +43,7 @@ blink_light() {
 initialize_pigs
 blink_off
 case ${class_c} in
-  "192.168.62"|"192.168.3"|"192.168.7") arg="l";;
+  "192.168.66") arg="l";;
   *) arg="r";;
 esac
 

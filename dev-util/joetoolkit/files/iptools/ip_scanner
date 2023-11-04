@@ -1,6 +1,6 @@
 #!/bin/bash
 source /usr/local/sbin/script_header_brendlefly
-#IPnet=192.168.62
+#IPnet=192.168.66
 #IPnet=192.168.1
 #IPnet=169.254.1
 VERBOSE=$FALSE
