@@ -126,6 +126,7 @@ DEPEND="${RDEPEND}"
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	if use sbc ; then
+		einfo "USE sbc is selected. Assigning board..."
 		if use bcm2712-rpi-5-b ; then
 			export board="bcm2712-rpi-5-b"
 		else if use bcm2711-rpi-4-b ; then
@@ -136,8 +137,12 @@ pkg_setup() {
 			export board="rk3288-tinker-s"
 		else if use rk3399-rock-pi-4c-plus; then
 			export board="rk3399-rock-pi-4c-plus"
+		else
+			export board=""
 		fi; fi; fi; fi; fi
+		einfo "board: ${board}"
 	fi
+
 }
 
 src_install() {
