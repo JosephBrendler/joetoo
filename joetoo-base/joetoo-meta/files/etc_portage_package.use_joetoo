@@ -32,10 +32,12 @@
 # sbc ........................: Tailor for single board computer (SBC) system, require board model sele>
 # bcm2710-rpi-3-b-plus .......: Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
 # bcm2711-rpi-4-b ............: Tailor for Raspberry Pi 4 B (armv8/64)</flag>
+# bcm2712-rpi-5-b ............: Tailor for Raspberry Pi 4 B (armv8/64)</flag>
 # rk3288-tinker-s ............: Tailor for Tinkerboard s (armv7/32)</flag>
 # rk3399-rock-pi-4c-plus .....: Tailor for Rock Pi 4c Plus (armv8/64)</flag>
 #
-# This should be good for a new amd64 install start point; add more later.  It will resolve to -- 
+# This (below) default for joetoo-base/joetoo-meta should be good for a new amd64 install start point;
+#   add more later.  It will resolve to -- 
 #    +innercore
 #    +headless -plasma -gnome
 #    -lamp -nextcloud -mysql -mariadb
@@ -48,7 +50,7 @@
 #    -compareConfigs -Terminal
 #    -gentoo_pv_kernel_image
 #    -samba
-#    -sbc -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -rk3288-tinker-s -rk3399-rock-pi-4c-plus
+#    -sbc -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -rk3288-tinker-s -rk3399-rock-pi-4c-plus
 #
 >=joetoo-base/joetoo-meta-0.0.1::joetoo cloudsync headless innercore jus mkinitramfs netifrc ntp script_header_brendlefly sysklogd 
 
