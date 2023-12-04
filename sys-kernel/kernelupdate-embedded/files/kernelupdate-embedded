@@ -45,7 +45,7 @@ cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
 image="zImage"
 dtb_folder=""
-build_root="/home/joe/MyEmbeddedProjectFiles"
+build_root="/home/joe/My_${model}_project"
 my_devel_dir="/home/joe/myUtilities"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 
