@@ -34,11 +34,12 @@ Remember, you must first have valid sources in ''. Here are several ways --
 
 #------[ Raspberry Pi:  Manually clone ]--------------------------
   # if you haven't run it before, run step 0 to build directory tree
-  kernelupdate-embedded
-  cd /usr/armv7a-unknown-linux-gnueabihf/usr/src
-  git clone --depth 1 --branch rpi-6.5.y https://github.com/raspberrypi/linux.git
-  cd /home/joe/MyEmbeddedProjectFiles
-  ln -snf /usr/armv7a-unknown-linux-gnueabihf/usr/src/linux linux
+  kernelupdate-embedded # then exit
+  cd /usr/aarch64-unknown-linux-gnu/usr/src
+  git clone --depth 1 --branch rpi-6.7.y https://github.com/raspberrypi/linux.git
+  cd /home/joe/My_bcm2712-rpi-5-b_project/
+  ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux linux
+  # on Pi5, zcat /proc/config.gz (or copy from raspbian?)
   cp kernelconfigs/.config.<model>-<version> build/<model>/
   # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
   #   symlink points to the right (rk3288-tinker-s or bcm2711-rpi-4) config file
