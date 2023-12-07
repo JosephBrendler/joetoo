@@ -301,7 +301,8 @@ echo "old version: ${old_version}"
 echo "new version: ${version_number}"
 
 echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
-echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
+#next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
+#echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
 echo "rm ${ebuild_dir}/Manifest" >> ${publish_cmd_file}
 echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_cmd_file}
 echo "git pull" >> ${publish_cmd_file}
