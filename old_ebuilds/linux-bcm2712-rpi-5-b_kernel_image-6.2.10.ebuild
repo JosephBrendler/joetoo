@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my raspberry pi 5 model B embedded system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2712-rpi-5-b_kernel_image-6.2.16.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2712-rpi-5-b_kernel_image-6.2.10.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-#RDEPEND="=sys-kernel/gentoo-sources-6.2.16"
+#RDEPEND="=sys-kernel/gentoo-sources-6.2.10"
 # to do - source raspi-sources myself, in joetoo
 RDEPEND=""
 DEPEND="${RDEPEND}"
