@@ -39,7 +39,7 @@ Remember, you must first have valid sources in ''. Here are several ways --
   git clone --depth 1 --branch rpi-6.7.y https://github.com/raspberrypi/linux.git
   cd /home/joe/My_bcm2712-rpi-5-b_project/
   ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux linux
-  # on Pi5, zcat /proc/config.gz (or copy from raspbian?)
+  # on Pi5, modprobe configs; zcat /proc/config.gz > <myconfig>
   cp kernelconfigs/.config.<model>-<version> build/<model>/
   # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
   #   symlink points to the right (rk3288-tinker-s or bcm2711-rpi-4) config file
