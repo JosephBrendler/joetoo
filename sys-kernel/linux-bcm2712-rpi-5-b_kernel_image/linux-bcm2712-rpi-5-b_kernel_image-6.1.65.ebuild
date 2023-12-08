@@ -23,11 +23,11 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 pkg_preinst() {
-	if [ "$(mount | grep boot)" ]; then
+	if [ ! -z "$(mount | grep /boot)" ]; then
+		einfo "Verified /boot/ is mounted. Continuing..."
+	else
 		eerror "/boot/ directory is not mounted.  Exiting..."
 		exit 1
-	else
-		einfo "Verified /boot/ is mounted. Continuing..."
 	fi
 }
 
@@ -59,26 +59,9 @@ src_install() {
 	elog ""
 	# conditionally install the symlink
 	if use symlink ; then
-		k=$(echo Image-${PV}-gentoo)
-		d=$(echo bcm2712-rpi-5-b.dtb-${PV}-gentoo)
-		[[ -L /boot/Image ]] && kold=$(readlink /boot/Image -f --canonicalize) || kold=$(echo Image-$(uname -r))
-		[[ -L /boot/bcm2712-rpi-5-b.dtb ]] && dold=$(readlink /boot/bcm2712-rpi-5-b.dtb -f --canonicalize) || dold=$(echo bcm2712-rpi-5-b.dtb-$(uname -r))
-		einfo "k = [${k}]"
-		einfo "d = [${d}]"
-		einfo "kold = [${kold}]"
-		einfo "dold = [${dold}]"
-		einfo "About to issue command: ln -snf ${kold} ${D}Image.old "
-		ln -snf "${kold}" "${D}"Image.old
-		einfo "About to issue command: ln -snf ${k} ${D}Image "
-		ln -snf "${k}" "${D}"Image
-		einfo "About to issue command: ln -snf ${dold} ${D}bcm2712-rpi-5-b.dtb.old "
-		ln -snf "${dold}" "${D}"bcm2712-rpi-5-b.dtb.old
-		einfo "About to issue command: ln -snf ${c} ${D}bcm2712-rpi-5-b.dtb "
-		ln -snf "${d}" "${D}"bcm2712-rpi-5-b.dtb
-		elog "Symlinks installed as requested"
+		ewarn "USE symlink (selected) symlink doesn't work yet"
 	else
 		ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
-		elog ""
 	fi
 	elog "Thank you for using linux-bcm2712-rpi-5-b_kernel_image"
 }

@@ -8,4 +8,4 @@ LICENSE=MIT
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2712-rpi-5-b_kernel_image-6.1.65.tar.bz2
-_md5_=8a98446e4d90de915e3ab53b339558be
+_md5_=65aba885107e5c86bea0350a774a43a0
