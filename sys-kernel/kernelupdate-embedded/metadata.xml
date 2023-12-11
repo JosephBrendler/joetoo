@@ -10,9 +10,9 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
+		<flag name="rk3399-rock-4c-plus">Install default rk3399-rock-4c-plus config file</flag>
 		<flag name="rk3288-tinker-s">Install default tinker-s config file</flag>
-		<flag name="rk3288-tinker">(to do) Install default tinker2-s config file</flag>
-		<flag name="raspi3">Install default raspi3 config file</flag>
+		<flag name="rk3288-tinker2-s">(to do) Install default tinker2-s config file</flag>
 		<flag name="bcm2710-rpi-3-b-plus">Install default raspi4b config file</flag>
 		<flag name="bcm2711-rpi-4-b">Install default raspi4b config file</flag>
 		<flag name="bcm2712-rpi-5-b">Install default raspi4b config file</flag>
