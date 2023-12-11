@@ -12,15 +12,13 @@ LICENSE="MIT"
 SLOT="0"
 #KEYWORDS="~arm ~amd64 ~arm64"
 
-IUSE="+rk3288-tinker-s rk3399-tinker2-s bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b rk3399-rock-4c-plus"
-BOARDLIST="rk3288-tinker-s rk3399-tinker2-s bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b rk3399-rock-4c-plus"
+IUSE="+rk3288-tinker-s rk3399-tinker2-s rk3399-rock-4c-plus bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b"
+BOARDLIST="rk3288-tinker-s rk3399-tinker2-s rk3399-rock-4c-plus bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b"
 
 # tinker-s is default above, but "at least one of" the options
 REQUIRED_USE="
-	|| ( ${BOARDLIST=} )
+	|| ( ${BOARDLIST} )
 	"
-#	|| ( rk3288-tinker-s rk3288-tinker bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b rk3399-rock-pi-4c-plus )
-#	"
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
@@ -89,6 +87,7 @@ pkg_postinst() {
 	elog "FILESDIR=${FILESDIR}"
 	elog "RDEPEND=${RDEPEND}"
 	elog "DEPEND=${DEPEND}"
+	elog "BOARDLIST=${BOARDLIST}"
 	elog ""
 	elog "${PN} installed"
 	elog ""
