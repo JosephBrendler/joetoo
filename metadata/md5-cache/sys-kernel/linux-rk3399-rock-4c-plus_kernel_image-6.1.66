@@ -1,0 +1,11 @@
+DEFINED_PHASES=install
+DESCRIPTION=kernel image for my Radxa Rock 4c Plus SBC
+EAPI=7
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=symlink
+KEYWORDS=~arm
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-rock-4c-plus_kernel_image-6.1.66.tar.bz2
+_md5_=9eecbce97936e69362b1eb22fd1f6d95
