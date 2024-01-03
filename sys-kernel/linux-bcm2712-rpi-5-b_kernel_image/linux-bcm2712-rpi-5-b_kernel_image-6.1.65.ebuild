@@ -18,7 +18,7 @@ IUSE="symlink"
 RESTRICT="mirror"
 
 #RDEPEND="=sys-kernel/gentoo-sources-${PV}"
-# to do - source raspi-sources myself, in joetoo
+# to do - source raspi-sources myself, in joetoo 
 RDEPEND=""
 DEPEND="${RDEPEND}"
 
