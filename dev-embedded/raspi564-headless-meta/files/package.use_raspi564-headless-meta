@@ -12,9 +12,9 @@
 #
 #  + boot-fw   : pull in the /boot firmware, configs and bootloader
 #  + innercore : Pull in baseline packages required by the headless meta
-#  + pigpio    : Pull in the pigpio package and its dependencies
+#  + gpio      : Pull in the libgpiod package and its dependencies (note pigs is deprecated)
 #
 # NB the main point of these USE flags is just to let
 # you reduce what is in your @world set (/var/lib/portage/world)
 
-#dev-embedded/raspi564-headless-meta -pigpio
+#dev-embedded/raspi564-headless-meta -gpio
