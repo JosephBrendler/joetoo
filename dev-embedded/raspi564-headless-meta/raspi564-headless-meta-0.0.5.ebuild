@@ -84,9 +84,10 @@ src_install() {
 		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/local/sbin/"
 		# pi5 periodic monitor/LED set tools for vpn/temp/svcs
-		for x in $(find ${FILESDIR} -iname pi5*) ; do 
+		for x in $(find ${FILESDIR}/ -iname pi5*)
+		do
 			newexe "${x}" "$(basename $x)" ;
-			elog "  Installed (newexe) $(basename $x)"
+			elog "  Installed (newexe) $(basename $x)" ;
 		done
 		# check cpu temp and frequency (monitor with "watch raspi_mon")
 		newexe "${FILESDIR}/raspi_mon" "raspi_mon"
