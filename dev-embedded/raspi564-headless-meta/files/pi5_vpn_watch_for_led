@@ -17,7 +17,7 @@ PROG_NAME="pi5_vpn_watch_for_led"
 VPN_OK=$TRUE
 #VERBOSE=$FALSE
 VERBOSE=$TRUE    # verbpse ;pggomg pm/off
-verbosity =2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
+verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ functions ]---------------------------
 
