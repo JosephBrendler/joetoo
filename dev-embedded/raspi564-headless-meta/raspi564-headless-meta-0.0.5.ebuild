@@ -71,6 +71,7 @@ src_install() {
 	newins "${FILESDIR}/package.unmask_${PN}" "${PN}"
 	# for a joetoo installation, include vpn.start and vpn/service/temp monitoring tools
 	if use joetoo ; then
+		elog "USE joetoo selected; installing local.d and vpn/led/temp mon tools"
 		# vpn.start tool for rc service "local"
 		insinto "/etc/local.d/"
 		# 4 is stable but pigs is deprecated, so LEDs wont work on pi5
@@ -82,6 +83,8 @@ src_install() {
 		for x in $(find ${FILESDIR} -iname pi5*) ; do newexe "${x}" "$(basename $x)" ; done
 		# check cpu temp and frequency (monitor with "watch raspi_mon")
 		newexe "${FILESDIR}/raspi_mon" "raspi_mon"
+	else
+		elog "USE joetoo NOT selected; NOT installing local.d and vpn/led/temp mon tools"
 	fi
 }
 
