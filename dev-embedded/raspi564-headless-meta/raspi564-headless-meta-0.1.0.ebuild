@@ -80,7 +80,7 @@ src_install() {
 		elog "  Installed (newins) raspi4_vpn.start"
 		# 5 is better but experimental (know to change ip when re-establishing vpn)
 		newins "${FILESDIR}/raspi5_vpn.start" "raspi5_vpn.start"
-		elog "  Installed (newins) raspi4_vpn.start"
+		elog "  Installed (newins) raspi5_vpn.start"
 		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/local/sbin/"
 		# pi5 periodic monitor/LED set tools for vpn/temp/svcs
