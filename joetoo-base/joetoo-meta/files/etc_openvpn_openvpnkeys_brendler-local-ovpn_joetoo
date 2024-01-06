@@ -1,27 +1,78 @@
+# specify client-side
 client
-dev tun
+
+# tun/tap devcie
+dev tun0
+
+# protocol, according to server
+proto udp
+
+# server address
+#remote 173.73.202.80 9016
+remote 192.168.66.17 9016
+
+# connection
+#comp-lzo
+resolv-retry 30
+nobind
+
+# persistent device and keys
+persist-key
 persist-tun
-#remote 10.17.31.15 9006 
-#remote 192.168.2.31 9006 
-#remote 192.168.3.29 9006 
-remote 192.168.1.1 9006 
-comp-lzo adaptive
-keepalive 10 60
-resolv-retry infinite
-redirect-gateway def1
-cipher AES-256-CBC
-auth RSA-SHA512
 
+# keys settings
+#ca C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2023\\ca.crt
 ca /etc/openvpn/openvpnkeys/ca.crt
-cert /etc/openvpn/openvpnkeys/client_tinker02.crt
-key /etc/openvpn/openvpnkeys/client_tinker02.key
+cert /etc/openvpn/openvpnkeys/nuoromisclient_raspi56403.crt
+key /etc/openvpn/openvpnkeys/nuoromisclient_raspi56403.key
 
+# Verify server certificate by checking
+# that the certicate has the nsCertType
+# field set to "server".  This is an
+# important precaution to protect against
+# a potential attack discussed here:
+#  http://openvpn.net/howto.html#mitm
+#
+
+# To use this feature, you will need to generate
+# your server certificates with the nsCertType
+# field set to "server".  The build-key-server
+# script in the easy-rsa folder will do this.
+;ns-cert-type server
+
+remote-cert-tls server
+
+# Select a cryptographic cipher.
+# If the cipher option is used on the server
+# then you must also specify it here.
+cipher aes-256-cbc
+auth SHA512
+auth-nocache
+
+# optional tls-auth
+#tls-auth C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2023\\ta.key 1
 tls-auth /etc/openvpn/openvpnkeys/ta.key 1
 
-#----- logging
-status /var/log/openvpn-status.log
-log /var/log/openvpn.log
-log-append /var/log/openvpn.log
-verb 3
-#verb 6
+# pull dns settings from the server
+script-security 2
+#up /etc/openvpn/up.sh
+#down /etc/openvpn/down.sh
 
+# logging
+log-append /var/log/openvpn.log
+status /var/log/openvpn-status.log 10
+verb 4
+
+#
+# these were in auto-generated client config from phone
+#dev tun
+
+#auth-nocache
+#<connection>
+#remote 73.39.245.95 9006
+#lport 9006
+#</connection>
+#comp-lzo adaptive
+#cipher BF-CBC
+#auth RSA-SHA256
+#client

@@ -7,6 +7,7 @@ NET_LED=2             # raspi gpio pin 2 (Network LED)(green)
 GPIO_CHIP=4           # gpiochip number for libgpiod (gpioset)
 blinkwait=0.05     # s wait during fluttler blink
 blinklongwait=0.5  # s wait during blink between flutters
+PROG_NAME=pi5_svc_watch_for_led
 
 #-----[ functions ]---------------------------
 
@@ -36,11 +37,14 @@ light_off ${SVC_LED}
 
 while [[ $TRUE ]]
 do
-  if [[ ! $(rc-status | grep '\[' | grep -v started) ]]   ## all services are "started"
+  result=$(rc-status | grep '\[' | grep -v started)
+  if [[ ! ${result} ]]   ## all services are "started"
   then
+    /usr/bin/logger -p cron.notice "${PROG_NAME} -- Result: all services are started"
     blink_light ${SVC_LED}
     light_on ${SVC_LED}
   else
+    /usr/bin/logger -p cron.notice "${PROG_NAME} -- Result: ${result}"
     blink_light ${SVC_LED}
     light_off ${SVC_LED}
   fi

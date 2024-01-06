@@ -46,12 +46,13 @@ blink_light() {
 light_off ${TEMP_LED}
 sleep ${blinkwait}
 blink_light ${TEMP_LED}
+PROG_NAME="pi5_temp_watch_for_led"
 
 while [[ $TRUE ]]
 do
   cpu_temp=$(cat ${cputempfile} 2>/dev/null)
   int_temp=${cpu_temp:0:2}
-#  echo "cpu_temp: ${cpu_temp:0:2}.${cpu_temp:2:2}   int_temp: ${int_temp}"
+  /usr/bin/logger -p cron.notice "${PROG_NAME} -- CPU Temp: ${int_temp} C "
   [[ ${int_temp} -ge ${temp_threshold} ]] && light_on ${TEMP_LED} || light_off ${TEMP_LED}
   sleep 30
 done
