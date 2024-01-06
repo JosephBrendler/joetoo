@@ -198,6 +198,8 @@ src_install() {
 		newins "${FILESDIR}/etc_logrotate-d_rkhunter_joetoo" "rkhunter"
 		newins "${FILESDIR}/etc_logrotate-d_rsyncd_joetoo" "rsyncd"
 		newins "${FILESDIR}/etc_logrotate-d_sysklogd_joetoo" "sysklogd"
+	insinto "/etc/openvpn/"
+		newins "${FILESDIR}/etc_openvpn_server.conf_joetoo" "server.conf"
 	insinto "/etc/openvpn/openvpnkeys/"
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-local-ovpn_joetoo" "brendler-local.ovpn"
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-remote-ovpn_joetoo" "brendler-remote.ovpn"
