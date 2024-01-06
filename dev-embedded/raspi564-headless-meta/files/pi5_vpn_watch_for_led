@@ -15,8 +15,9 @@ result_vector=()      # % packet loss (want 0)
 response_vector=()    # text from ping response
 PROG_NAME="pi5_vpn_watch_for_led"
 VPN_OK=$TRUE
-#DEBUG=$FALSE
-DEBUG=$TRUE
+#VERBOSE=$FALSE
+VERBOSE=$TRUE    # verbpse ;pggomg pm/off
+verbosity =2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ functions ]---------------------------
 
@@ -48,11 +49,13 @@ check_vpn() {
   [[ ${result_vector[$idx]} -eq 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
   if [[ ${VPN_OK} ]]   # no loss; good vpn
   then
-    [[ $DEBUG ]] && /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn succeded. result: ${result_vector[idx]}; all OK."
+    [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn succeded. result: ${result_vector[idx]}; all OK."
     blink_light ${VPN_LED}
     light_on ${VPN_LED}
   else
-    [[ $DEBUG ]] && /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed. response: ${response_vector[idx]}"
+    [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed. response: ${response_vector[idx]}"
     blink_light ${VPN_LED}
     light_off ${VPN_LED}
   fi
@@ -64,7 +67,7 @@ restart_vpn() {
 }
 
 dump_vectors() {
-  # dump vectors to stdout (note that under DEBUG, logger has already dumped to cron.notice
+  # dump vectors to stdout (note that under VERBOSE, logger has already dumped to cron.notice
   echo "dumping check_vpn vectors..."
   for (( l=0; l<${#result_vector[@]}; l++ )) ; do
     echo "result[$l]: ${result_vector[l]}"
@@ -89,8 +92,10 @@ do
     done
     # if exited with VPN still not OK, reset VPN, else (VPN is now OK), just continue
     if [ ! VPN_OK ] ; then
-      [[ $DEBUG ]] && /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed 3x in 3min; restarting vpn..."
-      [[ $DEBUG ]] && dump_vectors
+      [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
+        /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed 3x in 3min; restarting vpn..."
+      [[ $VERBOSE ]] && [[ verbosity -ge 4 ]] && \
+        dump_vectors
       restart_vpn
     fi
   fi
