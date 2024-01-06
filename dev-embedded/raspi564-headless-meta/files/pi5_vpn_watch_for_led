@@ -16,7 +16,7 @@ response_vector=()    # text from ping response
 PROG_NAME="pi5_vpn_watch_for_led"
 VPN_OK=$TRUE
 #VERBOSE=$FALSE
-VERBOSE=$TRUE    # verbpse ;pggomg pm/off
+VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ functions ]---------------------------
@@ -31,12 +31,9 @@ light_on() {
 
 blink_light() {
   # blink and then light my LED (on pin designated by arg 1 $1 )
-  LED=$1
-  for ((i=0;i<5;i++))       # blink on-off 5 times, quickly
+  for ((i=0;i<10;i++))       # blink on-off 5 times, quickly
   do
-    light_on ${LED}
-    sleep ${blinkwait}
-    light_off ${LED}
+    gpioset -c${GPIO_CHIP} -t0 ${1}=$(( $i % 2 ))
     sleep ${blinkwait}
   done
 }
@@ -50,12 +47,12 @@ check_vpn() {
   if [[ ${VPN_OK} ]]   # no loss; good vpn
   then
     [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
-      /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn succeded. result: ${result_vector[idx]}; all OK."
+      /usr/bin/logger -p cron.notice "${PROG_NAME} success -- result: ${result_vector[idx]}; all OK."
     blink_light ${VPN_LED}
     light_on ${VPN_LED}
   else
     [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
-      /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed. response: ${response_vector[idx]}"
+      /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- response: ${response_vector[idx]}"
     blink_light ${VPN_LED}
     light_off ${VPN_LED}
   fi
@@ -93,7 +90,7 @@ do
     # if exited with VPN still not OK, reset VPN, else (VPN is now OK), just continue
     if [ ! VPN_OK ] ; then
       [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
-        /usr/bin/logger -p cron.notice "${PROG_NAME} -- check_vpn failed 3x in 3min; restarting vpn..."
+        /usr/bin/logger -p cron.notice "${PROG_NAME} failure -- check_vpn failed 3x in 3min; restarting vpn..."
       [[ $VERBOSE ]] && [[ verbosity -ge 4 ]] && \
         dump_vectors
       restart_vpn
