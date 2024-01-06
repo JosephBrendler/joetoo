@@ -283,6 +283,7 @@ pkg_postinst() {
 	elog "version 0.3.1 modifies /etc/conf.d/distccd for nuoromis"
 	elog "version 0.3.2 updates x_arg_nobinmergelist to list adds for package.env"
 	elog "version 0.3.3 adds sbc board bcm2712-rpi-5-b"
+	elog "version 0.3.4 adds logrotate for cron, openvpn; plus openvpn_server.conf"
 	elog ""
 	elog "Note that install phase will fail if config files (such as resolv.conf) have immutable"
 	elog "attribute set. If this is so, run as root, for example: chattr -i /etc/resolv.conf"
