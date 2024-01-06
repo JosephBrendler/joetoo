@@ -1,50 +1,55 @@
 #!/bin/bash
-#
-# To DO - redo this for the rock4c (this is raspi4 baseline
-#
-# Initialize, blink, and then light my LED on GPIO pin
-# requires dev-libs/pigpio::gentoo
-arg=""; ip_address=""; class_c=""; resolveconf_file=""; twait=""  VPN_FLAG=""  #initialize null
+arg=""; ip_address=""; class_c=""; resolveconf_file=""; twait=""  #initialize null
 
-VPN_LED=2        # raspi gpio pin 2 (VPN LED)
-SVCs_LED=3          # raspi gpio pin 2 (Services LED)
-twait=10           # s wait between operations
-blinkwait=0.05     # s wait during fluttler blink
-blinklongwait=0.5  # s wait during blink between flutters
+TRUE=0
+FALSE=
 
+ENABLE=$TRUE
+RASPBERRY=$FALSE
+
+GPIO_PIN=135    # 223 for ASUS Tinkerboard pin 36; 135 for ROCK 4C+ pin 40
+
+#twait=180
+twait=10
+blinkwait=0.05
+blinklongwait=0.5
 ip_address=$(ifconfig wlan0 | grep inet | sed 's/^[[:space:]]*//' | cut -d' ' -f2)
-
 class_c=$(echo $ip_address | cut -d'.' -f1,2,3)
 
 #-----[ functions ]-----------------------------------
-initialize_pigs() {
-  pigs m ${VPN_LED} w          # set mode output
-  pigs m ${SVCs_LED} w         # set mode output
+initialize() {
+  echo ${1} > /sys/class/gpio/export             # initialize
+  echo out > /sys/class/gpio/gpio${1}/direction
+  echo 0 > /sys/class/gpio/gpio${1}/value        # start with LED off
 }
 
-blink_off() {
-  pigs w ${VPN_LED} 0
-  pigs w ${SVCs_LED} 0
+light_on() {
+    echo 1 > /sys/class/gpio/gpio${1}/value
 }
 
+light_off() {
+    echo 0 > /sys/class/gpio/gpio${1}/value
+}
 
 blink_light() {
-  # blink and then light my LED (on pin designated by arg 1 $1 )
-  LED=$1
-  for ((i=0;i<5;i++))       # blink on-off 5 times, quickly
+  # blink and then light my LED on GPIO_PIN
+  for ((i=0;i<10;i++))                                     # blink on-off 5 times, quickly
   do
-    pigs w ${LED} 1
-    sleep ${blinkwait}
-    pigs w ${LED} 0
+    echo $(( $i % 2 )) > /sys/class/gpio/gpio${1}/value    # toggle
     sleep ${blinkwait}
   done
-  sleep ${blinklongwait}    # pause
-  pigs w ${LED} 1           # now keep LED on
+  sleep ${blinklongwait}                                   # pause
+}
+
+deinitialize() {
+  echo 1 > /sys/class/gpio/gpio${1}/value        # now keep LED on
+  echo ${1} > /sys/class/gpio/unexport           # "disconnect"
 }
 
 #-----[ main ]-----------------------------------
-initialize_pigs
-blink_off
+[[ ! ${ENABLE} ]] && exit
+initialize ${GPIO_PIN}
+
 case ${class_c} in
   "192.168.66") arg="l";;
   *) arg="r";;
@@ -56,23 +61,14 @@ case ${arg} in
   *)   resolveconf_file="/root/bin/resolv.conf.good";;
 esac
 
+echo "will copy [ ${resolveconf_file} ] to /etc/resolv.conf after starting vpn..."
+echo "will delay and then run \"startvpn ${arg}\""
 
-# start the vpn, copy resolv.conf, and check services; light LED if all OK
-VPN_FLAG="false"
-echo "ip addr: ${ip_address}"
-echo -n "Now delay and then start VPN with argument [ ${arg} ]... "
-  sleep ${twait} && /usr/local/sbin/startvpn ${arg} && \
-  VPN_FLAG="true" && echo "[ VPN ok ]" || echo "[ VPN failed !! ]"
-[[ ${VPN_FLAG} -eq "true" ]] && blink_light ${VPN_LED}
-
-# preserve the right resolv.conf
-echo -n "will now copy [ ${resolveconf_file} ] to /etc/resolv.conf... "
-chattr -i /etc/resolv.conf && \
+# start the vpn, preserve the right resolv.conf, and if success, then blink/light LED
+(sleep ${twait} && /usr/local/sbin/startvpn ${arg} && \
+  chattr -i /etc/resolv.conf && \
   cp ${resolveconf_file} /etc/resolv.conf && \
-  chattr +i /etc/resolv.conf
-[[ $? ]] && echo "[ set resolv.conf ok ]" || echo "[ failure setting resolv.conf !! ]"
+  chattr +i /etc/resolv.conf ) && \
 
-## check service; if true [[ all "started" ]], then blink/light LED
-echo -n "Now delay and then check services..."
-sleep ${twait} && [[ ! $(rc-status | grep '\[' | grep -v started) ]]
-[[ $? ]] && blink_light ${SVCs_LED} && echo "[ Services all ok ]" || echo "[ Services not all ok !! ]"
+blink_light ${GPIO_PIN}
+deinitialize ${GPIO_PIN}

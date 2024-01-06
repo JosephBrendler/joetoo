@@ -14,7 +14,7 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="boot-fw">(to do)Pull in the /boot firmware, configs and bootloader</flag>
+		<flag name="boot-fw">(to do) Pull in the /boot firmware, configs and bootloader</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
 		<flag name="gpio">(to do) Pull in the gpio package(s) and dependencies</flag>
 		<flag name="joetoo">Pull in the joetoo-meta package and its dependencies</flag>
