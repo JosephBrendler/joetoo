@@ -73,16 +73,24 @@ src_install() {
 	if use joetoo ; then
 		elog "USE joetoo selected; installing local.d and vpn/led/temp mon tools"
 		# vpn.start tool for rc service "local"
+		elog "Installing (ins) into /etc/local.d/"
 		insinto "/etc/local.d/"
 		# 4 is stable but pigs is deprecated, so LEDs wont work on pi5
 		newins "${FILESDIR}/raspi4_vpn.start" "raspi4_vpn.start"
+		elog "  Installed (newins) raspi4_vpn.start"
 		# 5 is better but experimental (know to change ip when re-establishing vpn)
 		newins "${FILESDIR}/raspi5_vpn.start" "raspi5_vpn.start"
+		elog "  Installed (newins) raspi4_vpn.start"
+		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/local/sbin/"
 		# pi5 periodic monitor/LED set tools for vpn/temp/svcs
-		for x in $(find ${FILESDIR} -iname pi5*) ; do newexe "${x}" "$(basename $x)" ; done
+		for x in $(find ${FILESDIR} -iname pi5*) ; do 
+			newexe "${x}" "$(basename $x)" ;
+			elog "  Installed (newexe) $(basename $x)"
+		done
 		# check cpu temp and frequency (monitor with "watch raspi_mon")
 		newexe "${FILESDIR}/raspi_mon" "raspi_mon"
+		elog "  Installed (newexe) raspi_mon"
 	else
 		elog "USE joetoo NOT selected; NOT installing local.d and vpn/led/temp mon tools"
 	fi
