@@ -4,14 +4,14 @@
 
 EAPI=6
 
-DESCRIPTION="Baseline packages for a headless Pi 5 server with gentoo-on-rpi-64bit"
+DESCRIPTION="Baseline packages for a headless Pi3/4 server with gentoo-on-rpi-64bit"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI=""
 
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~arm64"
-IUSE="+boot-fw +innercore +gpio +joetoo"
+IUSE="+boot-fw +innercore +gpio -pitop +joetoo"
 REQUIRED_USE="
 	innercore"
 
@@ -29,10 +29,10 @@ RDEPEND="
 	!dev-embedded/rpi3-64bit-meta
 	!dev-embedded/rpi-64bit-meta
 	boot-fw? (
-		>=sys-boot/rpi5-64bit-firmware-1.20190819
+		>=sys-boot/rpi3-64bit-firmware-1.20190819[pitop(-)?]
 	)
 	!boot-fw? (
-		!sys-boot/rpi5-64bit-firmware
+		!sys-boot/rpi3-64bit-firmware
 	)
 	>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 	>=sys-firmware/b43-firmware-5.100.138
@@ -46,45 +46,48 @@ RDEPEND="
 		>=sys-apps/rpi-serial-1.0.0-r1
 		>=sys-apps/rpi-video-1.0.0-r1
 		>=sys-apps/rng-tools-6.8
-		>=sys-boot/rpi5-boot-config-1.0.0
+		>=sys-boot/rpi3-boot-config-1.0.9[pitop(-)?]
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
 	)
 	joetoo? (
 		>=joetoo-base/joetoo-meta-0.0.3c
-		>=dev-util/joetoolkit-0.3.3
+	        >=dev-util/joetoolkit-0.3.3
 	)
 "
 # removed from innercore? ()
-#		>=sys-apps/rpi-onetime-startup-1.0-r4
+#       >=sys-apps/rpi-onetime-startup-1.0-r4
 # removed from RDEPEND
-#	>=sys-apps/rpi3-init-scripts-1.1.5-r1
+#   >=sys-apps/rpi3-init-scripts-1.1.5-r1
 # removed pigpio to add gpio (pigs deprecated)
-#	>=dev-libs/pigpio-79
+#   >=dev-libs/pigpio-79
 
 src_install() {
 	# basic framework file to enable / disable USE flags for this package
+	elog "Installing (ins) into /etc/portage/"
 	insinto "/etc/portage/package.use/"
 	newins "${FILESDIR}/package.use_${PN}" "${PN}"
+	elog "Installed (newins) package.use_${PN} as ${PN}"
 	insinto "/etc/portage/package.unmask/"
 	newins "${FILESDIR}/package.unmask_${PN}" "${PN}"
+	elog "Installed (newins) package.unmask_${PN} as ${PN}"
 	# for a joetoo installation, include vpn.start and vpn/service/temp monitoring tools
 	if use joetoo ; then
 		elog "USE joetoo selected; installing local.d and vpn/led/temp mon tools"
 		# vpn.start tool for rc service "local"
 		elog "Installing (ins) into /etc/local.d/"
 		insinto "/etc/local.d/"
-		# 4 is stable but pigs is deprecated, so LEDs wont work on pi5
-		newins "${FILESDIR}/raspi4_vpn.start" "raspi4_vpn.start"
-		elog "  Installed (newins) raspi4_vpn.start"
-		# 5 is better but experimental (know to change ip when re-establishing vpn)
-		newins "${FILESDIR}/raspi5_vpn.start" "raspi5_vpn.start"
-		elog "  Installed (newins) raspi5_vpn.start"
+		# 4.old is stable but pigs is deprecated, so LEDs wont work on pi5
+		newins "${FILESDIR}/raspi4_vpn.start.old" "raspi4_vpn.start.old"
+		elog "  Installed (newins) raspi4_vpn.start.old"
+		# 34 is better (backported from pi5)
+		newins "${FILESDIR}/raspi34_vpn.start" "raspi34_vpn.start"
+		elog "  Installed (newins) raspi34_vpn.start"
 		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/local/sbin/"
-		# pi5 periodic monitor/LED set tools for vpn/temp/svcs
-		for x in $(find ${FILESDIR}/ -iname pi5*)
+		# pi34 periodic monitor/LED set tools for vpn/temp/svcs
+		for x in $(find ${FILESDIR}/ -iname *watch*)
 		do
 			newexe "${x}" "$(basename $x)" ;
 			elog "  Installed (newexe) $(basename $x)" ;
@@ -107,18 +110,25 @@ pkg_postinst() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	elog ""
-	elog "raspi564-headless-meta installed"
+	elog "raspi64-headless-meta installed"
+	elog "version 0.0.3a depends on joetoo-meta"
+	elog "and now drops lamp and nextcloud USE flags,"
+	elog "and it adds local.d script for vpn & LEDs"
+	elog "VPN will need keys and local/remote.conf links"
 	elog ""
-	elog "version 0.0.1 is the first ebuild for Pi 5"
-	elog "version 0.0.2 added pi5 vpn.start & vpn/temp/svc monitor tools, for USE joetoo"
-	elog "  and substituted USE gpio for pigpio (pigs deprecated; uses libgpiod)"
-	elog "  raspi4_vpn.start is stable but pigs is deprecated, so LEDs wont work on pi5"
-	elog "  raspi5_vpn.start is experimental (known to change ip when re-establishing vpn)"
-	elog "version 0.0.3 switched to exeinto/newexe for pi5 monitor tools"
-	elog "version 0.0.4 added dependency on joetoolkit (needed for startvpn tool)"
-	elog "version 0.0.5 stabilizes pi4_vpn_watch_for_led and thus raspi5_vpn.start"
-	elog "version 0.1.0 provides graduated verbose logging (default: errors, restarts)"
-	elog "version 0.1.1 reduces debug logging verbosity; changes blink to toggle algorithm"
+	elog "version 0.0.4 begins a series of updates to migrate"
+	elog "work in the genpi64 repository (abandoned by sakaki)"
+	elog "to my joetoo repository.  This will include only the"
+	elog "bare essentials for a headless server"
 	elog ""
-	elog "Thank you for using raspi564-headless-meta"
+	elog "version 0.0.6 eliminates the old package.unmask/genpi64 file"
+	elog "and adds package.unmask/raspi64-headless-meta to preserve"
+	elog "access to gentoo-masked (soon-to-be-removed)"
+	elog "acct-group/gpio & acct-group/spi ebuilds"
+	elog ""
+	elog "version 0.0.7 introduces nuoromis infrastructure related code"
+	elog ""
+	elog "version 0.1.0 backports raspi34_vpn.start from pi5 w/ vpn/svc/temp monitor tools"
+	elog ""
+	elog "Thank you for using raspi64-headless-meta"
 }
