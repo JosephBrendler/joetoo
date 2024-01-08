@@ -1,0 +1,111 @@
+#!/bin/bash
+# backport from Pi5 for tinkerboar
+#   (changes only GPIO_CHIP/PIN and watch progs)
+TRUE=0
+FALSE=
+vcgencmdfile=/usr/bin/vcgencmd
+#TEMP_LED=4            # raspi gpio pin 4 (Temp LED)(red)
+#SVC_LED=3             # raspi gpio pin 3 (Servoces LED)(yellow)
+#NET_LED=2             # raspi gpio pin 2 (Network LED)(green)
+TEMP_LED=18            # GP7C2: chip 7, (C=2*8)+2=Line 18 (pin 28) (this is the only change #1)
+SVC_LED=8              # GP7B0: chip 7, (B=1*8)+0=Line 8 (pin 37) (this is the only change #1)
+NET_LED=7              # GP7A7: chip 7, (A=0*8)+7=Line 7 (pin 36) (this is the only change #1)
+#GPIO_CHIP=4           # gpiochip number for libgpiod (gpioset)
+GPIO_CHIP=7           # backport from Pi5 (this is the only change #1)
+blinkwait=0.05        # s wait during fluttler blink
+blinklongwait=0.5     # s wait during blink between flutters
+#wait_time=2          # s wait for ping
+wait_time=30          # s wait for ping
+vpn_server_ip="192.168.67.1"
+result_vector=()      # % packet loss (want 0)
+response_vector=()    # text from ping response
+VPN_OK=$TRUE
+#VERBOSE=$FALSE
+VERBOSE=$TRUE    # verbpse logging pm/off
+verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
+
+#PROG_NAME="pi5_vpn_watch_for_led"
+PROG_NAME=/usr/local/sbin/tinker_vpn_watch_for_led
+
+#-----[ functions ]---------------------------
+
+light_off() {
+  gpioset -c${GPIO_CHIP} -t0 ${1}=0
+}
+
+light_on() {
+  gpioset -c${GPIO_CHIP} -t0 ${1}=1
+}
+
+blink_light() {
+  # blink and then light my LED (on pin designated by arg 1 $1 )
+  for ((i=0;i<10;i++))       # blink on-off 5 times, quickly
+  do
+    gpioset -c${GPIO_CHIP} -t0 ${1}=$(( $i % 2 ))
+    sleep ${blinkwait}
+  done
+}
+
+check_vpn() {
+  idx=$1
+  response_vector+=("$(ping -c1 -w${wait_time} ${vpn_server_ip})")
+  result_vector+=("$(echo ${response_vector[$idx]} | grep transmitted | \
+           cut -d',' -f3 | cut -d'%' -f1 | cut -d'.' -f1 | sed 's/[[:space:]]//g')")
+  [[ ${result_vector[$idx]} -eq 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
+  if [[ ${VPN_OK} ]]   # no loss; good vpn
+  then
+    [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} success -- result: ${result_vector[idx]}; all OK."
+    blink_light ${VPN_LED}
+    light_on ${VPN_LED}
+  else
+    [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- response: ${response_vector[idx]}"
+    blink_light ${VPN_LED}
+    light_off ${VPN_LED}
+  fi
+}
+
+restart_vpn() {
+    /usr/local/sbin/stopvpn
+    /usr/local/sbin/startvpn r
+}
+
+dump_vectors() {
+  # dump vectors to stdout (note that under VERBOSE, logger has already dumped to cron.notice
+  echo "dumping check_vpn vectors..."
+  for (( l=0; l<${#result_vector[@]}; l++ )) ; do
+    echo "result[$l]: ${result_vector[l]}"
+    echo "response[$l]: ${response_vector[l]}"
+    echo
+  done
+}
+
+#-----[ main script ]-----------------------
+
+light_off ${VPN_LED}
+
+while [[ $TRUE ]]
+do
+  check_vpn 0  # first run fills index [0] in both arrays
+  if [[ ! ${VPN_OK} ]] ; then
+    # vpn may be down, test three more times at one-minute interval; if still down, restart
+    let i=1
+    while [ ! VPN_OK ] && [ $i -lt 4 ] ; do
+        sleep 60
+        check_vpn $i
+    done
+    # if exited with VPN still not OK, reset VPN, else (VPN is now OK), just continue
+    if [ ! VPN_OK ] ; then
+      [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
+        /usr/bin/logger -p cron.notice "${PROG_NAME} failure -- check_vpn failed 3x in 3min; restarting vpn..."
+      [[ $VERBOSE ]] && [[ verbosity -ge 4 ]] && \
+        dump_vectors
+      restart_vpn
+    fi
+  fi
+  # re-initialize vectors
+  result_vector=()
+  response_vector=()
+  sleep 60
+done

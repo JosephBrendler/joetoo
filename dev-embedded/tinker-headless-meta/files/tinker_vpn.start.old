@@ -1,0 +1,79 @@
+#!/bin/bash
+#
+# based on rock4c_vpn.start - changes only the GPIO_PIN
+# (note: this method works, but is to be deprecated)
+
+arg=""; ip_address=""; class_c=""; resolveconf_file=""; twait=""  #initialize null
+
+TRUE=0
+FALSE=
+
+ENABLE=$TRUE
+RASPBERRY=$FALSE
+
+#GPIO_PIN=135    # 223 for ASUS Tinkerboard pin 36; 135 for ROCK 4C+ pin 40
+GPIO_PIN=223     # 223 for ASUS Tinkerboard pin 36; 135 for ROCK 4C+ pin 40
+
+#twait=180
+twait=10
+blinkwait=0.05
+blinklongwait=0.5
+ip_address=$(ifconfig wlan0 | grep inet | sed 's/^[[:space:]]*//' | cut -d' ' -f2)
+class_c=$(echo $ip_address | cut -d'.' -f1,2,3)
+
+#-----[ functions ]-----------------------------------
+initialize() {
+  echo ${1} > /sys/class/gpio/export             # initialize
+  echo out > /sys/class/gpio/gpio${1}/direction
+  echo 0 > /sys/class/gpio/gpio${1}/value        # start with LED off
+}
+
+light_on() {
+    echo 1 > /sys/class/gpio/gpio${1}/value
+}
+
+light_off() {
+    echo 0 > /sys/class/gpio/gpio${1}/value
+}
+
+blink_light() {
+  # blink and then light my LED on GPIO_PIN
+  for ((i=0;i<10;i++))                                     # blink on-off 5 times, quickly
+  do
+    echo $(( $i % 2 )) > /sys/class/gpio/gpio${1}/value    # toggle
+    sleep ${blinkwait}
+  done
+  sleep ${blinklongwait}                                   # pause
+}
+
+deinitialize() {
+  echo 1 > /sys/class/gpio/gpio${1}/value        # now keep LED on
+  echo ${1} > /sys/class/gpio/unexport           # "disconnect"
+}
+
+#-----[ main ]-----------------------------------
+[[ ! ${ENABLE} ]] && exit
+initialize ${GPIO_PIN}
+
+case ${class_c} in
+  "192.168.66") arg="l";;
+  *) arg="r";;
+esac
+
+case ${arg} in
+  "l") resolveconf_file="/root/bin/resolv.conf.local";;
+  "r") resolveconf_file="/root/bin/resolv.conf.remote";;
+  *)   resolveconf_file="/root/bin/resolv.conf.good";;
+esac
+
+echo "will copy [ ${resolveconf_file} ] to /etc/resolv.conf after starting vpn..."
+echo "will delay and then run \"startvpn ${arg}\""
+
+# start the vpn, preserve the right resolv.conf, and if success, then blink/light LED
+(sleep ${twait} && /usr/local/sbin/startvpn ${arg} && \
+  chattr -i /etc/resolv.conf && \
+  cp ${resolveconf_file} /etc/resolv.conf && \
+  chattr +i /etc/resolv.conf ) && \
+
+blink_light ${GPIO_PIN}
+deinitialize ${GPIO_PIN}

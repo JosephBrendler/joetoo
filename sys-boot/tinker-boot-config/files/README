@@ -1,0 +1,5 @@
+Note:  config_protect_boot will protect u-boot files, but joetoo does not yet have
+u-boot development implemented for this board
+
+thus, this ebuild does not yet deliver boot.cmd, boot.scr, nor the u-boot_reflash files
+needed for this board -- if needed, they can be retrieved from armbian/build output .deb files
