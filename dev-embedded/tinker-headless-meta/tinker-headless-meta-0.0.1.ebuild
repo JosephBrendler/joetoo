@@ -32,7 +32,7 @@ RDEPEND="
 		>=sys-apps/rng-tools-6.8
 		>=sys-boot/tinker-boot-config-0.0.1
 	)
-	gpio ? (
+	gpio? (
 		>=dev-libs/libgpiod-2.1
 	)
 	joetoo? (
