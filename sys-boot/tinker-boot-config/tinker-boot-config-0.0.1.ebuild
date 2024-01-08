@@ -48,6 +48,10 @@ pkg_postinst() {
 		elog "u-boot_reflash files needed for this board -- if needed, they can"
 		elog "be retrieved from armbian/build output .deb files"
 		elog ""
+		elog "Note that the kernel (zImage) and device tree file (rk3288-tinker-s.dtb)"
+		elog "are provided by package sys-kernel/linux-rk3288-tinker-s_kernel_image"
+		elog "in the joetoo repository"
+		elog ""
 		elog "Thanks for using tinker-boot-config"
 	fi
 }
