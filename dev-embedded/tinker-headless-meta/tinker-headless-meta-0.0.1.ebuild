@@ -10,7 +10,7 @@ SRC_URI=""
 
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="~arm64"
+KEYWORDS="~arm"
 IUSE="-boot-fw +innercore +gpio +joetoo"
 REQUIRED_USE="
 	innercore"

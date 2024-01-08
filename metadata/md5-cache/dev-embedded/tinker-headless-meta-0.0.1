@@ -4,9 +4,9 @@ DESCRIPTION=Baseline packages for a headless server with gentoo on tinker s (32 
 EAPI=7
 HOMEPAGE=https://github.com/joetoo
 IUSE=-boot-fw +innercore +gpio +joetoo
-KEYWORDS=~arm64
+KEYWORDS=~arm
 LICENSE=metapackage
 RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 >=sys-firmware/b43-firmware-5.100.138 innercore? ( >=sys-kernel/linux-firmware-20220310 >=sys-apps/rng-tools-6.8 >=sys-boot/tinker-boot-config-0.0.1 ) gpio ? ( >=dev-libs/libgpiod-2.1 ) joetoo? ( >=joetoo-base/joetoo-meta-0.2.0 >=dev-util/joetoolkit-0.3.3 )
 REQUIRED_USE=innercore
 SLOT=0
-_md5_=8204389d42d7f56760cf7f308705df34
+_md5_=0830cc9bcba802a8f44815dd6f843158
