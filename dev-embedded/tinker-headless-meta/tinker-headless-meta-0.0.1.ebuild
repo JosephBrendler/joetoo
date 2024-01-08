@@ -40,6 +40,8 @@ RDEPEND="
 		>=dev-util/joetoolkit-0.3.3
 	)
 "
+# from RDEPEND --
+# from innercore --
 #		>=sys-boot/tinker264-boot-config-0.0.1
 #	boot-fw? (
 #		>=sys-boot/rock4c64-firmware-1.20230926
