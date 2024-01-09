@@ -221,8 +221,7 @@ src_install() {
 		newins "${FILESDIR}/etc_portage_env_serialize-make.conf_joetoo" "serialize-make.conf"
 		newins "${FILESDIR}/etc_portage_env_suppress-distcc.conf_joetoo" "suppress-distcc.conf"
 		newins "${FILESDIR}/etc_portage_env_suppress-distcc-pump.conf_joetoo" "suppress-distcc-pump.conf"
-		newins "${FILESDIR}/etc_portage_env_tmpdir_on_rootfs.conf_joetoo" "tmpdir_on_rootfs.conf"
-etc_portage_tmpdir_on_rootfs.conf_joetoo
+		newins "${FILESDIR}/etc_portage_env_portage_tmpdir_on_rootfs.conf_joetoo" "portage_tmpdir_on_rootfs.conf"
 	insinto "/etc/portage/package.env/"
 		newins "${FILESDIR}/etc_portage_package.env_joetoo" "package.env"
 	insinto "/etc/portage/package.use/"
