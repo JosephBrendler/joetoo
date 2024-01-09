@@ -119,7 +119,7 @@ pkg_postinst() {
 	elog "  raspi5_vpn.start is experimental (known to change ip when re-establishing vpn)"
 	elog "version 0.0.3 switched to exeinto/newexe for pi5 monitor tools"
 	elog "version 0.0.4 added dependency on joetoolkit (needed for startvpn tool)"
-	elog "version 0.0.5 stabilizes pi4_vpn_watch_for_led and thus raspi5_vpn.start"
+	elog "version 0.0.5 stabilizes pi5_vpn_watch_for_led and thus raspi5_vpn.start"
 	elog "version 0.1.0 provides graduated verbose logging (default: errors, restarts)"
 	elog "version 0.1.1 reduces debug logging verbosity; changes blink to toggle algorithm"
 	elog "version 0.1.2 provides some bugfixes"
