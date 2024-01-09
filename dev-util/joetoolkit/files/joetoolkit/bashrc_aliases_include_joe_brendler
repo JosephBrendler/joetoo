@@ -16,6 +16,8 @@ alias mw='xdotool_sizemove_this_window'
 
 alias tl='tail -n50'
 
+alias mb='mount /boot'
+
 alias eix-names='eix -#'
 alias clean-perl='emerge -avC $(eix -cI# perl)'
 
