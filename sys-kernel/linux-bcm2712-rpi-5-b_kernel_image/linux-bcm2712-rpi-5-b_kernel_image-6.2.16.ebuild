@@ -18,8 +18,6 @@ IUSE="symlink"
 RESTRICT="mirror"
 
 RDEPEND="=sys-kernel/raspi-sources-${PV}"
-# to do - source raspi-sources myself, in joetoo
-RDEPEND=""
 DEPEND="${RDEPEND}"
 
 pkg_preinst() {
