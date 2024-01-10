@@ -1,0 +1,8 @@
+DEFINED_PHASES=install setup
+DESCRIPTION=Raspberry Pi kernel sources
+EAPI=8
+HOMEPAGE=https://github.com/raspberrypi/linux
+KEYWORDS=~arm64
+LICENSE=MIT
+SLOT=0
+_md5_=bb1d3a8c4512bf48cef174330b70f64a
