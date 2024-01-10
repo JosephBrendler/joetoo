@@ -80,6 +80,10 @@ pkg_setup() {
 # testing what IS there : a /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
 #  drwxr-xr-x 28 portage portage 4096 Jan  9 22:20 raspi-sources-6.2.16
 
+src_prepare() {
+	einfo "Now in src_prepare()"
+        default
+}
 
 pkg_postinst() {
 	einfo "Now in pkg_postinst()"
