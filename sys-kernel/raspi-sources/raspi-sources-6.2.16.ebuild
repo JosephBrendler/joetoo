@@ -48,10 +48,10 @@ pkg_setup() {
 	BASENAME=$(basename ${S})
 	einfo "DIRNAME=${DIRNAME}"
 	einfo "BASENAME=${BASENAME}"
-	MyBadS="${DIRNAME}/${PN}"
-	MyGoodS="${DIRNAME}/linux-${PV}-raspi"
+	My_P="linux-${PV}-raspi"
 	einfo "D=${D}"
 	einfo "P=${P}"
+	einfo "My_P=${My_P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
@@ -63,14 +63,21 @@ pkg_setup() {
 	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
 	einfo ""
 	einfo "About to move ${S} to ${MyS}, where it's expected to be..."
-	mv -v ${MyBadS} ${MyGoodS}
+	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
 }
 
-# fixing this failure from try #5:
-# * About to move /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi to
-#                 /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-raspi-sources-raspi
-# , where it's expected to be...
-
+# Error from try #6:
+# * DIRNAME=/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
+# * BASENAME=linux-6.2.16-raspi
+#*   About to move /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi to , where it's expected to be...
+# mv: cannot stat '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/raspi-sources': No such file or directory
+# ...
+#>>> Source unpacked in /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
+# * ERROR: sys-kernel/raspi-sources-6.2.16::joetoo failed (prepare phase):
+# *   The source directory '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi' 
+#        doesn't exist
+# testing what IS there : a /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
+#  drwxr-xr-x 28 portage portage 4096 Jan  9 22:20 raspi-sources-6.2.16
 
 
 pkg_postinst() {
