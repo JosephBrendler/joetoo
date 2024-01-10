@@ -1,5 +1,6 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
+# joe brendler  9 January 2024
 
 EAPI=8
 
@@ -69,17 +70,6 @@ pkg_setup() {
 	einfo ""
 	einfo "Done pkg_setup()"
 }
-
-# Error from try #12:
-# * >>> Copying sources ...
-# cp: cannot stat '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux*'
-# :  No such file or directory
-# *     ebuild.sh, line  136:  Called src_install
-# *   environment, line 2466:  Called kernel-2_src_install
-# *   environment, line 2001:  Called install_sources
-# *   environment, line 1933:  Called die
-# * The specific snippet of code:
-# *       cp -R "${WORKDIR}"/linux* "${ED}"/usr/src || die;
 
 src_prepare() {
 	einfo "Now in src_prepare()"
