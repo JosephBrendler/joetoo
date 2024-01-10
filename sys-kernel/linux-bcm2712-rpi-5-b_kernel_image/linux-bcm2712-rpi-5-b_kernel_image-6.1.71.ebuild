@@ -17,9 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-#RDEPEND="=sys-kernel/gentoo-sources-${PV}"
-# to do - source raspi-sources myself, in joetoo
-RDEPEND=""
+RDEPEND="=sys-kernel/raspi-sources-${PV}"
 DEPEND="${RDEPEND}"
 
 pkg_preinst() {
