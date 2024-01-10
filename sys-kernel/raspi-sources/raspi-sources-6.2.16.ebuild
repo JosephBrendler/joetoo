@@ -3,6 +3,10 @@
 
 EAPI=8
 
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+
+inherit git-r3 distutils-r1
+
 EGIT_REPO_URI="https://github.com/raspberrypi/linux.git"
 EGIT_BRANCH="rpi-6.2.y"
 EGIT_COMMIT="4c7938b86db7dfccbfd4d2a840091cbb7fbf2e9f"
