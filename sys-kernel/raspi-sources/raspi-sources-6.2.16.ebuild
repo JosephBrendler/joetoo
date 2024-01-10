@@ -56,6 +56,8 @@ pkg_setup() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
+	einfo "WORKDIR=${WORKDIR}"
+	einfo "ED=${ED}"
 	einfo "EGIT_REPO_URI=${EGIT_REPO_URI}"
 	einfo "EGIT_BRANCH=${EGIT_BRANCH}"
 	einfo "EGIT_COMMIT=${EGIT_COMMIT}"
@@ -63,30 +65,26 @@ pkg_setup() {
 	einfo "Fixing S..."
 	S="${DIRNAME}/${P}"
 	einfo "S=${S}"
-#	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
-#	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
-#	einfo ""
-#	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
-#	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+	einfo ""
 	einfo "Done pkg_setup()"
 }
 
-# Error from try #6:
-# * DIRNAME=/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
-# * BASENAME=linux-6.2.16-raspi
-#*   About to move /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi to , where it's expected to be...
-# mv: cannot stat '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/raspi-sources': No such file or directory
-# ...
-#>>> Source unpacked in /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
-# * ERROR: sys-kernel/raspi-sources-6.2.16::joetoo failed (prepare phase):
-# *   The source directory '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi' 
-#        doesn't exist
-# testing what IS there : a /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work
-#  drwxr-xr-x 28 portage portage 4096 Jan  9 22:20 raspi-sources-6.2.16
+# Error from try #12:
+# * >>> Copying sources ...
+# cp: cannot stat '/var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux*'
+# :  No such file or directory
+# *     ebuild.sh, line  136:  Called src_install
+# *   environment, line 2466:  Called kernel-2_src_install
+# *   environment, line 2001:  Called install_sources
+# *   environment, line 1933:  Called die
+# * The specific snippet of code:
+# *       cp -R "${WORKDIR}"/linux* "${ED}"/usr/src || die;
 
 src_prepare() {
 	einfo "Now in src_prepare()"
         default
+	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
+	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
 }
 
 pkg_postinst() {
