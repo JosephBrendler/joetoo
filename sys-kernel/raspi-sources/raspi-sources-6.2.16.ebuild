@@ -59,6 +59,9 @@ pkg_setup() {
 	einfo "EGIT_BRANCH=${EGIT_BRANCH}"
 	einfo "EGIT_COMMIT=${EGIT_COMMIT}"
 	einfo ""
+	einfo "Fixing S..."
+	S="${DIRNAME}/${P}"
+	einfo "S=${S}"
 #	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
 #	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
 #	einfo ""
