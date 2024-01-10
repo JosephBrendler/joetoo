@@ -59,11 +59,12 @@ pkg_setup() {
 	einfo "EGIT_BRANCH=${EGIT_BRANCH}"
 	einfo "EGIT_COMMIT=${EGIT_COMMIT}"
 	einfo ""
-	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
-	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
-	einfo ""
-	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
-	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+#	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
+#	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
+#	einfo ""
+#	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
+#	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+	einfo "Done pkg_setup()"
 }
 
 # Error from try #6:
