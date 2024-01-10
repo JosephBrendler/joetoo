@@ -48,7 +48,8 @@ pkg_setup() {
 	BASENAME=$(basename ${S})
 	einfo "DIRNAME=${DIRNAME}"
 	einfo "BASENAME=${BASENAME}"
-	MyS="${DIRNAME}/linux-${PN}-raspi"
+	MyBadS="${DIRNAME}/${PN}"
+	MyGoodS="${DIRNAME}/linux-${PV}-raspi"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
@@ -62,8 +63,15 @@ pkg_setup() {
 	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
 	einfo ""
 	einfo "About to move ${S} to ${MyS}, where it's expected to be..."
-	mv -v ${S} ${MyS}
+	mv -v ${MyBadS} ${MyGoodS}
 }
+
+# fixing this failure from try #5:
+# * About to move /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-6.2.16-raspi to
+#                 /var/tmp/portage/sys-kernel/raspi-sources-6.2.16/work/linux-raspi-sources-raspi
+# , where it's expected to be...
+
+
 
 pkg_postinst() {
 	einfo "Now in pkg_postinst()"
