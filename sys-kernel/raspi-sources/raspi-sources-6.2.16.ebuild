@@ -63,6 +63,7 @@ pkg_setup() {
 	einfo "EGIT_COMMIT=${EGIT_COMMIT}"
 	einfo ""
 	einfo "Fixing S..."
+        old_S=${S}
 	S="${DIRNAME}/${P}"
 	einfo "S=${S}"
 	einfo ""
@@ -85,6 +86,9 @@ src_prepare() {
         default
 	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
 	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+	einfo "About to reassign S back to its original value..."
+	S=${old_S}
+	einfo "S=${S}"
 }
 
 pkg_postinst() {
