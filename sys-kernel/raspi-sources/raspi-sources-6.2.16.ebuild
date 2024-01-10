@@ -54,16 +54,11 @@ pkg_setup() {
 	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
 
 	# install sources
-	dodir /usr/src/linux-${PV}  && einfo "Created /usr/src/linux-${PV} with dodir"
-	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/linux-${PV}/'
-		cp -R "${S}/" "${D}/usr/src/linux-${PV}/'" || die "Install failed!"
-	elog ""
-
-	elog "${PN} installed in ${D}/usr/src/linux-${PV}/"
-	elog ""
-	elog "This software in preliminary.  Please report bugs to the maintainer."
-	elog ""
-	elog "Thank you for using ${PN}"
+#	dodir /usr/src/linux-${PV}  && einfo "Created /usr/src/linux-${PV} with dodir"
+#	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/linux-${PV}/'
+#		cp -R "${S}/" "${D}/usr/src/linux-${PV}/'" || die "Install failed!"
+#	elog ""
+#	elog "${PN} installed in ${D}/usr/src/linux-${PV}/"
 }
 
 pkg_postinst() {
@@ -74,6 +69,10 @@ pkg_postinst() {
 
 pkg_postrm() {
         kernel-2_pkg_postrm
+	elog ""
+	elog "This software in preliminary.  Please report bugs to the maintainer."
+	elog ""
+	elog "Thank you for using ${PN}"
 }
 
 
