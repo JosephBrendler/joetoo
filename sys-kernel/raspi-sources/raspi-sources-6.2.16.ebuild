@@ -62,7 +62,7 @@ pkg_setup() {
 	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
 	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
 	einfo ""
-	einfo "About to move ${S} to ${MyS}, where it's expected to be..."
+	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
 	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
 }
 
