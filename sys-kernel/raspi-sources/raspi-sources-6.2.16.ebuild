@@ -35,13 +35,20 @@ LICENSE="MIT"
 SLOT=0
 
 pkg_setup() {
+	ewarn "Now in pkg_setup()"
 	ewarn ""
 	ewarn "${PN} is *not* supported by the Gentoo Kernel Project in any way."
 	ewarn "If you need support, please contact the raspberrypi developers directly."
 	ewarn "Do *not* open bugs in Gentoo's bugzilla unless you have issues with"
 	ewarn "the ebuilds. Thank you."
 	ewarn ""
+
 	einfo "S=${S}"
+	DIRNAME=$(dirname ${S})
+	BASENAME=$(basename ${S})
+	einfo "DIRNAME=${DIRNAME}"
+	einfo "BASENAME=${BASENAME}"
+	MyS="${DIRNAME}/linux-${PN}-raspi"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
@@ -50,25 +57,24 @@ pkg_setup() {
 	einfo "EGIT_REPO_URI=${EGIT_REPO_URI}"
 	einfo "EGIT_BRANCH=${EGIT_BRANCH}"
 	einfo "EGIT_COMMIT=${EGIT_COMMIT}"
-
+	einfo ""
+	einfo "About to get-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}"
 	git-r3_fetch ${EGIT_REPO_URI} ${EGIT_BRANCH} ${EGIT_COMMIT}
-
-	# install sources
-#	dodir /usr/src/linux-${PV}  && einfo "Created /usr/src/linux-${PV} with dodir"
-#	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/linux-${PV}/'
-#		cp -R "${S}/" "${D}/usr/src/linux-${PV}/'" || die "Install failed!"
-#	elog ""
-#	elog "${PN} installed in ${D}/usr/src/linux-${PV}/"
+	einfo ""
+	einfo "About to move ${S} to ${MyS}, where it's expected to be..."
+	mv -v ${S} ${MyS}
 }
 
 pkg_postinst() {
-        kernel-2_pkg_postinst
-        einfo "For more info on this patchset, and how to report problems, see:"
-        einfo "${HOMEPAGE}"
+	einfo "Now in pkg_postinst()"
+	kernel-2_pkg_postinst
+	einfo "For more info on this patchset, and how to report problems, see:"
+	einfo "${HOMEPAGE}"
 }
 
 pkg_postrm() {
-        kernel-2_pkg_postrm
+	einfo "Now in pkg_postrm()"
+	kernel-2_pkg_postrm
 	elog ""
 	elog "This software in preliminary.  Please report bugs to the maintainer."
 	elog ""
