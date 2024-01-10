@@ -13,7 +13,8 @@ detect_arch
 
 PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 
-inherit git-r3 distutils-r1
+#inherit git-r3 distutils-r1
+inherit git-r3
 
 EGIT_REPO_URI="https://github.com/raspberrypi/linux.git"
 EGIT_BRANCH="rpi-6.2.y"
