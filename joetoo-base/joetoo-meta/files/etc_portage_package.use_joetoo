@@ -109,6 +109,7 @@ virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
 www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
+sys-kernel/installkernel -dracut
 
 #-----[ standardized TARGETS for joetoo ]-------------------------------
 # This section is self-explanatory.  Note that default CPU flags are set in the included file
