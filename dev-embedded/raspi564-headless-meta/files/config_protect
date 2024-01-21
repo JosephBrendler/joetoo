@@ -1,1 +1,1 @@
-CONFIG_PROTECT="/etc/local.d/raspi5_vpn.start cpu_gov.start"
+CONFIG_PROTECT="/etc/local.d/raspi5_vpn.start /etc/local.d/cpu_gov.start"
