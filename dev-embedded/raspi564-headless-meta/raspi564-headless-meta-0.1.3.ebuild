@@ -85,7 +85,7 @@ src_install() {
 		newins "${FILESDIR}/raspi5_vpn.start" "raspi5_vpn.start"
 		elog "  Installed (newins) raspi5_vpn.start"
 		# config_protect this and other files in /etc/local.d
-		newenvd "${FILESDIR}"config_protect 99${PN}
+		newenvd "${FILESDIR}/"config_protect 99${PN}
 		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/local/sbin/"
 		# pi5 periodic monitor/LED set tools for vpn/temp/svcs
