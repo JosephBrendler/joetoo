@@ -17,8 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-#RDEPEND="=sys-kernel/raspi-sources-${PV}"
-RDEPEND=""
+RDEPEND="=sys-kernel/raspi-sources-${PV}"
 DEPEND="${RDEPEND}"
 
 src_install() {
