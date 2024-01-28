@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-${PV}"
+RDEPEND="=sys-kernel/raspi-sources-${PV}"
 DEPEND="${RDEPEND}"
 
 src_install() {
