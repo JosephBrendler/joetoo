@@ -4,7 +4,7 @@
 
 EAPI=7
 
-DESCRIPTION="create initramfs for LUKS encrypted / lmv system"
+DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-${PV}.tbz2"
 
