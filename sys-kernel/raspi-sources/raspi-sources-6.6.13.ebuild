@@ -1,6 +1,17 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 # joe brendler  9 January 2024
+#
+# to update --
+# cd /home/joe/raspi-sources
+# rm -rf linux
+# git clone --depth 1 --branch <branch_e.g._"rpi-6.2.y"> https://github.com/raspberrypi/linux.git
+# cd linux
+# make kernelversion  ## copy old ebuild to this version #
+# git status   ## confirm this branch ---------^
+# git log (copy/paste commit # for EGIT_COMMIT (below)
+# edit ebuild with new version number and upate EGIT_BRANCH and EGIT_COMMIT, below
+#
 
 EAPI=8
 
@@ -18,8 +29,8 @@ PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 inherit git-r3
 
 EGIT_REPO_URI="https://github.com/raspberrypi/linux.git"
-EGIT_BRANCH="rpi-6.2.y"
-EGIT_COMMIT="4c7938b86db7dfccbfd4d2a840091cbb7fbf2e9f"
+EGIT_BRANCH="rpi-6.6.y"
+EGIT_COMMIT="02b507a4a54f73b85a28999176ed975867b7d6b6"
 
 # default to off because mpst raspis have vfat boot partition which can't support symlink
 IUSE="-symlink"
