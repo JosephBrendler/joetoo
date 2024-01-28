@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my raspberry pi 3 model B+ embedded system(s)"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2710-rpi-3-b-plus_kernel_image-6.5.4.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2710-rpi-3-b-plus_kernel_image-${PV}.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-#RDEPEND="=sys-kernel/gentoo-sources-6.5.4"
+#RDEPEND="=sys-kernel/raspi-sources-${PV}"
 RDEPEND=""
 DEPEND="${RDEPEND}"
 
@@ -49,8 +49,8 @@ src_install() {
 	elog ""
 	# conditionally install the symlink
 	if use symlink ; then
-		k=$(echo Image-${PV}-gentoo)
-		d=$(echo bcm2710-rpi-3-b-plus.dtb-${PV}-gentoo)
+		k=$(echo Image-${PV}-raspi)
+		d=$(echo bcm2710-rpi-3-b-plus.dtb-${PV}-raspi)
 		[[ -L /boot/Image ]] && kold=$(readlink /boot/Image -f --canonicalize) || kold=$(echo Image-$(uname -r))
 		[[ -L /boot/bcm2710-rpi-3-b-plus.dtb ]] && dold=$(readlink /boot/bcm2710-rpi-3-b-plus.dtb -f --canonicalize) || dold=$(echo bcm2710-rpi-3-b-plus.dtb-$(uname -r))
 		einfo "k = [${k}]"
