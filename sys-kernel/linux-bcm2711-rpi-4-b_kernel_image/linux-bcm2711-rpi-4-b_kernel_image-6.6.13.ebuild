@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my raspberry pi 4 model B embedded system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.5.1.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-${PV}.tar.bz2"
 
 S="${WORKDIR}/"
 
@@ -17,7 +17,7 @@ KEYWORDS="~arm"
 IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/gentoo-sources-6.5.1"
+RDEPEND="=sys-kernel/gentoo-sources-${PV}"
 DEPEND="${RDEPEND}"
 
 src_install() {

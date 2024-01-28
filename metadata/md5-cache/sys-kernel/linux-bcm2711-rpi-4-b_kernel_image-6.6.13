@@ -1,13 +1,13 @@
 DEFINED_PHASES=install
-DEPEND==sys-kernel/gentoo-sources-6.5.1
+DEPEND==sys-kernel/gentoo-sources-6.6.13
 DESCRIPTION=kernel image for my raspberry pi 4 model B embedded system
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
 IUSE=symlink
 KEYWORDS=~arm
 LICENSE=MIT
-RDEPEND==sys-kernel/gentoo-sources-6.5.1
+RDEPEND==sys-kernel/gentoo-sources-6.6.13
 RESTRICT=mirror
 SLOT=0
-SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.5.1.tar.bz2
-_md5_=e7b87e56aa87bf0ef7838fd86b05b107
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.6.13.tar.bz2
+_md5_=c69ec273ff3e677320fdc0c362a829af
