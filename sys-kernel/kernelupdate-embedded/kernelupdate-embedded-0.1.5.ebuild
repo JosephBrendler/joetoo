@@ -50,14 +50,14 @@ src_install() {
 	elog "Installing script ${PN}..."
 	dodir "/usr/sbin/"
 	z="${PN}"
-	einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
-	cp -v "${x}" "${D}/usr/sbin/${z}";
+	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/usr/sbin/${z};"
+	cp -v "${FILESDIR}/${z}" "${D}/usr/sbin/${z}";
 	# install the README-instructions file for getting sources
 	elog "Installing README-instructions file..."
 	dodir "/etc/${PN}/"
 	z="README-instructions"
-	einfo "About to execute command cp -v "${x}" "${D}"/etc/"${PN}"/"${z}";"
-	cp -v "${x}" "${D}/etc/${PN}/${z}";
+	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/etc/${PN}/${z};"
+	cp -v "${FILESDIR}/${z}" "${D}/etc/${PN}/${z}";
 	elog "done installing script and README"
 
 	elog "Installing configuration files for selected boards..."
