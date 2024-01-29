@@ -348,7 +348,7 @@ do
     echo -en ${BWon}
   fi
   echo ${line}
-done < ${CONF_DIR}/README-instructions
+done < $(dirname ${CONF_DIR})/README-instructions
 #done < /etc/kernelupdate-embedded/README-instructions
 echo -e ${Boff}
 
