@@ -334,6 +334,27 @@ usage() {
 }
 
 make_sources_message() {
+# pull text from /etc/kernelupdate-embedded/README-instructions
+# ignore lines beginning with two #s (i.e. "##"
+# echo lines beginning with one "#" in light blue
+# ehco other lines in bright white
+#
+while read line
+do
+  if [ "${line:0:1}" == "#" ]
+  then
+    [ "${line:1:1}" == "#" ] && break || echo -en ${LBon}
+  else
+    echo -en ${BWon}
+  fi
+  echo ${line}
+done < ${CONF_DIR}/README-instructions
+#done < /etc/kernelupdate-embedded/README-instructions
+echo -e ${Boff}
+
+}
+
+old_make_sources_message() {
   mksrcmsg="\n${BYon}Remember, you must first have valid sources in '${sources_dir}'. Here are several ways -- \n${Boff}"
   mksrcmsg+="\n"
   mksrcmsg+="${LBon}# Clone from kernel.org, Github's torvalds/linux only mirrors the\n${Boff}"
