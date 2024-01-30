@@ -66,8 +66,8 @@ pkg_setup() {
 src_install() {
 	einfo "Now in src_install()"
 	einfo "About to install sources in /usr/src/${My_P}/..."
-	dodir /usr/src/
-	cp -Rv ${S}/* ${D}/${My_P}/
+	dodir /usr/src/${My_P}
+	cp -R ${S}/* ${D}/usr/src/${My_P}/
 }
 
 pkg_postinst() {
