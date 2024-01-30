@@ -6,17 +6,18 @@
 # to examine before building an ebuild...
 # cd /home/joe/tinker-sources
 # rm -rf linux
-# wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz
-# tar xvpf linux-6.6.13.tar.xz
+# wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${PN}.tar.xz
+# tar xvpf linux-${PN}.tar.xz
 # cd linux
-# make kernelversion  ## copy old ebuild to this version #
+# make kernelversion  ## copy to use as ${PN}
 #
 
 EAPI=8
-
+MyV=$(ver_cut 1)
 DESCRIPTION="kernel sources for ASUS tinkerboard embedded system"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz"
+#SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz"
+SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v${MyV}.x/linux-${PV}.tar.xz"
 
 S="${WORKDIR}/"
 
