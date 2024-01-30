@@ -60,22 +60,14 @@ pkg_setup() {
 	einfo "WORKDIR=${WORKDIR}"
 	einfo "ED=${ED}"
 	einfo ""
-#	einfo "Fixing S..."
-#        old_S=${S}
-#	S="${DIRNAME}"
-#	einfo "old_S=${old_S}"
-	einfo "S=${S}"
-	einfo ""
 	einfo "Done pkg_setup()"
 }
 
 src_install() {
 	einfo "Now in src_install()"
 	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
-	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
-	einfo "About to reassign S back to its original value..."
-	S=${old_S}
-	einfo "S=${S}"
+#	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+	mv -v ${S}/${P} ${D}/${My_P}
 }
 
 pkg_postinst() {
