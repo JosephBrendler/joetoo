@@ -1,0 +1,90 @@
+# Copyright 1999-2023 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+# joe brendler  29 January 2024
+#
+# Note: this is not like raspi-sources (which is git)
+# to examine before building an ebuild...
+# cd /home/joe/tinker-sources
+# rm -rf linux
+# wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz
+# tar xvpf linux-6.6.13.tar.xz
+# cd linux
+# make kernelversion  ## copy old ebuild to this version #
+#
+
+EAPI=8
+
+DESCRIPTION="kernel sources for ASUS tinkerboard embedded system"
+HOMEPAGE="https://github.com/JosephBrendler/joetoo"
+SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz"
+
+S="${WORKDIR}/"
+
+LICENSE="MIT"
+SLOT="0"
+
+KEYWORDS="~arm ~arm64"
+IUSE="symlink"
+RESTRICT="mirror"
+
+# default to off because mpst raspis have vfat boot partition which can't support symlink
+IUSE="-symlink"
+
+LICENSE="MIT"
+
+SLOT=0
+
+pkg_setup() {
+	ewarn "Now in pkg_setup()"
+	ewarn ""
+	ewarn "${PN} is *not* associated with the Gentoo Kernel Project"
+	ewarn "${PN} installs raw kernel sources directly from cdn.kernel.org"
+	ewarn "If you need support, please contact upstream kernel developers directly."
+	ewarn "Do *not* open bugs in Gentoo's bugzilla unless you have issues with"
+	ewarn "the ebuilds. Thank you."
+	ewarn ""
+
+	einfo "S=${S}"
+	DIRNAME=$(dirname ${S})
+	BASENAME=$(basename ${S})
+	einfo "DIRNAME=${DIRNAME}"
+	einfo "BASENAME=${BASENAME}"
+	My_P="linux-${PV}-tinker"
+	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "My_P=${My_P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "WORKDIR=${WORKDIR}"
+	einfo "ED=${ED}"
+	einfo ""
+	einfo "Fixing S..."
+        old_S=${S}
+	S="${DIRNAME}/${P}"
+	einfo "S=${S}"
+	einfo ""
+	einfo "Done pkg_setup()"
+}
+
+src_install() {
+	einfo "Now in src_install()"
+	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
+	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
+	einfo "About to reassign S back to its original value..."
+	S=${old_S}
+	einfo "S=${S}"
+}
+
+pkg_postinst() {
+	einfo "Now in pkg_postinst()"
+	elog ""
+	elog "This software in preliminary.  Please report bugs to the maintainer."
+	elog ""
+	elog "Thank you for using ${PN}"
+}
+
+
+
+
+
