@@ -8,4 +8,4 @@ LICENSE=MIT
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.13.tar.xz
-_md5_=66939f3fb2d815604e69625a826d932a
+_md5_=e650f199bdd4f8bc2a728ecd15ee03e2

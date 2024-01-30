@@ -65,9 +65,9 @@ pkg_setup() {
 
 src_install() {
 	einfo "Now in src_install()"
-	einfo "About to move ${P} to ${My_P}, where it's expected to be..."
-#	mv -v ${DIRNAME}/${P} ${DIRNAME}/${My_P}
-	mv -v ${S}/${P} ${D}/${My_P}
+	einfo "About to install sources in /usr/src/${My_P}/..."
+	dodir /usr/src/
+	cp -Rv ${S}/* ${D}/${My_P}/
 }
 
 pkg_postinst() {
