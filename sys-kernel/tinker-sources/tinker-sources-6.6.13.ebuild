@@ -62,7 +62,8 @@ pkg_setup() {
 	einfo ""
 	einfo "Fixing S..."
         old_S=${S}
-	S="${DIRNAME}/${P}"
+	S="${DIRNAME}"
+	einfo "old_S=${old_S}"
 	einfo "S=${S}"
 	einfo ""
 	einfo "Done pkg_setup()"
