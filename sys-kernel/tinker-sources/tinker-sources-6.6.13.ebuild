@@ -60,10 +60,10 @@ pkg_setup() {
 	einfo "WORKDIR=${WORKDIR}"
 	einfo "ED=${ED}"
 	einfo ""
-	einfo "Fixing S..."
-        old_S=${S}
-	S="${DIRNAME}"
-	einfo "old_S=${old_S}"
+#	einfo "Fixing S..."
+#        old_S=${S}
+#	S="${DIRNAME}"
+#	einfo "old_S=${old_S}"
 	einfo "S=${S}"
 	einfo ""
 	einfo "Done pkg_setup()"
