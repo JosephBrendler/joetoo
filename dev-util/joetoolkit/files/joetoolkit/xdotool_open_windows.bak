@@ -1,5 +1,8 @@
 #!/bin/bash
 source /usr/local/sbin/script_header_brendlefly
+
+
+#-----[ initialize variables ]-------------------------------------------------
 width="46%"
 height="85%"
 X1="1%"
@@ -34,6 +37,7 @@ numdesktops=$((${#ssh_session_list[@]} / 2))
 
 ## TODO -- package for ebuild
 d_message "(DEBUG $(my_short_date)) Top of script. Just set global variables." 3
+d_message "(DEBUG $(my_short_date)) numdesktops: ${numdesktops}" 2
 
 #-----[ function blocks ]-------------------------------------------------
 print_ssh_session_list() {
@@ -61,6 +65,7 @@ setup_window_for_index() {
       d_message "$(my_short_date) about to run \"${terminal_program} 2\>/dev/null &\"\"" 1
       ${terminal_program} 2>/dev/null &
       sleep $longWait
+      # open new window
       newterm=$(xdotool getactivewindow)
       xdotool set_window --name "$(hostname) $(basename ${terminal_program})_${i}.${index}" ${newterm}
       newtermname=$(xdotool getactivewindow getwindowname)
@@ -70,24 +75,28 @@ setup_window_for_index() {
       d_message "$(my_short_date) setting focus to window $newtermname on desktop ${i}" 1
       xdotool windowfocus $newterm
       sleep $sleepWait
+      # set window size
+      d_message "$(my_short_date) setting size of window $newtermname to ${width} ${height}" 2
+      xdotool windowsize --sync --usehints $newterm ${width} ${height}
+      sleep $sleepWait
+      # move window - put even numbered windows on right, odd left (leave cursor on left)
+      if [[ $((${index}%2)) -eq 0 ]]
+      then # even
+        d_message "$(my_short_date) moving window $newtermname to ${X2} ${Y1}" 2
+        xdotool windowmove --sync $newterm ${X2} ${Y1}
+        sleep $sleepWait
+      else # odd
+        d_message "$(my_short_date) moving window $newtermname to ${X1} ${Y1}" 2
+        xdotool windowmove --sync $newterm ${X1} ${Y1}
+        sleep $sleepWait
+      fi
+      # open ssh session to indexed target
       d_message "$(my_short_date) launching ssh with command [ssh $cmd_target] in window $newtermname on desktop ${i}" 1
       xdotool type --window ${newterm} --delay 30 --clearmodifiers "ssh $cmd_target"
       sleep $sleepWait
       xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
       sleep $sleepWait
-      if [[ $((${index}%2)) -eq 0 ]]
-      then # even
-        d_message "$(my_short_date) moving window $newtermname to ${X1} ${Y1}" 2
-        xdotool windowmove --sync $newterm ${X1} ${Y1}
-        sleep $sleepWait
-      else # odd
-        d_message "$(my_short_date) moving window $newtermname to ${X2} ${Y1}" 2
-        xdotool windowmove --sync $newterm ${X2} ${Y1}
-        sleep $sleepWait
-    fi
-      d_message "$(my_short_date) setting size of window $newtermname to ${width} ${height}" 2
-      xdotool windowsize --sync --usehints $newterm ${width} ${height}
-      sleep $sleepWait
+
     fi
 }
 
