@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">raspberrypi/firmware</remote-id>
+	</upstream>
+	<use>
+		<flag name="dtbo">Supply device tree blob overlays (/boot/overlays).</flag>
+	</use>
+	<longdescription>
+		Raspberry Pi 2 bootloader and firmware, for 32-bit mode
+	</longdescription>
+</pkgmetadata>

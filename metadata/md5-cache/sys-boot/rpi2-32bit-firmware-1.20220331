@@ -1,0 +1,12 @@
+DEFINED_PHASES=install preinst
+DESCRIPTION=Raspberry Pi boot loader and firmware, for 32-bit mode
+EAPI=8
+HOMEPAGE=https://github.com/raspberrypi/firmware
+IUSE=+dtbo
+KEYWORDS=~arm
+LICENSE=GPL-2 raspberrypi-videocore-bin Broadcom
+RDEPEND=>=sys-boot/rpi2-boot-config-0.0.1 !sys-boot/raspberrypi-firmware
+RESTRICT=mirror binchecks strip
+SLOT=0
+SRC_URI=https://github.com/raspberrypi/firmware/archive/1.20220331.tar.gz -> rpi2-32bit-firmware-1.20220331.tar.gz
+_md5_=c1639425df787d3e551036d9c46ce377
