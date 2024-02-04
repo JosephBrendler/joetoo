@@ -1,0 +1,8 @@
+[raspi36401]
+priority = 9999
+sync-uri = https://raspi36401.brendler/packages/aarch64-unknown-linux-gnu-rpi3-packages/
+
+[raspi36402]
+priority = 9999
+sync-uri = https://raspi36402.brendler/packages/aarch64-unknown-linux-gnu-rpi3-packages/
+
