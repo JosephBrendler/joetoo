@@ -29,14 +29,14 @@ IUSE="
 	-compareConfigs -Terminal
 	-gentoo_pv_kernel_image
 	-samba
-	-sbc -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -rk3288-tinker-s -rk3399-rock-pi-4c-plus
+	-sbc -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b -rk3288-tinker-s -rk3399-rock-pi-4c-plus
 	"
 
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )
 	lamp? ( ^^ ( mysql mariadb ) )
-	sbc? ( ^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus rk3288-tinker-s rk3399-rock-pi-4c-plus ) )
+	sbc? ( ^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus ) )
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
 	^^ ( netifrc networkmanager )
@@ -133,16 +133,17 @@ pkg_setup() {
 			export board="bcm2711-rpi-4-b"
 		else if use bcm2710-rpi-3-b-plus; then
 			export board="bcm2710-rpi-3-b-plus"
+		else if use bcm2709-rpi-2-b; then
+			export board="bcm2709-rpi-2-b"
 		else if use rk3288-tinker-s; then
 			export board="rk3288-tinker-s"
 		else if use rk3399-rock-pi-4c-plus; then
 			export board="rk3399-rock-pi-4c-plus"
 		else
 			export board=""
-		fi; fi; fi; fi; fi
+		fi; fi; fi; fi; fi; fi
 		einfo "board: ${board}"
 	fi
-
 }
 
 src_install() {
@@ -237,7 +238,7 @@ src_install() {
 				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
-				"rk3288-tinker-s")
+				"bcm2709-rpi-2-b"|"rk3288-tinker-s")
 					# arch=arm
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm" "joetoo" ;;
 			esac
@@ -254,6 +255,8 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi4_binhosts_conf_joetoo" "joetoo_rpi4_binhosts.conf" ;;
 				"bcm2710-rpi-3-b-plus")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi3_binhosts_conf_joetoo" "joetoo_rpi3_binhosts.conf" ;;
+				"bcm2709-rpi-2-b")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi2_binhosts_conf_joetoo" "joetoo_rpi2_binhosts.conf" ;;
 				"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s")
 					# nothing, yet
 					;;
@@ -307,6 +310,7 @@ pkg_postinst() {
 	elog "version 0.3.7 adds sys-kernel/installkernel -dracut ** to drop dracut in package.use/joetoo "
 	elog "version 0.3.8-10 update package.env (for additional pkgs that have failed to compile with distcc)"
 	elog "version 0.3.11 adds joetoo binhosts conf in binhrepos.conf/ on rpi 3/4/5 systems"
+	elog "version 0.3.12 adds support for raspberry pi 2 (bcm2709-rpi-2-b)"
 	elog ""
 	elog "Note that install phase will fail if config files (such as resolv.conf) have immutable"
 	elog "attribute set. If this is so, run as root, for example: chattr -i /etc/resolv.conf"
