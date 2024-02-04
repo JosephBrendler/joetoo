@@ -11,7 +11,7 @@ SRC_URI=""
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~arm64"
-IUSE="+boot-fw +innercore +gpio -pitop +joetoo"
+IUSE="+boot-fw +innercore +gpio +joetoo"
 REQUIRED_USE="
 	innercore"
 
@@ -27,7 +27,7 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	boot-fw? (
-		>=sys-boot/rpi2-32bit-firmware-1.20190819[pitop(-)?]
+		>=sys-boot/rpi2-32bit-firmware-1.20190819
 	)
 	!boot-fw? (
 		!sys-boot/rpi2-32bit-firmware
@@ -44,7 +44,7 @@ RDEPEND="
 		>=sys-apps/rpi-serial-1.0.0-r1
 		>=sys-apps/rpi-video-1.0.0-r1
 		>=sys-apps/rng-tools-6.8
-		>=sys-boot/rpi2-boot-config-1.0.9[pitop(-)?]
+		>=sys-boot/rpi2-boot-config-0.0.1
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
