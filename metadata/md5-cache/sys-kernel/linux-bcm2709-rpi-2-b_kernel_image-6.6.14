@@ -1,13 +1,11 @@
 DEFINED_PHASES=install
-DEPEND==sys-kernel/raspi-sources-6.6.14
 DESCRIPTION=kernel image for my raspberry pi 2 model b embedded system(s)
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
 IUSE=symlink
 KEYWORDS=~arm
 LICENSE=MIT
-RDEPEND==sys-kernel/raspi-sources-6.6.14
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2709-rpi-2-b_kernel_image-6.6.14.tar.bz2
-_md5_=712ebd0467e04341c545611c4cd2032b
+_md5_=b254e799fb4da6db5cd6a31e6038fe2c
