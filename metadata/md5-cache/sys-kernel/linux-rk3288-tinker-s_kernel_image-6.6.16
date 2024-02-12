@@ -1,0 +1,11 @@
+DEFINED_PHASES=install
+DESCRIPTION=kernel image for my ASUS Tinkerboard S
+EAPI=6
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=symlink
+KEYWORDS=~arm
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3288-tinker-s_kernel_image-6.6.16.tar.bz2
+_md5_=f21fe9aaef193110d5008c00de005dd8
