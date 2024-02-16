@@ -53,7 +53,7 @@
 #    -samba
 #    -sbc -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b -rk3288-tinker-s -rk3399-rock-pi-4c-plus
 #
->=joetoo-base/joetoo-meta-0.0.1::joetoo cloudsync headless innercore jus mkinitramfs netifrc ntp script_header_brendlefly sysklogd 
+>=joetoo-base/joetoo-meta-0.0.1::joetoo chrony cloudsync headless innercore jus mkinitramfs netifrc script_header_brendlefly sysklogd 
 
 #-----[ specific to joetoo system setup ]------------------------
 # This section allows you to configure packages that exist only in the joetoo github overlay
