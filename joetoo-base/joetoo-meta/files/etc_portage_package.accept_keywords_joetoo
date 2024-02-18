@@ -80,3 +80,6 @@ app-misc/tracker -~amd64
 app-misc/tracker-miners -~amd64
 gnome-base/nautilus -~amd64
 net-fs/samba -~amd64
+
+dev-db/mysql -~amd64
+dev-libs/protobuf -~amd64

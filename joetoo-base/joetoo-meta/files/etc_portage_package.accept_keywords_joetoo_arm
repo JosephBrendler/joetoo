@@ -80,3 +80,7 @@ app-misc/tracker -~arm
 app-misc/tracker-miners -~arm
 gnome-base/nautilus -~arm
 net-fs/samba -~arm
+
+dev-db/mysql -~arm
+dev-libs/protobuf -~arm
+
