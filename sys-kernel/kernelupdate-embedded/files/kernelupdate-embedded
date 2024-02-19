@@ -40,7 +40,7 @@ VERBOSE=$TRUE
 verbosity=3
 
 user="joe"
-makeopts="-j9 -l5"
+makeopts=" -j9 -l5"
 features=" -userpriv -distcc -distcc-pump"
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
@@ -90,7 +90,7 @@ module_dir=""  # to be set after make modules_install
 [[ ! -d "${boot_dir}" ]]           && mkdir -pv -m 755 "${boot_dir}"            && chown ${user}:${user} "${boot_dir}"
 
 # set up the cross-building make command
-make_model="MAKEOPTS=${makeopts} FEATURES=${features} "
+make_model="MAKEOPTS=\"${makeopts}\" FEATURES=\"${features}\" "
 make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
 # get and set version number and name
