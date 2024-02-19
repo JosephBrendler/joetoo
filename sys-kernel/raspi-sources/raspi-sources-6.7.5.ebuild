@@ -29,8 +29,8 @@ PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 inherit git-r3
 
 EGIT_REPO_URI="https://github.com/raspberrypi/linux.git"
-EGIT_BRANCH="rpi-6.6.y"
-EGIT_COMMIT="02b507a4a54f73b85a28999176ed975867b7d6b6"
+EGIT_BRANCH="rpi-6.7.y"
+EGIT_COMMIT="de5fe6b7774ea0e510a6cd745d8554de683933eb"
 
 # default to off because mpst raspis have vfat boot partition which can't support symlink
 IUSE="-symlink"
