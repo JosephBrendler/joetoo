@@ -17,13 +17,13 @@ max-clients 100
 tls-server
 topology subnet
 #----- server binding port, protocol (tcp/udp/tcp6/udp6), tun/tap device
-port 9016
+port 9026
 proto udp
 dev tun0
 #----- keys configuration; note: generated on server in /root/easy-rsa-openvpnsetup
 ca serverkeys/ca.crt
-cert serverkeys/server_nuoromis.crt
-key serverkeys/server_nuoromis.key
+cert serverkeys/server_Elrond.crt
+key serverkeys/server_Elrond.key
 dh serverkeys/dh.pem
 #dh serverkeys/dh2048.pem
 #----- cryptographic cipher and authentication algorithm (must do on both server and client)
@@ -34,7 +34,7 @@ auth SHA512
 #----- optional tls-auth key to secure identifying
 tls-auth serverkeys/ta.key 0
 #----- OpenVPN 'virtual' network infomation, network and mask
-server 192.168.67.0 255.255.255.0
+server 192.168.63.0 255.255.255.0
 #----- connection management info
 keepalive 10 120
 #comp-lzo
@@ -45,24 +45,19 @@ persist-key
 persist-tun
 #ifconfig-pool-persist ipp.txt (trying to use dhcp instead; besides ipp.txt is empty)
 #----- pushing route tables
-push "route 192.168.65.0 255.255.255.0"
-push "route 192.168.66.0 255.255.255.0"
-#push "route 192.168.67.0 255.255.255.0"
-push "route 192.168.67.1"
-#push "route-gateway 192.168.67.1"
+push "route 192.168.61.0 255.255.255.0"
+push "route 192.168.62.0 255.255.255.0"
+#push "route 192.168.63.0 255.255.255.0"
+push "route 192.168.63.1"
+#push "route-gateway 192.168.63.1"
 push "route-delay 2"
 push "dhcp-option DOMAIN brendler"
-#push "dhcp-option DNS 192.168.67.1"
-push "dhcp-option DNS 192.168.66.17"
-push "dhcp-option NTP 192.168.66.17"
+#push "dhcp-option DNS 192.168.63.1"
+push "dhcp-option DNS 192.168.62.17"
+push "dhcp-option NTP 192.168.62.17"
 #----- logging
 status /var/log/openvpn-status.log 10
 log /var/log/openvpn.log
 log-append /var/log/openvpn.log
 #verb 4
 verb 6
-
-### these were in my old openvpn.conf
-#tun-mtu 1500
-#tun-mtu-extra 32
-#mssfix 1200

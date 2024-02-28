@@ -8,8 +8,7 @@ dev tun0
 proto udp
 
 # server address
-#remote 173.73.202.80 9016
-remote 192.168.66.17 9016
+remote 192.168.62.17 9026
 
 # connection
 #comp-lzo
@@ -21,10 +20,12 @@ persist-key
 persist-tun
 
 # keys settings
-#ca C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2023\\ca.crt
-ca /etc/openvpn/openvpnkeys/ca.crt
-cert /etc/openvpn/openvpnkeys/nuoromisclient_raspi56403.crt
-key /etc/openvpn/openvpnkeys/nuoromisclient_raspi56403.key
+#ca C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2024\\ca.crt
+#cert C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2024\\Elrondclient_slim2.crt
+#key C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2024\\Elrondclient_slim2.key
+ca /etc/openvpn/openvpnkeys_2024/ca.crt
+cert /etc/openvpn/openvpnkeys_2024/Elrondclient_raspi23201.crt
+key /etc/openvpn/openvpnkeys_2024/Elrondclient_raspi23201.key
 
 # Verify server certificate by checking
 # that the certicate has the nsCertType
@@ -46,12 +47,13 @@ remote-cert-tls server
 # If the cipher option is used on the server
 # then you must also specify it here.
 cipher aes-256-cbc
+#auth RSA-SHA512
 auth SHA512
 auth-nocache
 
 # optional tls-auth
-#tls-auth C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2023\\ta.key 1
-tls-auth /etc/openvpn/openvpnkeys/ta.key 1
+#tls-auth C:\\Users\\joebr\\OpenVPN\\config\\openvpnkeys_2024\\ta.key 1
+tls-auth /etc/openvpn/openvpnkeys_2024/ta.key 1
 
 # pull dns settings from the server
 script-security 2
@@ -59,20 +61,7 @@ script-security 2
 #down /etc/openvpn/down.sh
 
 # logging
+log /var/log/openvpn.log
+verb 6
 log-append /var/log/openvpn.log
 status /var/log/openvpn-status.log 10
-verb 4
-
-#
-# these were in auto-generated client config from phone
-#dev tun
-
-#auth-nocache
-#<connection>
-#remote 73.39.245.95 9006
-#lport 9006
-#</connection>
-#comp-lzo adaptive
-#cipher BF-CBC
-#auth RSA-SHA256
-#client
