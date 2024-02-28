@@ -1,11 +1,18 @@
-mount /dev/mapper/vg_sdb2-home /mnt/gentoo/home
-mount /dev/mapper/vg_ssd-opt /mnt/gentoo/opt
-mount /dev/mapper/vg_ssd-tmp /mnt/gentoo/tmp
-mount /dev/mapper/vg_ssd-usr /mnt/gentoo/usr
-mount /dev/mapper/vg_ssd-var /mnt/gentoo/var
+#!/bin/bash
+#
+# IMPORTANT - set mountpoint, boot_partuuid, and root_vg  !!!
+#
+root_vg=vg_raspi56407
+mountpoint=/mnt/to
+boot_partuuid=e106efd2-e7a7-4b06-b685-8b635716f533
 
-mount /dev/sda3 /mnt/gentoo/boot
+for x in $(lvs | grep ${root_vg} | grep -v 'root\|swap\|extra' | awk '{print $1}')
+do
+  mount /dev/mapper/${root_vg}-$x ${mountpoint}/$x
+done
 
-mount -t proc proc /mnt/gentoo/proc
-mount --rbind /sys /mnt/gentoo/sys
-mount --rbind /dev /mnt/gentoo/dev
+echo "here is what I mounted..."
+mount | grep ${mountpoint}
+echo
+echo "mount /boot after chroot (see /etc/fstab)"
+echo "use:  # mount PARTUUID=${boot_partuuid} ${mountpoint}/boot"
