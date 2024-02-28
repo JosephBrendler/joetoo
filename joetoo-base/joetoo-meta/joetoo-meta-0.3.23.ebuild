@@ -329,7 +329,7 @@ pkg_postinst() {
 	elog "version 0.3.20 fixes a bug in chrony.conf installation"
 	elog "version 0.3.21 updates package.env and keywords stable dev-db/mysql and dev-libs/protobuf"
 	elog "version 0.3.22 update package.env (for additional pkgs that have failed to compile with distcc)"
-	elog "version 0.3.23 "
+	elog "version 0.3.23 updates package.env, openvpn parts, and config_protect"
 	elog ""
 	elog "Note that install phase will fail if config files (such as resolv.conf) have immutable"
 	elog "attribute set. If this is so, run as root, for example: chattr -i /etc/resolv.conf"
