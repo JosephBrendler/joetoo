@@ -29,7 +29,7 @@
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0.1.0-20230904"
+BUILD="0.2.3-20240219"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
@@ -40,6 +40,8 @@ VERBOSE=$TRUE
 verbosity=3
 
 user="joe"
+makeopts=" -j9 -l5"
+features=" -userpriv -distcc -distcc-pump"
 arch="arm"
 cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
@@ -70,11 +72,10 @@ build_dir="${build_root}/build"
 status_file="${build_dir}/status"
 model_dir="${build_dir}/${model}"
 model_config="${model_dir}/.config"
-kernel_image_dir="${build_dir}/${model}_kernel_images"
 kernel_basename="linux-${model}_kernel_image"
 distrib_dir="${model_dir}/tmp/distrib"
-kernel_distrib_dir="${distrib_dir}/boot"
 lib_dir="${distrib_dir}/lib"
+boot_dir="${distrib_dir}/boot"
 module_dir=""  # to be set after make modules_install
 
 # create the build directory structure if it does not exist (-p makes parents)
@@ -82,15 +83,14 @@ module_dir=""  # to be set after make modules_install
 [[ ! -d "${config_dir}" ]]         && mkdir -pv -m 755 "${config_dir}"          && chown ${user}:${user} "${config_dir}"
 [[ ! -d "${build_dir}" ]]          && mkdir -pv -m 755 "${build_dir}"           && chown ${user}:${user} "${build_dir}"
 [[ ! -d "${model_dir}" ]]          && mkdir -pv -m 755 "${model_dir}"           && chown ${user}:${user} "${model_dir}"
-[[ ! -d "${kernel_image_dir}" ]]   && mkdir -pv -m 755 "${kernel_image_dir}"    && chown ${user}:${user} "${kernel_image_dir}"
 
 # create the staging directory structure if it does not exist
 [[ ! -d "${distrib_dir}" ]]        && mkdir -pv -m 755 "${distrib_dir}"         && chown ${user}:${user} "${distrib_dir}"
-[[ ! -d "${kernel_distrib_dir}" ]] && mkdir -pv -m 755 "${kernel_distrib_dir}"  && chown ${user}:${user} "${kernel_distrib_dir}"
 [[ ! -d "${lib_dir}" ]]            && mkdir -pv -m 755 "${lib_dir}"             && chown ${user}:${user} "${lib_dir}"
+[[ ! -d "${boot_dir}" ]]           && mkdir -pv -m 755 "${boot_dir}"            && chown ${user}:${user} "${boot_dir}"
 
 # set up the cross-building make command
-make_model='MAKEOPTS="-j16 -l4" FEATURES=" -userpriv -distcc -distcc-pump" '
+make_model="MAKEOPTS=\"${makeopts}\" FEATURES=\"${features}\" "
 make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
 # get and set version number and name
@@ -103,7 +103,8 @@ kernel_image_name="${kernel_basename}-${version_number}"
 
 devel_dir="${my_devel_dir}"
 ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
-publish_cmd_file="${build_dir}/publish_${kernel_image_name}"
+publish_tarball_cmd_file="${build_dir}/publish_tarball_${kernel_image_name}"
+publish_ebuild_cmd_file="${build_dir}/publish_ebuild_${kernel_image_name}"
 [[ ! -d "${ebuild_dir}" ]]         && mkdir -pv -m 755 "${ebuild_dir}"          && chown ${user}:${user} "${ebuild_dir}"
 d_message "done auto-configure" 3
 
@@ -119,12 +120,14 @@ command_sequence=(
 'eval ${make_model} modules'
 'eval ${make_model} dtbs'
 'clean_distrib_dirs'
-'install_kernel'
-'install_modules'
-'install_dtbs'
+'stage_kernel'
+'stage_modules'
+'stage_dtbs'
 'make_tarball'
-'pre_publish'
-'publish'
+'pre_publish_tarball'
+'pre_publish_ebuild'
+'publish_tarball'
+'publish_ebuild'
 )
 d_message "done setting command sequence" 3
 
@@ -157,16 +160,18 @@ d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
 d_message "${LBon}.........model_dir=[${BWon}$model_dir${LBon}]${Boff}" 1
 d_message "${LBon}......model_config=[${BWon}$model_config${LBon}]${Boff}" 1
 d_message "${LBon}.......distrib_dir=[${BWon}$distrib_dir${LBon}]${Boff}" 1
-d_message "${LBon}..kernel_image_dir=[${BWon}$kernel_image_dir${LBon}]${Boff}" 1
-d_message "${LBon}kernel_distrib_dir=[${BWon}$kernel_distrib_dir${LBon}]${Boff}" 1
 d_message "${LBon}...........lib_dir=[${BWon}$lib_dir${LBon}]${Boff}" 1
+d_message "${LBon}..........boot_dir=[${BWon}$boot_dir${LBon}]${Boff}" 1
 d_message "${LBon}...kernel_basename=[${BWon}$kernel_basename${LBon}]${Boff}" 1
 d_message "${LBon}.kernel_image_name=[${BWon}$kernel_image_name${LBon}]${Boff}" 1
 d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
 d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
 d_message "${LBon}..     status_file=[${BWon}$status_file${LBon}]${Boff}" 1
-d_message "${LBon}..publish_cmd_file=[${BWon}$publish_cmd_file${LBon}]${Boff}" 1
-d_message "${LBon}........make_model=[${BWon}$make_model${LBon}]${Boff}" 1
+d_echo
+d_message "${LBon}..publish_tarball_cmd_file=[${BWon}$publish_tarball_cmd_file${LBon}]${Boff}" 1
+d_message "${LBon}...publish_ebuild_cmd_file=[${BWon}$publish_ebuild_cmd_file${LBon}]${Boff}" 1
+d_echo
+d_message "${LBon}........make_model='${BWon}$make_model${LBon}'${Boff}" 1
 }
 
 backup_config() {
@@ -188,25 +193,22 @@ save_new_config() {
 
 clean_distrib_dirs()
 {
-  ## remove regular files from *_distrib_dir and everything from lib_dir
   message "${LBon}Cleaning the distribution staging directory...${Boff}"
-  for x in $distrib_dir $kernel_distrib_dir
+  for x in $lib_dir $boot_dir
   do
-    [[ -d $x ]] && find $x -maxdepth 1 -type f -iname '*' -delete
+    [[ -d $x ]] && find $x -mindepth 1 -iname '*' -delete
   done
-  [[ -d $lib_dir ]] && find $lib_dir -mindepth 1 -iname '*' -delete
-  # clean the make and staging dirs
 }
 
-install_kernel()
+stage_kernel()
 {
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the kernel...${Boff}"
-  cp -av ${model_dir}/arch/${arch}/boot/${image} ${kernel_distrib_dir}/${kernel}
+  cp -av ${model_dir}/arch/${arch}/boot/${image} ${boot_dir}/${kernel}
 }
 
-install_modules()
+stage_modules()
 {
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
@@ -214,29 +216,28 @@ install_modules()
   eval "${make_model} INSTALL_MOD_PATH=${distrib_dir} modules_install"
 
   # identify the new module directory
-  module_dir=$( basename $( find ${distrib_dir}/lib/modules/  -maxdepth 1  -iname ${version_number}*  -type d ) )
+  module_dir=$( basename $( find ${lib_dir}/modules/  -maxdepth 1  -iname ${version_number}*  -type d ) )
 
   # fix the build and source symlinks
-  message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/build symlink...${Boff}"
+  message "${LBon}Fixing the ${lib_dir}/modules/${module_dir}/build symlink...${Boff}"
   cd ${lib_dir}/modules/${module_dir} && message "Now working in $PWD"
   rm -v build 2>/dev/null
   ln -snfv /usr/src/linux build
-  eval $link_command
-  message "${LBon}Fixing the ${lib_dir}/modules/${version_number}/source symlink...${Boff}"
+  message "${LBon}Fixing the ${lib_dir}/modules/${module_dir}/source symlink...${Boff}"
   rm -v source 2>/dev/null
   ln -snfv /usr/src/linux source
   cd $old_dir && message "Now working in $PWD"
 }
 
-install_dtbs()
+stage_dtbs()
 {
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
-  message "${LBon}Staging the device tree files (dtbs)...${Boff}"
-  eval "${make_model} INSTALL_DTBS_PATH=${kernel_distrib_dir}/dts/ dtbs_install"
+  message "${LBon}Staging the device tree and overlay files (.dtb and .dtbo files)...${Boff}"
+  eval "${make_model} INSTALL_DTBS_PATH=${boot_dir}/dts/ dtbs_install"
   # copy the one dtb file we need up to boot
   message "${LBon}Staging the dtb file...${Boff}"
-  cp -av ${kernel_distrib_dir}/dts/${dtb_folder}${model}.dtb ${kernel_distrib_dir}/
+  cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
 }
 
 make_tarball()
@@ -248,48 +249,50 @@ make_tarball()
   # create staged tar archive
   message "${LBon}Creating the tar archive...${Boff}"
 
-  # create tarball from staged contents; don't include kernel sources or firmware
-#  tar_command+="  --exclude boot/dts"
+  # create tarball from staged contents; don't include kernel sources
   tar_command="tar "
   tar_command+="  --exclude lib/modules/${module_dir}/source/"
-  tar_command+="  --exclude lib/firmware"
-  tar_command+="  -cvjf ${kernel_image_name}.tar.bz2 boot lib"
+#  tar_command+="  --exclude lib/firmware"
+  tar_command+="  -cvjf ${kernel_image_name}.tar.bz2 ./boot ./lib"
   eval $tar_command && \
   message "${BYon}Complete.  Your tarball is located in the ${LBon}${distrib_dir}${BYon} directory${Boff}" || \
   E_message "${BRon}Something went wrong -- refer to output above${Boff}"
   cd $old_dir && message "Now working in $PWD"
 }
 
-pre_publish()
+pre_publish_tarball()
 {
 echo; message "copying package ${distrib_dir}/${kernel_image_name}.tar.bz2 to ${devel_dir}/"
 cp -v ${distrib_dir}/${kernel_image_name}.tar.bz2 ${devel_dir}/
 message "changing ownership for upload"
 chown ${user}:${user} ${devel_dir}/${kernel_image_name}.tar.bz2
 
-echo; message "copying kernel [ ${kernel_image_name} ] files to server at [ ${kernel_image_dir} ]"
-cp -rv ${distrib_dir}/boot/* ${kernel_image_dir}/
-
-echo; message "Updating symlink to kernel for ${model}"
-cd ${kernel_image_dir} && message "Now working in $PWD"
-mv -v ${image} ${kernel}-${model}-${myversion}
-ln -snfv ${kernel}-${model}-${myversion} ${kernel}
 cd ${old_dir} && message "Now working in $PWD"
+echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
+echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
+echo "git pull" >> ${publish_tarball_cmd_file}
+echo "git status" >> ${publish_tarball_cmd_file}
+echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_tarball_cmd_file}
+echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_tarball_cmd_file}
+echo "git push origin master" >> ${publish_tarball_cmd_file}
+echo  >> ${publish_tarball_cmd_file}
 
-message "Listing contents of ${kernel_image_dir}"
-ls -al ${kernel_image_dir}/
+cd ${old_dir} && message "Now working in $PWD"
+separator "contents of ${publish_tarball_cmd_file}... " $(hostname)
+cat ${publish_tarball_cmd_file}
+separator "setting permissions on ${publish_tarball_cmd_file}... " $(hostname)
+chown joe:joe ${publish_tarball_cmd_file}
+chmod +x ${publish_tarball_cmd_file}
 
-echo; message "Building publish_cmd_file [ ${publish_cmd_file} ]..."
-echo "cd ${devel_dir}/" > ${publish_cmd_file}
-echo "echo new PWD: \${PWD}" >> ${publish_cmd_file}
-echo "git pull" >> ${publish_cmd_file}
-echo "git status" >> ${publish_cmd_file}
-echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_cmd_file}
-echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_cmd_file}
-echo "git push origin master" >> ${publish_cmd_file}
-echo  >> ${publish_cmd_file}
-echo "cd ${ebuild_dir}/" >> ${publish_cmd_file}
-echo "echo new PWD: \${PWD}" >> ${publish_cmd_file}
+}
+
+pre_publish_ebuild()
+{
+echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
+
+echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
+echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
 ebuild_list=()
 
 for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
@@ -300,36 +303,47 @@ old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_d
 echo "old version: ${old_version}"
 echo "new version: ${version_number}"
 
-echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
+echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
 #next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
-#echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_cmd_file}
-echo "rm ${ebuild_dir}/Manifest" >> ${publish_cmd_file}
-echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_cmd_file}
-echo "git pull" >> ${publish_cmd_file}
-echo "git status" >> ${publish_cmd_file}
-echo "git add Manifest" >> ${publish_cmd_file}
-echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_cmd_file}
-echo "git add ${kernel_image_name}.ebuild" >> ${publish_cmd_file}
-echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_cmd_file}
-echo "git push origin master" >> ${publish_cmd_file}
+#echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
+echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
+echo "git pull" >> ${publish_ebuild_cmd_file}
+echo "git status" >> ${publish_ebuild_cmd_file}
+echo "git add Manifest" >> ${publish_ebuild_cmd_file}
+echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
+echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
+echo "git push origin master" >> ${publish_ebuild_cmd_file}
 
-cd ${old_dir}
+cd ${old_dir} && message "Now working in $PWD"
+separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
+cat ${publish_ebuild_cmd_file}
+separator "setting permissions on ${publish_ebuild_cmd_file}... " $(hostname)
+chown joe:joe ${publish_ebuild_cmd_file}
+chmod +x ${publish_ebuild_cmd_file}
 
-separator "contents of ${publish_cmd_file} " $(hostname)
-cat ${publish_cmd_file}
-separator "running ${publish_cmd_file}" $(hostname)
-chown joe:joe ${publish_cmd_file}
-chmod +x ${publish_cmd_file}
 }
 
-publish() {
-  sudo -u ${user} ${publish_cmd_file}
+publish_tarball() {
+  sudo -u ${user} ${publish_tarball_cmd_file}
+}
+
+publish_ebuild() {
+  sudo -u ${user} ${publish_ebuild_cmd_file}
 }
 
 usage() {
   message "Usage: kernelupdate-embedded [-s|-r]"
   message "  -s | --status --> return status (next step, step_number)"
-  message "  -r | --resume --> resume proccessing (with next step, step_number)"
+  message "  -r | --resume --> resume proccessing (with next step, from statusfile)"
+  message "  -[0-18]       --> resume proccessing (with next step, [0-18])"
+  echo
+  message "${BYon}Command sequence steps:${Boff}"
+  for ((s=0; s<${#command_sequence[@]}; s++))
+  do
+    echo -e "    ${LBon}${s}: ${command_sequence[$s]}${Boff}"
+  done
   exit
 }
 
@@ -354,61 +368,6 @@ echo -e ${Boff}
 
 }
 
-old_make_sources_message() {
-  mksrcmsg="\n${BYon}Remember, you must first have valid sources in '${sources_dir}'. Here are several ways -- \n${Boff}"
-  mksrcmsg+="\n"
-  mksrcmsg+="${LBon}# Clone from kernel.org, Github's torvalds/linux only mirrors the\n${Boff}"
-  mksrcmsg+="${LBon}# master branch, not the LTS ones (see https://github.com/torvalds/linux/branches).\n${Boff}"
-  mksrcmsg+="${BWon}  cd /usr/aarch64-unknown-linux-gnu/usr/src\n${Boff}"
-  mksrcmsg+="${BWon}  git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git\n${Boff}"
-  mksrcmsg+="${BWon}  cd linux\n${Boff}"
-  mksrcmsg+="${BWon}  git branch --list --remotes\n${Boff}"
-  mksrcmsg+="${BWon}  git branch --show-current\n${Boff}"
-  mksrcmsg+="${BWon}  git checkout linux-<new_LTS_version>.y\n${Boff}"
-  mksrcmsg+="${LBon}# Fetch Tinkerboard kernel config\n${Boff}"
-  mksrcmsg+="${BWon}  curl -L https://raw.githubusercontent.com/TinkerBoard/debian_kernel/develop/arch/arm/configs/miniarm-rk3288_defconfig '\' \n${Boff}"
-  mksrcmsg+="${BWon}    -o arch/arm/configs/miniarm-rk3288_defconfig\n${Boff}"
-  mksrcmsg+="${BWon}  cd ~/My_${model}project/build/${model}/\n${Boff}"
-  mksrcmsg+="${BWon}  ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux-<version> linux\n${Boff}"
-  mksrcmsg+="${BWon}  cd ../../; cp kernelconfigs/<myconfig> build/<model>/.config\n${Boff}"
-  mksrcmsg+="${BWon}  # (or manually use make_model to make <model>_defconfig and create an initial .config file)\n${Boff}"
-  mksrcmsg+="${BWon}  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf\n${Boff}"
-  mksrcmsg+="${BWon}  #   symlink points to the right config file\n${Boff}"
-  mksrcmsg+="${BWon}  kernelupdate-embedded\n${Boff}"
-  mksrcmsg+="\n"
-  mksrcmsg+="${LBon}# Just wget the current version (e.g. below, 6.4.12) from kernel.org --\n${Boff}"
-  mksrcmsg+="${BWon}  cd /usr/aarch64-unknown-linux-gnu/usr/src\n${Boff}"
-  mksrcmsg+="${BWon}  wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.12.tar.xz\n${Boff}"
-  mksrcmsg+="${BWon}  tar xvpf linux-6.4.12.tar.xz\n${Boff}"
-  mksrcmsg+="${BWon}  cd ~/My_${model}project/build/${model}/\n${Boff}"
-  mksrcmsg+="${BWon}  ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux-<version> linux\n${Boff}"
-  mksrcmsg+="${BWon}  cd ../../; cp kernelconfigs/<myconfig> build/<model>/.config\n${Boff}"
-  mksrcmsg+="${BWon}  # (or manually use make_model to make <model>_defconfig and create an initial .config file)\n${Boff}"
-  mksrcmsg+="${BWon}  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf\n${Boff}"
-  mksrcmsg+="${BWon}  #   symlink points to the right config file\n${Boff}"
-  mksrcmsg+="${BWon}  kernelupdate-embedded\n${Boff}"
-  mksrcmsg+="\n"
-  mksrcmsg+="${LBon}# Manually clone raspberry-pi sources\n${Boff}"
-  mksrcmsg+="${BWon}  cd /usr/aarch64-unknown-linux-gnu/usr/src\n${Boff}"
-  mksrcmsg+="${BWon}  # browse https://github.com/raspberrypi/linux.git and note available branges and tags\n${Boff}"
-  mksrcmsg+="${BWon}  git clone --depth 1 --branch rpi-6.2.y https://github.com/raspberrypi/linux.git\n${Boff}"
-  mksrcmsg+="${BWon}  ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux linux\n${Boff}"
-  mksrcmsg+="${BWon}  cd /home/<user>/My_${model}_project\n${Boff}"
-  mksrcmsg+="${BWon}  # on Pi5, modprobe configs; zcat /proc/config.gz > kernelconfigs/<myconfig>\n${Boff}"
-  mksrcmsg+="${BWon}  cp kernelconfigs/<myconfig> build/<model>/.config\n${Boff}"
-  mksrcmsg+="${BWon}  # (or manually use make_model to make <model>_defconfig and create an initial .config file)\n${Boff}"
-  mksrcmsg+="${BWon}  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf\n${Boff}"
-  mksrcmsg+="${BWon}  #   symlink points to the right config file\n${Boff}"
-  mksrcmsg+="${BWon}  kernelupdate-embedded\n${Boff}"
-  mksrcmsg+="\n"
-  mksrcmsg+="${LBon}# Alternatively, you might be able to \n${Boff}"
-  mksrcmsg+="${BWon}  emerge sys-kernel/gentoo-sources ${LBon}or\n${Boff}"
-  mksrcmsg+="${BWon}  emerge sys-kernel/raspberrypi-sources \n${Boff}"
-  mksrcmsg+="${BWon}  ln -snf /usr/src/linux-<identifier> linux\n${Boff}"
-  mksrcmsg+="${LBon}  ... to link to /usr/source/linux\n${Boff}"
-  mksrcmsg+="${LBon}  ( IF gentoo-sources can make dtbs [which as of 6.5.1 it cannot] )\n\n${Boff}"
-  message "${mksrcmsg}"
-}
 #-----[ main script ]------------------------------------------------
 checkroot
 separator "kernelupdate-embedded-${BUILD}"
@@ -426,6 +385,11 @@ starting_step=0
   "-r" | "--resume" )
       message "${BYon}reading status file: [ ${BWon}${status_file}${BYon}  ]${Boff}"
       read starting_step < ${status_file};
+      message "${BWon}Resuming at step [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
+      ;;
+  "-"[0-9]|"-"1[0-8] )   # currently there are steps 0-18
+      message "${BYon}setting next step ${1:1}${Boff}"
+      let starting_step=${1:1};
       message "${BWon}Resuming at step [ ${BMon}$starting_step${BWon} ] ( ${BGon}${command_sequence[starting_step]}${BWon} )${Boff}";
       ;;
   *             )

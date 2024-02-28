@@ -124,8 +124,6 @@ command_sequence=(
 'stage_modules'
 'stage_dtbs'
 'make_tarball'
-'pre_publish_tarball'
-'pre_publish_ebuild'
 'publish_tarball'
 'publish_ebuild'
 )
@@ -260,76 +258,68 @@ make_tarball()
   cd $old_dir && message "Now working in $PWD"
 }
 
-pre_publish_tarball()
-{
-echo; message "copying package ${distrib_dir}/${kernel_image_name}.tar.bz2 to ${devel_dir}/"
-cp -v ${distrib_dir}/${kernel_image_name}.tar.bz2 ${devel_dir}/
-message "changing ownership for upload"
-chown ${user}:${user} ${devel_dir}/${kernel_image_name}.tar.bz2
-
-cd ${old_dir} && message "Now working in $PWD"
-echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
-echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
-echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
-echo "git pull" >> ${publish_tarball_cmd_file}
-echo "git status" >> ${publish_tarball_cmd_file}
-echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_tarball_cmd_file}
-echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_tarball_cmd_file}
-echo "git push origin master" >> ${publish_tarball_cmd_file}
-echo  >> ${publish_tarball_cmd_file}
-
-cd ${old_dir} && message "Now working in $PWD"
-separator "contents of ${publish_tarball_cmd_file}... " $(hostname)
-cat ${publish_tarball_cmd_file}
-separator "setting permissions on ${publish_tarball_cmd_file}... " $(hostname)
-chown joe:joe ${publish_tarball_cmd_file}
-chmod +x ${publish_tarball_cmd_file}
-
-}
-
-pre_publish_ebuild()
-{
-echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
-
-echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
-echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
-ebuild_list=()
-
-for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
-do
-ebuild_list+=("${x}")
-done
-old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
-echo "old version: ${old_version}"
-echo "new version: ${version_number}"
-
-echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-#next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
-#echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
-echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
-echo "git pull" >> ${publish_ebuild_cmd_file}
-echo "git status" >> ${publish_ebuild_cmd_file}
-echo "git add Manifest" >> ${publish_ebuild_cmd_file}
-echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
-echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
-echo "git push origin master" >> ${publish_ebuild_cmd_file}
-
-cd ${old_dir} && message "Now working in $PWD"
-separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
-cat ${publish_ebuild_cmd_file}
-separator "setting permissions on ${publish_ebuild_cmd_file}... " $(hostname)
-chown joe:joe ${publish_ebuild_cmd_file}
-chmod +x ${publish_ebuild_cmd_file}
-
-}
-
 publish_tarball() {
+  echo; message "copying package ${distrib_dir}/${kernel_image_name}.tar.bz2 to ${devel_dir}/"
+  cp -v ${distrib_dir}/${kernel_image_name}.tar.bz2 ${devel_dir}/
+  message "changing ownership for upload"
+  chown ${user}:${user} ${devel_dir}/${kernel_image_name}.tar.bz2
+
+  cd ${old_dir} && message "Now working in $PWD"
+  echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
+  echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+  echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
+  echo "git pull" >> ${publish_tarball_cmd_file}
+  echo "git status" >> ${publish_tarball_cmd_file}
+  echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_tarball_cmd_file}
+  echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_tarball_cmd_file}
+  echo "git push origin master" >> ${publish_tarball_cmd_file}
+  echo  >> ${publish_tarball_cmd_file}
+
+  cd ${old_dir} && message "Now working in $PWD"
+  separator "contents of ${publish_tarball_cmd_file}... " $(hostname)
+  cat ${publish_tarball_cmd_file}
+  separator "setting permissions on ${publish_tarball_cmd_file}... " $(hostname)
+  chown joe:joe ${publish_tarball_cmd_file}
+  chmod +x ${publish_tarball_cmd_file}
+
   sudo -u ${user} ${publish_tarball_cmd_file}
 }
 
 publish_ebuild() {
+  echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
+
+  echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
+  echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
+  ebuild_list=()
+
+  for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
+  do
+  ebuild_list+=("${x}")
+  done
+  old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
+  echo "old version: ${old_version}"
+  echo "new version: ${version_number}"
+
+  echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+  #next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
+  #echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+  echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
+  echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
+  echo "git pull" >> ${publish_ebuild_cmd_file}
+  echo "git status" >> ${publish_ebuild_cmd_file}
+  echo "git add Manifest" >> ${publish_ebuild_cmd_file}
+  echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
+  echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+  echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
+  echo "git push origin master" >> ${publish_ebuild_cmd_file}
+
+  cd ${old_dir} && message "Now working in $PWD"
+  separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
+  cat ${publish_ebuild_cmd_file}
+  separator "setting permissions on ${publish_ebuild_cmd_file}... " $(hostname)
+  chown joe:joe ${publish_ebuild_cmd_file}
+  chmod +x ${publish_ebuild_cmd_file}
+
   sudo -u ${user} ${publish_ebuild_cmd_file}
 }
 
