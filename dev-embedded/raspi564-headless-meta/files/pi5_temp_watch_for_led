@@ -1,7 +1,11 @@
 #!/bin/bash
+# Fall 2023; joe brendler
+# ver 4 Mar 2024 - convert fromm endless loop to cron job
+#
 TRUE=0
+FALSE=
+#vcgencmdfile=/usr/bin/vcgencmd
 cputempfile=/sys/class/thermal/thermal_zone0/temp
-vcgencmdfile=/usr/bin/vcgencmd
 temp_threshold=60  # deg celcius above which to consider cpu to be hot
 TEMP_LED=4            # raspi gpio pin 4 (Temp LED)(red)
 SVC_LED=3             # raspi gpio pin 3 (Servoces LED)(yellow)
@@ -48,8 +52,8 @@ sleep ${blinkwait}
 blink_light ${TEMP_LED}
 PROG_NAME="pi5_temp_watch_for_led"
 
-while [[ $TRUE ]]
-do
+#while [[ $TRUE ]]
+#do
   cpu_temp=$(cat ${cputempfile} 2>/dev/null)
   int_temp=${cpu_temp:0:2}
   if [[ ${int_temp} -ge ${temp_threshold} ]]
@@ -62,5 +66,5 @@ do
       /usr/bin/logger -p cron.notice "${PROG_NAME} success -- CPU Temp: ${int_temp} C [ < threshold: ${temp_threshold} C ]"
     light_off ${TEMP_LED}
   fi
-  sleep 30
-done
+#  sleep 30
+#done

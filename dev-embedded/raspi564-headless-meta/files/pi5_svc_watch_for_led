@@ -1,6 +1,10 @@
 #!/bin/bash
+# Fall 2023; joe brendler
+# ver 4 Mar 2024 - convert fromm endless loop to cron job
+#
 TRUE=0
-vcgencmdfile=/usr/bin/vcgencmd
+FALSE=
+#vcgencmdfile=/usr/bin/vcgencmd
 TEMP_LED=4            # raspi gpio pin 4 (Temp LED)(red)
 SVC_LED=3             # raspi gpio pin 3 (Servoces LED)(yellow)
 NET_LED=2             # raspi gpio pin 2 (Network LED)(green)
@@ -35,8 +39,8 @@ blink_light() {
 
 light_off ${SVC_LED}
 
-while [[ $TRUE ]]
-do
+#while [[ $TRUE ]]
+#do
   result=$(rc-status | grep '\[' | grep -v started)
   if [[ ! ${result} ]]   ## all services are "started"
   then
@@ -50,5 +54,5 @@ do
     blink_light ${SVC_LED}
     light_off ${SVC_LED}
   fi
-  sleep 30
-done
+#  sleep 30
+#done
