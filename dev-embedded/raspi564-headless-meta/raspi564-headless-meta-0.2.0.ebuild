@@ -92,7 +92,7 @@ src_install() {
 		elog "Installing (ins) into /etc/cron.d/"
 		# pi5 cron job
 		insinto "/etc/cron.d/"
-		newins "${FILESDIR}/pi5_vst_watch_for_led_cron pi5_vst_watch_for_led_cron"
+		newins "${FILESDIR}/pi5_vst_watch_for_led_cron" "pi5_vst_watch_for_led_cron"
 		elog "  Installed (newins) pi5_vst_watch_for_led_cron"
 	else
 		elog "USE joetoo NOT selected; NOT installing local.d and vpn/led/temp mon tools"
