@@ -1,0 +1,1 @@
+CONFIG_PROTECT="/etc/local.d/raspi34_vpn.start /etc/local.d/cpu_gov.start"
