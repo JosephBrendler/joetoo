@@ -126,5 +126,7 @@ pkg_postinst() {
 	elog "version 0.1.3 config_protect files in /etc/local.d/ (e.g. *_vpn.start)"
 	elog "version 0.2.0 converts to cron job and gentoo openvpn.local/remote, with workaround option"
 	elog ""
+	elog "run (e.g.) /etc/init.d/cronie restart to start the new cron jobs"
+	elog ""
 	elog "Thank you for using raspi564-headless-meta"
 }
