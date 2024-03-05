@@ -1,7 +1,10 @@
 #!/bin/bash
+# Fall 2023; joe brendler
+# ver 4 Mar 2024 - convert fromm endless loop to cron job (and to gentoo vpn from workaround)
+#
 TRUE=0
 FALSE=
-vcgencmdfile=/usr/bin/vcgencmd
+#vcgencmdfile=/usr/bin/vcgencmd
 TEMP_LED=4            # raspi gpio pin 4 (Temp LED)(red)
 SVC_LED=3             # raspi gpio pin 3 (Servoces LED)(yellow)
 NET_LED=2             # raspi gpio pin 2 (Network LED)(green)
@@ -17,6 +20,8 @@ response_vector=()    # text from ping response
 #PROG_NAME=pi5_svc_watch_for_led
 PROG_NAME=pi2_svc_watch_for_led    # backported from pi5_ (this is the only difference #2)
 VPN_OK=$TRUE
+#NEED_WORKAROUND=$TRUE
+NEED_WORKAROUND=$FALSE
 #VERBOSE=$FALSE
 VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
@@ -61,8 +66,13 @@ check_vpn() {
 }
 
 restart_vpn() {
+  if [ ${NEED_WORKAROUND} ]
+  then
     /usr/local/sbin/stopvpn
     /usr/local/sbin/startvpn r
+  else
+    /etc/init.d/openvpn.remote restart
+  fi
 }
 
 dump_vectors() {
@@ -79,8 +89,8 @@ dump_vectors() {
 
 light_off ${VPN_LED}
 
-while [[ $TRUE ]]
-do
+#while [[ $TRUE ]]
+#do
   check_vpn 0  # first run fills index [0] in both arrays
   if [[ ! ${VPN_OK} ]] ; then
     # vpn may be down, test three more times at one-minute interval; if still down, restart
@@ -99,7 +109,7 @@ do
     fi
   fi
   # re-initialize vectors
-  result_vector=()
-  response_vector=()
-  sleep 60
-done
+#  result_vector=()
+#  response_vector=()
+#  sleep 60
+#done
