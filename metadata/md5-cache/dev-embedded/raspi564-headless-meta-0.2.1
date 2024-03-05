@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst
+DEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0
+DESCRIPTION=Baseline packages for a headless Pi 5 server with gentoo-on-rpi-64bit
+EAPI=6
+HOMEPAGE=https://github.com/joetoo
+IUSE=+boot-fw +innercore +gpio +joetoo
+KEYWORDS=~arm64
+LICENSE=metapackage
+RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 !dev-embedded/rpi3-64bit-meta !dev-embedded/rpi-64bit-meta boot-fw? ( >=sys-boot/rpi5-64bit-firmware-1.20190819 ) !boot-fw? ( !sys-boot/rpi5-64bit-firmware ) >=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1 >=sys-firmware/b43-firmware-5.100.138 innercore? ( media-libs/raspberrypi-userland >=sys-kernel/linux-firmware-20220310 >=sys-apps/rpi-gpio-1.0.1 >=sys-apps/rpi-i2c-1.0.1 >=sys-apps/rpi-spi-1.0.1 >=net-wireless/rpi3-wifi-regdom-1.1-r1 >=sys-apps/rpi-serial-1.0.0-r1 >=sys-apps/rpi-video-1.0.0-r1 >=sys-apps/rng-tools-6.8 >=sys-boot/rpi5-boot-config-1.0.0 ) gpio? ( >=dev-libs/libgpiod-2.1 ) joetoo? ( >=joetoo-base/joetoo-meta-0.0.3c >=dev-util/joetoolkit-0.3.3 )
+REQUIRED_USE=innercore
+SLOT=0
+_md5_=957516eef6c7b20a699e5fb0078aa387
