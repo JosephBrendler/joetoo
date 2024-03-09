@@ -1,13 +1,13 @@
 DEFINED_PHASES=install
-DEPEND==sys-kernel/raspi-sources-6.6.13
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.6.13 )
 DESCRIPTION=kernel image for my raspberry pi 4 model B embedded system
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=symlink
+IUSE=-symlink +sources
 KEYWORDS=~arm
 LICENSE=MIT
-RDEPEND==sys-kernel/raspi-sources-6.6.13
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.6.13 )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_kernel_image-6.6.13.tar.bz2
-_md5_=b89ea20783068e6bc3f9078a4a95139b
+_md5_=bf97257c3ff2e52b8c0570c58ceb45e0
