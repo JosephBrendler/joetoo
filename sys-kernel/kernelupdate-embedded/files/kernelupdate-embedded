@@ -232,10 +232,13 @@ stage_dtbs()
   # stage modules
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the device tree and overlay files (.dtb and .dtbo files)...${Boff}"
-  eval "${make_model} INSTALL_DTBS_PATH=${boot_dir}/dts/ dtbs_install"
+  mkdir -p ${boot_dir}/dts
+  eval "${make_model} INSTALL_DTBS_PATH=${boot_dir}/dts dtbs_install"
   # copy the one dtb file we need up to boot
   message "${LBon}Staging the dtb file...${Boff}"
   cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
+  message "${LBon}Staging the overlay folder...${Boff}"
+  mv -v ${boot_dir}/dts/overlays ${boot_dir}/
 }
 
 make_tarball()
