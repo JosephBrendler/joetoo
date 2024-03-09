@@ -14,10 +14,13 @@ LICENSE="MIT"
 SLOT="0"
 
 KEYWORDS="~arm"
-IUSE="symlink"
+IUSE="-symlink +sources"
 RESTRICT="mirror"
 
-RDEPEND="=sys-kernel/raspi-sources-${PV}"
+RDEPEND="
+	sources? ( =sys-kernel/raspi-sources-${PV} )
+"
+
 DEPEND="${RDEPEND}"
 
 pkg_preinst() {
