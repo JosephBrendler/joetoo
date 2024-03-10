@@ -14,11 +14,14 @@ LICENSE="MIT"
 SLOT="0"
 
 KEYWORDS="~arm"
-IUSE="symlink"
+IUSE="-symlink +sources"
 RESTRICT="mirror"
 
 #RDEPEND="=sys-kernel/raspi-sources-${PV}"
-RDEPEND=""
+RDEPEND="
+	sources? ( =sys-kernel/raspi-sources-${PV} )
+"
+
 DEPEND="${RDEPEND}"
 
 src_install() {
@@ -49,23 +52,7 @@ src_install() {
 	elog ""
 	# conditionally install the symlink
 	if use symlink ; then
-		k=$(echo Image-${PV}-raspi)
-		d=$(echo bcm2709-rpi-2-b.dtb-${PV}-raspi)
-		[[ -L /boot/Image ]] && kold=$(readlink /boot/Image -f --canonicalize) || kold=$(echo Image-$(uname -r))
-		[[ -L /boot/bcm2709-rpi-2-b.dtb ]] && dold=$(readlink /boot/bcm2709-rpi-2-b.dtb -f --canonicalize) || dold=$(echo bcm2709-rpi-2-b.dtb-$(uname -r))
-		einfo "k = [${k}]"
-		einfo "d = [${d}]"
-		einfo "kold = [${kold}]"
-		einfo "dold = [${dold}]"
-		einfo "About to issue command: ln -snf ${kold} ${D}Image.old "
-		ln -snf "${kold}" "${D}"Image.old
-		einfo "About to issue command: ln -snf ${k} ${D}Image "
-		ln -snf "${k}" "${D}"Image
-		einfo "About to issue command: ln -snf ${dold} ${D}bcm2709-rpi-2-b.dtb.old "
-		ln -snf "${dold}" "${D}"bcm2709-rpi-2-b.dtb.old
-		einfo "About to issue command: ln -snf ${c} ${D}bcm2709-rpi-2-b.dtb "
-		ln -snf "${d}" "${D}"bcm2709-rpi-2-b.dtb
-		elog "Symlinks installed as requested"
+		elog "USE symlink was set, but that doesn't work, yet"
 	else
 		ewarn "a symlink for your kernel has not been installed because of -symlink USE flag"
 		elog ""
