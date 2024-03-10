@@ -9,9 +9,8 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-	<flag name="symlink">
-            Create/update symlink in /boot directory 
-        </flag>
+	<flag name="symlink">Create/update symlink in /boot directory</flag>
+	<flag name="ssources">pull in sys-kernel/raspi-sources as a dependency</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>

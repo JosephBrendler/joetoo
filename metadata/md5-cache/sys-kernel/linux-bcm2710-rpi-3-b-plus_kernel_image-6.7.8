@@ -1,13 +1,13 @@
 DEFINED_PHASES=install
-DEPEND==sys-kernel/raspi-sources-6.7.8
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.7.8 )
 DESCRIPTION=kernel image for my raspberry pi 3 model B+ embedded system(s)
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=symlink
+IUSE=-symlink +sources
 KEYWORDS=~arm
 LICENSE=MIT
-RDEPEND==sys-kernel/raspi-sources-6.7.8
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.7.8 )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2710-rpi-3-b-plus_kernel_image-6.7.8.tar.bz2
-_md5_=4b34b0c914382b4f7e676a80d4d6a638
+_md5_=31e5b81dceffde287cba2d9e8962c569
