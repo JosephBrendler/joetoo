@@ -31,7 +31,7 @@ IUSE="-symlink"
 
 LICENSE="MIT"
 
-SLOT=0
+#SLOT=0   ### defaults to multislot for kernel sources
 
 pkg_setup() {
 	ewarn "Now in pkg_setup()"
