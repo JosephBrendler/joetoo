@@ -44,7 +44,7 @@ pkg_setup() {
 	ewarn ""
 
 	einfo "S=${S}"
-	My_P="linux-${PV}-tinker"
+	My_P="linux-${PV}"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "My_P=${My_P}"
