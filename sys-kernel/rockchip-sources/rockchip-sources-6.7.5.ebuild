@@ -62,6 +62,9 @@ src_install() {
 	einfo "About to install sources in /usr/src/${My_P}/..."
 	dodir /usr/src/
 	cp -R ${S}/${MyP}/* ${D}/usr/src/
+	if use symlink ; then
+		dosym ${MyP} linux
+	fi
 }
 
 pkg_postinst() {
