@@ -1,11 +1,13 @@
 DEFINED_PHASES=install
+DEPEND=sources? ( =sys-kernel/rockchip-sources-6.6.16 )
 DESCRIPTION=kernel image for my ASUS Tinkerboard S
 EAPI=6
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=symlink
+IUSE=-symlink +sources
 KEYWORDS=~arm
 LICENSE=MIT
+RDEPEND=sources? ( =sys-kernel/rockchip-sources-6.6.16 )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3288-tinker-s_kernel_image-6.6.16.tar.bz2
-_md5_=f21fe9aaef193110d5008c00de005dd8
+_md5_=ef40fa20b52f69f8596e0b3231f1339a

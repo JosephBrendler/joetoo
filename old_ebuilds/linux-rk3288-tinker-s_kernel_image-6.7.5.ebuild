@@ -14,13 +14,11 @@ LICENSE="MIT"
 SLOT="0"
 
 KEYWORDS="~arm"
-IUSE="-symlink +sources"
+IUSE="symlink"
 RESTRICT="mirror"
 
-RDEPEND="
-        sources? ( =sys-kernel/rockchip-sources-${PV} )
-"
-
+#RDEPEND="=sys-kernel/gentoo-sources-${PV}"
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
