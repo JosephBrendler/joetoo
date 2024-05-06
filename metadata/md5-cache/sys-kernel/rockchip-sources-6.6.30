@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=kernel sources for ASUS tinkerboard embedded system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=-symlink
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.30.tar.xz
+_md5_=e8c66a07e8fe5239309dde0556fc97d6
