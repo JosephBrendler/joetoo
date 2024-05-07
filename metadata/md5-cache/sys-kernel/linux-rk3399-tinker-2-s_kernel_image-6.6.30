@@ -1,0 +1,13 @@
+BDEPEND=sources? ( =sys-kernel/rockchip-sources-6.6.30 )
+DEFINED_PHASES=install
+DESCRIPTION=kernel image for my ASUS Tinkerboard 2 s SBC
+EAPI=7
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=-symlink +sources
+KEYWORDS=~arm
+LICENSE=MIT
+RDEPEND=sources? ( =sys-kernel/rockchip-sources-6.6.30 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-tinker-2-s_kernel_image-6.6.30.tar.bz2
+_md5_=262c3581af8e8a98ea1bb26dffe7dd64
