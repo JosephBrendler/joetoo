@@ -53,8 +53,8 @@ src_install() {
 		elog "Installing (ins) into /etc/local.d/"
 		insinto "/etc/local.d/"
 		# migrating away from /sys/class/gpio and to use of libgpiod (gpioset)
-#		newins "${FILESDIR}/rock4_vpn.start" "rock4_vpn.start"
-#		elog "  Installed (newins) rock4_vpn.start"
+#		newins "${FILESDIR}/tinker264_vpn.start" "tinker264_vpn.start"
+#		elog "  Installed (newins) tinker264_vpn.start"
 		# config_protect this and other files in /etc/local.d
 		newenvd "${FILESDIR}/"config_protect 99${PN}
 		elog "Installing (exe) into /usr/local/sbin/"
@@ -65,10 +65,10 @@ src_install() {
 			newexe "${x}" "$(basename $x)" ;
 			elog "  Installed (newexe) $(basename $x)" ;
 		done
-		# check cpu temp and frequency (monitor with "watch rock4c_mon")
+		# check cpu temp and frequency (monitor with "watch tinker264c_mon")
 		# todo - no /sys/class/thermal for this board (.dtb) may need overlay
-		newexe "${FILESDIR}/rock4c_mon" "rock4c_mon"
-		elog "  Installed (newexe) rock4c_mon"
+		newexe "${FILESDIR}/tinker264_mon" "tinker264_mon"
+		elog "  Installed (newexe) tinker264_mon"
 	else
 		elog "USE joetoo NOT selected; NOT installing local.d and vpn/led/temp mon tools"
 	fi
@@ -89,8 +89,7 @@ pkg_postinst() {
 	elog "Includes a local.d script for vpn & LEDs"
 	elog "VPN will need keys and local/remote.conf links"
 	elog ""
-	elog "version 0.0.2 introduces nuoromis infrastructure related code"
-	elog "version 0.0.3 provides vpn tools and monitoring"
+	elog "version 0.0.3 provides bug fixes, vpn tools and monitoring"
 	elog ""
 	elog "Thank you for using tinker264-headless-meta"
 }

@@ -6,7 +6,7 @@ BUILD=0.0
 usage() {
   E_message "Error; bad argument(s)"
   message "  ${BYon}Usage: ${BGon}tinker264_mon [q]${Boff}"
-  message "  ${LBon}q = quiet (no separator; e.g. ${BGon}watch tinker_mon q${Boff}"
+  message "  ${LBon}q = quiet (no separator; e.g. ${BGon}sudo watch -n5 tinker264_mon q${Boff}"
   exit 1
 }
 
