@@ -167,6 +167,7 @@ d_message "${LBon}......model_config=[${BWon}$model_config${LBon}]${Boff}" 1
 d_message "${LBon}.......distrib_dir=[${BWon}$distrib_dir${LBon}]${Boff}" 1
 d_message "${LBon}...........lib_dir=[${BWon}$lib_dir${LBon}]${Boff}" 1
 d_message "${LBon}..........boot_dir=[${BWon}$boot_dir${LBon}]${Boff}" 1
+d_message "${LBon}..........host_dir=[${BWon}$host_dir${LBon}]${Boff}" 1
 d_message "${LBon}...kernel_basename=[${BWon}$kernel_basename${LBon}]${Boff}" 1
 d_message "${LBon}.kernel_image_name=[${BWon}$kernel_image_name${LBon}]${Boff}" 1
 d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
@@ -216,12 +217,15 @@ stage_kernel()
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Staging the kernel...${Boff}"
 #  cp -av ${model_dir}/arch/${arch}/boot/${image} ${boot_dir}/${kernel}
-  # if this is an SBC kernel, stage it in boot_dir
-  [ ! "${model:0:3}" == "dom" ] && eval "INSTALL_PATH=${boot_dir} ${make_model} install"
-  # if this is a domU kernel, then store it in host_dir so xen clients can find it
-  [ "${model}" == "domU" ] && eval "INSTALL_PATH=${host_dir} ${make_model} install"
-  # if this is a dom0 kernel, then install it in /boot/ like normal
-  [ "${model}" == "dom0" ] && eval "INSTALL_PATH=/boot/ ${make_model} install"
+  case ${model:0:3} in
+    # if this is a dom0 kernel, install to /boot
+    "dom0" ) eval "INSTALL_PATH=/boot/ ${make_model} install" ;;
+    # if this is a domU kernel, install to host_dir and boot_dir
+    "domU" ) eval "INSTALL_PATH=${host_dir} ${make_model} install" ;
+             eval "INSTALL_PATH=${boot_dir} ${make_model} install" ;;
+    # otherwise (SBC kernel), install to boot_dir
+    *      ) eval "INSTALL_PATH=${boot_dir} ${make_model} install" ;;
+  esac
 }
 
 stage_modules()
