@@ -224,7 +224,7 @@ stage_kernel()
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_model} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_model} install" ;;
     # otherwise (SBC kernel), install to boot_dir
-    *      ) val "INSTALL_PATH=${boot_dir} ${make_model} install" ;;
+    *      ) eval "INSTALL_PATH=${boot_dir} ${make_model} install" ;;
   esac
 }
 
