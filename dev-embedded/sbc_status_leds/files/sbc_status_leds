@@ -167,3 +167,5 @@ check_vpn
 check_svc
 check_temp
 
+    [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} done"
