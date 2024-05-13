@@ -41,10 +41,10 @@ src_install() {
 	newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
 	elog "Installed (newins) ${PN}.crontab"
 
-	elog "Installing (exe) into /usr/local/sbin/"
+	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	newexe "${FILESDIR}/${PN}" "${PN}"
-	elog "Installed (newexe) ${FILESDIR}/${PN} as ${PN}"
+	elog "Installed (newexe) ${PN}"
 
 	elog "Installing the joetoo sbc_status_leds.conf eselect module..."
 	dodir "/usr/share/eselect/modules/"
