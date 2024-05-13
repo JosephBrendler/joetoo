@@ -39,15 +39,12 @@ src_install() {
 	elog "Installing the joetoo sbc_status_leds.crontab file..."
 	insinto "/etc/cron.d/"
 	newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
-	elog "Installed (newins) ${FILESDIR}/${PN}.crontab as ${PN}.crontab"
+	elog "Installed (newins) ${PN}.crontab"
 
 	elog "Installing (exe) into /usr/local/sbin/"
 	insinto "/usr/local/sbin/"
 	newexe "${FILESDIR}/${PN}" "${PN}"
 	elog "Installed (newexe) ${FILESDIR}/${PN} as ${PN}"
-	insinto "/etc/portage/package.unmask/"
-	newins "${FILESDIR}/package.unmask_${PN}" "${PN}"
-	elog "Installed (newins) package.unmask_${PN} as ${PN}"
 
 	elog "Installing the joetoo sbc_status_leds.conf eselect module..."
 	dodir "/usr/share/eselect/modules/"
