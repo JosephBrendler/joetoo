@@ -32,6 +32,9 @@ RDEPEND="
 		>=sys-apps/rng-tools-6.8
 		>=sys-boot/tinker264-boot-config-0.0.1
 	)
+	gpio? (
+		>=dev-libs/libgpiod-2.1
+	)
 	joetoo? (
 		>=joetoo-base/joetoo-meta-0.2.0
 	)
