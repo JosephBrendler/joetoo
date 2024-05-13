@@ -42,7 +42,7 @@ src_install() {
 	elog "Installed (newins) ${PN}.crontab"
 
 	elog "Installing (exe) into /usr/local/sbin/"
-	insinto "/usr/local/sbin/"
+	exeinto "/usr/local/sbin/"
 	newexe "${FILESDIR}/${PN}" "${PN}"
 	elog "Installed (newexe) ${FILESDIR}/${PN} as ${PN}"
 
