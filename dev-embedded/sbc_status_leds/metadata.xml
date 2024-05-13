@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		program and configuration files for sbc_status_leds
+		with eselect module to select config file (per sbc)
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="placeholder">placeholder</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
+
