@@ -23,7 +23,7 @@ S="${WORKDIR}/"
 LICENSE="MIT"
 SLOT="0"
 
-#KEYWORDS="~arm ~arm64"
+KEYWORDS="arm arm64"
 IUSE="symlink"
 RESTRICT="mirror"
 
