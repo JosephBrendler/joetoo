@@ -38,6 +38,7 @@ RDEPEND="
 	joetoo? (
 		>=joetoo-base/joetoo-meta-0.2.0
 		>=dev-embedded/sbc_status_leds-0.0.1
+		>=dev-util/joetoolkit-0.3.3
 	)
 "
 
