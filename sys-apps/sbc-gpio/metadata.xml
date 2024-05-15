@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+</maintainer>
+<longdescription>
+		udev rules for GPIO access on a single board computer
+		Ensures GPIO can be used by anyone in the gpio group
+</longdescription>
+</pkgmetadata>
