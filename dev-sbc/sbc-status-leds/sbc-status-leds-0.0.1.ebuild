@@ -38,42 +38,40 @@ RDEPEND="
 "
 
 pkg_setup() {
-        # for sbc systems we need to know which board we are using
-        if use sbc ; then
-                einfo "USE sbc is selected. Assigning board..."
-                if use bcm2712-rpi-5-b ; then
-                        export board="bcm2712-rpi-5-b"
-                else if use bcm2711-rpi-4-b ; then
-                        export board="bcm2711-rpi-4-b"
-                else if use bcm2710-rpi-3-b-plus; then
-                        export board="bcm2710-rpi-3-b-plus"
-                else if use bcm2709-rpi-2-b; then
-                        export board="bcm2709-rpi-2-b"
-                else if use rk3288-tinker-s; then
-                        export board="rk3288-tinker-s"
-                else if use rk3399-rock-pi-4c-plus; then
-                        export board="rk3399-rock-pi-4c-plus"
-                else if use rk3399-tinker-2-s; then
-                        export board="rk3399-tinker-2-s"
-                else if use rk3588s-orangepi-5; then
-                        export board="rk3588s-orangepi-5"
-                else
-                        export board=""
-                fi; fi; fi; fi; fi; fi; fi; fi
-                einfo "board: ${board}"
-        fi
+	# for sbc systems we need to know which board we are using
+	einfo "USE sbc is selected. Assigning board..."
+	if use bcm2712-rpi-5-b ; then
+		export board="bcm2712-rpi-5-b"
+	else if use bcm2711-rpi-4-b ; then
+		export board="bcm2711-rpi-4-b"
+	else if use bcm2710-rpi-3-b-plus; then
+		export board="bcm2710-rpi-3-b-plus"
+	else if use bcm2709-rpi-2-b; then
+		export board="bcm2709-rpi-2-b"
+	else if use rk3288-tinker-s; then
+		export board="rk3288-tinker-s"
+	else if use rk3399-rock-pi-4c-plus; then
+		export board="rk3399-rock-pi-4c-plus"
+	else if use rk3399-tinker-2-s; then
+		export board="rk3399-tinker-2-s"
+	else if use rk3588s-orangepi-5; then
+		export board="rk3588s-orangepi-5"
+	else
+		export board=""
+	fi; fi; fi; fi; fi; fi; fi; fi
+	einfo "board: ${board}"
 }
 
 src_install() {
-	elog "Installing (ins) into /etc/sbc-status-leds/"
+	elog "Installing (ins) into /etc/${PN}/"
 	# install only the one .conf file needed
-	insinto "/etc/sbc-status-leds/"
-	newins "${FILESDIR}/sbc-status-leds-${board}.conf" "sbc-status-leds-${board}.conf"
-	elog "  Installed (newins) sbc-status-leds-${board}.conf"
+	insinto "/etc/${PN}/"
+	newins "${FILESDIR}/${PN}-${board}.conf" "${PN}-${board}.conf"
+	elog "  Installed (newins) ${PN}-${board}.conf"
 	# install the symlink to this .conf file
-	dosym "sbc-status-leds-${board}.conf" "sbc-status-leds.conf"
+	dosym "${PN}-${board}.conf" "${PN}.conf"
 
-	elog "Installing the joetoo sbc-status-leds.crontab file..."
+	elog "Installing the joetoo ${PN}.crontab file..."
 	insinto "/etc/cron.d/"
 	newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
 	elog "Installed (newins) ${PN}.crontab"
@@ -85,12 +83,12 @@ src_install() {
 	newexe "${FILESDIR}/test-${PN}" "test-${PN}"
 	elog "Installed (newexe) test-${PN}"
 
-	elog "Installing the joetoo sbc-status-leds.conf eselect module..."
+	elog "Installing the joetoo ${PN}.conf eselect module..."
 	dodir "/usr/share/eselect/modules/"
-	z="sbc-status-leds.eselect"
+	z="${PN}.eselect"
 	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/usr/share/eselect/modules/${z};"
 	cp -v "${FILESDIR}/${z}" "${D}/usr/share/eselect/modules/${z}";
-	elog "Done installing the joetoo sbc-status-leds.conf eselect module."
+	elog "Done installing the joetoo ${PN}.conf eselect module."
 }
 
 pkg_postinst() {
@@ -105,8 +103,8 @@ pkg_postinst() {
 	elog ""
 	elog "${PN} installed"
 	elog ""
-	elog "You can create additional configurations in /etc/sbc-status-leds"
-	elog "Use eselect sbc-status-leds to pick one of them"
+	elog "You can create additional configurations in /etc/${PN}"
+	elog "Use eselect ${PN} to pick one of them"
 	elog ""
 	elog ""
 	elog "version 0.0.1 is the initial build"
