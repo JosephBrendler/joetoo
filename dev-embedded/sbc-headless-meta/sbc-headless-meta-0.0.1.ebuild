@@ -42,6 +42,14 @@ RDEPEND="
 		>=sys-kernel/linux-firmware-20220310
 		>=sys-apps/rng-tools-6.8
 		>=sys-boot/tinker264-boot-config-0.0.1
+		bcm2712-rpi-5-b?  ( >=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)] )
+		bcm2711-rpi-4-b4?   ( >=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-4-b(+)] )
+		bcm2710-rpi-3-b-plus?   ( >=sys-boot/sbc-boot-config-0.0.1[bcm2710-rpi-3-b-plus(+)] )
+		bcm2709-rpi-2-b?   ( >=sys-boot/sbc-boot-config-0.0.1[bcm2709-rpi-2-b(+)] )
+		rk3288-tinker-s?  ( >=sys-boot/sbc-boot-config-0.0.1[rk3288-tinker-s(+)] )
+		rk3399-rock-pi-4c-plus?  ( >=sys-boot/sbc-boot-config-0.0.1[rk3399-rock-pi-4c-plus(+)] )
+		rk3399-tinker-2-s? ( >=sys-boot/sbc-boot-config-0.0.1[rk3399-tinker-2-s(+)] )
+		rk3588s-orangepi-5?    ( >=sys-boot/sbc-boot-config-0.0.1[rk3588s-orangepi-5(+)] )
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
@@ -49,13 +57,14 @@ RDEPEND="
 	joetoo? (
 		>=joetoo-base/joetoo-meta-0.2.0
 		>=dev-util/joetoolkit-0.3.3
-		raspi564?  ( >=dev-embedded/sbc_status_leds-0.0.1[raspi564(+)] )
-		raspi64?   ( >=dev-embedded/sbc_status_leds-0.0.1[raspi64(+)] )
-		raspi32?   ( >=dev-embedded/sbc_status_leds-0.0.1[raspi32(+)] )
-		tinker32?  ( >=dev-embedded/sbc_status_leds-0.0.1[tinker32(+)] )
-		rock4c64?  ( >=dev-embedded/sbc_status_leds-0.0.1[rock4c64(+)] )
-		tinker264? ( >=dev-embedded/sbc_status_leds-0.0.1[tinker264(+)] )
-		opi564?    ( >=dev-embedded/sbc_status_leds-0.0.1[opi564(+)] )
+		bcm2712-rpi-5-b?  ( >=dev-embedded/sbc_status_leds-0.0.1[bcm2712-rpi-5-b(+)] )
+		bcm2711-rpi-4-b4?   ( >=dev-embedded/sbc_status_leds-0.0.1[bcm2711-rpi-4-b(+)] )
+		bcm2710-rpi-3-b-plus?   ( >=dev-embedded/sbc_status_leds-0.0.1[bcm2710-rpi-3-b-plus(+)] )
+		bcm2709-rpi-2-b?   ( >=dev-embedded/sbc_status_leds-0.0.1[bcm2709-rpi-2-b(+)] )
+		rk3288-tinker-s?  ( >=dev-embedded/sbc_status_leds-0.0.1[rk3288-tinker-s(+)] )
+		rk3399-rock-pi-4c-plus?  ( >=dev-embedded/sbc_status_leds-0.0.1[rk3399-rock-pi-4c-plus(+)] )
+		rk3399-tinker-2-s? ( >=dev-embedded/sbc_status_leds-0.0.1[rk3399-tinker-2-s(+)] )
+		rk3588s-orangepi-5?    ( >=dev-embedded/sbc_status_leds-0.0.1[rk3588s-orangepi-5(+)] )
 	)
 "
 
