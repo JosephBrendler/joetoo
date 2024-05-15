@@ -54,17 +54,15 @@ src_install() {
 
 	# for a joetoo installation, include vpn.start and vpn/service/temp monitoring tools
 	if use joetoo ; then
-		elog "USE joetoo selected; installing temp mon tools"
-		# config_protect this and other files in /etc/local.d
-		newenvd "${FILESDIR}/"config_protect 99${PN}
-		elog "Installing (exe) into /usr/local/sbin/"
-		exeinto "/usr/local/sbin/"
+		elog "USE joetoo selected; installing temp mon tool"
+		elog "Installing (exe) into /usr/sbin/"
+		exeinto "/usr/sbin/"
 		# check cpu temp and frequency (monitor with "watch tinker_mon")
 		newexe "${FILESDIR}/tinker_mon" "tinker_mon"
 		elog "  Installed (newexe) tinker_mon"
 		# note vpn mon now from dev-embedded/sbc_status_leds (w USE=joetoo above)
 	else
-		elog "USE joetoo NOT selected; NOT installing local.d and vpn/led/temp mon tools"
+		elog "USE joetoo NOT selected; NOT installing sbc-status-leds nor temp mon tool"
 	fi
 }
 
@@ -81,7 +79,8 @@ pkg_postinst() {
 	elog "${PN} installed"
 	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
 	elog ""
-	elog "version 0.0.1 first ebuild for ${PN}"
+	elog "version 0.0.1 was first ebuild for ${PN}"
+	elog "version 0.0.2 switched to sbc-status-leds"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
