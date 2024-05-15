@@ -16,7 +16,6 @@ SVC_LED=(2 10)        # GPIO2_B2 pin 5 (Services LED)(yellow)
 TEMP_LED=(0 8)        # GPIO0_B0 pin 7 (Temp LED)(red)
 
 blinkwait=0.05        # s wait during fluttler blink
-blinklongwait=0.5     # s wait during blink between flutters
 #wait_time=2          # s wait for ping
 wait_time=30          # s wait for ping
 
@@ -38,10 +37,10 @@ VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ override defaults with config file ]--------------------
-[ -e /etc/sbc_monitor_leds/sbc_monitor_leds.conf ] && \
-      source /etc/sbc_monitor_leds/sbc_monitor_for_leds.conf || \
-      ( echo "Error: symlink /etc/sbc_monitor_leds/sbc_monitor_for_leds.conf does not exist" ;
-        echo "use eselect sbc_monitor_leds to create it" )
+[ -e /etc/sbc_status_leds/sbc_status_leds.conf ] && \
+      source /etc/sbc_status_leds/sbc_status_leds.conf || \
+      ( echo "Error: symlink /etc/sbc_status_leds/sbc_status_leds.conf does not exist" ;
+        echo "use eselect sbc_status_leds to create it" )
 
 [ ! -d $(dirname ${vpn_status_file}) ] && mkdir -p $(dirname ${vpn_status_file})
 [ ! -f ${vpn_status_file} ] && echo "1 1715612707" > ${vpn_status_file}
@@ -90,12 +89,12 @@ check_vpn() {
   then
     echo "1 ${timestamp}" > ${vpn_status_file}
     [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
-      /usr/bin/logger -p cron.notice "${PROG_NAME} success -- result: ${result_vector[idx]}; all OK."
+      /usr/bin/logger -p cron.notice "${PROG_NAME} success -- result: ${result}; all OK."
     light_on ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
   else
     echo "0 ${timestamp}" > ${vpn_status_file}
     [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
-      /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- response: ${response_vector[idx]}"
+      /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- response: ${response}"
     light_off ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
   fi
   # if the vpn has been out for over three minutes, reset it
@@ -171,4 +170,4 @@ check_svc
 check_temp
 
     [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
-      /usr/bin/logger -p cron.notice "${PROG_NAME} done"
+      /usr/bin/logger -p cron.notice "${PROG_NAME} complete"
