@@ -1,0 +1,6 @@
+CONFIG_PROTECT="
+	/boot/boot.scr
+	/boot/boot.cmd
+	/boot/joetooEnv.txt
+	/boot/u-boot_reflash
+"
