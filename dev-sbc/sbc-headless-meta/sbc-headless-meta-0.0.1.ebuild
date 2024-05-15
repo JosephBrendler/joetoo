@@ -52,7 +52,7 @@ RDEPEND="
 			>=sys-apps/rpi-serial-1.0.0-r1
 			>=sys-apps/rpi-video-1.0.0-r1
 		)
-		bcm2711-rpi-4-b4?   (
+		bcm2711-rpi-4-b?   (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-4-b(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			media-libs/raspberrypi-userland
