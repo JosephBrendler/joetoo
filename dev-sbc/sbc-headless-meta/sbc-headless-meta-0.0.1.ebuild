@@ -157,7 +157,7 @@ src_install() {
 
 	elog "Installing (exe) into /etc/local.d/"
 	exeinto "/etc/local.d/"
-	newexe "${FILESDIR}/cpu_gov.start"
+	newexe "${FILESDIR}/cpu_gov.start" "/pu_gov.start"
 	elog "Installed (newexe) cpu_gov.start"
 
 	# config_protect this and other files in /etc/local.d
