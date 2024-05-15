@@ -12,12 +12,14 @@ LICENSE="metapackage"
 SLOT="0"
 IUSE="
 	-boot-fw +innercore +gpio +joetoo
-	raspi564 raspi64 raspi32 tinker32 rock4c64 tinker264 opi564
+	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b
+	rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2-s rk3588s-orangepi-5
 "
 
 REQUIRED_USE="
 	innercore
-	sbc? ( ^^ ( raspi564 raspi64 raspi32 tinker32 rock4c64 tinker264 opi564 ) )
+	^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b
+	rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2-s rk3588s-orangepi-5 )
 "
 
 # required by Portage, as we have no SRC_URI...
@@ -58,36 +60,38 @@ RDEPEND="
 "
 
 pkg_setup() {
-	# we need to know which board we are using
-	if use raspi564 ; then
-		export selector="raspi564"
-	else if use raspi64 ; then
-		export selector="raspi64"
-	else if use raspi32 ; then
-		export selector="raspi32"
-	else if use tinker32 ; then
-		export selector="tinker32"
-	else if use rock4c64 ; then
-		export selector="rock4c64"
-	else if use tinker264 ; then
-		export selector="tinker264"
-	else if use opi564 ; then
-		export selector="opi564"
+# for sbc systems we need to know which board we are using
+	if use bcm2712-rpi-5-b ; then
+		export board="bcm2712-rpi-5-b"
+	else if use bcm2711-rpi-4-b ; then
+		export board="bcm2711-rpi-4-b"
+	else if use bcm2710-rpi-3-b-plus; then
+		export board="bcm2710-rpi-3-b-plus"
+	else if use bcm2709-rpi-2-b; then
+		export board="bcm2709-rpi-2-b"
+	else if use rk3288-tinker-s; then
+		export board="rk3288-tinker-s"
+	else if use rk3399-rock-pi-4c-plus; then
+		export board="rk3399-rock-pi-4c-plus"
+	else if use rk3399-tinker-2-s; then
+		export board="rk3399-tinker-2-s"
+	else if use rk3588s-orangepi-5; then
+		export board="rk3588s-orangepi-5"
 	else
-		export selector=""
-	fi; fi; fi; fi; fi; fi; fi
-	einfo "Assigned board selector: ${selector}"
+		export board=""
+	fi; fi; fi; fi; fi; fi; fi; fi
+	einfo "Assigned board: ${board}"
 }
 
 src_install() {
 	elog "Installing (ins) into /etc/portage/"
 	insinto "/etc/portage/package.use/"
-	newins "${FILESDIR}/package.use_${selector}-headless-meta" "package.use_${selector}-headless-meta"
-	elog "Installed (newins) package.use_${selector}-headless-meta"
+	newins "${FILESDIR}/package.use_${board}-headless-meta" "package.use_${board}-headless-meta"
+	elog "Installed (newins) package.use_${board}-headless-meta"
 
 	insinto "/etc/portage/package.unmask/"
-	newins "${FILESDIR}/package.unmask_${selector}-headless-meta" "package.unmask_${selector}-headless-meta"
-	elog "Installed (newins) package.unmask_${selector}-headless-meta"
+	newins "${FILESDIR}/package.unmask_${board}-headless-meta" "package.unmask_${board}-headless-meta"
+	elog "Installed (newins) package.unmask_${board}-headless-meta"
 
 	elog "Installing (exe) into /etc/local.d/"
 	exeinto "/etc/local.d/"
@@ -103,8 +107,8 @@ src_install() {
 		elog "USE joetoo selected; installing temp/freq monitor tool"
 		elog "Installing (exe) into /usr/local/sbin/"
 		exeinto "/usr/sbin/"
-		newexe "${FILESDIR}/tempfreq_mon_${selector}" "tempfreq_mon_${selector}"
-		elog "  Installed (newexe) tempfreq_mon_${selector}"
+		newexe "${FILESDIR}/tempfreq_mon_${board}" "tempfreq_mon_${board}"
+		elog "  Installed (newexe) tempfreq_mon_${board}"
 		# note: use joetoo vpn/svc/temp now in dev-embedded/sbc_status_leds (above)
 	else
 		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
@@ -121,7 +125,7 @@ pkg_postinst() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	elog ""
-	elog "${PN} installed for ${selector}"
+	elog "${PN} installed for ${board}"
 	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
 	elog ""
 	elog "version 0.0.1 is the first consolidated ${PN} ebuild"

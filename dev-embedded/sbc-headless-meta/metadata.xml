@@ -2,25 +2,26 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		Meta package for standard joetoo tinkerboard 2 s setup.
+		Meta package for standard joetoo setup on a single board computer (sbc)
 		Optionally uses dev-embedded/joetoo-meta::joetoo
-		Currently provides u-boot files, and has a non-functional
-		option to provide firmware -- both may be moved to a package
-		that delivers an updated kernel, device tree, bootloader,
-		modules, and firmware
+		Boot firmware installation (via boot-fw) is functional for Rasberry Pi boards,
+		but it is not yet impmented for rockchip boards
+		That may also be moved in the future, to a package that installs the kernel
+		kernel, modules, firmware, device tree, bootloader, etc. 
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="raspi564">Configure for Raspberry Pi 5 (64 bit)</flag>
-		<flag name="raspi64">Configure for Raspberry Pi 4/3 (64 bit)</flag>
-		<flag name="raspi32">Configure for Raspberry Pi 2 (32 bit)</flag>
-		<flag name="tinker32">Configure for Asus Tinkerboard/Tinkerboard S (32 bit)</flag>
-		<flag name="tinker264">Configure for Asus Tinkerboard 2/2S (64 bit)</flag>
-		<flag name="rock4c64">Configure for Radxa Rock 4c Plus (64 bit)</flag>
-		<flag name="opi564">Configure for OrangePi 5 (64 bit)</flag>
+                <flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
+                <flag name="bcm2710-rpi-3-b-plus">Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
+                <flag name="bcm2711-rpi-4-b">Tailor for Raspberry Pi 4 B (armv8/64)</flag>
+                <flag name="bcm2712-rpi-5-b">Tailor for Raspberry Pi 5 B (armv8/64)</flag>
+                <flag name="rk3288-tinker-s">Tailor for Tinkerboard S (armv7/32)</flag>
+                <flag name="rk3399-rock-pi-4c-plus">Tailor for Rock Pi 4c Plus (armv8/64)</flag>
+                <flag name="rk3399-tinker-2-s">Tailor for Tinkerboard 2 S (armv8/64)</flag>
+                <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
 		<flag name="gpio">Pull in the libgpiod package and dependencies</flag>
 		<flag name="joetoo">Pull in the joetoo-meta package and its dependencies</flag>
