@@ -69,13 +69,13 @@ src_install() {
 			einfo "Copying raspberry board config files to /boot" ;
 			newins "${FILESDIR}/${board}/cmdline.txt" "cmdline.txt" ;
 			newins "${FILESDIR}/${board}/config.txt" "config.txt" ;
-			newenvd "${FILESDIR}/config_protext-raspi" "99${PN}" ;;
+			newenvd "${FILESDIR}/config_protect-raspi" "99${PN}" ;;
 		"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2-s"|"rk3588s-orangepi-5" )
 			einfo "Copying rockchip board config files to /boot" ;
 			newins "${FILESDIR}/${board}/boot.cmd" "boot.cmd" ;
 			newins "${FILESDIR}/${board}/boot.scr" "boot.scr" ;
 			newins "${FILESDIR}/${board}/joetooEnv.txt" "joetooEnv.txt" ;
-			newenvd "${FILESDIR}/config_protext-rockchip" "99${PN}" ;;
+			newenvd "${FILESDIR}/config_protect-rockchip" "99${PN}" ;;
 	esac
 }
 
