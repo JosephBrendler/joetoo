@@ -14,10 +14,17 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="boot-fw">(to do)Pull in the /boot firmware, configs and bootloader</flag>
+		<flag name="raspi564">Configure for Raspberry Pi 5 (64 bit)</flag>
+		<flag name="raspi64">Configure for Raspberry Pi 4/3 (64 bit)</flag>
+		<flag name="raspi32">Configure for Raspberry Pi 2 (32 bit)</flag>
+		<flag name="tinker32">Configure for Asus Tinkerboard/Tinkerboard S (32 bit)</flag>
+		<flag name="tinker264">Configure for Asus Tinkerboard 2/2S (64 bit)</flag>
+		<flag name="rock4c64">Configure for Radxa Rock 4c Plus (64 bit)</flag>
+		<flag name="opi564">Configure for OrangePi 5 (64 bit)</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
-		<flag name="gpio">(to do) Pull in the gpio package(s) and dependencies</flag>
+		<flag name="gpio">Pull in the libgpiod package and dependencies</flag>
 		<flag name="joetoo">Pull in the joetoo-meta package and its dependencies</flag>
+		<flag name="boot-fw">(to do)Pull in the /boot firmware, configs and bootloader</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
