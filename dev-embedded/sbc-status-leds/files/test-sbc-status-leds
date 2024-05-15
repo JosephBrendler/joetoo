@@ -20,10 +20,10 @@ VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ override defaults with config file ]--------------------
-[ -e /etc/sbc_status_leds/sbc_status_leds.conf ] && \
-      source /etc/sbc_status_leds/sbc_status_leds.conf || \
-      ( echo "Error: symlink /etc/sbc_status_leds/sbc_status_leds.conf does not exist" ;
-        echo "use eselect sbc_status_leds to create it" )
+[ -e /etc/sbc-status-leds/sbc-status-leds.conf ] && \
+      source /etc/sbc-status-leds/sbc-status-leds.conf || \
+      ( echo "Error: symlink /etc/sbc-status-leds/sbc-status-leds.conf does not exist" ;
+        echo "use eselect sbc-status-leds to create it" )
 
 #-----[ functions ]---------------------------------------------
 
