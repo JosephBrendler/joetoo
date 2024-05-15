@@ -116,7 +116,7 @@ RDEPEND="
 		bcm2711-rpi-4-b?   ( >=sys-boot/rpi3-64bit-firmware-1.20220331 )
 		bcm2710-rpi-3-b-plus?   ( >=sys-boot/rpi3-64bit-firmware-1.20220331 )
 		bcm2709-rpi-2-b?   ( >=sys-boot/rpi2-32bit-firmware-0.0.1 )
-                rk3399-rock-pi-4c-plus?  ( >= sys-boot/rock4c64-firmware-1.20230926 )
+                rk3399-rock-pi-4c-plus?  ( >=sys-boot/rock4c64-firmware-1.20230926 )
 		# firmware packages for other rockchip boards not yet available
 	)
 "
