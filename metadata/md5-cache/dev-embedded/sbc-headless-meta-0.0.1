@@ -1,0 +1,12 @@
+BDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Baseline packages for a headless single board computer (sbc)
+EAPI=7
+HOMEPAGE=https://github.com/joetoo
+IUSE=-boot-fw +innercore +gpio +joetoo raspi564 raspi64 raspi32 tinker32 rock4c64 tinker264 opi564
+KEYWORDS=~arm ~arm64
+LICENSE=metapackage
+RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 >=sys-firmware/b43-firmware-5.100.138 innercore? ( >=sys-kernel/linux-firmware-20220310 >=sys-apps/rng-tools-6.8 >=sys-boot/tinker264-boot-config-0.0.1 ) gpio? ( >=dev-libs/libgpiod-2.1 ) joetoo? ( >=joetoo-base/joetoo-meta-0.2.0 >=dev-util/joetoolkit-0.3.3 raspi564? ( >=dev-embedded/sbc_status_leds-0.0.1[raspi564(+)] ) raspi64? ( >=dev-embedded/sbc_status_leds-0.0.1[raspi64(+)] ) raspi32? ( >=dev-embedded/sbc_status_leds-0.0.1[raspi32(+)] ) tinker32? ( >=dev-embedded/sbc_status_leds-0.0.1[tinker32(+)] ) rock4c64? ( >=dev-embedded/sbc_status_leds-0.0.1[rock4c64(+)] ) tinker264? ( >=dev-embedded/sbc_status_leds-0.0.1[tinker264(+)] ) opi564? ( >=dev-embedded/sbc_status_leds-0.0.1[opi564(+)] ) )
+REQUIRED_USE=innercore sbc? ( ^^ ( raspi564 raspi64 raspi32 tinker32 rock4c64 tinker264 opi564 ) )
+SLOT=0
+_md5_=0fed041322e6a2a1ade283c20a569c35
