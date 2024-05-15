@@ -67,9 +67,10 @@ src_install() {
 	# install only the one .conf file needed
 	insinto "/etc/${PN}/"
 	newins "${FILESDIR}/${PN}-${board}.conf" "${PN}-${board}.conf"
-	elog "  Installed (newins) ${PN}-${board}.conf"
+	elog "  Installed (doins) ${PN}-${board}.conf"
 	# install the symlink to this .conf file
-	dosym "${PN}-${board}.conf" "${PN}.conf"
+	dosym "/etc/${PN}/${PN}-${board}.conf" "/etc/${PN}/${PN}.conf"
+	elog "  Installed (dosym) ${PN}-${board}.conf"
 
 	elog "Installing the joetoo ${PN}.crontab file..."
 	insinto "/etc/cron.d/"
