@@ -1,0 +1,16 @@
+verbosity=6
+earlycon=on
+console=both
+bootlogo=false
+overlay_dir=overlay
+overlay_prefix=rockchip
+dtb_prefix=
+overlays=i2c1 i2c4 spi2 spidev2 uart1 uart2 uart3
+fdtfile=rk3288-tinker-s.dtb
+imagefile=zImage
+initrdfile=
+rootdev=PARTUUID=cda8a22c-01
+rootfstype=ext4
+extraargs=coherent_pool=2M init=/sbin/init net.ifnames=0
+usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
+

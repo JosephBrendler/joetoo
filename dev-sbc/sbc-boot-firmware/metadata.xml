@@ -7,9 +7,8 @@
 	</maintainer>
 	<longdescription>
 		Boot configuration files for single board computers (sbs)s, e.g. -
-		For rpi boards:  config.txt and cmdline.txt
-		For rockchip boards: boot.cmd, boot.scr, joetooEnv.txt
+		rpi boards:  config.txt and cmdline.txt
+		rockchip boards: boot.cmd, boot.scr, joetooEnv.txt
 		expected by bootloader, and instructions
-		Also installs config_protect file in env.d
 	</longdescription>
 </pkgmetadata>

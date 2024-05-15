@@ -1,0 +1,11 @@
+Notes:  
+
+config_protect_boot will protect u-boot files, but joetoo does not yet have
+u-boot development implemented for this board
+
+thus, this ebuild does not yet deliver boot.cmd, boot.scr, nor the u-boot_reflash files
+needed for this board -- if needed, they can be retrieved from armbian/build output .deb files
+
+the kernel (zImage) and device tree file (rk3288-tinker-s.dtb) are provided by
+package sys-kernel/linux-rk3288-tinker-s_kernel_image from the joetoo repository
+
