@@ -38,7 +38,10 @@ VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
 #-----[ override defaults with config file ]--------------------
-[ -e /etc/sbc_monitor_leds.conf ] && source /etc/sbc_monitor_for_leds.conf
+[ -e /etc/sbc_monitor_leds/sbc_monitor_leds.conf ] && \
+      source /etc/sbc_monitor_leds/sbc_monitor_for_leds.conf || \
+      ( echo "Error: symlink /etc/sbc_monitor_leds/sbc_monitor_for_leds.conf does not exist" ;
+        echo "use eselect sbc_monitor_leds to create it" )
 
 [ ! -d $(dirname ${vpn_status_file}) ] && mkdir -p $(dirname ${vpn_status_file})
 [ ! -f ${vpn_status_file} ] && echo "1 1715612707" > ${vpn_status_file}
