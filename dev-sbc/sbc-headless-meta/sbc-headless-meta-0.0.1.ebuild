@@ -135,11 +135,10 @@ RDEPEND="
 			upstream? ( >=sys-boot/rpi2-32bit-firmware-0.0.1 )
 			!upstream? ( sys-kernel/linux-bcm2709-rpi-2-b_kernel_image )
 		)
-		rk3399-rock-pi-4c-plus? ( >=sys-boot/rock4c64-firmware-1.20230926 )
-		rk3288-tinker-s?        ( >=sys-kernel/linux-rk3288-tinker-s_kernel_image )
-		rk3399-rock-pi-4c-plus? ( >=sys-kernel/linux-rk3399-rock-4c-plus_kernel_image )
-		rk3399-tinker-2-s?      ( >=sys-kernel/linux-rk3399-tinker-2-s_kernel_image )
-		rk3588s-orangepi-5?     ( >=sys-kernel/linux-rk3588s-orangepi-5_kernel_image )
+		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_kernel_image )
+		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-4c-plus_kernel_image )
+		rk3399-tinker-2-s?      ( sys-kernel/linux-rk3399-tinker-2-s_kernel_image )
+		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_kernel_image )
 	)
 "
 # Note: upstream boot-fw firmware packages for rockchip boards not yet available
