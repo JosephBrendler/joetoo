@@ -3,7 +3,7 @@
 # adapted from kernelupdate-dom0 of October 2021,
 #   makeU-distrib-tar of February 2022, and
 #   installU_onServer of February 2022
-# generalized from kernelupdate-embedded, to build kernels for SBCs or xen domU/dom0 May 2024
+# generalized from kernelupdate-embedded, to build kernels for SBCs *or xen domU/dom0 May 2024
 #
 # Interactively issue the sequence of commands that accomplishes a kernel update for (e.g.) tinkerboard
 #
@@ -26,15 +26,15 @@
 #-----[ configure kernel ]-----------------------------------------------
 # make ARCH=arm miniarm-rk3288_defconfig -j16
 # make ARCH=arm menuconfig -j16
-# cp .config /home/joe/MyEmbeddedProjectFiles/.config-6.4.y-baseline
+# cp .config /home/joe/My_${model}_project/build/${model}/.config-6.4.y-baseline
 #
-# see also instructions at "tinker04-NEW-kernel-custom-rebuild-commands"
+# see also instructions at /etc/kernelupdate/README-instructions
 #
 
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0.2.5-20240511"
+BUILD="0.2.9-20240517"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
