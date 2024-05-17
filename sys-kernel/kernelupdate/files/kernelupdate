@@ -97,7 +97,7 @@ module_dir=""  # to be set after make modules_install
 [[ ! -d "${host_dir}" ]]           && mkdir -pv -m 755 "${host_dir}"            && chown ${user}:${user} "${host_dir}"
 
 # set up the cross-building make command
-make_model="MAKEOPTS=\"${makeopts}\" FEATURES=\"${features}\" "
+make_model="MAKEOPTS=\${makeopts}\ FEATURES=\${features}\ "
 make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
 # get and set version number and name
@@ -111,12 +111,12 @@ devel_dir="${my_devel_dir}"
 ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
 publish_tarball_cmd_file="${build_dir}/publish_tarball_${kernel_image_name}"
 publish_ebuild_cmd_file="${build_dir}/publish_ebuild_${kernel_image_name}"
-[[ ! -d "${ebuild_dir}" ]]         && mkdir -pv -m 755 "${ebuild_dir}"          && chown ${user}:${user} "${ebuild_dir}"
+[[ ! -d "${ebuild_dir}" ]] &&  mkdir -pv -m 755 "${ebuild_dir}" && chown ${user}:${user} "${ebuild_dir}"
 d_message "done auto-configure" 3
 
 command_sequence=(
 'backup_config'
-'eval ${make_model} mrproper'
+'make_mrproper'
 'cp -v ${config_dir}/.config.bak ${model_config}'
 'eval ${make_model} prepare'
 'eval ${make_model} oldconfig'
@@ -136,6 +136,16 @@ command_sequence=(
 d_message "done setting command sequence" 3
 
 #-----[ functions ]--------------------------------------------------
+make_mrproper() {
+  # clean up both the sources and build directories
+  message "Now working in $PWD (should be sources directory)"
+  clean_make_model="MAKEOPTS=\"${makeopts}\" FEATURES=\"${features}\" "
+  clean_make_model+="make ARCH=${arch} CROSS_COMPILE=${cross_compile} "
+  d_message "Cleaning sources directory [ ${sources_dir} ] ..." 1
+  eval ${clean_make_model} mrproper
+  d_message "Cleaning ${model} build directory [ ${model_dir} ] ..." 1
+  eval ${make_model} mrproper
+}
 
 new_prompt()        # set external variable $answer based on reponse to prompt $1
 { ps=$1; echo; echo; CUU; SCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; # '=~' not in busybox
