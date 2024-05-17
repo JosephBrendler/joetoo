@@ -1,0 +1,13 @@
+DEFINED_PHASES=install preinst
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.8.9 )
+DESCRIPTION=kernel image for my raspberry pi 5 model B embedded system
+EAPI=6
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=-symlink +sources
+KEYWORDS=~arm
+LICENSE=MIT
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.8.9 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2712-rpi-5-b_kernel_image-6.8.9.tar.bz2
+_md5_=4b8dad2fd2c50aec47a4e9aebc8ca51e
