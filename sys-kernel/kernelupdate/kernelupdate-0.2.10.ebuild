@@ -48,43 +48,43 @@ src_install() {
 	einfo "BOARDLIST: [ ${BOARDLIST} ]"
 
 	# install the kernelupdate script
-	elog "Installing script ${PN}..."
-	dodir "/usr/sbin/"
-	z="${PN}"
-	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/usr/sbin/${z};"
-	cp -v "${FILESDIR}/${z}" "${D}/usr/sbin/${z}";
+	elog "Installing (exe) script ${PN} into /usr/sbin/ ..."
+	exeinto "/usr/sbin/"
+	einfo "About to execute command newexe ${FILESDIR}/${PN} ${PN}"
+	newexe "${FILESDIR}/${PN}" "${PN}";
+	elog "Done installing script ${PN}"
 	# install the README-instructions file for getting sources
-	elog "Installing README-instructions file..."
-	dodir "/etc/${PN}/"
+	elog "Installing (ins) README-instructions files into /etc/${PN}..."
+	insinto "/etc/${PN}/"
 	for z in $(find ${FILESDIR}/ -iname README* -type f); do
-		einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/etc/${PN}/${z};"
-		cp -v "${FILESDIR}/${z}" "${D}/etc/${PN}/${z}";
+		einfo "About to execute command newins ${FILESDIR}/${z} ${z}..."
+		newins "${FILESDIR}/${z}" "${z}" ;
+		einfo "done inserting ${z}"
 	done
-	elog "Done installing script and README"
 
 	# install config files only for those boards selected via use flags
-	elog "Installing configuration files for selected boards..."
+	elog "Installing (ins) configuration files for selected boards into /etc/${PN}/..."
 	for board in ${BOARDLIST}; do
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
-			dodir "/etc/${PN}/${board}/"
 			for x in $(find ${FILESDIR}/${board}/ -maxdepth 1 -type f); do
-				z=$(echo ${x} | sed "s|${FILESDIR}/${board}/||");
-				einfo "About to execute command cp -v "${x}" "${D}"/etc/${PN}/"${z}";"
-				cp -v "${x}" "${D}/etc/${PN}/${z}";
+				z=$(echo ${x} | sed "s|${FILESDIR}/${board}/||") ;
+				einfo "About to execute command newins ${x} ${z}" ;
+				newins "${x}" "${z}" ;
+				einfo "done installing ${z}"
 			done
-			elog "done"
+			elog "done installing config files"
 		else
-			elog "USE flag \"${board}\" not selected; ${board} configs not copied"
+			elog "USE flag \"${board}\" not selected; ${board} configs not installed"
 		fi
 	done
 	# install the joetoo kernelupdate.conf eselect module
-	elog "Installing the joetoo kernelupdate.conf eselect module..."
-	dodir "/usr/share/eselect/modules/"
-	z="kernelupdate.eselect"
-	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/usr/share/eselect/modules/${z};"
-	cp -v "${FILESDIR}/${z}" "${D}/usr/share/eselect/modules/${z}";
-	elog "Done installing the joetoo kernelupdate.conf eselect module."
+	elog "Installing (ins) the ${PN}.conf eselect module into /usr/share/eselect/modules/ ..."
+	insinto "/usr/share/eselect/modules/"
+	z="${PN}.eselect"
+	einfo "About to execute command newins ${FILESDIR}/${z} ${z}"
+	newins "${FILESDIR}/${z}" "${z}"
+	elog "Done installing the kernelupdate.conf eselect module."
 
 }
 
@@ -116,6 +116,7 @@ pkg_postinst() {
 	elog "Version 0.2.5 added support for rk3399-tinker-2-s and tuned up dtb/overlay installation"
 	elog "Version 0.2.6 generalized to support dom0/U and renamed from kernelupdate-embedded"
 	elog "Version 0.2.7-9 provided bugfixes for dom0/U and dropped the term embedded"
+	elog "Version 0.2.10 refactors for newexe and newins ebuild commands"
 	elog ""
 	elog "This software is still preliminary.  Please report bugs to the maintainer."
 	elog ""
