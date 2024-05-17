@@ -105,6 +105,7 @@ old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 version_number=$(eval ${make_model} -s kernelversion)
 d_message "version_number: ${version_number}" 3
+myversion="${version_number}-gentoo"
 kernel_image_name="${kernel_basename}-${version_number}"
 
 devel_dir="${my_devel_dir}"
@@ -157,6 +158,7 @@ d_message "${LBon}........dtb_folder=[${BWon}$dtb_folder${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 separator "Auto-configured"
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
+d_message "${LBon}.........myversion=[${BWon}$myversion${LBon}]${Boff}" 1
 d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
 d_message "${LBon}........config_dir=[${BWon}$config_dir${LBon}]${Boff}" 1
 d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
