@@ -57,9 +57,10 @@ src_install() {
 	elog "Installing (ins) README-instructions files into /etc/${PN}..."
 	insinto "/etc/${PN}/"
 	for z in $(find ${FILESDIR}/ -iname README* -type f); do
-		einfo "About to execute command newins ${FILESDIR}/${z} ${z}..."
-		newins "${FILESDIR}/${z}" "${z}" ;
-		einfo "done inserting ${z}"
+		x=$(basename ${z}) ;
+		einfo "About to execute command newins ${FILESDIR}/${x} ${x}..."
+		newins "${FILESDIR}/${x}" "${x}" ;
+		einfo "done inserting ${x}"
 	done
 
 	# install config files only for those boards selected via use flags
@@ -68,9 +69,10 @@ src_install() {
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
 			for x in $(find ${FILESDIR}/${board}/ -maxdepth 1 -type f); do
-				z=$(echo ${x} | sed "s|${FILESDIR}/${board}/||") ;
+				y=$(basename ${x}) ;
+				z=$(echo ${y} | sed "s|${FILESDIR}/${board}/||") ;
 				einfo "About to execute command newins ${x} ${z}" ;
-				newins "${x}" "${z}" ;
+				newins "${FILESDIR}/${y}" "${z}" ;
 				einfo "done installing ${z}"
 			done
 			elog "done installing config files"
