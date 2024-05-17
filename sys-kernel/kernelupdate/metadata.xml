@@ -2,14 +2,15 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		kernel update utility for systems running joetoo linux, incl. several SBCs
-		(with gentoo thus being "upstream" generally).  More to follow...
+		kernel update utility for systems running Gentoo Linux, incl. several SBCs
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
+		<flag name="dom0">Install default config file (can be a xen dom0)</flag>
+		<flag name="domU">Install default xen domU config file</flag>
 		<flag name="rk3288-tinker-s">Install default tinker-s config file</flag>
 		<flag name="rk3399-rock-4c-plus">Install default rk3399-rock-4c-plus config file</flag>
 		<flag name="rk3399-tinker2-s">(to do) Install default tinker2-s config file</flag>
@@ -17,8 +18,6 @@
 		<flag name="bcm2710-rpi-3-b-plus">Install default raspi4b config file</flag>
 		<flag name="bcm2711-rpi-4-b">Install default raspi4b config file</flag>
 		<flag name="bcm2712-rpi-5-b">Install default raspi4b config file</flag>
-		<flag name="dom0">Install default xen dom0 config file</flag>
-		<flag name="domU">Install default xen domU config file</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>

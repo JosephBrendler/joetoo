@@ -1,5 +1,5 @@
 ## Do not delete or edit this file 
-##   This file is used by the kernelupdate-embedded script to provide instructions
+##   This file is sourced by the kernelupdate script to provide instructions
 ##   to users regarding how to get sources appropriate for their project
 
 # Remember, you must first have valid sources in ''. Here are several ways -- 
@@ -19,9 +19,9 @@
   ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux-<version> linux
   cd ../../; cp kernelconfigs/<myconfig> build/<model>/.config
   # (or manually use make_model to make <model>_defconfig and create an initial .config file)
-  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  # Inspect, confirm the /etc/kernelupdate/kernelupdate.conf
   #   symlink points to the right config file
-  kernelupdate-embedded
+  kernelupdate
 
 # Just wget the current version (e.g. below, 6.4.12) from kernel.org --
   cd /usr/aarch64-unknown-linux-gnu/usr/src
@@ -31,9 +31,9 @@
   ln -snf /usr/aarch64-unknown-linux-gnu/usr/src/linux-<version> linux
   cd ../../; cp kernelconfigs/<myconfig> build/<model>/.config
   # (or manually use make_model to make <model>_defconfig and create an initial .config file)
-  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  # Inspect, confirm the /etc/kernelupdate/kernelupdate.conf
   #   symlink points to the right config file
-  kernelupdate-embedded
+  kernelupdate
 
 # Manually clone raspberry-pi sources
   cd /usr/aarch64-unknown-linux-gnu/usr/src
@@ -44,9 +44,9 @@
   # on Pi5, modprobe configs; zcat /proc/config.gz > kernelconfigs/<myconfig>
   cp kernelconfigs/<myconfig> build/<model>/.config
   # (or manually use make_model to make <model>_defconfig and create an initial .config file)
-  # Inspect, confirm the /etc/kernelupdate-embedded/kernelupdate-embedded.conf
+  # Inspect, confirm the /etc/kernelupdate/kernelupdate.conf
   #   symlink points to the right config file
-  kernelupdate-embedded
+  kernelupdate
 
 
 # Alternatively, you might be able to 
