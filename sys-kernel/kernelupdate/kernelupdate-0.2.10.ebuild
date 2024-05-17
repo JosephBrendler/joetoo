@@ -72,7 +72,7 @@ src_install() {
 				y=$(basename ${x}) ;
 				z=$(echo ${y} | sed "s|${FILESDIR}/${board}/||") ;
 				einfo "About to execute command newins ${x} ${z}" ;
-				newins "${FILESDIR}/${y}" "${z}" ;
+				newins "${FILESDIR}/${board}/${y}" "${z}" ;
 				einfo "done installing ${z}"
 			done
 			elog "done installing config files"
