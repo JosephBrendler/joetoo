@@ -1,0 +1,15 @@
+Instructions for raspi-sources --
+
+# First remove any existing sources folder
+cd /home/joe/raspi-sources
+rm -r linux
+# then run update-ebuild.sh
+./update-ebuild.sh
+
+# alternatively, you can clone new sources yourself first,
+#   but the script will do it if you haven't already
+# See https://www.raspberrypi.com/documentation/computers/linux_kernel.html#choosing_sources
+# Manually clone raspberry-pi sources
+# browse https://github.com/raspberrypi/linux.git and note available branges and tags
+git clone --depth 1 --branch rpi-6.2.y https://github.com/raspberrypi/linux.git
+

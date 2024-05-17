@@ -56,20 +56,19 @@ src_install() {
 	# install the README-instructions file for getting sources
 	elog "Installing README-instructions file..."
 	dodir "/etc/${PN}/"
-	z="README-instructions"
-	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/etc/${PN}/${z};"
-	cp -v "${FILESDIR}/${z}" "${D}/etc/${PN}/${z}";
+	for z in $(find ${FILESDIR}/ -iname README* -type f); do
+		einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/etc/${PN}/${z};"
+		cp -v "${FILESDIR}/${z}" "${D}/etc/${PN}/${z}";
+	done
 	elog "Done installing script and README"
 
 	# install config files only for those boards selected via use flags
 	elog "Installing configuration files for selected boards..."
-	for board in ${BOARDLIST};
-	do
+	for board in ${BOARDLIST}; do
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
 			dodir "/etc/${PN}/${board}/"
-			for x in $(find ${FILESDIR}/${board}/ -maxdepth 1 -type f);
-			do
+			for x in $(find ${FILESDIR}/${board}/ -maxdepth 1 -type f); do
 				z=$(echo ${x} | sed "s|${FILESDIR}/${board}/||");
 				einfo "About to execute command cp -v "${x}" "${D}"/etc/${PN}/"${z}";"
 				cp -v "${x}" "${D}/etc/${PN}/${z}";
