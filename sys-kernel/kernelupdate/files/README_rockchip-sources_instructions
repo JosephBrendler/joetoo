@@ -7,6 +7,7 @@ rm -r linux
 #   is based on explicitly named version archives, and thus uses ${PV} to avoid needing updates
 
 # Just wget the current version (e.g. below, 6.4.12) from kernel.org --
+# browse to https://cdn.kernel.org/   and note the latest release (or others)
 wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.12.tar.xz
 tar xvpf linux-6.4.12.tar.xz
 cd ~/My_${model}_project/
