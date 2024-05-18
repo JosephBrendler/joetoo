@@ -29,7 +29,6 @@ RESTRICT="mirror binchecks strip"
 
 DEPEND=""
 RDEPEND="
-	>=sys-boot/rpi5-boot-config-1.0.0
 	!sys-boot/raspberrypi-firmware
 	${DEPEND}"
 
