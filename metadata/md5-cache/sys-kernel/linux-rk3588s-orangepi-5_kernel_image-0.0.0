@@ -1,0 +1,13 @@
+BDEPEND=sources? ( =sys-kernel/rockchip-sources-0.0.0 )
+DEFINED_PHASES=install
+DESCRIPTION=kernel image for my OrangePi 5/5b SBC(s)
+EAPI=7
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=-symlink -sources
+KEYWORDS=~arm
+LICENSE=MIT
+RDEPEND=sources? ( =sys-kernel/rockchip-sources-0.0.0 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3588s-orangepi-5_kernel_image-0.0.0.tar.bz2
+_md5_=81a7c89a197f96ee64ba186767b29054
