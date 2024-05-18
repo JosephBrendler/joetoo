@@ -3,9 +3,7 @@
 # Please consult /usr/share/portage/config/make.conf.example for a more
 # detailed example.
 #COMMON_FLAGS="-O2 -pipe"
-#COMMON_FLAGS="-march=armv8-a+crc+crypto -mtune=cortex-a72.cortex-a53 -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -O2 -pipe"
-COMMON_FLAGS="-O2 -pipe  -march=armv8.2-a+crypto+fp16+rcpc+dotprod -mtune=cortex-a76.cortex-a55"
-#COMMON_FLAGS="-march=armv8-a+crc -mtune=cortex-a53 -O2 -pipe"  ### (rpi5?)
+COMMON_FLAGS="-O2 -pipe  -mcpu=cortex-a76.cortex-a55+crc+crypto"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"

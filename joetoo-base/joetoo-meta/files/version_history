@@ -27,5 +27,4 @@ version 0.3.21 updates package.env and keywords stable dev-db/mysql and dev-libs
 version 0.3.22 updates package.env (for additional pkgs that have failed to compile with distcc)
 version 0.3.23 updates package.env, openvpn parts, and config_protect
 version 0.3.24-27 update package.env (for additional pkgs that have failed to compile with distcc)
-version 0.3.28/29 introduces support for rk3399-tinker-2-s
-
+version 0.3.28/29 introduces support for rk3399-tinker-2/2s
