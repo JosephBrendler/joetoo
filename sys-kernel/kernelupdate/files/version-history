@@ -9,7 +9,7 @@ Version 0.2.1 added support for bcm2709-rpi-2-b (Raspberry Pi 2 B)
 Version 0.2.2 provided bugfixes
 Version 0.2.3 added a .conf eselect module
 Version 0.2.4 removed pre-pub steps (skip publish_tarball if user uploads w git-desktop)
-Version 0.2.5 added support for rk3399-tinker-2-s and tuned up dtb/overlay installation
+Version 0.2.5 added support for rk3399-tinker-2 -s and tuned up dtb/overlay installation
 Version 0.2.6 generalized to support dom0/U and renamed from kernelupdate-embedded
 Version 0.2.7-9 provided bugfixes for dom0/U and dropped the term embedded
 Version 0.2.10 refactors for newexe and newins ebuild commands
