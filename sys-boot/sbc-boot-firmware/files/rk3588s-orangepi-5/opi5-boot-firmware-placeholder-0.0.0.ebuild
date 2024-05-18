@@ -5,7 +5,7 @@
 
 EAPI=8
 
-DESCRIPTION="Tinkerboard 2 S u-boot files for 64-bit mode"
+DESCRIPTION="Rock 4c Plus u-boot files for 64-bit mode"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI=""
 
@@ -33,11 +33,11 @@ src_install() {
 	dodir /boot
 		for x in $(find ${FILESDIR}/ -maxdepth 1 -type f | grep -v config_protect);
                 do
-			z=$(echo $(basename ${x}) | sed "s|rk3399-tinker-2-s_||");
+			z=$(echo $(basename ${x}) | sed "s|rk3399-rock-pi-4c-plus_||");
 			cp -v "${x}" "${D}/boot/${z}"
 		done
 	dodir /boot/u-boot_reflash
-		for x in $(find ${FILESDIR}/rk3399-tinker-2-s_u-boot_reflash/ -maxdepth 1 -type f);
+		for x in $(find ${FILESDIR}/rk3399-rock-pi-4c-plus_u-boot_reflash/ -maxdepth 1 -type f);
 		do
 			cp -v "${x}" "${D}/boot/u-boot_reflash/$(basename ${x})"
 		done
