@@ -1,0 +1,16 @@
+Version 0.0.5 incorporated ${PN}.conf file(s) and generalized for multiple models
+Version 0.0.6 enabled use of multiple .conf files and provided examples for models
+Version 0.1.0 added Rock4cplus, Pi 3b+, Pi 5b, and consolidated src_install()
+Version 0.1.1-4 provided bugfixes
+Version 0.1.5 installed README-instructions in /etc/${PN}/ vs /usr/sbin/
+Version 0.2.0 split publish tarball and ebuild functions, either being skipable
+  also made makeopts and features .conf variables and command sequence resumable
+Version 0.2.1 added support for bcm2709-rpi-2-b (Raspberry Pi 2 B)
+Version 0.2.2 provided bugfixes
+Version 0.2.3 added a .conf eselect module
+Version 0.2.4 removed pre-pub steps (skip publish_tarball if user uploads w git-desktop)
+Version 0.2.5 added support for rk3399-tinker-2-s and tuned up dtb/overlay installation
+Version 0.2.6 generalized to support dom0/U and renamed from kernelupdate-embedded
+Version 0.2.7-9 provided bugfixes for dom0/U and dropped the term embedded
+Version 0.2.10 refactors for newexe and newins ebuild commands
+
