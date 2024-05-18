@@ -4,12 +4,12 @@
 
 EAPI=7
 
-model="rk3399-tinker-2-s"
+model="rk3399-tinker-2"
 image="Image"
 
 DESCRIPTION="kernel image for my ASUS Tinkerboard 2 s SBC"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-${model}_kernel_image-${PV}.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tar.bz2"
 
 S="${WORKDIR}/"
 
