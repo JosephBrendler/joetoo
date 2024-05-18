@@ -106,6 +106,7 @@ pkg_postinst() {
 	elog ""
 	elog "Version 0.3.0 is the preliminary release of refactored, consolidated ${PN} tool"
 	elog "Version 0.3.1 renames rk3399-tinker-2 and adds supporting files for orangepi 5/5b"
+	elog "Version 0.3.2 provides bugfixes"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

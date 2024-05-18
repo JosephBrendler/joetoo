@@ -114,7 +114,7 @@ make0="MAKEOPTS="
 make0+="\"${makeopts}\" "
 make0+=" FEATURES="
 make0+="\"${features}\" "
-make0+="make "
+make0+="make O=${model_dir}/ "
 
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
