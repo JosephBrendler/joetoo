@@ -7,7 +7,7 @@ EAPI=8
 
 KEYWORDS="~arm ~arm64"
 
-DESCRIPTION="Service and udev rule to allow i2c group I2C access"
+DESCRIPTION="udev rule to allow i2c group I2C access"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI=""
 LICENSE="GPL-3+"
