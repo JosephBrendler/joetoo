@@ -24,7 +24,6 @@ RESTRICT="mirror"
 
 DEPEND=""
 RDEPEND="
-	>=sys-boot/rock4c64-boot-config-0.0.1
 	!sys-boot/raspberrypi-firmware
 	${DEPEND}"
 
