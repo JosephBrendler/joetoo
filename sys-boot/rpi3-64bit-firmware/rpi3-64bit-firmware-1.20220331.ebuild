@@ -21,7 +21,6 @@ RESTRICT="mirror binchecks strip"
 
 DEPEND=""
 RDEPEND="
-	>=sys-boot/rpi3-boot-config-1.0.0[pitop(-)?]
 	!sys-boot/raspberrypi-firmware
 	${DEPEND}"
 
