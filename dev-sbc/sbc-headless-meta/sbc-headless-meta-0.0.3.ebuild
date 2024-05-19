@@ -115,7 +115,7 @@ RDEPEND="
 		bcm2709-rpi-2-b?        ( >=dev-sbc/sbc-status-leds-0.0.1[bcm2709-rpi-2-b(+)]  )
 		rk3288-tinker-s?        ( >=dev-sbc/sbc-status-leds-0.0.1[rk3288-tinker-s(+)] )
 		rk3399-rock-pi-4c-plus? ( >=dev-sbc/sbc-status-leds-0.0.1[rk3399-rock-pi-4c-plus(+)] )
-		rk3399-tinker-2?      ( >=dev-sbc/sbc-status-leds-0.0.1[rk3399-tinker-2(+)] )
+		rk3399-tinker-2?        ( >=dev-sbc/sbc-status-leds-0.0.1[rk3399-tinker-2(+)] )
 		rk3588s-orangepi-5?     ( >=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5(+)] )
 	)
 	boot-fw? (
@@ -135,10 +135,10 @@ RDEPEND="
 			upstream? ( >=sys-boot/rpi2-32bit-firmware-0.0.1 )
 			!upstream? ( sys-kernel/linux-bcm2709-rpi-2-b_kernel_image )
 		)
-		rk3288-tinker-s?        ( >=sys-kernel/linux-rk3288-tinker-s_kernel_image )
-		rk3399-rock-pi-4c-plus? ( >=sys-kernel/linux-rk3399-rock-4c-plus_kernel_image )
-		rk3399-tinker-2?      ( >=sys-kernel/linux-rk3399-tinker-2_kernel_image )
-		rk3588s-orangepi-5?     ( >=sys-kernel/linux-rk3588s-orangepi-5_kernel_image )
+		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_kernel_image )
+		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-4c-plus_kernel_image )
+		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_kernel_image )
+		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_kernel_image )
 	)
 "
 # Note: upstream boot-fw firmware packages for rockchip boards not yet available
