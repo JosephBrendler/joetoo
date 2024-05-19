@@ -2,9 +2,7 @@
 #
 # Please edit /boot/joetooEnv.txt to set supported parameters
 
-setenv ramdisk_addr_r "0x21000000"
-setenv load_addr "0x39000000"
-#setenv load_addr "0x9000000"      ### this was old boot.cmd value; latest armbian is above
+setenv load_addr "0x9000000"
 setenv overlay_error "false"
 # default values
 setenv rootdev "/dev/mmcblk0p1"
@@ -15,8 +13,10 @@ setenv rootfstype "ext4"
 #setenv docker_optimizations "on"     ### armbian uses this, but I don't want it
 setenv earlycon "off"
 
+test -n "${distro_bootpart}" || distro_bootpart=1
+
 echo "Loaded and running boot.scr!"
-echo "Boot script loaded from ${devtype} ${devnum}"
+echo "Boot script loaded from ${devtype} ${devnum}:${distro_bootpart}"
 
 # defaults
 if test -z "$bootargs"; then
@@ -36,8 +36,11 @@ echo "distro_bootpart..: "${distro_bootpart}
 echo "verbosity........: "${verbosity}
 echo "console..........: "${console}
 echo "consoleargs......: "${consoleargs}
+echo "consolebaud......: "${consolebaud}
+echo "logo.............: "${logo}
 echo "bootlogo.........: "${bootlogo}
 echo "rootfstype.......: "${rootfstype}
+echo "arch.............: "${arch}
 echo "earlycon.........: "${earlycon}
 echo "overlays.........: "${overlays}
 echo "overlay_dir......: "${overlay_dir}
@@ -67,9 +70,11 @@ else
 fi
 
 # Manage console settings
-if test "${console}" = "ttyS2,115200n8"; then setenv console "both"; fi
+setenv consoleargs ""
+if test "${logo}" = "disabled"; then setenv logo "logo.nologo"; fi
 if test "${console}" = "display" || test "${console}" = "both"; then setenv consoleargs "console=tty1"; fi
-if test "${console}" = "serial" || test "${console}" = "both"; then setenv consoleargs "console=ttyS2,115200n8 ${consoleargs}"; fi
+#if test "${console}" = "serial" || test "${console}" = "both"; then setenv consoleargs "console=ttyS2,${consolebaud}n8 ${consoleargs}"; fi
+if test "${console}" = "serial" || test "${console}" = "both"; then setenv consoleargs "${consoleargs} console=ttyS2,${consolebaud}n8"; fi
 if test "${earlycon}" = "on"; then setenv consoleargs "earlycon ${consoleargs}"; fi
 if test "${bootlogo}" = "true"; then
         setenv consoleargs "splash plymouth.ignore-serial-consoles ${consoleargs}"
@@ -82,7 +87,9 @@ if test "${devtype}" = "mmc"; then part uuid mmc ${devnum}:1 partuuid; fi
 
 # update bootargs
 #setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 loglevel=${verbosity} ubootpart=${partuuid} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
-setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 loglevel=${verbosity} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
+#setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 loglevel=${verbosity} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
+#setenv bootargs "root=${rootdev} rootdelay=5 rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 loglevel=${verbosity} ubootpart=${partuuid} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
+setenv bootargs "root=${rootdev} rootdelay=5 rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 loglevel=${verbosity} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
 
 echo "-----[ Potentially Updated State ]-----------------------"
 #echo "userEnv..........: "${userEnv}
@@ -96,8 +103,11 @@ echo "distro_bootpart..: "${distro_bootpart}
 echo "verbosity........: "${verbosity}
 echo "console..........: "${console}
 echo "consoleargs......: "${consoleargs}
+echo "consolebaud......: "${consolebaud}
+echo "logo.............: "${logo}
 echo "bootlogo.........: "${bootlogo}
 echo "rootfstype.......: "${rootfstype}
+echo "arch.............: "${arch}
 echo "earlycon.........: "${earlycon}
 echo "overlays.........: "${overlays}
 echo "overlay_dir......: "${overlay_dir}
@@ -126,9 +136,11 @@ load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} ${prefix}dtb/${dtb_pr
 
 if test ${initrdfile} = ""; then
         echo "Null initrd [${initrdfile}]; not loading one..."
+        setenv ramdisk_addr_r "-"
+        echo "ramdisk_addr_r...: "${ramdisk_addr_r}
 else
         echo "Loading initrd from ${devtype} ${devnum}:${distro_bootpart}..."
-        load ${devtype} ${devnum} ${ramdisk_addr_r} ${prefix}${initrdfile}
+        load ${devtype} ${devnum}:${distro_bootpart} ${ramdisk_addr_r} ${prefix}${initrdfile}
 fi
 
 echo "Loading kernel from ${devtype} ${devnum}:${distro_bootpart}..."
@@ -153,39 +165,53 @@ if test "${overlay_error}" = "true"; then
         echo "Error applying DT overlays, restoring original DT"
         load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}dtb/${fdtfile}
 else
-        if load ${devtype} ${devnum} ${load_addr} ${prefix}dtb/${overlay_dir}/${overlay_prefix}-fixup.scr; then
+        echo "No overlay_error. Now trying to load fixup scripts..."
+        if test -e ${devtype} ${devnum} ${prefix}dtb/${overlay_dir}/${overlay_prefix}-fixup.scr; then
+                load ${devtype} ${devnum} ${load_addr} ${prefix}dtb/${overlay_dir}/${overlay_prefix}-fixup.scr
                 echo "Applying kernel provided DT fixup script (${overlay_prefix}-fixup.scr)"
                 source ${load_addr}
+        else
+                echo "could not find to load fixup script ${prefix}dtb/${overlay_dir}/${overlay_prefix}-fixup.scr. Skipping..."
         fi
         if test -e ${devtype} ${devnum} ${prefix}fixup.scr; then
                 load ${devtype} ${devnum} ${load_addr} ${prefix}fixup.scr
                 echo "Applying user provided fixup script (fixup.scr)"
                 source ${load_addr}
+        else
+                echo "could not find to load fixup script ${prefix}fixup.scr. Skipping..."
         fi
 fi
 
 # Boot!
 echo "Booting with arguments: ${bootargs}"
+echo
+echo "imagefile: ${imagefile}"
+echo
 
-if test ${initrdfile} = ""; then
-        echo "Booting with no initrd..."
-#       booti ${kernel_addr_r} - ${fdt_addr_r}
-        bootz ${kernel_addr_r} - ${fdt_addr_r}
+
+if test ${imagefile} = "Image"; then
+        echo "booting uncompressed kernel image [${imagefile}] ..."
+        booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 else
-        echo "Booting with initrd [${initrdfile} ]..."
-#       booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}  ### old boot.cmd
-        bootz ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+        if test ${imagefile} = "zImage"; then
+                echo "booting compressed kernel image [${imagefile}] ..."
+                bootz ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+        else
+                echo "invalid kernel imagefile name specified [${imagefile}]. Unable to boot..."
+        fi
 fi
+
 
 # Recompile instruction 
 # 
 # Cross-compiling:
 # cd to u-boot directory holding boot.cmd and run
-# (no) mkimage -C none -A arm64 -T script -d boot.cmd boot.scr
-# (yes) mkimage -C none -A arm -T script -d boot.cmd boot.scr
+# (64bit) mkimage -C none -A arm64 -T script -d boot.cmd boot.scr
+# (32bit) mkimage -C none -A arm -T script -d boot.cmd boot.scr
 # then copy boot.scr, boot.cmd, and joetooEnv.txt to the /boot partition
 # of your target system eMMC or microSD card
 #
 # If modifying and existing system (from said system)
-# (no) mkimage -C none -A arm64 -T script -d /boot/boot.cmd /boot/boot.scr
-# (yes) mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+# (64bit) mkimage -C none -A arm64 -T script -d /boot/boot.cmd /boot/boot.scr
+# (32bit) mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+
