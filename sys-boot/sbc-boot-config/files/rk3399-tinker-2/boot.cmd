@@ -206,11 +206,12 @@ fi
 # 
 # Cross-compiling:
 # cd to u-boot directory holding boot.cmd and run
-# (yes) mkimage -C none -A arm64 -T script -d boot.cmd boot.scr
-# (no) mkimage -C none -A arm -T script -d boot.cmd boot.scr
+# (64bit) mkimage -C none -A arm64 -T script -d boot.cmd boot.scr
+# (32bit) mkimage -C none -A arm -T script -d boot.cmd boot.scr
 # then copy boot.scr, boot.cmd, and joetooEnv.txt to the /boot partition
 # of your target system eMMC or microSD card
 #
 # If modifying and existing system (from said system)
-# (yes) mkimage -C none -A arm64 -T script -d /boot/boot.cmd /boot/boot.scr
-# (no) mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+# (64bit) mkimage -C none -A arm64 -T script -d /boot/boot.cmd /boot/boot.scr
+# (32bit) mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+
