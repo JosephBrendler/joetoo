@@ -243,7 +243,7 @@ install_kernel()
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Installing the kernel ...${Boff}"
-  case ${model:0:3} in
+  case ${model} in
     # if this is a dom0 kernel, install to /boot as usual
     "dom0" ) eval "${make_me} install" ;;
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
