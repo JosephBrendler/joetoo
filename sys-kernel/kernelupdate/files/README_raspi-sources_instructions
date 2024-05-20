@@ -11,5 +11,5 @@ rm -r linux
 # See https://www.raspberrypi.com/documentation/computers/linux_kernel.html#choosing_sources
 # Manually clone raspberry-pi sources
 # browse https://github.com/raspberrypi/linux.git and note available branges and tags
-git clone --depth 1 --branch rpi-6.2.y https://github.com/raspberrypi/linux.git
-
+branch_version=X.Z   ## e.g. 6.8
+git clone --depth 1 --branch rpi-${branch_version}.y https://github.com/raspberrypi/linux.git linux-${branch_version}.y
