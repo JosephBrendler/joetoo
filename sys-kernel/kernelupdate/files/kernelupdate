@@ -480,7 +480,7 @@ do
     let step_number++
   else
     # skip "publish" and "make_tarball" steps for dom0 builds
-    if [ "${model:0:4}" == "dom0" ] && \
+    if [ "${model}" == "dom0" ] && \
           ( [ "${command_sequence[step_number]:0:3}" == "pub" ] || \
             [ "${command_sequence[step_number]:(-7)}" == "tarball" ] )
     then
