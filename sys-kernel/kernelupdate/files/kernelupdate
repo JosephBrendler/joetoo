@@ -122,7 +122,12 @@ make0+="make O=${model_dir}/ "
 # get and set version number and name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
-version_number=$(eval ${make_me} -s kernelversion)
+build_version=$(eval ${make_me} -s kernelversion)
+# dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
+#   but for domU, I don't want the "-gentoo" part, so strip it
+[ "${model}" == "domU" ] && \
+    version_number="$(echo ${build_version} | sed 's/-gentoo//')" || \
+    version_number="${build_version}"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
@@ -477,14 +482,16 @@ do
   # skip device tree steps for dom0 or domU builds
   if [ "${model:0:3}" == "dom" ] && [ "${command_sequence[step_number]:(-4)}" == "dtbs" ]
   then
-    let step_number++
+    # take no action; the loop will increment step counter on next entry
+    d_message "dom0/domU do not have dtbs -- skipping this step" 2
   else
     # skip "publish" and "make_tarball" steps for dom0 builds
     if [ "${model}" == "dom0" ] && \
           ( [ "${command_sequence[step_number]:0:3}" == "pub" ] || \
             [ "${command_sequence[step_number]:(-7)}" == "tarball" ] )
     then
-      let step_number++
+      # take no action; the loop will increment step counter on next entry
+      d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
       answer=""
       new_prompt "${BMon}Are you ready to run ${BGon}\"${command_sequence[step_number]}\"${BMon}?${Boff}"
