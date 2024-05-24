@@ -6,7 +6,7 @@ EAPI=6
 
 DESCRIPTION="kernel image for my gentoo pv VMs"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}-gentoo.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tar.bz2"
 
 S="${WORKDIR}/"
 
