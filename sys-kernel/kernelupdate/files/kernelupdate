@@ -363,9 +363,9 @@ publish_ebuild() {
     echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
     #next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
     #echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+    echo "git pull" >> ${publish_ebuild_cmd_file}
     echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
     echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
-    echo "git pull" >> ${publish_ebuild_cmd_file}
     echo "git status" >> ${publish_ebuild_cmd_file}
     echo "git add Manifest" >> ${publish_ebuild_cmd_file}
     echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
