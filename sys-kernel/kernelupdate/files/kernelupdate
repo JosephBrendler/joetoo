@@ -348,6 +348,7 @@ publish_tarball() {
 }
 
 publish_ebuild() {
+    # publish updated ebuild for domU or sbc kernels (dom0 don't need ebuilds)
     echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
 
     echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
@@ -360,11 +361,16 @@ publish_ebuild() {
     done
     old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
     echo "old version: ${old_version}"
+    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
+    if [ "${model}" == "domU" ]; then
+      new_version="$(echo ${version_number} | sed 's/-gentoo//')"
+      version_number="${new_version}"
+      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')"
+      kernel_image_name="${new_kernel_image_name}"
+    fi
     echo "new version: ${version_number}"
 
     echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-    #next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
-    #echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
     echo "git pull" >> ${publish_ebuild_cmd_file}
     echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
     echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
