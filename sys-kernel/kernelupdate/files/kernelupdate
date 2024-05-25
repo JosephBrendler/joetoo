@@ -244,7 +244,7 @@ clean_distrib_dirs()
     [[ -d $x ]] && find $x -mindepth 1 -iname '*' -delete
   done
   message "${LBon}Cleaning the tarball and ebuild publishing directory...${Boff}"
-  find ${build_dir} -mindepth 1 -maxdept 1 -iname 'publish*' -delete
+  find ${build_dir} -mindepth 1 -maxdepth 1 -iname 'publish*' -delete
 }
 
 install_kernel()
