@@ -26,9 +26,9 @@ MY_ARCH="
 	bcm2712-rpi-5-b? ( arm64 )
 "
 
-UPSTREAM_PV="${PV/_p/+${my_arch}}"
+UPSTREAM_PV="${PV/_p/+${MY_ARCH}}"
 UPSTREAM_PV="${UPSTREAM_PV/_p/+}"
-DOWNLOAD_PV="${PV/_p/-${my_arch}}"
+DOWNLOAD_PV="${PV/_p/-${MY_ARCH}}"
 DOWNLOAD_PV="${DOWNLOAD_PV/_p/-}"
 
 SRC_URI="https://github.com/raspberrypi/firmware/archive/${UPSTREAM_PV}.tar.gz -> ${P}.tar.gz"
@@ -60,19 +60,15 @@ pkg_setup() {
 	if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
 		export kernel_name="kernel_2712.img"
-		my_arch="arm64"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 		export kernel_name="kernel8.img"
-		my_arch="arm64"
 	else if use bcm2710-rpi-3-b-plus; then
 		export board="bcm2710-rpi-3-b-plus"
 		export kernel_name="kernel8.img"
-		my_arch="arm64"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
 		export kernel_name="kernel7.img"
-		my_arch="arm"
 	else
 		export board=""
 	fi; fi; fi; fi
@@ -88,6 +84,9 @@ pkg_setup() {
         einfo "DEPEND=${DEPEND}"
 	einfo "UPSTREAM_PV=${UPSTREAM_PV}"
 	einfo "DOWNLOAD_PV=${DOWNLOAD_PV}"
+	einfo "SRC_URI=${SRC_URI}"
+	einfo "board=${board}"
+	einfo "kernel_name=${kernel_name}"
 }
 
 src_install() {
