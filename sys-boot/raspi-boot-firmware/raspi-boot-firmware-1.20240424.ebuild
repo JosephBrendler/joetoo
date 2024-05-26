@@ -68,6 +68,17 @@ pkg_setup() {
 	export DOWNLOAD_PV="${PV/_p/-${my_arch}}"
 	export DOWNLOAD_PV="${DOWNLOAD_PV/_p/-}"
 	export SRC_URI="https://github.com/raspberrypi/firmware/archive/${UPSTREAM_PV}.tar.gz -> ${P}.tar.gz"
+
+        einfo "S=${S}"
+        einfo "D=${D}"
+        einfo "P=${P}"
+        einfo "PN=${PN}"
+        einfo "PV=${PV}"
+        einfo "PVR=${PVR}"
+        einfo "RDEPEND=${RDEPEND}"
+        einfo "DEPEND=${DEPEND}"
+	einfo "UPSTREAM_PV=${UPSTREAM_PV}"
+	einfo "DOWNLOAD_PV=${DOWNLOAD_PV}"
 }
 
 src_install() {
@@ -101,16 +112,6 @@ src_install() {
 }
 
 pkg_postinst() {
-        einfo "S=${S}"
-        einfo "D=${D}"
-        einfo "P=${P}"
-        einfo "PN=${PN}"
-        einfo "PV=${PV}"
-        einfo "PVR=${PVR}"
-        einfo "RDEPEND=${RDEPEND}"
-        einfo "DEPEND=${DEPEND}"
-	einfo "UPSTREAM_PV=${UPSTREAM_PV}"
-	einfo "DOWNLOAD_PV=${DOWNLOAD_PV}"
         elog ""
         elog "${PN}-${PVR} installed"
         elog "This version is still preliminary. Please report bugs to the maintainer."
