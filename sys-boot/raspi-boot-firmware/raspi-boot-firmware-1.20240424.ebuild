@@ -16,8 +16,22 @@ IUSE="bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b +kern
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
-^^ ( bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
+	^^ ( bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
 "
+
+MY_ARCH="
+	bcm2709-rpi-2-b? ( arm )
+	bcm2710-rpi-3-b-plus? ( arm64 )
+	bcm2711-rpi-4-b? ( arm64 )
+	bcm2712-rpi-5-b? ( arm64 )
+"
+
+UPSTREAM_PV="${PV/_p/+${my_arch}}"
+UPSTREAM_PV="${UPSTREAM_PV/_p/+}"
+DOWNLOAD_PV="${PV/_p/-${my_arch}}"
+DOWNLOAD_PV="${DOWNLOAD_PV/_p/-}"
+
+SRC_URI="https://github.com/raspberrypi/firmware/archive/${UPSTREAM_PV}.tar.gz -> ${P}.tar.gz"
 
 RESTRICT="mirror binchecks strip"
 
@@ -63,11 +77,6 @@ pkg_setup() {
 		export board=""
 	fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
-	export UPSTREAM_PV="${PV/_p/+${my_arch}}"
-	export UPSTREAM_PV="${UPSTREAM_PV/_p/+}"
-	export DOWNLOAD_PV="${PV/_p/-${my_arch}}"
-	export DOWNLOAD_PV="${DOWNLOAD_PV/_p/-}"
-	export SRC_URI="https://github.com/raspberrypi/firmware/archive/${UPSTREAM_PV}.tar.gz -> ${P}.tar.gz"
 
         einfo "S=${S}"
         einfo "D=${D}"
