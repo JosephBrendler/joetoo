@@ -1,0 +1,21 @@
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+        <maintainer type="person">
+                <email>joseph.brendler@gmail.com</email>
+                <name>Joe Brendler</name>
+        </maintainer>
+        <upstream>
+                <remote-id type="github">rockchip firmware, for supported boards</remote-id>
+        </upstream>
+        <use>
+                <flag name="rk3288-tinker-s">Install boot firmware for tinkerboard s</flag>
+                <flag name="rk3399-rock-pi-4c-plus">Install boot firmware for rock4cplus</flag>
+                <flag name="rk3399-tinker-2">Install boot firmware for tinkerboard 2/2s</flag>
+                <flag name="rk3588s-orangepi-5">Install boot firmware for OrangePi 5/5b</flag>
+                <flag name="dtbo">(to do) Supply device tree blob overlays (/boot/overlays).</flag>
+                <flag name="kernel">(to do) Install a kernel for this board</flag>
+        </use>
+        <longdescription>
+		bootcode and firmware, for the selected rockchip sbc
+        </longdescription>
+</pkgmetadata>
