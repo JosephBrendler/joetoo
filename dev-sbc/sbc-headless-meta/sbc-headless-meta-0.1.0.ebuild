@@ -103,35 +103,35 @@ RDEPEND="
 		>=dev-util/joetoolkit-0.3.3
 		bcm2712-rpi-5-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-5-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) bcm2712-rpi-5-b(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-5-b(+)]
 		)
 		bcm2711-rpi-4-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-4-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) bcm2711-rpi-4-b(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-4-b(+)]
 		)
 		bcm2710-rpi-3-b-plus? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2710-rpi-3-b-plus(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) bcm2710-rpi-3-b-plus(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2710-rpi-3-b-plus(+)]
 		)
 		bcm2709-rpi-2-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2709-rpi-2-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) bcm2709-rpi-2-b(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2709-rpi-2-b(+)]
 		)
 		rk3288-tinker-s? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3288-tinker-s(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) rk3288-tinker-s(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3288-tinker-s(+)]
 		)
 		rk3399-rock-pi-4c-plus? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-rock-pi-4c-plus(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) rk3399-rock-pi-4c-plus(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3399-rock-pi-4c-plus(+)]
 		)
 		rk3399-tinker-2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-tinker-2(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) rk3399-tinker-2(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3399-tinker-2(+)]
 		)
 		rk3588s-orangepi-5? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+) rk3588s-orangepi-5(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-orangepi-5(+)]
 		)
 	)
 	boot-fw? (
