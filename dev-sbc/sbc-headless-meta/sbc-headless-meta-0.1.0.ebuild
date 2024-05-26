@@ -11,7 +11,7 @@ SRC_URI=""
 LICENSE="metapackage"
 SLOT="0"
 IUSE="
-	+innercore +gpio +joetoo +boot-fw -kernel_image
+	+innercore +gpio +joetoo +boot-fw -kernelimage
 	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b
 	rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5
 "
@@ -144,7 +144,7 @@ RDEPEND="
 		rk3399-tinker-2?        ( >=sys-boot/rockchip-boot-firmware-1.20240424[rk3399-tinker-2(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-1.20240424[rk3588s-orangepi-5(+)] )
 	)
-	kernel_image? (
+	kernelimage? (
 		bcm2712-rpi-5-b?        ( sys-kernel/linux-bcm2712-rpi-5-b_kernel_image )
 		bcm2711-rpi-4-b?        ( sys-kernel/linux-bcm2711-rpi-4-b_kernel_image )
 		bcm2710-rpi-3-b-plus?   ( sys-kernel/linux-bcm2710-rpi-3-b-plus_kernel_image )
@@ -227,7 +227,7 @@ pkg_postinst() {
 	elog ""
 	elog "version 0.0.1 is the first consolidated ${PN} ebuild"
 	elog "version 0.0.2/3 provide bugfixes for supported boards"
-	elog "version 0.1.0 aligns boot-config, boot-firmware, and kernel_image for all boards"
+	elog "version 0.1.0 aligns boot-config, boot-firmware, and kernelimage for all boards"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
