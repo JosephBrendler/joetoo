@@ -26,6 +26,7 @@ MY_ARCH="
 	bcm2712-rpi-5-b? ( arm64 )
 "
 
+# not sure this does anything, anymore - but it used to be necessary
 UPSTREAM_PV="${PV/_p/+${MY_ARCH}}"
 UPSTREAM_PV="${UPSTREAM_PV/_p/+}"
 DOWNLOAD_PV="${PV/_p/-${MY_ARCH}}"
@@ -60,17 +61,19 @@ pkg_setup() {
 	if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
 		export kernel_name="kernel_2712.img"
+		export uname_string="uname_string_2712"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 		export kernel_name="kernel8.img"
+		export uname_string="uname_string8"
 	else if use bcm2710-rpi-3-b-plus; then
 		export board="bcm2710-rpi-3-b-plus"
 		export kernel_name="kernel8.img"
+		export uname_string="uname_string8"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
 		export kernel_name="kernel7.img"
-	else
-		export board=""
+		export uname_string="uname_string7"
 	fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
@@ -87,6 +90,7 @@ pkg_setup() {
 	einfo "SRC_URI=${SRC_URI}"
 	einfo "board=${board}"
 	einfo "kernel_name=${kernel_name}"
+	einfo "uname_string=${uname_string}"
 }
 
 src_install() {
@@ -108,14 +112,23 @@ src_install() {
 	doins "${board}.dtb"
 	elog "installed ${board}.dtb"
 
-	# install kernel if use flag selected
-	if use kernel; then
-		doins "${kernel_name}"
-	fi
-
-	# allow for the dtbos to be provided by the kernel package
+	# install device tree blob overlays, if use flag selected
 	if use dtbo; then
 		doins -r overlays
+	fi
+
+	# install kernel and associated modules, if use flag selected
+	if use kernel; then
+		einfo "installing ${kernel_name}"
+		doins "${kernel_name}"
+		elog "installed ${kernel_name}"
+		# now install matching modules; first get version string for this board
+		version_string="$(cat ../extra/${uname_string} | awk '{print $3}')"
+		einfo "version_string=${version_string}"
+		cd ../modules
+		einfo "Now installing (ins) modules for ${kernel_name} into /lib/modules/"
+		insinto /lib/moddules/
+		doins -r ${version_string}
 	fi
 }
 
