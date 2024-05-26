@@ -122,7 +122,14 @@ make0+="make O=${model_dir}/ "
 # get and set version number and name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
+### This change was un-necessary -- undo it
+#build_version=$(eval ${make_me} -s kernelversion)
 version_number=$(eval ${make_me} -s kernelversion)
+# dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
+#   but for domU, I don't want the "-gentoo" part, so strip it
+#[ "${model}" == "domU" ] && \
+#    version_number="$(echo ${build_version} | sed 's/-gentoo//')" || \
+#    version_number="${build_version}"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
@@ -236,6 +243,8 @@ clean_distrib_dirs()
   do
     [[ -d $x ]] && find $x -mindepth 1 -iname '*' -delete
   done
+  message "${LBon}Cleaning the tarball and ebuild publishing directory...${Boff}"
+  find ${build_dir} -mindepth 1 -maxdepth 1 -iname 'publish*' -delete
 }
 
 install_kernel()
@@ -243,7 +252,7 @@ install_kernel()
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Installing the kernel ...${Boff}"
-  case ${model:0:3} in
+  case ${model} in
     # if this is a dom0 kernel, install to /boot as usual
     "dom0" ) eval "${make_me} install" ;;
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
@@ -321,6 +330,7 @@ publish_tarball() {
 
     cd ${old_dir} && message "Now working in $PWD"
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
+    # first command uses single ">", to initialize the file; then others use ">>"
     echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}
@@ -337,13 +347,16 @@ publish_tarball() {
     chown joe:joe ${publish_tarball_cmd_file}
     chmod +x ${publish_tarball_cmd_file}
 
+    # now actually execute the publication by running the publication command file
+    separator "now executing commands in ${publish_tarball_cmd_file}... " $(hostname)
     sudo -u ${user} ${publish_tarball_cmd_file}
 }
 
 publish_ebuild() {
+    # publish updated ebuild for domU or sbc kernels (dom0 don't need ebuilds)
     echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
-
-    echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
+    # first command uses single ">", to initialize the file; then others use ">>"
+    echo "cd ${ebuild_dir}/" > ${publish_ebuild_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
     ebuild_list=()
 
@@ -353,14 +366,19 @@ publish_ebuild() {
     done
     old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
     echo "old version: ${old_version}"
+    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
+    if [ "${model}" == "domU" ]; then
+      new_version="$(echo ${version_number} | sed 's/-gentoo//')"
+      version_number="${new_version}"
+      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')"
+      kernel_image_name="${new_kernel_image_name}"
+    fi
     echo "new version: ${version_number}"
 
     echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-    #next no longer needed - ebuild now uses ${PV}, so it just needs to be named right
-    #echo "sed -i \"s|${old_version}|${version_number}|\" ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+    echo "git pull" >> ${publish_ebuild_cmd_file}
     echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
     echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
-    echo "git pull" >> ${publish_ebuild_cmd_file}
     echo "git status" >> ${publish_ebuild_cmd_file}
     echo "git add Manifest" >> ${publish_ebuild_cmd_file}
     echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
@@ -375,6 +393,8 @@ publish_ebuild() {
     chown joe:joe ${publish_ebuild_cmd_file}
     chmod +x ${publish_ebuild_cmd_file}
 
+    # now actually execute the publication by running the publication command file
+    separator "now executing commands in ${publish_ebuild_cmd_file}... " $(hostname)
     sudo -u ${user} ${publish_ebuild_cmd_file}
 }
 
@@ -477,14 +497,16 @@ do
   # skip device tree steps for dom0 or domU builds
   if [ "${model:0:3}" == "dom" ] && [ "${command_sequence[step_number]:(-4)}" == "dtbs" ]
   then
-    let step_number++
+    # take no action; the loop will increment step counter on next entry
+    d_message "dom0/domU do not have dtbs -- skipping this step" 2
   else
     # skip "publish" and "make_tarball" steps for dom0 builds
-    if [ "${model:0:4}" == "dom0" ] && \
+    if [ "${model}" == "dom0" ] && \
           ( [ "${command_sequence[step_number]:0:3}" == "pub" ] || \
             [ "${command_sequence[step_number]:(-7)}" == "tarball" ] )
     then
-      let step_number++
+      # take no action; the loop will increment step counter on next entry
+      d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
       answer=""
       new_prompt "${BMon}Are you ready to run ${BGon}\"${command_sequence[step_number]}\"${BMon}?${Boff}"

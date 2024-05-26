@@ -1,24 +1,23 @@
 verbosity=6
 arch=arm64
-#console=both
+console=both
 #console=display
-console=serial
+#console=serial
 earlycon=on
 consolebaud=1500000
-bootlogo=true
-overlay_dir=overlays
-overlay_prefix=rockchip
+bootlogo=false
+overlay_dir=rockchip/overlay
+#overlay_prefix=rockchip-rk3588
+overlay_prefix=orangepi-5
+#overlays=opp-oc-24ghz panthor-gpu
+overlays=ap6275p
 dtb_prefix=rockchip
-overlays=
-fdtfile=rk3399-tinker-2.dtb
+fdtfile=rk3588s-orangepi-5.dtb
 imagefile=Image
 initrdfile=uInitrd
-#initrdfile=
-rootdev=/dev/mmcblk1p1
-#rootdev=UUID=604e047f-f018-4b90-84b0-72f1be501a8a
-#rootdev=PARTUUID=8adf86e2-01
+rootdev=UUID=6bae53eb-20e7-4c5d-8ac0-cf9da3fe980a
 rootfstype=ext4
 #extraargs=coherent_pool=2M init=/sbin/init selinux=0 rw debug
-#extraargs=coherent_pool=2M selinux=0 rw debug
 extraargs=coherent_pool=2M init=/usr/bin/init selinux=0 net.ifnames=0 debug
 usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
+
