@@ -75,7 +75,7 @@ pkg_setup() {
 src_install() {
 	# install u-boot_reflash_resources
 	einfo "Installing (ins) u-boot_reflash_resources for ${board} into /boot/..."
-	dodir /boot
+	insinto /boot
 		doins -r ${FILESDIR}/${board}/u-boot_reflash_resources
 		elog "installed u-boot_reflash_resources"
 	einfo "Installing (newenvd) config_protect_u-boot_reflash_resources..."
