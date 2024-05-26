@@ -12,8 +12,15 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~arm ~arm64"
-IUSE="-kernel -dtbo"
-RESTRICT="mirror"
+
+IUSE="rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 -kernel -dtbo"
+
+# require exactly one kind of board to be selected
+REQUIRED_USE="
+        ^^ ( rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 )
+"
+
+RESTRICT="mirror binchecks strip"
 
 DEPEND=""
 RDEPEND="
