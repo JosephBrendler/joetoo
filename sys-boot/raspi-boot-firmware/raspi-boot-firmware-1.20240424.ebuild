@@ -12,18 +12,19 @@ LICENSE="GPL-2 raspberrypi-videocore-bin Broadcom"
 SLOT="0"
 KEYWORDS="~arm ~arm64"
 
-IUSE="bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b +kernel +dtbo"
+IUSE="bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b +kernel +dtbo"
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
-	^^ ( bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
+	^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
 "
 
 MY_ARCH="
-	bcm2709-rpi-2-b? ( arm )
+	bcm2708-rpi-b?        ( arm )
+	bcm2709-rpi-2-b?      ( arm )
 	bcm2710-rpi-3-b-plus? ( arm64 )
-	bcm2711-rpi-4-b? ( arm64 )
-	bcm2712-rpi-5-b? ( arm64 )
+	bcm2711-rpi-4-b?      ( arm64 )
+	bcm2712-rpi-5-b?      ( arm64 )
 "
 
 # not sure this does anything, anymore - but it used to be necessary
@@ -74,7 +75,11 @@ pkg_setup() {
 		export board="bcm2709-rpi-2-b"
 		export kernel_name="kernel7.img"
 		export uname_string="uname_string7"
-	fi; fi; fi; fi
+	else if use bcm2708-rpi-b; then
+		export board="bcm2708-rpi-b"
+		export kernel_name="kernel.img"
+		export uname_string="uname_string"
+	fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
         einfo "S=${S}"
