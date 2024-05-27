@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Rockchip bootloader firmware for supported boards
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 -kernel -dtbo
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2
+RDEPEND=
+REQUIRED_USE=^^ ( rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 )
+RESTRICT=mirror binchecks strip
+SLOT=0
+_md5_=bf18cbd689ba056926f5ab6521417d05

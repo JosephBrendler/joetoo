@@ -1,9 +1,0 @@
-CONFIG_PROTECT="
-	/boot/boot.scr
-	/boot/boot.cmd
-	/boot/joetooEnv.txt
-	/boot/u-boot_reflash
-	/boot/extlinux
-	/boot/hw_intf.conf
-	/boot/rk3288-tinker-s.dtb
-"

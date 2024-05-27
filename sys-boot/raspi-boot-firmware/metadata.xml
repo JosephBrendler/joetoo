@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">raspi firmware, all versions</remote-id>
+	</upstream>
+	<use>
+		<flag name="bcm2709-rpi-2-b">Install boot firmware for RPi 2 b</flag>
+		<flag name="bcm2710-rpi-3-b-plus">Install boot firmware for RPi 3 b plus</flag>
+		<flag name="bcm2711-rpi-4-b">Install boot firmware for RPi 4 b</flag>
+		<flag name="bcm2712-rpi-5-b">Install boot firmware for RPi 5 b</flag>
+		<flag name="dtbo">Supply device tree blob overlays (/boot/overlays).</flag>
+		<flag name="kernel">Install a kernel for this board</flag>
+	</use>
+	<longdescription>
+		Raspberry Pi bootcode and firmware, for the selected board
+	</longdescription>
+</pkgmetadata>
