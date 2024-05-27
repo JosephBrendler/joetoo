@@ -14,6 +14,7 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
+                <flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
                 <flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
                 <flag name="bcm2710-rpi-3-b-plus">Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
                 <flag name="bcm2711-rpi-4-b">Tailor for Raspberry Pi 4 B (armv8/64)</flag>
