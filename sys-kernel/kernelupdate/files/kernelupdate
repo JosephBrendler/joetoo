@@ -298,9 +298,9 @@ install_dtbs()
     mkdir -p ${boot_dir}/dts
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts dtbs_install"
     # copy the one dtb file we need up to boot
-    message "${LBon}Staging the dtb file...${Boff}"
-    cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
-    message "${LBon}Staging the overlay folder...${Boff}"
+    message "${LBon}Staging the dtb file for tarball...${Boff}"
+    cp -av ${boot_dir}/dts/${model}.dtb ${boot_dir}/
+    message "${LBon}Staging the overlay folder for tarball...${Boff}"
     mv -v ${boot_dir}/dts/overlays ${boot_dir}/
 }
 
