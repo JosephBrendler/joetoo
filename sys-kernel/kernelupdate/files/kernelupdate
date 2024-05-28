@@ -358,7 +358,7 @@ publish_tarball() {
     # This way they aren't stored in the pubhlihs scritp file per se
 #    echo "git push origin master" >> ${publish_tarball_cmd_file}
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
-    echo 'git push https://${gituser}:${gitpass}@github.com/JosephBrendler/joetoo.git master' >> ${publish_tarball_cmd_file}
+    echo 'git push https://${gituser}:${gitpass}@${gitrepo} master' >> ${publish_tarball_cmd_file}
     echo  >> ${publish_tarball_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
@@ -409,7 +409,7 @@ publish_ebuild() {
     # This way they aren't stored in the pubhlihs scritp file per se
 #    echo "git push origin master" >> ${publish_tarball_cmd_file}
     echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-    echo 'git push https://${gituser}:${gitpass}@github.com/JosephBrendler/joetoo.git master' >> ${publish_ebuild_cmd_file}
+    echo 'git push https://${gituser}:${gitpass}@${gitrepo} master' >> ${publish_ebuild_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
