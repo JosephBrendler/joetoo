@@ -188,7 +188,7 @@ display_config()
 message "${BMon}Current Configuration:${Boff}"
 d_message "${LBon}..........CONF_DIR=[${BWon}$CONF_DIR${LBon}]${Boff}" 1
 separator "From Config File"
-d_message "${LBon}..............ARCH=[${BWon}$arch${LBon}]${Boff}" 1
+d_message "${LBon}..............arch=[${BWon}$arch${LBon}]${Boff}" 1
 d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
 d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
 d_message "${LBon}.............image=[${BWon}$image${LBon}]${Boff}" 1
@@ -306,12 +306,12 @@ install_dtbs()
       #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
       # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
       mkdir -p ${boot_dir}/${dtb_folder}
-      for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
+      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
       do cp -av ${file} ${boot_dir}/${dtb_folder} ; done
       #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
       # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
       mkdir -p ${boot_dir}/${overlay_folder}
-      for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
+      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
       do cp -av ${file} ${boot_dir}/${overlay_folder} ; done
 #    fi
     # copy the one dtb file we need up to boot
