@@ -305,18 +305,18 @@ install_dtbs()
       message "In case of error in dtbs_install, will try to manually copy..."
       #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
       # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/${dtb_folder}
+      mkdir -p ${boot_dir}/dts/${dtb_folder}
       for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/${dtb_folder} ; done
+      do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
       #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
       # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/${overlay_folder}
+      mkdir -p ${boot_dir}/dts/${overlay_folder}
       for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/${overlay_folder} ; done
+      do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
 #    fi
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
-    cp -av ${boot_dir}/dts//${dtb_folder}/${model}.dtb ${boot_dir}/
+    cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
 }
 
 make_tarball()
