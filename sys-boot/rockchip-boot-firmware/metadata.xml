@@ -5,7 +5,7 @@
                 <name>Joe Brendler</name>
         </maintainer>
         <upstream>
-                <remote-id type="github">rockchip firmware, for supported boards</remote-id>
+                <remote-id type="github">https://github.com/armbian/build</remote-id>
         </upstream>
         <use>
                 <flag name="rk3288-tinker-s">Install boot firmware for tinkerboard s</flag>
@@ -16,6 +16,9 @@
                 <flag name="kernel">(to do) Install a kernel for this board</flag>
         </use>
         <longdescription>
-		bootcode and firmware, for the selected rockchip sbc
+		u-boot bootloader firmware, with re-flash instructions for the selected rockchip sbc
+		These were build with armbian/build --
+		./compile.sh u-boot-config BOARD=xxxx etc.
+		./compile.sh u-boot BOARD=xxxx etc.
         </longdescription>
 </pkgmetadata>

@@ -1,14 +1,34 @@
 
-To re-flash u-boot on your SD card with the u-boot image compiled for the current build,
-follow these instructions --
+To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
+follow these instructions, based on armbian's platform_install.sh which can be found in
+u-boot_reflash_resources/usr/lib/u-boot/  --
 
-  root # cd /path/to/u-boot
-  root # dd if=idbloader.img of=/dev/mmcblk1 seek=64
-  root # dd if=u-boot.itb of=/dev/mmcblk1 seek=16384
+    # (as root)
+    cd /path/to/linux-u-boot-current-tinkerboard
+    target=<devicename>
+    UBOOT_SRC="u-boot-rockchip-with-spl.bin"
+    dd if=/dev/zero of=${target} bs=32k count=63 seek=1 status=noxfer > /dev/null 2>&1;
+    dd if=${UBOOT_SRC} of=${target} bs=32k seek=1 conv=notrunc
 
 Notes:
-(1) u-boot.itb is written starting at sector 16384. 
-    Make sure your card is partitioned such that there's no filesystem there.
-(2) Be sure to replace "/dev/mmcblk1" with the correct device!
+(0) This is untested - the platform_install.sh script does not appear to use the
+rk3288_boot.bin that the u-boot build proces provides...
 
-(3) You can also re-compile u-boot from scratch...
+(1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
+ 
+(2) You can also re-compile u-boot from scratch...
+
+(3) First partition should start at sector 8192, to leave room for u-boot image written
+    with this method.  For example, see this layout
+
+ # fdisk -l /dev/mmcblk0-----------------------------------------
+ Disk /dev/mmcblk0: 58 GiB, 62277025792 bytes, 121634816 sectors
+ Units: sectors of 1 * 512 = 512 bytes
+ Sector size (logical/physical): 512 bytes / 512 bytes
+ I/O size (minimum/optimal): 512 bytes / 512 bytes
+ Disklabel type: dos
+ Disk identifier: 0xcda8a22c
+
+ Device         Boot Start       End   Sectors Size Id Type
+ /dev/mmcblk0p1       8192 121634815 121626624  58G 83 Linux
+#-----------------------------------------------------------------
