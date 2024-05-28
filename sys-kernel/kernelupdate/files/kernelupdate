@@ -307,12 +307,12 @@ install_dtbs()
       # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
       mkdir -p ${boot_dir}/${dtb_folder}
       for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
-      do ; cp -av ${file} ${boot_dir}/${dtb_folder} ; done
+      do cp -av ${file} ${boot_dir}/${dtb_folder} ; done
       #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
       # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
       mkdir -p ${boot_dir}/${overlay_folder}
       for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
-      do ; cp -av ${file} ${boot_dir}/${overlay_folder} ; done
+      do cp -av ${file} ${boot_dir}/${overlay_folder} ; done
     fi
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
