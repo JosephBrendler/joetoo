@@ -40,7 +40,7 @@
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0.4.3-20240528"
+BUILD="0.4.4-20240528"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
@@ -58,7 +58,8 @@ cross_compile="armv7a-unknown-linux-gnueabihf-"
 model="rk3288-tinker-s"
 image="zImage"
 kernel="kernel7.img"
-dtb_folder=""
+dtb_folder="rockchip"
+overlay_folder="rockchip/overlay"
 build_root="/home/joe/My_${model}_project"
 my_devel_dir="/home/joe/myUtilities"
 my_devel_dir_credentials="/home/joe/myUtilities/.git/.credentials"
@@ -76,8 +77,9 @@ host_dir=${build_root}/"domU_kernel_images"
     source /etc/kernelupdate/kernelupdate.conf && \
     CONF_DIR="/etc/kernelupdate/kernelupdate.conf"
 
-# append "/" to dtb_folder if missing and not null
+# append "/" to dtb_folder and overlay_folder if missing and not null
 ( [[ ${#dtb_folder} -gt 0 ]] && [[ ! "${dtb_folder: -1}" == "/" ]] ) && dtb_folder+="/"
+( [[ ${#overlay_folder} -gt 0 ]] && [[ ! "${overlay_folder: -1}" == "/" ]] ) && overlay_folder+="/"
 
 # you should not need to edit anything below this point
 sources_dir="${build_root}/linux"
@@ -192,6 +194,7 @@ d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
 d_message "${LBon}.............image=[${BWon}$image${LBon}]${Boff}" 1
 d_message "${LBon}............kernel=[${BWon}$kernel${LBon}]${Boff}" 1
 d_message "${LBon}........dtb_folder=[${BWon}$dtb_folder${LBon}]${Boff}" 1
+d_message "${LBon}....overlay_folder=[${BWon}$overlay_folder${LBon}]${Boff}" 1
 d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
 separator "Auto-configured"
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
@@ -297,11 +300,23 @@ install_dtbs()
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
     mkdir -p ${boot_dir}/dts
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts dtbs_install"
+    # if that got an error, them brute-force it
+    if [ ! $? ] ; then
+      message "Error in dtbs_install; will try to manually copy..."
+      #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
+      # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+      mkdir -p ${boot_dir}/${dtb_folder}
+      for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
+      do ; cp -av ${file} ${boot_dir}/${dtb_folder} ; done
+      #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
+      # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+      mkdir -p ${boot_dir}/${overlay_folder}
+      for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
+      do ; cp -av ${file} ${boot_dir}/${overlay_folder} ; done
+    fi
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
-    cp -av ${boot_dir}/dts/${model}.dtb ${boot_dir}/
-    message "${LBon}Staging the overlay folder for tarball...${Boff}"
-    mv -v ${boot_dir}/dts/overlays ${boot_dir}/
+    cp -av ${boot_dir}/dts//${dtb_folder}/${model}.dtb ${boot_dir}/
 }
 
 make_tarball()
