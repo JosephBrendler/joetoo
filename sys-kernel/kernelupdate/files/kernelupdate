@@ -301,8 +301,8 @@ install_dtbs()
     mkdir -p ${boot_dir}/dts
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts dtbs_install"
     # if that got an error, them brute-force it
-    if [ ! $? ] ; then
-      message "Error in dtbs_install; will try to manually copy..."
+#    if [ ! $? ] ; then  ### just do it
+      message "In case of error in dtbs_install, will try to manually copy..."
       #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
       # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
       mkdir -p ${boot_dir}/${dtb_folder}
@@ -313,7 +313,7 @@ install_dtbs()
       mkdir -p ${boot_dir}/${overlay_folder}
       for file in $(find ${model_dir}/arch/${ARCH}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
       do cp -av ${file} ${boot_dir}/${overlay_folder} ; done
-    fi
+#    fi
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
     cp -av ${boot_dir}/dts//${dtb_folder}/${model}.dtb ${boot_dir}/
