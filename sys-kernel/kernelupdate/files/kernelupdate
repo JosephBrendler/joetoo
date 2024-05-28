@@ -299,7 +299,7 @@ install_dtbs()
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
     mkdir -p ${boot_dir}/dts
-    eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts dtbs_install"
+    eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts/${dtb_folder} dtbs_install"
     # if that got an error, them brute-force it
 #    if [ ! $? ] ; then  ### just do it
       message "In case of error in dtbs_install, will try to manually copy..."
