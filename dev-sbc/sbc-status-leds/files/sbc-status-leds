@@ -84,7 +84,7 @@ check_vpn() {
     * ) [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && echo "* Invalid last status..." ; LAST_VPN_OK=$FALSE ;;
   esac
   last_timestamp="$(echo ${last_status} | cut -d' ' -f2)"
-  # store and conditionally log the result and set led as appropriate
+  # store and conditionally log the result and set led as appropriate (on = good status; off = problem)
   if [[ ${VPN_OK} ]]   # no loss; good vpn
   then
     echo "1 ${timestamp}" > ${vpn_status_file}
@@ -146,16 +146,16 @@ check_svc() {
   blink_light ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
   # use rc-status to get services status
   result=$(rc-status | grep '\[' | grep -v started)
-  # conditionally log the result and set led as appropriate
+  # conditionally log the result and set led as appropriate (off = good status; on = problem)
   if [[ ! ${result} ]]   ## all services are "started"
   then
     [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
       /usr/bin/logger -p cron.notice "${PROG_NAME} success -- Result: all services are started"
-    light_on ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
+    light_off ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
   else
     [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
       /usr/bin/logger -p cron.notice "${PROG_NAME} service failure -- Result: ${result}"
-    light_off ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
+    light_on ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
   fi
   echo "done"
 }
@@ -167,7 +167,7 @@ check_temp() {
   # get cpu temp from ${cputempfile}
   cpu_temp=$(cat ${cputempfile} 2>/dev/null)
   int_temp=${cpu_temp:0:2}
-  # conditionally log the result and set led as appropriate
+  # conditionally log the result and set led as appropriate (off = good status; on = > threshold)
   if [[ ${int_temp} -ge ${temp_threshold} ]]
   then
     [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
