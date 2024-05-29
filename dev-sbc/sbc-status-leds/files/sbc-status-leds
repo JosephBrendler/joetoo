@@ -150,7 +150,7 @@ check_svc() {
   # blink svc led to indicate running check
   blink_light ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
   # use rc-status to get services status
-  result=$(rc-status | grep '\[' | grep -v started)
+  result=$( rc-status | grep '\[' | grep -v 'started\|inactive' )
   # conditionally log the result and set led as appropriate (off = good status; on = problem)
   if [[ ! ${result} ]]   ## all services are "started"
   then
