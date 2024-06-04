@@ -77,6 +77,11 @@ src_install() {
 		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom '${D}'boot/dts'
 		cp -R "${S}boot/dts/broadcom" "${D}boot/dts/" || die "Install failed!"
 		elog "Installed dtb files"
+		# pull just the right file up to /boot
+		einfo "Installing ${BOARD}.dtb into /boot/"
+		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom/${BOARD}.dtb '${D}'boot/'
+		cp  "${S}boot/dts/broadcom/${BOARD}" "${D}boot/" || die "Install failed!"
+		elog "Installed ${BOARD}.dtb into /boot/"
 	else
 		elog "use dtb not selected ; dtb files not installed"
 	fi
