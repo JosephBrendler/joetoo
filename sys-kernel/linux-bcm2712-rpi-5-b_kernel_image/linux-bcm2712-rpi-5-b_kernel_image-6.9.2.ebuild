@@ -64,32 +64,40 @@ src_install() {
 		z="$(basename ${x})"
 		einfo "Installing $x as $z ..."
 		newins "${x}" "${z}"
-		elog "Installed kernel file 9${z}"
+		elog "Installed kernel file ${z}"
 	done
 	# Install modules
-	einfo "Installing (cp) modules into /lib/"
-	einfo 'About to issue command: cp -R '${S}'lib '${D}
-	cp -R "${S}lib" "${D}" || die "Install failed!"
+	einfo "Installing (ins) modules into /lib/"
+#	einfo 'About to issue command: cp -R '${S}'lib '${D}
+#	cp -R "${S}lib" "${D}" || die "Install failed!"
+	insinto "/lib/"
+	doins -r "${S}lib/modules"
 	elog "Installed modules"
 	# Conditionally install dtbs
-	if use dtb && ! "${BOARD:0:3}" == "dom" ; then
-		einfo "Installing (cp) dtb files into /boot/dts/broadcom"
-		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom '${D}'boot/dts'
-		cp -R "${S}boot/dts/broadcom" "${D}boot/dts/" || die "Install failed!"
+	if use dtb && [ ! "${BOARD:0:3}" == "dom" ] ; then
+		einfo "Installing (ins) dtb files into /boot/dts/"
+#		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom '${D}'boot/dts'
+#		cp -R "${S}boot/dts/broadcom" "${D}boot/dts/" || die "Install failed!"
+		insinto "/boot/dts"
+		doins -r "${S}boot/dts/broadcom"
 		elog "Installed dtb files"
 		# pull just the right file up to /boot
 		einfo "Installing ${BOARD}.dtb into /boot/"
-		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom/${BOARD}.dtb '${D}'boot/'
-		cp  "${S}boot/dts/broadcom/${BOARD}" "${D}boot/" || die "Install failed!"
+#		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom/${BOARD}.dtb '${D}'boot/'
+#		cp  "${S}boot/dts/broadcom/${BOARD}.dtb" "${D}boot/" || die "Install failed!"
+		insinto "/boot/"
+		newins "${S}boot/dts/broadcom/${BOARD}.dtb" "${BOARD}.dtb"
 		elog "Installed ${BOARD}.dtb into /boot/"
 	else
 		elog "use dtb not selected ; dtb files not installed"
 	fi
 	# Conditionally install dtbos - in /boot/overlays rather than /boot/dts/overlays
-	if use dtbo && ! "${BOARD:0:3}" == "dom" ; then
-		einfo "Installing (cp) dtbo files into /boot/overlays"
-		einfo 'About to issue command: cp -R '${S}'boot/dts/overlays '${D}'boot/'
-		cp -R "${S}boot/dts/overlays" "${D}boot/" || die "Install failed!"
+	if use dtbo && [ ! "${BOARD:0:3}" == "dom" ] ; then
+		einfo "Installing (ins) dtbo files into /boot/overlays"
+#		einfo 'About to issue command: cp -R '${S}'boot/dts/overlays '${D}'boot/'
+#		cp -R "${S}boot/dts/overlays" "${D}boot/" || die "Install failed!"
+		insinto "/boot/"
+		doins -r "${S}boot/dts/overlays"
 		elog "Installed dtbo files"
 	else
 		elog "use dtbo not selected ; dtbo files not installed"
