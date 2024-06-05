@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I intend for this to be the meta-package ebuild for joetoo (with gentoo thus
-		being "upstream" generally).  More to follow...
+		This is the meta-package ebuild for joetoo
+		More to follow...
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -44,6 +44,6 @@
 		<flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>
