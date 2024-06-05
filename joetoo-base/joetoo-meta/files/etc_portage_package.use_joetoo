@@ -3,9 +3,6 @@
 #-----[ USE specific to joetoo-meta ]------------------------
 # The main point of meta-package USE flags is to reduce
 #   what you have to manually install/specify in your @world set (/var/lib/portage/world)
-# With USE "sbc", you must also set USE for exactly one of the supported board model names
-# Currently supported boards include --
-#   bcm2711-rpi-4-b, bcm2710-rpi-3-b-plus, rk3288-tinker-s, and rk3399-rock-pi-4c-plus
 #
 # headless ...................: Configure joetoo for use as a headless server
 # plasma .....................: (to do) Configure joetoo for use with a plasma desktop
@@ -30,30 +27,36 @@
 # cloudsync ..................: Cron scrit to sync content, scripts, binary packages across multi>
 # gentoo_pv_kernel_image .....: Pull in the joetoostandard xen pv kernel image and u>
 # sbc ........................: Tailor for single board computer (SBC) system, require board model sele>
-# bcm2709-rpi-2-b ............: Tailor for Raspberry Pi 2 B  (armv7/32)
-# bcm2710-rpi-3-b-plus .......: Tailor for Raspberry Pi 3 B Plus (armv8/64)
-# bcm2711-rpi-4-b ............: Tailor for Raspberry Pi 4 B (armv8/64)
-# bcm2712-rpi-5-b ............: Tailor for Raspberry Pi 5 B (armv8/64)
-# rk3288-tinker-s ............: Tailor for Tinkerboard s (armv7/32)
-# rk3399-rock-pi-4c-plus .....: Tailor for Rock Pi 4c Plus (armv8/64)
+# Note: with USE "sbc", you must also set USE for exactly one of the supported board model names
+#   bcm2708-rpi-b ..............: Tailor for Raspberry Pi B  (armv7/32)
+#   bcm2709-rpi-2-b ............: Tailor for Raspberry Pi 2 B  (armv7/32)
+#   bcm2710-rpi-3-b-plus .......: Tailor for Raspberry Pi 3 B Plus (armv8/64)
+#   bcm2711-rpi-4-b ............: Tailor for Raspberry Pi 4 B (armv8/64)
+#   bcm2712-rpi-5-b ............: Tailor for Raspberry Pi 5 B (armv8/64)
+#   rk3288-tinker-s ............: Tailor for Tinkerboard s (armv7/32)
+#   rk3399-rock-pi-4c-plus .....: Tailor for Rock Pi 4c Plus (armv8/64)
+#   rk3399-tinker-2 ............: Tailor for Tinkerboard 2/2s (armv8/64)
+#   rk3588s-orangepi-5 .........: Tailor for OrangePi 5/5b (armv8/64)
 #
-# This (below) default for joetoo-base/joetoo-meta should be good for a new amd64 install start point;
-#   add more later.  It will resolve to -- 
+# The default for >=joetoo-base/joetoo-meta-0.0.1::joeto (below) should be good for a new amd64 install
+#   start point with no USE flags specified; add more later.  The default will currently resolve to --
 #    +innercore
 #    +headless -plasma -gnome
 #    -lamp -nextcloud -mysql -mariadb
 #    +cloudsync
 #    +mkinitramfs +jus
 #    +netifrc -networkmanager
-#    +ntp -chrony
+#    -ntp +chrony
 #    +sysklogd -syslog-ng
 #    +script_header_brendlefly
 #    -compareConfigs -Terminal
 #    -gentoo_pv_kernel_image
 #    -samba
-#    -sbc -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5
+#    -sbc
+#      -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b bcm2708-rpi-b
+#      -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5
 #
->=joetoo-base/joetoo-meta-0.0.1::joetoo chrony cloudsync headless innercore jus mkinitramfs netifrc script_header_brendlefly sysklogd 
+#>=joetoo-base/joetoo-meta-0.0.1::joetoo
 
 #-----[ specific to joetoo system setup ]------------------------
 # This section allows you to configure packages that exist only in the joetoo github overlay
@@ -64,8 +67,14 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 sys-kernel/gentoo_pv_kernel_image -symlink
 
-dev-util/joetoolkit iptools -xenvmfiles -backup_utilities -utility_archive
+dev-util/joetoolkit iptools -xenvmfiles backup_utilities -utility_archive
 sys-kernel/kernelupdate dom0 domU bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5
+
+dev-sbc/sbc-headless-meta bcm2712-rpi-5-b joetoo boot-fw kernelimage
+dev-sbc/sbc-status-leds bcm2712-rpi-5-b
+sys-boot/sbc-boot-config bcm2712-rpi-5-b
+sys-boot/raspi-boot-firmware bcm2712-rpi-5-b dtbo -kernel
+sys-kernel/linux-bcm2712-rpi-5-b_kernel_image dtb -dtbo -sources -symlink
 
 #-----[ standardized for baseline joetoo setup ]------------------------
 # This section allows you to configure packages that joetoo developers have chosen as joetoo baseline
@@ -119,6 +128,6 @@ sys-kernel/linux-firmware -initramfs
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* PHP_TARGETS: php8-2 php8-1 -php7-2 -php7-3 -php7-4 -php8-0
+*/* PHP_TARGETS: php8-3
 */* RUBY_TARGETS: ruby31
 */* LLVM_TARGETS: ARM X86
