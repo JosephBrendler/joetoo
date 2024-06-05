@@ -9,17 +9,17 @@
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="dom0">Install default config file (can be a xen dom0)</flag>
-		<flag name="domU">Install default xen domU config file</flag>
-		<flag name="rk3288-tinker-s">Install default tinker-s config file</flag>
-		<flag name="rk3399-rock-4c-plus">Install default rk3399-rock-4c-plus config file</flag>
-		<flag name="rk3399-tinker2-s">(to do) Install default tinker2-s config file</flag>
-		<flag name="rk3588s-orangepi-5">(to do) Install default tinker2-s config file</flag>
-		<flag name="bcm2708-rpi-b">Install default raspi model b config file</flag>
-		<flag name="bcm2709-rpi-2-b">Install default raspi 2 b config file</flag>
-		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus config file</flag>
-		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b config file</flag>
-		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b config file</flag>
+		<flag name="dom0">Install default build-config file (can be a xen dom0)</flag>
+		<flag name="domU">Install default xen domU build-config file</flag>
+		<flag name="rk3288-tinker-s">Install default tinker-s build-config file</flag>
+		<flag name="rk3399-rock-4c-plus">Install default rk3399-rock-4c-plus build-config file</flag>
+		<flag name="rk3399-tinker2-s">(to do) Install default tinker2-s build-config file</flag>
+		<flag name="rk3588s-orangepi-5">(to do) Install default tinker2-s build-config file</flag>
+		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>
+		<flag name="bcm2709-rpi-2-b">Install default raspi 2 b build-config file</flag>
+		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus build-config file</flag>
+		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b build-config file</flag>
+		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>

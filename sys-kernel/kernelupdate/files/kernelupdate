@@ -298,22 +298,18 @@ install_dtbs()
 {
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
-    mkdir -p ${boot_dir}/dts
+    mkdir -p ${boot_dir}/dts/${dtb_folder}
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts/${dtb_folder} dtbs_install"
-    # if that got an error, them brute-force it
-#    if [ ! $? ] ; then  ### just do it
-      message "In case of error in dtbs_install, will try to manually copy..."
-      #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
-      # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/dts/${dtb_folder}
-      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
-      #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
-      # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/dts/${overlay_folder}
-      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
-#    fi
+    message "In case of error in dtbs_install, will try to manually copy..."
+    # manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
+    # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb' -or -iname 'README*')
+    do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
+    # manually copy dtbo files from overlay_folder (omit subdirectories for now)
+    # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    mkdir -p ${boot_dir}/dts/${overlay_folder}
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtbo' -or -iname 'README*')
+    do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
     cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
@@ -383,7 +379,7 @@ publish_ebuild() {
 
     for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
     do
-    ebuild_list+=("${x}")
+      ebuild_list+=("${x}")
     done
     old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
     echo "old version: ${old_version}"
