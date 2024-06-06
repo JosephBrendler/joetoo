@@ -1,13 +1,13 @@
-DEFINED_PHASES=install
+DEFINED_PHASES=install preinst
 DEPEND=sources? ( =sys-kernel/raspi-sources-6.9.2 )
-DESCRIPTION=kernel image for my raspberry pi model b sbc
-EAPI=6
+DESCRIPTION=kernel image for bcm2708-rpi-b sbc
+EAPI=8
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=-symlink +sources
-KEYWORDS=~arm
+IUSE=+dtb +dtbo -symlink -sources
+KEYWORDS=~arm ~arm64
 LICENSE=MIT
 RDEPEND=sources? ( =sys-kernel/raspi-sources-6.9.2 )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2708-rpi-b_kernel_image-6.9.2.tar.bz2
-_md5_=192ad525d8873264a5c4b0b220a6d8dc
+_md5_=ac19a82d2037fa96f52a9f464e78b717
