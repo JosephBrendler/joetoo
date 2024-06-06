@@ -1,13 +1,13 @@
-DEFINED_PHASES=install
-DEPEND==sys-kernel/gentoo-sources-6.9.1
-DESCRIPTION=kernel image for my gentoo pv VMs
-EAPI=6
+DEFINED_PHASES=install preinst
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.9.1 )
+DESCRIPTION=kernel image for domU sbc
+EAPI=8
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=symlink
-KEYWORDS=~arm ~x86 ~amd64
+IUSE=+dtb +dtbo -symlink -sources
+KEYWORDS=~arm ~arm64
 LICENSE=MIT
-RDEPEND==sys-kernel/gentoo-sources-6.9.1
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.9.1 )
 RESTRICT=mirror
 SLOT=0
-SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-domU_kernel_image-6.9.1-gentoo.tar.bz2
-_md5_=b2913549beecfb79a3854b45b04a422e
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-domU_kernel_image-6.9.1.tar.bz2
+_md5_=ac19a82d2037fa96f52a9f464e78b717
