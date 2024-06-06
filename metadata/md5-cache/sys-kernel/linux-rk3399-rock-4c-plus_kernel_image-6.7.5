@@ -1,13 +1,13 @@
-BDEPEND=sources? ( =sys-kernel/rockchip-sources-6.7.5 )
-DEFINED_PHASES=install
-DESCRIPTION=kernel image for my Radxa Rock 4c Plus SBC
-EAPI=7
-HOMEPAGE=https://github.com/JosephBrendler/joetoo
-IUSE=-symlink +sources
-KEYWORDS=~arm
+DEFINED_PHASES=install preinst
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.7.5 )
+DESCRIPTION=kernel image for rk3399-rock-4c-plus sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtb +dtbo -symlink -sources
+KEYWORDS=~arm ~arm64
 LICENSE=MIT
-RDEPEND=sources? ( =sys-kernel/rockchip-sources-6.7.5 )
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.7.5 )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-rock-4c-plus_kernel_image-6.7.5.tar.bz2
-_md5_=b40ea9bf218dc562ab86067d80b34666
+_md5_=ac19a82d2037fa96f52a9f464e78b717
