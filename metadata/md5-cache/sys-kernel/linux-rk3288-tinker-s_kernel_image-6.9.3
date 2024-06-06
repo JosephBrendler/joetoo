@@ -1,0 +1,13 @@
+DEFINED_PHASES=install preinst
+DEPEND=sources? ( =sys-kernel/raspi-sources-6.9.3 )
+DESCRIPTION=kernel image for rk3288-tinker-s sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtb +dtbo -symlink -sources
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RDEPEND=sources? ( =sys-kernel/raspi-sources-6.9.3 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3288-tinker-s_kernel_image-6.9.3.tar.bz2
+_md5_=ac19a82d2037fa96f52a9f464e78b717
