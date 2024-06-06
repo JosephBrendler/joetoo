@@ -61,13 +61,14 @@ pkg_setup() {
 
 src_install() {
 	einfo "Now in src_install()"
-	einfo "Install (ins) sources [ ${My_P} ] into /usr/src/ ..."
-#	dodir /usr/src/${MY_P}
+	einfo "Installing (ins) sources [ ${My_P} ] into /usr/src/ ..."
 	insinto "/usr/src/"
 	doins -r "${S}/${My_P}"
-#	cp -R ${S}/${MyP}/* ${D}/usr/src/
+	elog "Installed sources [ ${My_P} ] into /usr/src/"
 	if use symlink ; then
+		einfo "USE flag symlink is set, installing symlink ..."
 		dosym ${My_P} linux
+		elog "Installed symlink in /usr/src/  ${My_P} <-- linux"
 	fi
 }
 
