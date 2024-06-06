@@ -16,7 +16,7 @@
 
 EAPI=8
 MyV=$(ver_cut 1)
-DESCRIPTION="kernel sources for ASUS tinkerboard embedded system"
+DESCRIPTION="kernel sources for rockchip SOC based single board computers (SBCs)"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v${MyV}.x/linux-${PV}.tar.xz"
 
@@ -46,7 +46,7 @@ pkg_setup() {
 	ewarn ""
 
 	einfo "S=${S}"
-	My_P="linux-${PV}"
+	My_P="linux-${PV}-rockchip"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "My_P=${My_P}"
@@ -62,11 +62,12 @@ pkg_setup() {
 src_install() {
 	einfo "Now in src_install()"
 	einfo "Install (ins) sources in /usr/src/${My_P}/..."
+#	dodir /usr/src/${MY_P}
 	insinto "/usr/src/${My_P}/"
-	doins -r "${S}/${MyP}/*"
+	doins -r "${S}/${P}/*"
 #	cp -R ${S}/${MyP}/* ${D}/usr/src/
 	if use symlink ; then
-		dosym ${MyP} linux
+		dosym ${My_P} linux
 	fi
 }
 
