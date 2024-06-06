@@ -21,8 +21,8 @@ KEYWORDS="~arm ~arm64 ~amd64"
 IUSE="+dtb +dtbo -symlink -raspi-sources -rockchip-sources"
 
 REQUIRED_USE="
-	raspi-sources? ( ! rockchip-sources )
-	rockchip-sources? ( ! raspi-sources )
+	raspi-sources? ( !rockchip-sources )
+	rockchip-sources? ( !raspi-sources )
 "
 
 RESTRICT="mirror"

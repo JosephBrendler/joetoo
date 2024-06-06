@@ -7,8 +7,8 @@ IUSE=+dtb +dtbo -symlink -raspi-sources -rockchip-sources
 KEYWORDS=~arm ~arm64 ~amd64
 LICENSE=MIT
 RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
-REQUIRED_USE=raspi-sources? ( ! rockchip-sources ) rockchip-sources? ( ! raspi-sources )
+REQUIRED_USE=raspi-sources? ( !rockchip-sources ) rockchip-sources? ( !raspi-sources )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-tinker-2_kernel_image-0.0.0.tar.bz2
-_md5_=b835747e47ee0343005a1bcf19a3c89a
+_md5_=aeec47f5e452fdcffe8d4623f471e0c9

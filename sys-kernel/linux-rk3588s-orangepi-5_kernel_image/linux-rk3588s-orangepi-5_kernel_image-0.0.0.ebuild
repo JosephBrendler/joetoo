@@ -16,12 +16,20 @@ S="${WORKDIR}/"
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="~arm ~arm64"
-IUSE="+dtb +dtbo -symlink -sources"
+KEYWORDS="~arm ~arm64 ~amd64"
+
+IUSE="+dtb +dtbo -symlink -raspi-sources -rockchip-sources"
+
+REQUIRED_USE="
+	raspi-sources? ( !rockchip-sources )
+	rockchip-sources? ( !raspi-sources )
+"
+
 RESTRICT="mirror"
 
 RDEPEND="
-	sources? ( =sys-kernel/raspi-sources-${PV} )
+	raspi-sources?    ( =sys-kernel/raspi-sources-${PV} )
+	rockchip-sources? ( =sys-kernel/rockchip-sources-${PV} )
 "
 
 DEPEND="${RDEPEND}"
