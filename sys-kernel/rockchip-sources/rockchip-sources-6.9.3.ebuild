@@ -46,7 +46,7 @@ pkg_setup() {
 	ewarn ""
 
 	einfo "S=${S}"
-	My_P="linux-${PV}-rockchip"
+	My_P="linux-${PV}"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "My_P=${My_P}"
@@ -61,10 +61,10 @@ pkg_setup() {
 
 src_install() {
 	einfo "Now in src_install()"
-	einfo "Install (ins) sources in /usr/src/${My_P}/..."
+	einfo "Install (ins) sources [ ${My_P} ] into /usr/src/ ..."
 #	dodir /usr/src/${MY_P}
-	insinto "/usr/src/${My_P}/"
-	doins -r "${S}/${P}/*"
+	insinto "/usr/src/"
+	doins -r "${S}/${My_P}"
 #	cp -R ${S}/${MyP}/* ${D}/usr/src/
 	if use symlink ; then
 		dosym ${My_P} linux
