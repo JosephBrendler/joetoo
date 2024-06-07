@@ -66,8 +66,8 @@ src_install() {
 	doins -r "${S}/${My_P}"
 	elog "Installed sources [ ${My_P} ] into /usr/src/"
 	if use symlink ; then
-		einfo "USE flag symlink is set, installing symlink ..."
-		dosym ${My_P} linux
+		einfo "symlink USE flag is set, installing symlink ..."
+		dosym /usr/src/${My_P} /usr/src/linux
 		elog "Installed symlink in /usr/src/  ${My_P} <-- linux"
 	fi
 }
