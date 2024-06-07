@@ -1,3 +1,0 @@
-*/3 * * * *   root   /usr/local/sbin/pi5_vpn_watch_for_led
-*/3 * * * *   root   /usr/local/sbin/pi5_svc_watch_for_led
-*/3 * * * *   root   /usr/local/sbin/pi5_temp_watch_for_led 60

@@ -1,1 +1,0 @@
-CONFIG_PROTECT="/etc/local.d/tinker264_vpn.start /etc/local.d/cpu_gov.start"
