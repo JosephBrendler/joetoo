@@ -103,8 +103,8 @@ src_install() {
 	# install the current build number reference file
 	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
 	insinto "/etc/${PN}/"
-	echo "DO NOT EDIT" > ${D}/etc/${PN}/BUILD
-	echo "This file will be sourced by the kernelupdate script to assign the current build number" >> ${D}/etc/${PN}/BUILD
+	echo "# DO NOT EDIT" > ${D}/etc/${PN}/BUILD
+	echo "# This file will be sourced by the kernelupdate script to assign the current build number" >> ${D}/etc/${PN}/BUILD
 	echo "BUILD=${PV}" >> ${D}/etc/${PN}/BUILD
 	elog "Installed build number reference file in /etc/${PN}/"
 	# install an exclusion from config_protect-tion for BUILD
