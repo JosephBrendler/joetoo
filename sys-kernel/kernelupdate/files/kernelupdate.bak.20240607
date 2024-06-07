@@ -40,7 +40,7 @@
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0"
+BUILD="0.4.4-20240528"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
@@ -66,9 +66,6 @@ my_devel_dir_credentials="/home/joe/myUtilities/.git/.credentials"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 my_ebuild_dir_credentials="/home/joe/joetoo/.git/.credentials"
 host_dir=${build_root}/"domU_kernel_images"
-
-# source the current build number, assuming it was properly generated during ebuild deployment
-[[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
 
 # source kernelupdate.conf in order to load customized settings
 #   check each setting below to assign, if needed
@@ -266,11 +263,8 @@ install_kernel()
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_me} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
-    # Otherwise (SBC kernel), install to boot_dir for tarball.  Don't just use make install;
-    #   also copy the proper image manually to the proper deployed kernel name
-    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;
-             cp -av ${model_dir}/arch/${arch}/boot/${image} \
-                 ${boot_dir}/${kernel}-${version_number};;
+    # otherwise (SBC kernel), install to boot_dir for tarball
+    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
   esac
 }
 
