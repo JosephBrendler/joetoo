@@ -15,8 +15,6 @@ app-portage/jus ** ~arm64
 dev-util/compareConfigs ** ~arm64
 dev-util/mkinitramfs ** ~arm64
 dev-util/script_header_brendlefly ~arm64
-dev-util/script_header_brendlefly_extended ~arm64
-dev-util/script_header_brendlefly_noninteractive ~arm64
 dev-util/Terminal ** ~arm64
 joetoo-base/joetoo-meta::joetoo ** ~arm64
 net-misc/cloudsync ** ~arm64

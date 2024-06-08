@@ -16,8 +16,6 @@ app-portage/jus ** ~arm
 dev-util/compareConfigs ** ~arm
 dev-util/mkinitramfs ** ~arm
 dev-util/script_header_brendlefly ~arm
-dev-util/script_header_brendlefly_extended ~arm
-dev-util/script_header_brendlefly_noninteractive ~arm
 dev-util/Terminal ** ~arm
 net-misc/cloudsync ** ~arm
 
