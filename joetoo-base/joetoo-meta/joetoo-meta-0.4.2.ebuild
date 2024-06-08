@@ -58,19 +58,6 @@ REQUIRED_USE="
 	cloudsync ( script_header_brendlefly )
 	"
 
-BOARD="
-		bcm2712-rpi-5-b? ( bcm2712-rpi-5-b )
-		bcm2711-rpi-4-b? ( bcm2711-rpi-4-b )
-		bcm2710-rpi-3-b-plus? ( bcm2710-rpi-3-b-plus )
-		bcm2709-rpi-2-b? ( bcm2709-rpi-2-b )
-		bcm2708-rpi-b? ( bcm2708-rpi-b )
-		rk3288-tinker-s? ( rk3288-tinker-s )
-		rk3399-rock-pi-4c-plus? ( rk3399-rock-pi-4c-plus )
-		rk3399-tinker-2? ( rk3399-tinker-2 )
-		rk3588s-orangepi-5? ( rk3588s-orangepi-5 )
-		!sbc? ( nosbcnoboard )
-"
-
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
@@ -147,8 +134,31 @@ DEPEND="${RDEPEND}"
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	if use sbc ; then
-		einfo "USE sbc is selected; board = ${BOARD}"
+		einfo "USE sbc is selected. Assigning board ..." ;
+		if use bcm2712-rpi-5-b ; then
+			export board="bcm2712-rpi-5-b"
+		else if use bcm2711-rpi-4-b ; then
+			export board="bcm2711-rpi-4-b"
+		else if use bcm2710-rpi-3-b-plus ; then
+			export board="bcm2710-rpi-3-b-plus"
+		else if use bcm2709-rpi-2-b ; then
+			export board="bcm2709-rpi-2-b"
+		else if use bcm2708-rpi-b ; then
+			export board="bcm2708-rpi-b"
+		else if use rk3288-tinker-s ; then
+			export board="rk3288-tinker-s"
+		else if use rk3399-rock-pi-4c-plus ; then
+			export board="rk3399-rock-pi-4c-plus"
+		else if use rk3399-tinker-2 ; then
+			export board="rk3399-tinker-2"
+		else if use rk3588s-orangepi-5 ; then
+			export board="rk3588s-orangepi-5"
+		fi; fi; fi; fi; fi; fi; fi; fi; fi
+	else
+		einfo "USE sbc is NOT selected"
+		export board=""
 	fi
+	elog "pkg_setup complete. board = ${board}"
 }
 
 src_install() {
@@ -269,7 +279,7 @@ src_install() {
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
 		if use sbc ; then
-			newins "${FILESDIR}/etc_portage_make_conf_joetoo_${BOARD}" "make.conf"
+			newins "${FILESDIR}/etc_portage_make_conf_joetoo_${board}" "make.conf"
 		else
 			newins "${FILESDIR}/etc_portage_make_conf_joetoo_amd64" "make.conf"
 		fi
@@ -300,7 +310,7 @@ src_install() {
 		insinto "${target}"
 		newins "${FILESDIR}/etc_portage_package.use_joetoo" "joetoo"
 		if use sbc ; then
-			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_${BOARD}" "00cpu_flags"
+			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_${board}" "00cpu_flags"
 		else
 			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_amd64" "00cpu_flags"
 		fi
@@ -309,7 +319,7 @@ src_install() {
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
 		if use sbc ; then
-			case $BOARD in
+			case $board in
 				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
@@ -326,7 +336,7 @@ src_install() {
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
 		if use sbc; then
-			case $BOARD in
+			case $board in
 				"bcm2712-rpi-5-b")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi5_binhosts_conf_joetoo" "joetoo_rpi5_binhosts.conf" ;;
 				"bcm2711-rpi-4-b")
