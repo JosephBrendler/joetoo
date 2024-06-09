@@ -2,8 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I intend for this to be the meta-ebuild for joetoolkit utilities
-		(with gentoo thus being "upstream" generally).  More to follow...
+		This is the meta-ebuild for joetoolkit utilities. It deployes basic "joetoolkit"
+		and optionally (with USE flags) can deploy other tools, including --
+		"iptools," "xenvmfiles," "backup_utilities," and "utility_archive"
+		Note that the latter is archived, depractated tools
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -16,6 +18,6 @@
 		<flag name="utility_archive">Pull in extra utilities that have come and gone</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>
