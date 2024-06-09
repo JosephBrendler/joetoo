@@ -5,6 +5,9 @@
 #   to be updated like this - they just have to be copied to a new-versioned
 #   name with no change to internal content
 #
+# Also review this: https://www.raspberrypi.com/documentation/computers/linux_kernel.html
+#
+
 source /usr/local/sbin/script_header_brendlefly
 BUILD=0.0.01a
 VERBOSE=$TRUE

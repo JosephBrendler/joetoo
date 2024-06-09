@@ -70,12 +70,6 @@ src_install() {
 		newins "${FILESDIR}/${x}" "${x}" ;
 		elog "Installed ${x} in /etc/${PN}/"
 	done
-	# install the current build number reference file
-	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
-	echo "DO NOT EDIT" > ${D}/etc/${PN}/BUILD
-	echo "This file will be sourced by the kernelupdate script to assign the current build number" >> ${D}/etc/${PN}/BUILD
-	echo "BUILD=${PV}" >> ${D}/etc/${PN}/BUILD
-	elog "Installed build number reference file in /etc/${PN}/"
 	# install the raspi-sources-update-ebuild.sh
 	einfo "Installing (exe) raspi-sources update-ebuild.sh into /etc/${PN}"
 	exeinto "/etc/${PN}"
@@ -106,7 +100,17 @@ src_install() {
 	z="${PN}.eselect"
 	newins "${FILESDIR}/${z}" "${z}"
 	elog "Installed ${PN}.conf eselect module."
-
+	# install the current build number reference file
+	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
+	insinto "/etc/${PN}/"
+	echo "# DO NOT EDIT" > ${D}/etc/${PN}/BUILD
+	echo "# This file will be sourced by the kernelupdate script to assign the current build number" >> ${D}/etc/${PN}/BUILD
+	echo "BUILD=${PV}" >> ${D}/etc/${PN}/BUILD
+	elog "Installed build number reference file in /etc/${PN}/"
+	# install an exclusion from config_protect-tion for BUILD
+	einfo "Installing (envd) exclusion from config_protect for build number reference file"
+	newenvd "${FILESDIR}/config_protect_mask" "99${PN}-BUILD"
+	elog "Installed config_protect_mask 99${PN}-BUILD"
 }
 
 pkg_postinst() {
@@ -121,7 +125,7 @@ pkg_postinst() {
 	elog "DEPEND=${DEPEND}"
 	elog "BOARDLIST=${BOARDLIST}"
 	elog ""
-	elog "${PN} installed"
+	elog "${P} installed"
 	elog ""
 	elog "Version 0.3.0 is the preliminary release of refactored, consolidated ${PN} tool"
 	elog "Version 0.3.1 renames rk3399-tinker-2 and adds supporting files for orangepi 5/5b"
@@ -132,6 +136,7 @@ pkg_postinst() {
 	elog "Version 0.4.4 amends handling of dtb_folder and adds overlay_folder"
 	elog "Version 0.4.5-6 are more selective about contents of dtb_folder and overlay_folder"
 	elog "Version 0.4.7 amends kernel image deployment and generates BUILD number"
+	elog "Version 0.4.8 refines overlay file selection and adds rpi kernel build reference info"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

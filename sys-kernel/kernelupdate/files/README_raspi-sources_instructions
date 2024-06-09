@@ -1,5 +1,7 @@
 Instructions for raspi-sources --
-
+#
+# See also: https://www.raspberrypi.com/documentation/computers/linux_kernel.html 
+#
 # First remove any existing sources folder
 cd /home/joe/raspi-sources
 rm -r linux

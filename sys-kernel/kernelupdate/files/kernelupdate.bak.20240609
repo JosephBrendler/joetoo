@@ -40,7 +40,7 @@
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0.4.4-20240528"
+BUILD="0"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
@@ -66,6 +66,9 @@ my_devel_dir_credentials="/home/joe/myUtilities/.git/.credentials"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 my_ebuild_dir_credentials="/home/joe/joetoo/.git/.credentials"
 host_dir=${build_root}/"domU_kernel_images"
+
+# source the current build number, assuming it was properly generated during ebuild deployment
+[[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
 
 # source kernelupdate.conf in order to load customized settings
 #   check each setting below to assign, if needed
@@ -263,8 +266,11 @@ install_kernel()
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_me} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
-    # otherwise (SBC kernel), install to boot_dir for tarball
-    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
+    # Otherwise (SBC kernel), install to boot_dir for tarball.  Don't just use make install;
+    #   also copy the proper image manually to the proper deployed kernel name
+    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;
+             cp -av ${model_dir}/arch/${arch}/boot/${image} \
+                 ${boot_dir}/${kernel}-${version_number};;
   esac
 }
 
@@ -298,22 +304,18 @@ install_dtbs()
 {
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
-    mkdir -p ${boot_dir}/dts
+    mkdir -p ${boot_dir}/dts/${dtb_folder}
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts/${dtb_folder} dtbs_install"
-    # if that got an error, them brute-force it
-#    if [ ! $? ] ; then  ### just do it
-      message "In case of error in dtbs_install, will try to manually copy..."
-      #try to manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
-      # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/dts/${dtb_folder}
-      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
-      #try to manually copy dtbo files from overlay_folder (omit subdirectories for now)
-      # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
-      mkdir -p ${boot_dir}/dts/${overlay_folder}
-      for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f)
-      do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
-#    fi
+    message "In case of error in dtbs_install, will try to manually copy..."
+    # manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
+    # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb' -or -iname 'README*')
+    do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
+    # manually copy dtbo files from overlay_folder (omit subdirectories for now)
+    # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    mkdir -p ${boot_dir}/dts/${overlay_folder}
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb*' -or -iname 'README*')
+    do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"
     cp -av ${boot_dir}/dts/${dtb_folder}${model}.dtb ${boot_dir}/
@@ -383,7 +385,7 @@ publish_ebuild() {
 
     for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
     do
-    ebuild_list+=("${x}")
+      ebuild_list+=("${x}")
     done
     old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
     echo "old version: ${old_version}"

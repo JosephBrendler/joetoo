@@ -1,6 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
+# Copyright joe brendler 2024-2699
 # $Id$
+#
+# This ebuild simply deploys kernel/module/dtb/overlay packages built with sys-kernel/kernelupdate::joetoo
+# Among other resources, reference https://www.raspberrypi.com/documentation/computers/linux_kernel.html
+#
 
 EAPI=8
 
@@ -18,7 +21,7 @@ SLOT="0"
 
 KEYWORDS="~arm ~arm64 ~amd64"
 
-IUSE="+dtb +dtbo -symlink -raspi-sources -rockchip-sources"
+IUSE="+dtb -dtbo -symlink -raspi-sources -rockchip-sources"
 
 REQUIRED_USE="
 	raspi-sources? ( !rockchip-sources )
@@ -76,25 +79,23 @@ src_install() {
 	done
 	# Install modules
 	einfo "Installing (ins) modules into /lib/"
-#	einfo 'About to issue command: cp -R '${S}'lib '${D}
-#	cp -R "${S}lib" "${D}" || die "Install failed!"
 	insinto "/lib/"
 	doins -r "${S}lib/modules"
 	elog "Installed modules"
 	# Conditionally install dtbs
 	if use dtb && [ ! "${BOARD:0:3}" == "dom" ] ; then
+		case ${BOARD:0:2} in
+			"bc" )  dtb_folder="broadcom";;
+			"rk" )  dtb_folder="rockchip";;
+		esac
 		einfo "Installing (ins) dtb files into /boot/dts/"
-#		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom '${D}'boot/dts'
-#		cp -R "${S}boot/dts/broadcom" "${D}boot/dts/" || die "Install failed!"
 		insinto "/boot/dts"
-		doins -r "${S}boot/dts/broadcom"
-		elog "Installed dtb files"
+		doins -r "${S}boot/dts/${dtb_folder}"
+		elog "Installed ${dtb_folder} dtb files"
 		# pull just the right file up to /boot
 		einfo "Installing ${BOARD}.dtb into /boot/"
-#		einfo 'About to issue command: cp -R '${S}'boot/dts/broadcom/${BOARD}.dtb '${D}'boot/'
-#		cp  "${S}boot/dts/broadcom/${BOARD}.dtb" "${D}boot/" || die "Install failed!"
 		insinto "/boot/"
-		newins "${S}boot/dts/broadcom/${BOARD}.dtb" "${BOARD}.dtb"
+		newins "${S}boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
 		elog "Installed ${BOARD}.dtb into /boot/"
 	else
 		elog "use dtb not selected ; dtb files not installed"

@@ -36,6 +36,8 @@
 #
 # see also instructions at /etc/kernelupdate/README-instructions
 #
+# see also https://www.raspberrypi.com/documentation/computers/linux_kernel.html
+#
 
 source /usr/local/sbin/script_header_brendlefly
 
@@ -302,19 +304,21 @@ install_modules()
 
 install_dtbs()
 {
+    # note - dtb_folder and overlay_folder are relative to build/${model}/arch/${ARCH}/boot/dts/
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
     mkdir -p ${boot_dir}/dts/${dtb_folder}
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts/${dtb_folder} dtbs_install"
     message "In case of error in dtbs_install, will try to manually copy..."
-    # manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
-    # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    # manually install dtb files from dtb_folder (omit subdirectories like "overlays")
     for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb' -or -iname 'README*')
     do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
-    # manually copy dtbo files from overlay_folder (omit subdirectories for now)
-    # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    # manually install dtbo files from overlay_folder (omit .tmp, .cmd files, and omit subdirectories for now)
     mkdir -p ${boot_dir}/dts/${overlay_folder}
-    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb*' -or -iname 'README*')
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb*' -and -not -iname '\.*')
+    do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
+    # copy the overlay_folder's README file(s) if it/they exist(s)
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -type f -iname 'README*')
     do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"

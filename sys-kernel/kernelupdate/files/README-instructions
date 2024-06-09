@@ -36,6 +36,7 @@
   kernelupdate
 
 # Manually clone raspberry-pi sources
+  # ** First, review this:  https://www.raspberrypi.com/documentation/computers/linux_kernel.html
   cd /usr/aarch64-unknown-linux-gnu/usr/src
   # browse https://github.com/raspberrypi/linux.git and note available branges and tags
   git clone --depth 1 --branch rpi-6.2.y https://github.com/raspberrypi/linux.git
