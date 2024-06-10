@@ -257,28 +257,14 @@ clean_distrib_dirs()
   find ${build_dir} -mindepth 1 -maxdepth 1 -iname 'publish*' -delete
 }
 
-verify_boot_mount() {
-  # if boot needs to be mounted, ensure it is, or try to mount it...
-  if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  && \
-    ! grep "/boot" /proc/mounts >/dev/null 2>&1
-  then
-    message "/boot is not mounted, trying to mount it now..."
-    ! $(mount /boot) && \
-     ( E_message "Failed to mount /boot" ; exit 1 ) || \
-      message "Succeeded in mounting /boot ; continuing..."
-  else
-    message "Verified /boot is mounted ; continuing..."
-  fi
-}
-
 install_kernel()
 {
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Installing the kernel ...${Boff}"
   case ${model} in
-    # if this is a dom0 kernel, install to /boot as usual (ensure it is mounted)
-    "dom0" ) verify_boot_mount && eval "${make_me} install" ;;
+    # if this is a dom0 kernel, install to /boot as usual
+    "dom0" ) eval "${make_me} install" ;;
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_me} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
