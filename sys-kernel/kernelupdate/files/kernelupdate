@@ -136,7 +136,7 @@ version_number=$(eval ${make_me} -s kernelversion)
 # dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
 #   but for domU, I don't want the "-gentoo" part, so strip it
 [ "${model}" == "domU" ] && \
-    version_number="$(echo ${version_number} | sed 's/-gentoo//')"
+    version_number="${version_number/-gentoo/}"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
