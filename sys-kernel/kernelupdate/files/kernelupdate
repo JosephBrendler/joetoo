@@ -128,17 +128,15 @@ make0+="make O=${model_dir}/ "
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
 
-# get and set version number and name
+# get and set kernel version number and image name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 ### This change was un-necessary -- undo it
-#build_version=$(eval ${make_me} -s kernelversion)
 version_number=$(eval ${make_me} -s kernelversion)
 # dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
 #   but for domU, I don't want the "-gentoo" part, so strip it
-#[ "${model}" == "domU" ] && \
-#    version_number="$(echo ${build_version} | sed 's/-gentoo//')" || \
-#    version_number="${build_version}"
+[ "${model}" == "domU" ] && \
+    version_number="$(echo ${version_number} | sed 's/-gentoo//')"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
