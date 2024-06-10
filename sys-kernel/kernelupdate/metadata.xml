@@ -2,7 +2,16 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		kernel update utility for systems running Gentoo Linux, incl. several SBCs
+		This is a kernel, module, dtb, overlay (cross-)build utility for systems running
+		Gentoo Linux on amd64/x86_64, arm, and arm64 architectures, including several
+		Broadcom and rockchip based single board computer (SBC) boards.  Those of interest
+		may be selected with eponymous USE flags.  A working template (cross-)build
+		configuration will be installed in /etc/kernelupdate/ for each selected board.
+		These can then be selected with # eselect kernelupdate list/set to begin
+		a build process.  The first run of kernelupdate for a new project will create
+		a directory tree for the project, according to the .conf.  The user must then
+		provide a link from the project-root of this tree, to valid kernel sources.
+		More information is provided at README-Instructions.
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -22,6 +31,6 @@
 		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>
