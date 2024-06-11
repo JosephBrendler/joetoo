@@ -29,7 +29,8 @@ IUSE="
 	-gentoo_pv_kernel_image
 	-samba
 	-sbc
-	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b -bcm2708-rpi-b
+	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
+	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5
 	"
 
@@ -41,6 +42,7 @@ REQUIRED_USE="
 		bcm2712-rpi-5-b
 		bcm2711-rpi-4-b
 		bcm2710-rpi-3-b-plus
+		bcm2710-rpi-3-b
 		bcm2709-rpi-2-b
 		bcm2708-rpi-b
 		rk3288-tinker-s
@@ -141,6 +143,8 @@ pkg_setup() {
 			export board="bcm2711-rpi-4-b"
 		else if use bcm2710-rpi-3-b-plus ; then
 			export board="bcm2710-rpi-3-b-plus"
+		else if use bcm2710-rpi-3-b ; then
+			export board="bcm2710-rpi-3-b"
 		else if use bcm2709-rpi-2-b ; then
 			export board="bcm2709-rpi-2-b"
 		else if use bcm2708-rpi-b ; then
@@ -153,7 +157,7 @@ pkg_setup() {
 			export board="rk3399-tinker-2"
 		else if use rk3588s-orangepi-5 ; then
 			export board="rk3588s-orangepi-5"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
@@ -323,7 +327,7 @@ src_install() {
 				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
-				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"rk3288-tinker-s")
+				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
 					# arch=arm
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm" "joetoo" ;;
 			esac
@@ -345,8 +349,8 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi3_binhosts_conf_joetoo" "joetoo_rpi3_binhosts.conf" ;;
 				"bcm2709-rpi-2-b")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi2_binhosts_conf_joetoo" "joetoo_rpi2_binhosts.conf" ;;
-				"bcm2708-rpi-b"|"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
-					# nothing, yet
+				"bcm2710-rpi-3-b"|"bcm2708-rpi-b"|"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
+					# nothing, yet - I only have one of each of these
 					;;
 			esac
 		else
@@ -405,20 +409,23 @@ pkg_postinst() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
+	einfo "board=${board}"
 	elog ""
-	elog "joetoo-meta installed"
-	elog "This version is still preliminary. Please report bugs to the maintainer."
+	elog "${P} installed"
+	elog "Please report bugs to the maintainer."
 	elog ""
 	elog "version 0.3.28/29 introduces support for rk3399-tinker-2"
-	elog "version 0.3.30 introduces support for rk3588s-orangepi-5"
-	elog "version 0.3.31 adds supporting files for rk3588s-orangepi-5"
-	elog "version 0.3.32 fixes supporting files for rk3399-tinker-2"
-	elog "version 0.4.0 adds support for original rpi model b (bcm2708-rpi-b)"
-	elog "version 0.4.1 updates package.use/joetoo and revises board assignment"
+	elog " 0.3.30 introduces support for rk3588s-orangepi-5"
+	elog " 0.3.31 adds supporting files for rk3588s-orangepi-5"
+	elog " 0.3.32 fixes supporting files for rk3399-tinker-2"
+	elog " 0.4.0 adds support for original rpi model b (bcm2708-rpi-b)"
+	elog " 0.4.1 updates package.use/joetoo and revises board assignment"
+	elog " 0.4.3 adapts to consolidated dev-util/script_header_brendlefly"
+	elog " 0.4.4 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
 	elog ""
-	elog "Note that install phase will fail if config files (such as resolv.conf) have immutable"
+	elog "If you experience install failure, check if config files (e.g. resolv.conf) have immutable"
 	elog "attribute set. If this is so, run as root, for example: chattr -i /etc/resolv.conf"
-	elog "and then run again with +i after install"
+	elog "and then run again with +i after successful ${PN} install"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
