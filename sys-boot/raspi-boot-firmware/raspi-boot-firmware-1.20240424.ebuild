@@ -16,12 +16,14 @@ IUSE="bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
-	^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
+	^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
 "
 
 MY_ARCH="
 	bcm2708-rpi-b?        ( arm )
 	bcm2709-rpi-2-b?      ( arm )
+	bcm2710-rpi-3-b?      ( arm )
 	bcm2710-rpi-3-b-plus? ( arm64 )
 	bcm2711-rpi-4-b?      ( arm64 )
 	bcm2712-rpi-5-b?      ( arm64 )
@@ -71,6 +73,10 @@ pkg_setup() {
 		export board="bcm2710-rpi-3-b-plus"
 		export kernel_name="kernel8.img"
 		export uname_string="uname_string8"
+	else if use bcm2710-rpi-3-b; then
+		export board="bcm2710-rpi-3-b"
+		export kernel_name="kernel7.img"
+		export uname_string="uname_string7"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
 		export kernel_name="kernel7.img"
@@ -79,7 +85,7 @@ pkg_setup() {
 		export board="bcm2708-rpi-b"
 		export kernel_name="kernel.img"
 		export uname_string="uname_string"
-	fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
         einfo "S=${S}"
@@ -139,9 +145,12 @@ src_install() {
 
 pkg_postinst() {
         elog ""
-        elog "${PN}-${PVR} installed"
-        elog "This version is still preliminary. Please report bugs to the maintainer."
+        elog "${P} installed"
+        elog "Please report bugs to the maintainer."
         elog ""
+        elog "version number ${PV} is drawn from upstream. 1.20240424 was the first in joetoo"
+        elog " 20240611 - update to add support for rpi 3 B v1.2 32 bit (bcm2710-rpi-3-b)"
+	elog ""
 	elog "NOTE: /boot/cmdline.txt and /boot/config.txt are provided by sbc-boot-config"
 	elog "NOTE: kernel, dtbs, and overlays may also be provided by e.g. sys-kernel/linux-${board}_kernel_image package"
         elog ""
