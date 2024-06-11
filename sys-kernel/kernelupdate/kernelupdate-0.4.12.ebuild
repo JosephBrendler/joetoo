@@ -14,13 +14,15 @@ SLOT="0"
 
 IUSE="
 	+dom0 domU
-	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
 	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-4c-plus rk3588s-orangepi-5
 "
 
 BOARDLIST="
 	dom0 domU
-	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
 	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-4c-plus rk3588s-orangepi-5
 "
 
@@ -138,6 +140,8 @@ pkg_postinst() {
 	elog " 0.4.7 amends kernel image deployment and generates BUILD number"
 	elog " 0.4.8/9 refine overlay file selection and adds rpi kernel build reference info"
 	elog " 0.4.10 adds boot-mount verification for dom0 kernel installation"
+	elog " 0.4.11 amends kernel_image version number/name for domU"
+	elog " 0.4.12 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

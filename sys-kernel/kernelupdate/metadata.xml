@@ -26,6 +26,7 @@
 		<flag name="rk3588s-orangepi-5">(to do) Install default tinker2-s build-config file</flag>
 		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>
 		<flag name="bcm2709-rpi-2-b">Install default raspi 2 b build-config file</flag>
+		<flag name="bcm2710-rpi-3-b">Install default raspi 3 b v1.2 build-config file</flag>
 		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus build-config file</flag>
 		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b build-config file</flag>
 		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
