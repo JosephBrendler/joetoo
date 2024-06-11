@@ -12,7 +12,10 @@ LICENSE="GPL-2 raspberrypi-videocore-bin Broadcom"
 SLOT="0"
 KEYWORDS="~arm ~arm64"
 
-IUSE="bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b +kernel +dtbo"
+IUSE="
+	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	+kernel +dtbo"
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
