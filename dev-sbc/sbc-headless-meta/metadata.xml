@@ -4,8 +4,9 @@
 	<longdescription>
 		Meta package for standard joetoo setup on a single board computer (sbc)
 		Optionally uses dev-embedded/joetoo-meta::joetoo
-		Boot firmware installation (via boot-fw) is functional for Rasberry Pi boards,
-		but it is not yet impmented for rockchip boards
+		Boot firmware installation (via boot-fw) and kernel (via kernel_image)
+		is functional for Rasberry Pi boards, but it is still evolving for rockchip
+		boards (as of June 2024).  
 		That may also be moved in the future, to a package that installs the kernel
 		kernel, modules, firmware, device tree, bootloader, etc. 
 	</longdescription>
@@ -16,6 +17,7 @@
 	<use>
                 <flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
                 <flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
+                <flag name="bcm2710-rpi-3-b">Tailor for Raspberry Pi 3 B v1.2 (armv7/32)</flag>
                 <flag name="bcm2710-rpi-3-b-plus">Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
                 <flag name="bcm2711-rpi-4-b">Tailor for Raspberry Pi 4 B (armv8/64)</flag>
                 <flag name="bcm2712-rpi-5-b">Tailor for Raspberry Pi 5 B (armv8/64)</flag>
@@ -30,7 +32,7 @@
 		<flag name="kernel_image">install kernel, modules, dtbs, dtbos</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>
 
