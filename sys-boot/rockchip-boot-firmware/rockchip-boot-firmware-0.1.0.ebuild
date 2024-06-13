@@ -67,9 +67,14 @@ pkg_setup() {
 	fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
+	# fix S
+	S="${WORKDIR}/${MY_PATH}"
+
+	einfo "S and T are used; here they are ..."
 	einfo "S=${S}"
-	einfo "A=${A}"
 	einfo "T=${T}"
+	einfo "A and D are not used, but here they are ..."
+	einfo "A=${A}"
 	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
