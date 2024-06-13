@@ -122,10 +122,10 @@ src_install() {
 		rm -rv ${T}/scratch/etc
 		# install contents of boot, lib, and usr/share
 		einfo "installing (ins) kernel image tree below into root / of install directory D ..."
-		tree -L 4 ${T}/scratch
+		tree -L 4 --charset=C ${T}/scratch
 		insinto "/"
 		for dir in boot lib usr; do
-			doins -r "${T}/scratch/${dir}" "${dir}"
+			doins -r "${T}/scratch/${dir}"
 			elog "Installed (doins -r) ${dir} in /"
 		done
 		# clean up temp scratch space
@@ -141,10 +141,10 @@ src_install() {
 		dpkg-deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
 		# install contents of boot and usr/share
 		einfo "installing (ins) dtb/overlay tree below into root / of install directory D ..."
-		tree -L 3 ${T}/scratch
+		tree -L 3 --charset=C ${T}/scratch
 		insinto "/"
 		for dir in boot usr; do
-			doins -r "${T}/scratch/${dir}" "${dir}"
+			doins -r "${T}/scratch/${dir}"
 			elog "Installed (doins -r) ${dir} in /"
 		done
 		# clean up temp scratch space
