@@ -32,7 +32,11 @@ SRC_URI="https://raspi56406.brendler/${MY_PATH}/${MY_PATH}.tbz2"
 
 RESTRICT="mirror binchecks strip"
 
-BDEPEND=""
+# dpkg-deb is needed to extract armbian-build output products
+BDEPEND="
+	>=app-arch/dpkg-1.20.9-r1
+"
+
 RDEPEND="
 	!sys-boot/raspberrypi-firmware
 	${BDEPEND}
@@ -109,8 +113,7 @@ src_install() {
 	if use kernel; then
 		# extract the kernel-image deb package to temporary scractch space
 		einfo "kernel use flag selected; extracting kernel image files ..."
-#		dpkg-deb -x ${T}/global/linux-image*.deb ${T}/scratch/
-		unpack_deb -x ${T}/global/linux-image*.deb ${T}/scratch/
+		dpkg-deb -x ${T}/global/linux-image*.deb ${T}/scratch/
 		# remove ./usr/lib -- is only dtb/overlay files to be installed by dtb
 		einfo "pruning ./usr/lib (dtbs/overlays) -- installed w/ USE dtbo if needed ..."
 		rm -rv ${T}/scratch/usr/lib
@@ -135,8 +138,7 @@ src_install() {
 		# extract the dtb/overlay deb package to temporary scractch space
 		einfo "dtbo use flag selected; extracting dtb/overlay files ..."
 		mkdir ${T}/scratch
-#		dpkg-deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
-		unpack_deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
+		dpkg-deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
 		# install contents of boot and usr/share
 		einfo "installing (ins) dtb/overlay tree below into root / of install directory D ..."
 		tree -L 3 ${T}/scratch

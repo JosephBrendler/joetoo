@@ -1,3 +1,4 @@
+BDEPEND=>=app-arch/dpkg-1.20.9-r1
 DEFINED_PHASES=install postinst setup
 DESCRIPTION=Rockchip bootloader firmware for supported boards
 EAPI=8
@@ -5,9 +6,9 @@ HOMEPAGE=https://github.com/JosephBrendler/joetoo
 IUSE=rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 -kernel -dtbo
 KEYWORDS=~arm ~arm64
 LICENSE=GPL-2 Rockchip
-RDEPEND=!sys-boot/raspberrypi-firmware
+RDEPEND=!sys-boot/raspberrypi-firmware >=app-arch/dpkg-1.20.9-r1
 REQUIRED_USE=^^ ( rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 )
 RESTRICT=mirror binchecks strip
 SLOT=0
 SRC_URI=https://raspi56406.brendler/rockchip-boot-firmware-6.x/rockchip-boot-firmware-6.x.tbz2
-_md5_=ee37ba42b7766d2238fd2646be1bea93
+_md5_=a2950518e4a5ca37e05ba3849570b2f0
