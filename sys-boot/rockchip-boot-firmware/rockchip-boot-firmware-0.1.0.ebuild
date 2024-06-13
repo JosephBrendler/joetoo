@@ -125,8 +125,8 @@ src_install() {
 		tree -L 4 ${T}/scratch
 		insinto "/"
 		for dir in boot lib usr; do
-			newins -r "${T}/scratch/${dir}" "${dir}"
-			elog "Installed (newins -r) ${dir} in /"
+			doins -r "${T}/scratch/${dir}" "${dir}"
+			elog "Installed (doins -r) ${dir} in /"
 		done
 		# clean up temp scratch space
 		einfo "cleaning up temporary scratch space ..."
@@ -144,8 +144,8 @@ src_install() {
 		tree -L 3 ${T}/scratch
 		insinto "/"
 		for dir in boot usr; do
-			newins -r "${T}/scratch/${dir}" "${dir}"
-			elog "Installed (newins -r) ${dir} in /"
+			doins -r "${T}/scratch/${dir}" "${dir}"
+			elog "Installed (doins -r) ${dir} in /"
 		done
 		# clean up temp scratch space
 		einfo "cleaning up temporary scratch space ..."
@@ -166,6 +166,18 @@ pkg_postinst() {
 	elog "***    new boot media for a NEW system                                   ***"
 	elog "***    Exercise caution - improper use could render system inoperable    ***"
 	elog "****************************************************************************"
+	elog ""
+	elog "Please inspect your /boot setup and inspect in particular--"
+	elog "  /boot/joetooEnv.txt -- "
+        elog "      dtb_prefix       (path to .dtb file, rel. to /boot/ [or link to it])"
+        elog "      fdtfile          (name of .dtb file)"
+        elog "      overlay_prefix   (string that begins relevant overlay filenames)"
+        elog "      overlays         (list of overlay filenames to load [minus prefix])"
+        elog "      imagefile        (name of kernel image file to load [or link to it])"
+        elog "      initrdfile       (name of initramfs file to load [or link to it])"
+        elog "      rootdev          (path, UUID, or PARTUUID identifying root device)"
+        elog "      rootfstype       (normally ext4)"
+	elog "Verify that these settings match the /boot file structure and vice versa ..."
 	elog ""
 	elog "Thanks for using ${PN}"
 }

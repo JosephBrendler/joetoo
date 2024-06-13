@@ -11,4 +11,4 @@ REQUIRED_USE=^^ ( rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s
 RESTRICT=mirror binchecks strip
 SLOT=0
 SRC_URI=https://raspi56406.brendler/rockchip-boot-firmware-6.x/rockchip-boot-firmware-6.x.tbz2
-_md5_=a2950518e4a5ca37e05ba3849570b2f0
+_md5_=74e90d572b00adaf5e57088a7a9a5277
