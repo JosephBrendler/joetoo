@@ -5,9 +5,9 @@
 		<email>joseph.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
-	<upstream>
-		<remote-id type="github">raspi firmware, all versions</remote-id>
-	</upstream>
+	<longdescription>
+		Raspberry Pi bootcode, firmware, kernel and modules, for the selected board
+	</longdescription>
 	<use>
 		<flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
 		<flag name="bcm2709-rpi-2-b">Install boot firmware for RPi 2 b (armv7/32)</flag>
@@ -16,9 +16,9 @@
 		<flag name="bcm2711-rpi-4-b">Install boot firmware for RPi 4 b (armv8/64)</flag>
 		<flag name="bcm2712-rpi-5-b">Install boot firmware for RPi 5 b (armv8/64)</flag>
 		<flag name="dtbo">Supply device tree blob overlays (/boot/overlays).</flag>
-		<flag name="kernel">Install a kernel for this board</flag>
+		<flag name="kernel">Install a kernel and its modules for this board</flag>
 	</use>
-	<longdescription>
-		Raspberry Pi bootcode and firmware, for the selected board
-	</longdescription>
+	<upstream>
+		<remote-id type="github">https://github.com/raspberrypi/firmware</remote-id>
+	</upstream>
 </pkgmetadata>
