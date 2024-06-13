@@ -71,22 +71,21 @@ pkg_setup() {
 	S="${WORKDIR}/${MY_PATH}"
 
 	einfo "S and T are used; here they are ..."
-	einfo "S=${S}"
-	einfo "T=${T}"
+	einfo "  S=${S}"
+	einfo "  T=${T}"
 	einfo "A and D are not used, but here they are ..."
-	einfo "A=${A}"
-	einfo "D=${D}"
+	einfo "  A=${A}"
+	einfo "  D=${D}"
 	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
+	einfo "  PN=${PN}"
+	einfo "  PV=${PV}"
+	einfo "  PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	einfo "MY_PATH=${MY_PATH}"
 	einfo "SRC_URI=${SRC_URI}"
 	einfo "board=${board}"
 	einfo "kernel_name=${kernel_name}"
-	einfo "uname_string=${uname_string}"
 }
 
 src_install() {
@@ -110,7 +109,8 @@ src_install() {
 	if use kernel; then
 		# extract the kernel-image deb package to temporary scractch space
 		einfo "kernel use flag selected; extracting kernel image files ..."
-		dpkg-deb -x ${T}/global/linux-image*.deb ${T}/scratch/
+#		dpkg-deb -x ${T}/global/linux-image*.deb ${T}/scratch/
+		unpack_deb -x ${T}/global/linux-image*.deb ${T}/scratch/
 		# remove ./usr/lib -- is only dtb/overlay files to be installed by dtb
 		einfo "pruning ./usr/lib (dtbs/overlays) -- installed w/ USE dtbo if needed ..."
 		rm -rv ${T}/scratch/usr/lib
@@ -135,7 +135,8 @@ src_install() {
 		# extract the dtb/overlay deb package to temporary scractch space
 		einfo "dtbo use flag selected; extracting dtb/overlay files ..."
 		mkdir ${T}/scratch
-		dpkg-deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
+#		dpkg-deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
+		unpack_deb -x ${T}/global/linux-dtb*.deb ${T}/scratch/
 		# install contents of boot and usr/share
 		einfo "installing (ins) dtb/overlay tree below into root / of install directory D ..."
 		tree -L 3 ${T}/scratch
