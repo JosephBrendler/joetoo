@@ -12,7 +12,7 @@ use chroot = yes
 read only = no
 
 #limit access to private LAN's
-hosts allow=192.168.61.0/22 192.168.1.0/22
+hosts allow=192.168.61.0/22 192.168.65.0/22 192.168.1.0/22
 hosts deny=*
 
 max connections = 15
@@ -24,11 +24,11 @@ log format = %t %a %m %f %b
 timeout = 300 
 
 # Simple example for enabling your own local rsync server
-[gentoo-portage]
+;[gentoo-portage]
 #       path = /usr/portage
-       path = /var/db/repos/gentoo
-       comment = Gentoo Portage tree (Local Mirror)
-       exclude = /distfiles
+;       path = /var/db/repos/gentoo
+;       comment = Gentoo Portage tree (Local Mirror)
+;       exclude = /distfiles
 
 # Example binary package server (can be rsync'd with cloudsync)
 ;[x86_64-pc-linux-gnu-packages]

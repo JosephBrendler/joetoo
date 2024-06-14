@@ -26,7 +26,7 @@ IUSE="
 	+sysklogd -syslog-ng
 	+script_header_brendlefly
 	-compareConfigs -Terminal
-	-gentoo_pv_kernel_image
+	-linux-domU_kernel_image
 	-samba
 	-sbc
 	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -126,7 +126,7 @@ RDEPEND="
 	script_header_brendlefly? ( >=dev-util/script_header_brendlefly-0.3.7 )
 	Terminal? ( >=dev-util/Terminal-0.1.0 )
 	compareConfigs? ( >=dev-util/compareConfigs-0.1.0 )
-	gentoo_pv_kernel_image? ( sys-kernel/gentoo_pv_kernel_image )
+	linux-domU_kernel_image? ( sys-kernel/linux-domU_kernel_image )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
 "
