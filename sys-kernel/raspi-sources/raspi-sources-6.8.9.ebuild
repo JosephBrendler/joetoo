@@ -25,7 +25,7 @@ KEYWORDS="~arm ~arm64"
 IUSE="symlink"
 RESTRICT="mirror"
 
-IUSE="-symlink"
+IUSE="symlink config"
 
 LICENSE="MIT"
 
@@ -46,6 +46,7 @@ pkg_setup() {
 	einfo "BASENAME=${BASENAME}"
 	My_P="linux-${PV}-raspi"
 	einfo "D=${D}"
+	einfo "T=${T}"
 	einfo "P=${P}"
 	einfo "My_P=${My_P}"
 	einfo "PN=${PN}"
@@ -67,6 +68,19 @@ src_install() {
 		einfo "symlink USE flag is set, installing symlink ..."
 		dosym /usr/src/${My_P} /usr/src/linux
 		elog "Installed symlink in /usr/src/  ${My_P} <-- linux"
+	fi
+	einfo "sys-apps/portage and some other packages want to inspect kernel"
+	einfo "configuration by reading .config in /usr/src/linux/ ..."
+	if use config; then
+		# put config in sources
+		einfo "Installing (ins) .config into /usr/src/${My_P}/"
+		[ ! -e /proc/config.gz ] && modprobe configs
+		zcat /proc/config.gz > ${T}/.config
+		insinto "/usr/src/${My_P}"
+		newins "${T}/.config" ".config"
+		elog "Installed .config in /usr/src/${My_P}"
+	else
+		elog "use config not selected; not installing .config in sources"
 	fi
 }
 

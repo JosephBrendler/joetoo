@@ -1,5 +1,5 @@
 DEFINED_PHASES=install postinst setup
-DESCRIPTION=kernel sources for ASUS tinkerboard embedded system
+DESCRIPTION=kernel sources for rockchip SOC based single board computers (SBCs)
 EAPI=8
 HOMEPAGE=https://github.com/JosephBrendler/joetoo
 IUSE=-symlink
@@ -8,4 +8,4 @@ LICENSE=MIT
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.16.tar.xz
-_md5_=aa0c933d6afb7f4ebd870f74ad5dc167
+_md5_=5ce752c9cfd873f2f1fd6d82e6deec49

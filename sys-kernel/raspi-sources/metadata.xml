@@ -13,6 +13,7 @@
 	</maintainer>
 	<use>
 		<flag name="symlink">Create/update symlink in /usr/src/ directory </flag>
+		<flag name="config">Put a copy of .config in sources directory </flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/raspberrypi/linux</remote-id>
