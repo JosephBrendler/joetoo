@@ -29,7 +29,7 @@ KEYWORDS="~arm ~arm64"
 IUSE="symlink"
 RESTRICT="mirror"
 
-IUSE="-symlink"
+IUSE="symlink config"
 
 LICENSE="MIT"
 
