@@ -35,7 +35,7 @@ pkg_setup() {
 	ewarn "Now in pkg_setup()"
 	ewarn ""
 	ewarn "${PN} is *not* associated with the Gentoo Kernel Project"
-	eward "${PN} simply installs the raspberry pi foundation's kernel sources"
+	ewarn "${PN} simply installs the raspberry pi foundation's kernel sources"
 	ewarn "If you need support, please contact the raspberrypi developers directly."
 	ewarn "Do *not* open bugs in Gentoo's bugzilla unless you have issues with"
 	ewarn "the ebuilds. Thank you."
