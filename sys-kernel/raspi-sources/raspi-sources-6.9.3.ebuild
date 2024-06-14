@@ -42,8 +42,6 @@ pkg_setup() {
 	ewarn ""
 
 	einfo "S=${S}"
-	einfo "DIRNAME=${DIRNAME}"
-	einfo "BASENAME=${BASENAME}"
 	My_P="linux-${PV}-raspi"
 	einfo "D=${D}"
 	einfo "T=${T}"
