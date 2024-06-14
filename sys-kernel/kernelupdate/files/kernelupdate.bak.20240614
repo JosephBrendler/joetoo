@@ -36,11 +36,13 @@
 #
 # see also instructions at /etc/kernelupdate/README-instructions
 #
+# see also https://www.raspberrypi.com/documentation/computers/linux_kernel.html
+#
 
 source /usr/local/sbin/script_header_brendlefly
 
 #---[ local variables ]-------------------------------------------------------
-BUILD="0.4.4-20240528"
+BUILD="0"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
@@ -66,6 +68,9 @@ my_devel_dir_credentials="/home/joe/myUtilities/.git/.credentials"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 my_ebuild_dir_credentials="/home/joe/joetoo/.git/.credentials"
 host_dir=${build_root}/"domU_kernel_images"
+
+# source the current build number, assuming it was properly generated during ebuild deployment
+[[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
 
 # source kernelupdate.conf in order to load customized settings
 #   check each setting below to assign, if needed
@@ -123,17 +128,15 @@ make0+="make O=${model_dir}/ "
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
 
-# get and set version number and name
+# get and set kernel version number and image name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 ### This change was un-necessary -- undo it
-#build_version=$(eval ${make_me} -s kernelversion)
 version_number=$(eval ${make_me} -s kernelversion)
 # dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
 #   but for domU, I don't want the "-gentoo" part, so strip it
-#[ "${model}" == "domU" ] && \
-#    version_number="$(echo ${build_version} | sed 's/-gentoo//')" || \
-#    version_number="${build_version}"
+[ "${model}" == "domU" ] && \
+    version_number="${version_number/-gentoo/}"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
@@ -252,19 +255,36 @@ clean_distrib_dirs()
   find ${build_dir} -mindepth 1 -maxdepth 1 -iname 'publish*' -delete
 }
 
+verify_boot_mount() {
+  # if boot needs to be mounted, ensure it is, or try to mount it...
+  if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  && \
+    ! grep "/boot" /proc/mounts >/dev/null 2>&1
+  then
+    message "/boot is not mounted, trying to mount it now..."
+    ! $(mount /boot) && \
+     ( E_message "Failed to mount /boot" ; exit 1 ) || \
+      message "Succeeded in mounting /boot ; continuing..."
+  else
+    message "Verified /boot is mounted ; continuing..."
+  fi
+}
+
 install_kernel()
 {
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Installing the kernel ...${Boff}"
   case ${model} in
-    # if this is a dom0 kernel, install to /boot as usual
-    "dom0" ) eval "${make_me} install" ;;
+    # if this is a dom0 kernel, install to /boot as usual (ensure it is mounted)
+    "dom0" ) verify_boot_mount && eval "${make_me} install" ;;
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_me} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
-    # otherwise (SBC kernel), install to boot_dir for tarball
-    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
+    # Otherwise (SBC kernel), install to boot_dir for tarball.  Don't just use make install;
+    #   also copy the proper image manually to the proper deployed kernel name
+    *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;
+             cp -av ${model_dir}/arch/${arch}/boot/${image} \
+                 ${boot_dir}/${kernel}-${version_number};;
   esac
 }
 
@@ -296,19 +316,21 @@ install_modules()
 
 install_dtbs()
 {
+    # note - dtb_folder and overlay_folder are relative to build/${model}/arch/${ARCH}/boot/dts/
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay (.dtb and .dtbo) files ...${Boff}"
     mkdir -p ${boot_dir}/dts/${dtb_folder}
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir}/dts/${dtb_folder} dtbs_install"
     message "In case of error in dtbs_install, will try to manually copy..."
-    # manually copy dtb files from dtb_folder (omit subdirectories like "overlays")
-    # note - dtb_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    # manually install dtb files from dtb_folder (omit subdirectories like "overlays")
     for file in $(find ${model_dir}/arch/${arch}/boot/dts/${dtb_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb' -or -iname 'README*')
     do cp -av ${file} ${boot_dir}/dts/${dtb_folder} ; done
-    # manually copy dtbo files from overlay_folder (omit subdirectories for now)
-    # note - overaly_folder is relative to build/${model}/arch/${ARCH}/boot/dts/
+    # manually install dtbo files from overlay_folder (omit .tmp, .cmd files, and omit subdirectories for now)
     mkdir -p ${boot_dir}/dts/${overlay_folder}
-    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb*' -or -iname 'README*')
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -mindepth 1 -type f -iname '*.dtb*' -and -not -iname '\.*')
+    do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
+    # copy the overlay_folder's README file(s) if it/they exist(s)
+    for file in $(find ${model_dir}/arch/${arch}/boot/dts/${overlay_folder} -maxdepth 1 -type f -iname 'README*')
     do cp -av ${file} ${boot_dir}/dts/${overlay_folder} ; done
     # copy the one dtb file we need up to boot
     message "${LBon}Staging the dtb file for tarball...${Boff}"

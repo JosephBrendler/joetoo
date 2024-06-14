@@ -9,7 +9,7 @@ VERBOSE=$TRUE
 verbosity=6
 
 gituser="JosephBrendler"
-gitpass="ca8850b956b3ffcfdab1fc09f3d893402c2aad13"
+gitpass="Dont_put_real_token_here-It_gets_uploaded"
 gitrepo=""
 
 #-----[ functions ]----------------------------------------------------------------------------
@@ -25,6 +25,14 @@ usage() {
 }
 
 gitpush() {
+  eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master"
+}
+
+#-----[ main script ]---------------------------------------------------------------------------
+checknotroot
+
+[ $# -ne 1 ] && usage
+
   case $1 in
     [jJ] ) gitrepo="joetoo" ;;
     [mM] ) gitrepo="myUtilities";;
@@ -34,14 +42,6 @@ gitpush() {
     [pP] ) gitrepo="Stepper" ;;
     *    ) E_message "Error: Invalid repository identified [ $1 ]"; usage;;
   esac
-  eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master"
-}
 
-#-----[ main script ]---------------------------------------------------------------------------
-checknotroot
-
-[ $# -ne 1 ] && usage
-
-gitpush "${1:0:1}"
-
+source /home/joe/${gitrepo}/.git/.credentials
 
