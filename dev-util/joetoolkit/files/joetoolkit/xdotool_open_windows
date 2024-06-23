@@ -9,8 +9,8 @@ Y1="5%"
 X2="51%"
 BUILD="0.002b 190113"
 logFile="/home/joe/xdotool_open_windows.log"
-terminal_program=/usr/bin/konsole
-#terminal_program=/usr/bin/lxterminal
+#terminal_program=/usr/bin/konsole
+terminal_program=/usr/bin/lxterminal
 #terminal_program=/usr/bin/uxterm
 sleepWait=0.5    # default - set in .conf
 longWait=2       # default - set in .conf
@@ -31,7 +31,7 @@ ssh_session_list=( \
 [[ -f ./xdotool_open_windows.conf ]] && source ./xdotool_open_windows.conf && \
   d_message "sourced local ($PWD) version of xdotool_open_windows.conf"
 [[ -f /etc/xdotool_open_windows.conf ]] && source /etc/xdotool_open_windows.conf && \
-  d_message "sourced local ($PWD) version of xdotool_open_windows.conf"
+  d_message "sourced /etc/ version of xdotool_open_windows.conf"
 
 d_message "(DEBUG $(my_short_date)) Top of script. Just set global variables." 3
 
