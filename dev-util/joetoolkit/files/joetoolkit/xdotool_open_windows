@@ -8,6 +8,9 @@ X1="1%"
 Y1="5%"
 X2="51%"
 BUILD="0.002b 190113"
+
+user=joe
+
 logFile="/home/joe/xdotool_open_windows.log"
 #terminal_program=/usr/bin/konsole
 terminal_program=/usr/bin/lxterminal
@@ -58,16 +61,16 @@ setup_window_for_idx() {
     d_message "$(my_short_date) idx = [$idx] , cmd_target = $cmd_target" 2
     if [[ "${cmd_target:0:1}" != "x" ]]
     then
-      cmd="--command=\"ssh $cmd_target\""
+      cmd="--command=\"su -user joe ssh $cmd_target\""
 #      d_message "$(my_short_date) about to run \"${terminal_program} --title=\"$(basename ${terminal_program})_${i}.${idx} &\"" 1
       d_message "$(my_short_date) about to run \"${terminal_program} 2\>/dev/null &\"\"" 1
       ${terminal_program} 2>/dev/null &
       sleep $longWait
       # open new window
-      newterm=$(xdotool getactivewindow)
+      newterm=$(xdotool getactivewindow 2>/dev/null)
       xdotool set_window --name "$(hostname) $(basename ${terminal_program})_${i}.${idx}" ${newterm}
-      newtermname=$(xdotool getactivewindow getwindowname)
-      newtermgeometry=$(xdotool getactivewindow getwindowgeometry)
+      newtermname=$(xdotool getactivewindow getwindowname 2>/dev/null)
+      newtermgeometry=$(xdotool getactivewindow getwindowgeometry 2>/dev/null)
       d_message "$(my_short_date) openned new terminal_win = [$newterm $newtermname]" 1
       d_message "$(my_short_date) new terminal_win geometry = [$newtermgeometry]" 2
       d_message "$(my_short_date) setting focus to window $newtermname on desktop ${i}" 1
@@ -89,8 +92,12 @@ setup_window_for_idx() {
         sleep $sleepWait
       fi
       # open ssh session to idxed target
-      d_message "$(my_short_date) launching ssh with command [ssh $cmd_target] in window $newtermname on desktop ${i}" 1
-      xdotool type --window ${newterm} --delay 30 --clearmodifiers "ssh $cmd_target"
+      d_message "$(my_short_date) launching ssh with commands [su ${user}] and [$cmd_target] in window $newtermname on desktop ${i}" 1
+      xdotool type --window ${newterm} --delay 30 --clearmodifiers "su ${user}"
+      sleep $sleepWait
+      xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
+      sleep $sleepWait
+      xdotool type --window ${newterm} --delay 30 --clearmodifiers "ssh ${cmd_target}"
       sleep $sleepWait
       xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
       sleep $sleepWait
@@ -100,7 +107,7 @@ setup_window_for_idx() {
 
 #-----[ main script ]-----------------------------------------------------
 d_message "now in main script" 3
-checknotroot
+#checknotroot
 
 d_message "$(my_short_date) first closing open windows..." 1
 xdotool_close_windows  ## partner external script

@@ -19,25 +19,41 @@ exec 6>&1 2>/dev/null           # Link file descriptor #6 with stdout. Saves std
 exec > $logFile  2>/dev/null    # stdout replaced with file.
 # ----------------------------------------------------------- #
 # All output from commands in this block sent to file $logFile
-
 separator "xdotool_close_windows"
-num_desktops=$(xdotool get_num_desktops)
-control_window=$(xdotool getactivewindow)
-message "num_desktops: $num_desktops"
-message "control_window: $control_window"
+message "Exterminating any rogue xdotool_xxx process..."
+pids=($(ps -aef | grep xdotool_ | grep -v 'color=auto' | grep -v $! | awk '{print $2}'))
+message "Found ${#pids[@]} xdotool_xxx processes..."
+for x in ${pids}
+do
+  message "killing process x=${x}"
+  kill -9 $x 2>/dev/null
+done
+x=""
 
-window_list=($(xdotool search --class lxterminal | sed "s/${control_window}//"))
-window_list+=($(xdotool search --class Konsole | sed "s/${control_window}//"))
-window_list+=($(xdotool search --class UXTerm | sed "s/${control_window}//"))
+message "Now closing terminal windows..."
+num_desktops=$(xdotool get_num_desktops)
+message "num_desktops: $num_desktops"
+
+window_list=($(xdotool search --any lxterminal 2>/dev/null))
+#window_list+=($(xdotool search --any Konsole))
+window_list+=($(xdotool search --any UXTerm 2>/dev/null))
 message "Closing the following windows:"
+echo ${window_list[@]}
 for win in ${window_list[@]}
 do
-  echo $win
-  xdotool windowclose $win
+  desktop=$(xdotool get_desktop_for_window $win 2>/dev/null)
+  message_n "Examining window [ $win ] on desktop [ $desktop ] ... "
+  if [[ $desktop -gt -1 ]]
+  then
+#    xdotool windowkill $win 2>/dev/null && echo "killed" || echo "tried, but failed to kill"
+    xdotool windowclose $win 2>/dev/null && echo "closed" || echo "tried, but failed to close"
+  else
+    echo "not > -1; skipping"
+  fi
+#  xdotool windowclose $win
   sleep $sleepWait
 done
 
 exec 1>&6 6>&-  2>/dev/null     # Restore stdout and close file descriptor #6.
 
 cat $logFile
-
