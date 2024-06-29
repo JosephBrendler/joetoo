@@ -1,0 +1,14 @@
+DEFINED_PHASES=install preinst
+DEPEND=raspi-sources? ( =sys-kernel/raspi-sources-6.9.7 ) rockchip-sources? ( =sys-kernel/rockchip-sources-6.9.7 )
+DESCRIPTION=kernel image for bcm2710-rpi-3-b-plus sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtb +dtbo -symlink -raspi-sources -rockchip-sources
+KEYWORDS=~arm ~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-6.9.7 ) rockchip-sources? ( =sys-kernel/rockchip-sources-6.9.7 )
+REQUIRED_USE=raspi-sources? ( !rockchip-sources ) rockchip-sources? ( !raspi-sources )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2710-rpi-3-b-plus_kernel_image-6.9.7.tar.bz2
+_md5_=aeec47f5e452fdcffe8d4623f471e0c9
