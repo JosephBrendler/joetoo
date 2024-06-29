@@ -22,12 +22,8 @@ LICENSE="MIT"
 SLOT="0"
 
 KEYWORDS="~arm ~arm64"
-IUSE="symlink"
-RESTRICT="mirror"
-
 IUSE="symlink config"
-
-LICENSE="MIT"
+RESTRICT="mirror"
 
 #SLOT=0   ### defaults to multislot for kernel sources
 
