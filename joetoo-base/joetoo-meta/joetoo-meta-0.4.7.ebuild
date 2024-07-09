@@ -423,6 +423,7 @@ pkg_postinst() {
 	elog " 0.4.3 adapts to consolidated dev-util/script_header_brendlefly"
 	elog " 0.4.4 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
 	elog " 0.4.5 changes from use gentoo_pv_kernel_image to linux-domU_kernel_image"
+	elog " 0.4.6/7 add packages using nodist_features.conf to package.env"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
