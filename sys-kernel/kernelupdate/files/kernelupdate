@@ -375,7 +375,10 @@ publish_tarball() {
     # Have the publish script source credentials, to automate the push
     # This way they aren't stored in the pubhlish script file, per se
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
-    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master'  >> ${publish_tarball_cmd_file}
+#    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master"'  >> ${publish_tarball_cmd_file}
+    # changed to ssh authentication
+    echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_tarball_cmd_file}
+    echo 'git push' >> ${publish_tarball_cmd_file}
     echo  >> ${publish_tarball_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
@@ -425,7 +428,10 @@ publish_ebuild() {
     # Have the publish script source credentials, to automate the push
     # This way they aren't stored in the pubhlish script file, per se
     echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master'  >> ${publish_tarball_cmd_file}
+#    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master'  >> ${publish_tarball_cmd_file}
+    # changed to ssh authentication
+    echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
+    echo 'git push' >> ${publish_ebuild_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)

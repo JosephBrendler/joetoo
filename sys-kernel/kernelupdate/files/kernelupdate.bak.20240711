@@ -128,17 +128,15 @@ make0+="make O=${model_dir}/ "
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
 
-# get and set version number and name
+# get and set kernel version number and image name
 old_dir=$PWD
 message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 ### This change was un-necessary -- undo it
-#build_version=$(eval ${make_me} -s kernelversion)
 version_number=$(eval ${make_me} -s kernelversion)
 # dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
 #   but for domU, I don't want the "-gentoo" part, so strip it
-#[ "${model}" == "domU" ] && \
-#    version_number="$(echo ${build_version} | sed 's/-gentoo//')" || \
-#    version_number="${build_version}"
+[ "${model}" == "domU" ] && \
+    version_number="${version_number/-gentoo/}"
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
@@ -257,14 +255,28 @@ clean_distrib_dirs()
   find ${build_dir} -mindepth 1 -maxdepth 1 -iname 'publish*' -delete
 }
 
+verify_boot_mount() {
+  # if boot needs to be mounted, ensure it is, or try to mount it...
+  if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  && \
+    ! grep "/boot" /proc/mounts >/dev/null 2>&1
+  then
+    message "/boot is not mounted, trying to mount it now..."
+    ! $(mount /boot) && \
+     ( E_message "Failed to mount /boot" ; exit 1 ) || \
+      message "Succeeded in mounting /boot ; continuing..."
+  else
+    message "Verified /boot is mounted ; continuing..."
+  fi
+}
+
 install_kernel()
 {
   # stage kernel
   cd ${sources_dir} && message "Now working in $PWD"
   message "${LBon}Installing the kernel ...${Boff}"
   case ${model} in
-    # if this is a dom0 kernel, install to /boot as usual
-    "dom0" ) eval "${make_me} install" ;;
+    # if this is a dom0 kernel, install to /boot as usual (ensure it is mounted)
+    "dom0" ) verify_boot_mount && eval "${make_me} install" ;;
     # if this is a domU kernel, install to host_dir (xen host use for guests) and boot_dir for tarball
     "domU" ) eval "INSTALL_PATH=${host_dir} ${make_me} install" ;
              eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;;
@@ -361,10 +373,9 @@ publish_tarball() {
     echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_tarball_cmd_file}
     echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_tarball_cmd_file}
     # Have the publish script source credentials, to automate the push
-    # This way they aren't stored in the pubhlihs scritp file per se
-#    echo "git push origin master" >> ${publish_tarball_cmd_file}
+    # This way they aren't stored in the pubhlish script file, per se
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
-    echo 'git push https://${gituser}:${gitpass}@${gitrepo} master' >> ${publish_tarball_cmd_file}
+    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master'  >> ${publish_tarball_cmd_file}
     echo  >> ${publish_tarball_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
@@ -412,10 +423,9 @@ publish_ebuild() {
     echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
     echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
     # Have the publish script source credentials, to automate the push
-    # This way they aren't stored in the pubhlihs scritp file per se
-#    echo "git push origin master" >> ${publish_tarball_cmd_file}
+    # This way they aren't stored in the pubhlish script file, per se
     echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-    echo 'git push https://${gituser}:${gitpass}@${gitrepo} master' >> ${publish_ebuild_cmd_file}
+    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master'  >> ${publish_tarball_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
