@@ -3,7 +3,7 @@
 <pkgmetadata>
 	<longdescription>
 		kernel Image, device tree blob files, and modules for a gentoo-sources
-		kernel built for Radxa Rock 4c Plus SBC
+		kernel built for Radxa Rock Pi 4c Plus SBC
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
