@@ -21,7 +21,7 @@
 		<flag name="dom0">Install default build-config file (can be a xen dom0)</flag>
 		<flag name="domU">Install default xen domU build-config file</flag>
 		<flag name="rk3288-tinker-s">Install default tinker-s build-config file</flag>
-		<flag name="rk3399-rock-4c-plus">Install default rk3399-rock-4c-plus build-config file</flag>
+		<flag name="rk3399-rock-pi-4c-plus">Install default rk3399-rock-pi-4c-plus build-config file</flag>
 		<flag name="rk3399-tinker2-s">(to do) Install default tinker2-s build-config file</flag>
 		<flag name="rk3588s-orangepi-5">(to do) Install default tinker2-s build-config file</flag>
 		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>

@@ -273,6 +273,7 @@ pkg_postinst() {
 	elog " 0.1.0 aligns boot-config, boot-firmware, and kernelimage for all boards"
 	elog " 0.1.1/2 adds support for original rpi model b (bcm2708-rpi-b)"
 	elog " 0.1.3 adds support for rpi 3 model b v1.2 (32 bit) (bcm2710-rpi-3-b)"
+	elog " 0.1.5 adopts rk3399-rock-pi-4c-plus vice rk3399-rock-4c-plus"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

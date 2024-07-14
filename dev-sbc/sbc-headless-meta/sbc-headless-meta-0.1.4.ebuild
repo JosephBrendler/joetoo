@@ -182,7 +182,7 @@ RDEPEND="
 		bcm2709-rpi-2-b?        ( sys-kernel/linux-bcm2709-rpi-2-b_kernel_image )
 		bcm2708-rpi-b?          ( sys-kernel/linux-bcm2708-rpi-b_kernel_image )
 		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_kernel_image )
-		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-4c-plus_kernel_image )
+		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_kernel_image )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_kernel_image )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_kernel_image )
 	)
