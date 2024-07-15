@@ -14,8 +14,7 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/lin
 S="${WORKDIR}/"
 
 LICENSE="MIT"
-#SLOT="0"
-SLOT="${PV}"
+SLOT="0"
 
 KEYWORDS="~arm ~arm64 ~amd64"
 
