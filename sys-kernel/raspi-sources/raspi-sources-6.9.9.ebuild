@@ -19,7 +19,7 @@ SRC_URI="https://raspi56406.brendler/raspi-sources/linux-${PV}-raspi.tbz2"
 S="${WORKDIR}/"
 
 LICENSE="MIT"
-SLOT="0"
+SLOT="${PV}"
 
 KEYWORDS="~arm ~arm64"
 IUSE="symlink config"
@@ -37,11 +37,13 @@ pkg_setup() {
 	ewarn "the ebuilds. Thank you."
 	ewarn ""
 
-	einfo "S=${S}"
 	My_P="linux-${PV}-raspi"
+
+	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "T=${T}"
 	einfo "P=${P}"
+	einfo "A=${A}"
 	einfo "My_P=${My_P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"

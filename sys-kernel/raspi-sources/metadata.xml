@@ -2,10 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		Installs kernel sources maintained by the raspberry pi foundation
-		at https://github.com/raspberrypi/linux
+		Installs kernel sources maintained by the raspberry pi foundation at
+			https://github.com/raspberrypi/linux
 		Packaged as a tarball by the maintainer at 
-		https://raspi56406.brendler/raspi-sources/
+			https://raspi56406.brendler/raspi-sources/
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>

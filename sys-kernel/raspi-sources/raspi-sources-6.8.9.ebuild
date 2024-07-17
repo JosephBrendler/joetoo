@@ -19,15 +19,11 @@ SRC_URI="https://raspi56406.brendler/raspi-sources/linux-${PV}-raspi.tbz2"
 S="${WORKDIR}/"
 
 LICENSE="MIT"
-SLOT="0"
+SLOT="${PV}"
 
 KEYWORDS="~arm ~arm64"
-IUSE="symlink"
-RESTRICT="mirror"
-
 IUSE="symlink config"
-
-LICENSE="MIT"
+RESTRICT="mirror"
 
 #SLOT=0   ### defaults to multislot for kernel sources
 
@@ -35,19 +31,19 @@ pkg_setup() {
 	ewarn "Now in pkg_setup()"
 	ewarn ""
 	ewarn "${PN} is *not* associated with the Gentoo Kernel Project"
-	eward "${PN} simply installs the raspberry pi foundation's kernel sources"
+	ewarn "${PN} simply installs the raspberry pi foundation's kernel sources"
 	ewarn "If you need support, please contact the raspberrypi developers directly."
 	ewarn "Do *not* open bugs in Gentoo's bugzilla unless you have issues with"
 	ewarn "the ebuilds. Thank you."
 	ewarn ""
 
-	einfo "S=${S}"
-	einfo "DIRNAME=${DIRNAME}"
-	einfo "BASENAME=${BASENAME}"
 	My_P="linux-${PV}-raspi"
+
+	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "T=${T}"
 	einfo "P=${P}"
+	einfo "A=${A}"
 	einfo "My_P=${My_P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
