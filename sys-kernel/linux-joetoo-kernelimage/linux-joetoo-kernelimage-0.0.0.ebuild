@@ -12,7 +12,7 @@ S="${WORKDIR}/"
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="~arm ~arm64 ~amd64"
+KEYWORDS="arm arm64 amd64 ~arm ~arm64 ~amd64"
 
 IUSE="
 	-raspi-sources -rockchip-sources
