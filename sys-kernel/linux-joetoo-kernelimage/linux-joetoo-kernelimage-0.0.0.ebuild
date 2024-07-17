@@ -47,15 +47,20 @@ BDEPEND="${RDEPEND}"
 BOARD="
 	bcm2708-rpi-b? ( bcm2708-rpi-b )
 "
+einfo "BOARD=${BOARD}"
+
+SRC_URI="
+	bcm2708-rpi-b? ( https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2708-rpi-b_kernel_image-${PV}.tar.bz2 )
+"
+einfo "SRC_URI=${SRC_URI}"
 
 pkg_setup() {
-	einfo "Starting pkg_setup() ..."
-	SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-${BOARD}_kernel_image-${PV}.tar.bz2"
+	einfo "Starting pkg_setup ..."
 
 }
 
 pkg_preinst() {
-	einfo "Starting pkg_preinst() ..."
+	einfo "Starting pkg_preinst ..."
 	# if /boot is on a separate block device, and it is not mounted, try to>
 	if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  && \
 		! grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1 ; then
@@ -69,7 +74,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	einfo "Starting src_install() ..."
+	einfo "Starting src_install ..."
 	einfo "BOARD=${BOARD}"
 	einfo "SRC_URI=${SRC_URI}"
 	einfo "S=${S}"
@@ -86,8 +91,8 @@ src_install() {
 }
 
 pkg_postinst() {
+	einfo "Starting pkg_postinst ..."
 	elog "${P} installed for ${board}"
-	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
 	elog ""
 	elog "version 0.0.0 is a template for consolidated ${PN} ebuilds"
 	elog ""
