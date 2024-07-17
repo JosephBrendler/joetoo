@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		kernel Image, device tree blob files, and modules for a gentoo-sources
+		kernel Image, device tree blob files, and modules for an armbian
 		kernel built for Radxa Rock 4c Plus SBC
 	</longdescription>
 	<maintainer type="person">
@@ -10,11 +10,11 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="overlays"> (to do) optionally deploy .dtbo files generated during kernel build</flag>
-		<flag name="symlink"> Create/update symlink in /boot directory </flag>
+		<flag name="dtbo">Optionally deploy .dtbo files generated during kernel build</flag>
+		<flag name="symlink">(to do)(wont work on vfat) Create/update symlink in /boot directory </flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/armbian/build</remote-id>
 	</upstream>
 </pkgmetadata>
 

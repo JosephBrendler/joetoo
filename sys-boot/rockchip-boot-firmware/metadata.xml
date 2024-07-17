@@ -12,13 +12,18 @@
                 <flag name="rk3399-rock-pi-4c-plus">Install boot firmware for rock4cplus</flag>
                 <flag name="rk3399-tinker-2">Install boot firmware for tinkerboard 2/2s</flag>
                 <flag name="rk3588s-orangepi-5">Install boot firmware for OrangePi 5/5b</flag>
-                <flag name="dtbo">(to do) Supply device tree blob overlays (/boot/overlays).</flag>
-                <flag name="kernel">(to do) Install a kernel for this board</flag>
+                <flag name="armbian_kernel">Pull in sys-kernel package to install armbian kernel for this board</flag>
+                <flag name="dtbo">Pull in sys-kernel package to supply device tree blob overlay files</flag>
         </use>
         <longdescription>
 		u-boot bootloader firmware, with re-flash instructions for the selected rockchip sbc
-		These were build with armbian/build --
-		./compile.sh u-boot-config BOARD=xxxx etc.
-		./compile.sh u-boot BOARD=xxxx etc.
+		These were built with armbian/build --
+			./compile.sh u-boot-config BOARD=xxxx etc.
+			./compile.sh u-boot BOARD=xxxx etc.
+		Optionally pull in sys-kernel package to install armbian kernel and overlays
+		for the selected rockchip sbc
+		These were built with armbian/build --
+			./compile.sh kernel-config BOARD=xxxx etc.
+			./compile.sh kernel BOARD=xxxx etc.	
         </longdescription>
 </pkgmetadata>

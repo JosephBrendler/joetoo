@@ -16,14 +16,14 @@ IUSE="
 	+dom0 domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
-	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-4c-plus rk3588s-orangepi-5
+	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5
 "
 
 BOARDLIST="
 	dom0 domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
-	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-4c-plus rk3588s-orangepi-5
+	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5
 "
 
 # dom0 is default above, but "at least one of" the options

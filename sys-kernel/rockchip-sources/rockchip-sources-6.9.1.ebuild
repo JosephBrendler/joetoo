@@ -23,7 +23,8 @@ SRC_URI="https://cdn.kernel.org/pub/linux/kernel/v${MyV}.x/linux-${PV}.tar.xz"
 S="${WORKDIR}/"
 
 LICENSE="MIT"
-SLOT="0"
+#SLOT="0"
+SLOT="${PV}"
 
 KEYWORDS="~arm ~arm64"
 IUSE="symlink"
