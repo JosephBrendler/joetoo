@@ -143,6 +143,8 @@ pkg_postinst() {
 	elog " 0.4.11 amends kernel_image version number/name for domU"
 	elog " 0.4.12 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
 	elog " 0.5.0 fixes a typo and changes to ssh authentication for github repos"
+	elog " 0.5.1 adopts rk3399-rock-pi-4c-plus vice rk3399-rock-4c-plus"
+	elog " 0.5.2 uses just one make for all targets, vice three (image, modules, dtbs)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

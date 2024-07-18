@@ -151,13 +151,11 @@ command_sequence=(
 'backup_config'
 'make_mrproper'
 'cp -v ${config_dir}/.config.bak ${model_config}'
-'eval ${make_me} prepare'
 'eval ${make_me} oldconfig'
+'eval ${make_me} prepare'
 'eval ${make_me} menuconfig'
 'save_new_config'
-'eval ${make_me} ${image}'
-'eval ${make_me} modules'
-'make_dtbs'
+'eval ${make_me}'
 'clean_distrib_dirs'
 'install_kernel'
 'install_modules'
@@ -239,6 +237,8 @@ save_new_config() {
   cp -v ${model_config} ${config_dir}/.config.${model}-${version_number}
 }
 
+# leaving this here for reference, but it is depracated, since I now
+# build all targets (kernel images, modules, and dtbs) with # eval "${make_me}"
 make_dtbs() {
   # make dtbs for this model SBC, if this is not a dom0 or domU build
   [ ! "${model:0:3}" == "dom" ] && eval "${make_me} dtbs"
@@ -513,7 +513,7 @@ esac
 
 
 display_config
-sh_countdown 4
+sh_countdown 2
 
 answer=""
 if [[ $starting_step -eq 0 ]]
