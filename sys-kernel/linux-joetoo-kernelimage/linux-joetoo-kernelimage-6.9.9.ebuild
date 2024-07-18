@@ -138,14 +138,16 @@ src_install() {
 	dodir / && einfo "Created / with dodir"
 	dodir /lib && einfo "Created /lib with dodir"
 	dodir /boot && einfo "Created /boot with dodir"
-	# note: joetoo's upstream sources put dtb files in "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
-	# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
-	#       and then and neen link dtb-<branch>-<version> <-- dtb in /boot/
-	dodir /boot/dts && einfo "Created /boot/dts with dodir"
-	# note: joetoo's upstream sources put overlay files in "/boot/dts/overlays"
-	# note: armbian upstream sources put overlay files in "/boot/dtb-<branch>-<version>/${dtb_folder}/overlay"
-	#       and then and neen link dtb-<branch>-<version> <-- dtb in /boot/
-	dodir /boot/overlays && einfo "Created /boot/overlays with dodir"
+	if ! use domU ; then
+		# note: joetoo's upstream sources put dtb files in "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
+		# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
+		#       and then and neen link dtb-<branch>-<version> <-- dtb in /boot/
+		dodir /boot/dts && einfo "Created /boot/dts with dodir"
+		# note: joetoo's upstream sources put overlay files in "/boot/dts/overlays"
+		# note: armbian upstream sources put overlay files in "/boot/dtb-<branch>-<version>/${dtb_folder}/overlay"
+		#       and then and neen link dtb-<branch>-<version> <-- dtb in /boot/
+		dodir /boot/overlays && einfo "Created /boot/overlays with dodir"
+	fi
 	# Install kernel files
 	einfo "Installing (ins) kernel files into /boot/"
 	insinto "/boot/"
@@ -160,38 +162,42 @@ src_install() {
 	insinto "/lib/"
 	doins -r "${S}/lib/modules"
 	elog "Installed modules"
-	# Conditionally install dtbs for this sbc board
-	if use dtb && [ ! "${board:0:3}" == "dom" ] ; then
-		case ${BOARD:0:2} in
-			"bc" )  dtb_folder="broadcom";;
-			"rk" )  dtb_folder="rockchip";;
-		esac
-		einfo "Installing (ins) dtb files into /boot/dts/"
-		insinto "/boot/dts"
-		doins -r "${S}/boot/dts/${dtb_folder}"
-		elog "Installed ${dtb_folder} dtb files"
-		# pull just the right file up to /boot
-		if -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ; then
-			einfo "Installing ${board}.dtb into /boot/"
-			insinto "/boot/"
-			newins "${S}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
+	if ! use domU ; then
+		# Conditionally install dtbs for this sbc board
+		if use dtb ; then
+			case ${BOARD:0:2} in
+				"bc" )  dtb_folder="broadcom";;
+				"rk" )  dtb_folder="rockchip";;
+			esac
+			einfo "Installing (ins) dtb files into /boot/dts/"
+			insinto "/boot/dts"
+			doins -r "${S}/boot/dts/${dtb_folder}"
+			elog "Installed ${dtb_folder} dtb files"
+			# pull just the right file up to /boot
+			if -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ; then
+				einfo "Installing ${board}.dtb into /boot/"
+				insinto "/boot/"
+				newins "${S}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
 			elog "Installed ${board}.dtb into /boot/"
+			else
+				ewarn "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+				elog "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+				elog "You may need to get this file from another e.g. sys-kernel/linux-armbian_kernel package"
+			fi
 		else
-			ewarn "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-			elog "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-			elog "You may need to get this file from another e.g. sys-kernel/linux-armbian_kernel package"
+			elog "use dtb not selected ; dtb files not installed"
+		fi
+		# Conditionally install dtbos
+		if use dtbo ; then
+			einfo "Installing (ins) dtbo files into /boot/overlays"
+			insinto "/boot/dts/"
+			doins -r "${S}/boot/dts/overlays"
+			elog "Installed dtbo files"
+		else
+			elog "use dtbo not selected ; dtbo files not installed"
 		fi
 	else
-		elog "use dtb not selected ; dtb files not installed"
-	fi
-	# Conditionally install dtbos
-	if use dtbo && [ ! "${BOARD:0:3}" == "dom" ] ; then
-		einfo "Installing (ins) dtbo files into /boot/overlays"
-		insinto "/boot/dts/"
-		doins -r "${S}/boot/dts/overlays"
-		elog "Installed dtbo files"
-	else
-		elog "use dtbo not selected ; dtbo files not installed"
+		elog "use domU is selected ; dtb files are not applicable, not installed"
 	fi
 	# conditionally install symlink
 	# To Do - if boot is not on vfat ==> [ ! "$(grep -v '^#' /etc/fstab | grep boot | awk '{print $3}')" == "vfat" ]
@@ -203,7 +209,6 @@ src_install() {
 		elog "  (USE=\"-symlink\") (unset)"
 		ewarn "use symlink not selected ; symlink for your kernel not installed"
 	fi
-
 }
 
 pkg_postinst() {
