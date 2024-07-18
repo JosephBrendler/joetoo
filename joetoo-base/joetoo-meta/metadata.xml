@@ -31,7 +31,7 @@
 		<flag name="compareConfigs">Pull in the joetoo's initramfs builder and required components</flag>
 		<flag name="Terminal">Pull in the joetoo Terminal c++ shared obj library and test program</flag>
 		<flag name="cloudsync">Cron scrit to sync content, scripts, binary packages across multiple nodes</flag>
-		<flag name="gentoo_pv_kernel_image">Pull in the joetoostandard xen pv kernel image and utilities</flag>
+		<flag name="domU">Pull in joetoo's sys-kernel/linux-joetoo-kernelimage with USE=domU</flag>
 		<flag name="sbc">Tailor for single board computer (SBC) system, require board model selection</flag>
 		<flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
 		<flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
