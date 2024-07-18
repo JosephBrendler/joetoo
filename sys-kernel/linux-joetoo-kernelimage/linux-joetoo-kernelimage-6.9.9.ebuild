@@ -108,6 +108,7 @@ pkg_setup() {
 	einfo "A=${A}"
 	einfo "T=${T}"
 	einfo "P=${P}"
+	einfo "workdir=${workdir}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
@@ -146,7 +147,7 @@ src_install() {
 	# Install kernel files
 	einfo "Installing (ins) kernel files into /boot/"
 	insinto "/boot/"
-	for x in $(find ${S}/boot/ -type f -maxdepth 1); do
+	for x in $(find ${workdir}/boot/ -type f -maxdepth 1); do
 		z="$(basename ${x})"
 		einfo "Installing $x as $z ..."
 		newins "${x}" "${z}"
@@ -155,7 +156,7 @@ src_install() {
 	# Install modules
 	einfo "Installing (ins) modules into /lib/"
 	insinto "/lib/"
-	doins -r "${S}lib/modules"
+	doins -r "${workdir}/lib/modules"
 	elog "Installed modules"
 	# Conditionally install dtbs for this sbc board
 	if use dtb && [ ! "${board:0:3}" == "dom" ] ; then
@@ -165,17 +166,17 @@ src_install() {
 		esac
 		einfo "Installing (ins) dtb files into /boot/dts/"
 		insinto "/boot/dts"
-		doins -r "${S}/boot/dts/${dtb_folder}"
+		doins -r "${workdir}/boot/dts/${dtb_folder}"
 		elog "Installed ${dtb_folder} dtb files"
 		# pull just the right file up to /boot
-		if -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ; then
+		if -e ${workdir}/boot/dts/${dtb_folder}/${BOARD}.dtb ; then
 			einfo "Installing ${board}.dtb into /boot/"
 			insinto "/boot/"
-			newins "${S}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
+			newins "${workdir}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
 			elog "Installed ${board}.dtb into /boot/"
 		else
-			ewarn "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-			elog "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+			ewarn "Error: ${workdir}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+			elog "Error: ${workdir}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
 			elog "You may need to get this file from another e.g. sys-kernel/linux-armbian_kernel package"
 		fi
 	else
@@ -185,7 +186,7 @@ src_install() {
 	if use dtbo && [ ! "${BOARD:0:3}" == "dom" ] ; then
 		einfo "Installing (ins) dtbo files into /boot/overlays"
 		insinto "/boot/dts/"
-		doins -r "${S}boot/dts/overlays"
+		doins -r "${workdir}/boot/dts/overlays"
 		elog "Installed dtbo files"
 	else
 		elog "use dtbo not selected ; dtbo files not installed"
