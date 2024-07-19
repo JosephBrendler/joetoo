@@ -120,7 +120,6 @@ useage()
 {
   echo -e $BGon"Useage: rus [-[s|r|j]|[0-$((${#command_sequence[@]}-1))]]"$Boff
   echo -e $BYon"Options:"$Boff
-  echo -e $BWon"  -h  -- help: print this message and exit"$Boff
   echo -e $BWon"  -s  -- read status; report next step"$Boff
   echo -e $BWon"  -r  -- read status; resume at next step"$Boff
   echo -e $BWon'  -j  -- set MAKEOPTS="j1" (useful if resource constrained)'$Boff
@@ -136,11 +135,7 @@ useage()
   echo -e $LBon'  "rus -4" starts at step 4'$Boff
   echo -e $LBon'   any "-" is optional & ignored for now'$Boff
   echo -e $LBon'   "s" anywhere in the option set overrides other options'$Boff
-  echo
-  for (( i=0; i<$(( ${#msg1_sequence[@]} - 1 )); i++ ))
-  do
-    echo -e "  ${BWon}${i}: ${BBon}${msg1_sequence[${i}]}"
-  done
+  exit
 }
 
 set_j1_makeopts() {
@@ -222,7 +217,7 @@ process_argument() {
   d_message "about to process argument(s): [ $* ]" 1
   d_message "1: [ $1 ], 2: [ $2 ]" 2
   # for now, only one (possibly compound) argument allowed
-  [[ $# -gt 1 ]] && ( useage ; exit ) || echo "arg: [${1}]"
+  [[ $# -gt 1 ]] && useage
   local args="$1"
   local mystatus=0
   while [[ ! -z $args ]]
@@ -250,7 +245,7 @@ process_argument() {
           d_message "increased verbosity to [${BYon}${verbosity}${Boff}]" 2
           ;;
       [0-9]) mystatus=${char} && RESUME=$TRUE && d_message "forced mystatus = [${mystatus}]" 2 ;;
-      *)     useage; exit ;;
+      *)     useage ;;
     esac
     args=${args:1}
   done

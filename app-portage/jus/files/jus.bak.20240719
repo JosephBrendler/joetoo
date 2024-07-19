@@ -344,7 +344,7 @@ useage()
    echo -e "    "$BBon"[-r | --resume]"$Boff"...........resume update sequence at next phase"
    echo -e "    "$BBon"[-[0-9]]"$Boff"..................resume update sequence at this phase"
    echo -e "    "$BBon"[-v | --verbose]"$Boff"..........increase verbosity"
-   echo -e "    "$BBon"[-h | --help]"$Boff".............print this message"
+   echo -e "    "$BBon"[-h | --help]"$Boff".............print this text"
    echo -e "   ${BYon}Options for Phase 0 - ${phase_message[0]}${Boff}"   ## phase 0 - Sync
    echo -e "    "$BBon"[-y | --sync]"$Boff".............force sync portage tree"
    echo -e "    "$BBon"[-R | --regen]"$Boff"............regenerate portage tree metadata (including overlays) "

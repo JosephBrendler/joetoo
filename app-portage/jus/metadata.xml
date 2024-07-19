@@ -11,13 +11,8 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="distcc">
-			facilitate distributed compiling support
-		</flag>
-		<flag name="eix">
-			facilitate package indexing support. (speeds up the update sequence significantly)
-		</flag>
-
+		<flag name="distcc">facilitate distributed compiling support</flag>
+		<flag name="eix">facilitate package indexing support (speedier update)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tbd</remote-id>
