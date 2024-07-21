@@ -2,7 +2,7 @@
 <repositories encoding="UTF-8" version="1.1">
   <repo priority="50" quality="experimental">
     <name>joetoo</name>
-    <description>ebuilds for my linux utilities</description>
+    <description>ebuilds for my linux projects</description>
     <homepage>https://github.com/JosephBrendler/joetoo</homepage>
     <owner>
       <email>joseph.brendler@googlemail.com</email>
