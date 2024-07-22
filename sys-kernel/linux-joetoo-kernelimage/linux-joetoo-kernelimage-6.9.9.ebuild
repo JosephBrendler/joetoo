@@ -161,9 +161,10 @@ src_install() {
 		#        "/boot/dts/rockchip/overlay" , for rockdhip boards
 		# note: armbian upstream sources put overlay files in "/boot/dtb-<branch>-<version>/${dtb_folder}/overlay"
 		#       and then and need link dtb-<branch>-<version> <-- dtb in /boot/
-		case ${BOARD:0:2} in
+		case ${board:0:2} in
 			"bc" )  dtb_folder="broadcom"; src_overlay_path="/boot/dts/overlays/"; dest_overlay_path="/boot/overlays/";;
 			"rk" )  dtb_folder="rockchip"; src_overlay_path="/boot/dts/rockchip/overlay/"; dest_overlay_path="/boot/dts/rockchip/overlay/";;
+			*    )  die "Error: invalid board asignment [ ${board} ]. Exiting ..." ;;
 		esac
 		dodir /boot/dts && einfo "Created /boot/dts with dodir"
 		dodir /boot/dts/${dtb_folder} && einfo "Created /boot/dts/${dtb_folder} with dodir"
