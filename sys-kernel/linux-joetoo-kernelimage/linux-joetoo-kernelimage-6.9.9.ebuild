@@ -69,7 +69,6 @@ SRC_URI="
 S=${WORKDIR}
 
 # NOTE: joetoo kernels for these boards don't yet work...
-#	rk3399-tinker-2? ( https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3399-tinker-2_kernel_image-${PV}.tar.bz2 )
 #	rk3588s-orangepi-5? ( https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-rk3588s-orangepi-5_kernel_image-${PV}.tar.bz2 )
 
 #einfo "SRC_URI=${SRC_URI}"   ### for debugging global scope borken before functions get to run
@@ -138,16 +137,6 @@ src_install() {
 	dodir / && einfo "Created / with dodir"
 	dodir /lib && einfo "Created /lib with dodir"
 	dodir /boot && einfo "Created /boot with dodir"
-	if ! use domU ; then
-		# note: joetoo's upstream sources put dtb files in "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
-		# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
-		#       and then and need link dtb-<branch>-<version> <-- dtb in /boot/
-		dodir /boot/dts && einfo "Created /boot/dts with dodir"
-		# note: joetoo's upstream sources put overlay files in "/boot/dts/overlays"
-		# note: armbian upstream sources put overlay files in "/boot/dtb-<branch>-<version>/${dtb_folder}/overlay"
-		#       and then and need link dtb-<branch>-<version> <-- dtb in /boot/
-		dodir /boot/overlays && einfo "Created /boot/overlays with dodir"
-	fi
 	# Install kernel files
 	einfo "Installing (ins) kernel files into /boot/"
 	insinto "/boot/"
@@ -163,17 +152,33 @@ src_install() {
 	doins -r "${S}/lib/modules"
 	elog "Installed modules"
 	if ! use domU ; then
+		# note: joetoo's kernelupdate tarball upstream sources put dtb files in
+		#       "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
+		# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
+		#       and then and need link dtb-<branch>-<version> <-- dtb in /boot/
+		# note: joetoo's kernelupdate tarball upstream sources put overlay files in
+		#        "/boot/dts/overlays" , for raspi boards, but in
+		#        "/boot/dts/rockchip/overlay" , for rockdhip boards
+		# note: armbian upstream sources put overlay files in "/boot/dtb-<branch>-<version>/${dtb_folder}/overlay"
+		#       and then and need link dtb-<branch>-<version> <-- dtb in /boot/
+		case ${BOARD:0:2} in
+			"bc" )  dtb_folder="broadcom"; src_overlay_path="/boot/dts/overlays/"; dest_overlay_path="/boot/overlays/";;
+			"rk" )  dtb_folder="rockchip"; src_overlay_path="/boot/dts/rockchip/overlay/"; dest_overlay_path="/boot/dts/rockchip/overlay/";;
+		esac
+		dodir /boot/dts && einfo "Created /boot/dts with dodir"
+		dodir /boot/dts/${dtb_folder} && einfo "Created /boot/dts/${dtb_folder} with dodir"
+		dodir ${dest_overlay_path} && einfo "Created ${dest_overlay_path} with dodir"
 		# Conditionally install dtbs for this sbc board
 		if use dtb ; then
-			case ${BOARD:0:2} in
-				"bc" )  dtb_folder="broadcom";;
-				"rk" )  dtb_folder="rockchip";;
-			esac
 			einfo "Installing (ins) dtb files into /boot/"
-			# not sure why, but if this is /boot/dts/ then the install ends up w /boot/dts/dts/${dtb_folder}
-			insinto "/boot/"
+			insinto "/boot/dts/${dtb_folder}"
 			if [[ -d ${S}/boot/dts/${dtb_folder} ]] ; then
-				doins -r ${S}/boot/dts/${dtb_folder}
+#				doins -r ${S}/boot/dts/${dtb_folder}
+				# doins -r didn't work right ...
+				for x in $(find ${S}/boot/dts/${dtb_folder}/ -maxdepth 1 -type f) ; do
+					z=$(basename $x)
+					newins ${x} "${z}"
+				done
 				elog "Installed ${dtb_folder} dtb files"
 			else
 				ewarn "Warning: ${S}/boot/dts/${dtb_folder} was not found."
@@ -196,15 +201,18 @@ src_install() {
 		fi
 		# Conditionally install dtbos
 		if use dtbo ; then
-			einfo "Installing (ins) dtbo files into /boot/overlays"
+			# see layout note above
+			einfo "Installing (cp -rv) dtbo files from ${src_overlay_path} into ${dest_overlay_path}"
 			# not sure why, but if this is /boot/dts/ then the install ends up w /boot/dts/dts/overlays
 			insinto "/boot/"
-			if [[ -d ${S}/boot/dts/overlays ]] ; then
-				doins -r ${S}/boot/dts/overlays
+			if [[ -d ${S}${src_overlay_path} ]] ; then
+#				doins -r ${S}/boot/dts/overlays
+				# doins -r didn't work right ...
+				cp -rv ${S}${src_overlay_path} ${D}${dest_overlay_path}
 				elog "Installed dtbo files"
 			else
-				ewarn "Warning: ${S}/boot/dts/overlays was not found."
-				elog "Warning: ${S}/boot/dts/overlays was not found."
+				ewarn "Warning: ${S}${src_overlay_path} was not found."
+				elog "Warning: ${S}${src_overlay_path} was not found."
 				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
 			fi
 		else
@@ -229,7 +237,7 @@ pkg_postinst() {
 	einfo "Starting pkg_postinst ..."
 	elog "${P} installed for ${board}"
 	elog ""
-	elog "version 0.0.0 is a template for consolidated ${PN} ebuilds"
+	elog "version 0.0.0 is the initial template for consolidated ${PN} ebuilds"
 	elog " ${PV} is a consolidated ebuild for ${P}"
 	elog ""
 	elog "Thank you for using ${PN}"
