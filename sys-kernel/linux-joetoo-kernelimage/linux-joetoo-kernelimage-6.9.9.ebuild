@@ -174,7 +174,7 @@ src_install() {
 			doins -r "${S}/boot/dts/${dtb_folder}"
 			elog "Installed ${dtb_folder} dtb files"
 			# pull just the right file up to /boot
-			if -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ; then
+			if [[ -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ]] ; then
 				einfo "Installing ${board}.dtb into /boot/"
 				insinto "/boot/"
 				newins "${S}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
