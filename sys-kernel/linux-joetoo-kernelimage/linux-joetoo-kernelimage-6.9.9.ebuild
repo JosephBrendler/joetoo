@@ -4,7 +4,7 @@
 
 EAPI=8
 
-DESCRIPTION="kernel image for ${BOARD} sbc"
+DESCRIPTION="kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 LICENSE="MIT"
 SLOT="${PV}"
@@ -171,7 +171,7 @@ src_install() {
 		dodir ${dest_overlay_path} && einfo "Created ${dest_overlay_path} with dodir"
 		# Conditionally install dtbs for this sbc board
 		if use dtb ; then
-			einfo "Installing (ins) dtb files into /boot/"
+			einfo "Installing (ins) dtb files into /boot/dts/${dtb_folder}"
 			insinto "/boot/dts/${dtb_folder}"
 			if [[ -d ${S}/boot/dts/${dtb_folder} ]] ; then
 #				doins -r ${S}/boot/dts/${dtb_folder}
@@ -187,13 +187,13 @@ src_install() {
 				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
 			fi
 			# pull just the right file up to /boot
-			if [[ -f ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ]] ; then
+			if [[ -f ${S}/boot/dts/${dtb_folder}/${board}.dtb ]] ; then
 				einfo "Installing ${board}.dtb into /boot/"
-				newins ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb "${BOARD}.dtb"
+				newins ${S}/boot/dts/${dtb_folder}/${board}.dtb "${board}.dtb"
 				elog "Installed ${board}.dtb into /boot/"
 			else
-				ewarn "Warning: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-				elog "Warning: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+				ewarn "Warning: ${S}/boot/dts/${dtb_folder}/${board}.dtb not found"
+				elog "Warning: ${S}/boot/dts/${dtb_folder}/${board}.dtb not found"
 				elog "You may need to copy it to /boot/ from /boot/dts/${dtb_folder}/ , or"
 				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
 			fi
