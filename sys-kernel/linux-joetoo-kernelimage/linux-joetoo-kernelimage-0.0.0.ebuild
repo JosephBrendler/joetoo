@@ -169,9 +169,10 @@ src_install() {
 				"bc" )  dtb_folder="broadcom";;
 				"rk" )  dtb_folder="rockchip";;
 			esac
-			einfo "Installing (ins) dtb files into /boot/dts/"
-			insinto "/boot/dts/"
-			if [[ -e ${S}/boot/dts/${dtb_folder} ]] ; then
+			einfo "Installing (ins) dtb files into /boot/"
+			# not sure why, but if this is /boot/dts/ then the install ends up w /boot/dts/dts/${dtb_folder}
+			insinto "/boot/"
+			if [[ -d ${S}/boot/dts/${dtb_folder} ]] ; then
 				doins -r ${S}/boot/dts/${dtb_folder}
 				elog "Installed ${dtb_folder} dtb files"
 			else
@@ -180,9 +181,8 @@ src_install() {
 				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
 			fi
 			# pull just the right file up to /boot
-			if [[ -e ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ]] ; then
+			if [[ -f ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb ]] ; then
 				einfo "Installing ${board}.dtb into /boot/"
-				insinto "/boot/"
 				newins ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb "${BOARD}.dtb"
 				elog "Installed ${board}.dtb into /boot/"
 			else
@@ -197,8 +197,9 @@ src_install() {
 		# Conditionally install dtbos
 		if use dtbo ; then
 			einfo "Installing (ins) dtbo files into /boot/overlays"
-			insinto "/boot/dts/"
-			if [[ -e ${S}/boot/dts/overlays ]] ; then
+			# not sure why, but if this is /boot/dts/ then the install ends up w /boot/dts/dts/overlays
+			insinto "/boot/"
+			if [[ -d ${S}/boot/dts/overlays ]] ; then
 				doins -r ${S}/boot/dts/overlays
 				elog "Installed dtbo files"
 			else
