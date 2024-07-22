@@ -178,11 +178,12 @@ src_install() {
 				einfo "Installing ${board}.dtb into /boot/"
 				insinto "/boot/"
 				newins "${S}/boot/dts/${dtb_folder}/${BOARD}.dtb" "${BOARD}.dtb"
-			elog "Installed ${board}.dtb into /boot/"
+				elog "Installed ${board}.dtb into /boot/"
 			else
-				ewarn "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-				elog "Error: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
-				elog "You may need to get this file from another e.g. sys-kernel/linux-armbian_kernel package"
+				ewarn "Warning: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+				elog "Warning: ${S}/boot/dts/${dtb_folder}/${BOARD}.dtb not found"
+				elog "You may need to copy it to /boot/ from /boot/dts/${dtb_folder}/ , or"
+				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
 			fi
 		else
 			elog "use dtb not selected ; dtb files not installed"
@@ -191,8 +192,14 @@ src_install() {
 		if use dtbo ; then
 			einfo "Installing (ins) dtbo files into /boot/overlays"
 			insinto "/boot/dts/"
-			doins -r "${S}/boot/dts/overlays"
-			elog "Installed dtbo files"
+			if [[ -e ${S}/boot/dts/overlays ]] ; then
+				doins -r "${S}/boot/dts/overlays"
+				elog "Installed dtbo files"
+			else
+				ewarn "Warning: ${S}/boot/dts/overlays was not found."
+				elog "Warning: ${S}/boot/dts/overlays was not found."
+				elog "You may need to get it from another package, e.g. sys-kernel/linux-armbian_kernel"
+			fi
 		else
 			elog "use dtbo not selected ; dtbo files not installed"
 		fi
