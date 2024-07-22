@@ -203,14 +203,19 @@ src_install() {
 		# Conditionally install dtbos
 		if use dtbo ; then
 			# see layout note above
-			einfo "Installing (cp -rv) dtbo files from ${src_overlay_path} into ${dest_overlay_path}"
+			einfo "Installing (ins) dtbo files from ${src_overlay_path} into ${dest_overlay_path}"
 			# not sure why, but if this is /boot/dts/ then the install ends up w /boot/dts/dts/overlays
-			insinto "/boot/"
+#			insinto "/boot/"
+			insinto "${dest_overlay_path}"
 			if [[ -d ${S}${src_overlay_path} ]] ; then
 #				doins -r ${S}/boot/dts/overlays
-				# doins -r didn't work right ...
-				cp -rv ${S}${src_overlay_path} ${D}${dest_overlay_path}
-				elog "Installed dtbo files"
+				# doins -r and cp -r didn't work right ...
+				# cp -rv ${S}${src_overlay_path} ${D}${dest_overlay_path}
+				for x in $(find ${S}${src_overlay_path} -maxdepth 1 -type f) ; do
+					z=$(basename $x)
+					newins ${x} "${z}"
+				done
+				elog "Installed dtbo files into ${dest_overlay_path}"
 			else
 				ewarn "Warning: ${S}${src_overlay_path} was not found."
 				elog "Warning: ${S}${src_overlay_path} was not found."
