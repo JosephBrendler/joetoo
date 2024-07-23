@@ -2,15 +2,14 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		kernel Image, device tree binary file, and modules for a joetoo kernel built for
-		supported SBCs
+		kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-	<flag name="symlink">Create/update symlink in /boot directory (n.b. vfat doesn't support links)</flag>
+	<flag name="symlink">Create/update symlink in /boot/ (n.b. vfat doesn't support links)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">
