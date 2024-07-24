@@ -75,6 +75,7 @@ INTERACTIVE=${FALSE}
 RESUME=${FALSE}
 starting_step=0
 answer=""
+newanswer=""
 
 # source the current build number, assuming it was properly generated during ebuild deployment
 [[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
@@ -441,11 +442,11 @@ usage() {
   exit
 }
 
-new_prompt()        # set external variable $answer based on reponse to prompt $1
-{ ps=$1; echo; echo; CUU; SCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; # '=~' not in busybox
-while ! expr "${answer:0:1}" : [yYnNsS] >/dev/null;  # answer not a regex match
+new_prompt()        # set external variable $newanswer based on reponse to prompt $1
+{ ps=$1; echo; echo; CUU; SCP; message_n "$ps [Yes/no/skip|Yns]: " && read newanswer; # '=~' not in busybox
+while ! expr "${newanswer:0:1}" : [yYnNsS] >/dev/null;  # newanswer not a regex match
 do RCP; echo -en "$(repeat ' ' $(termwidth))";  ## blank the line
-RCP; message_n "$ps [Yes/no/skip|Yns]: " && read answer; done; }
+RCP; message_n "$ps [Yes/no/skip|Yns]: " && read newanswer; done; }
 
 display_config()
 {
@@ -663,7 +664,7 @@ sanity_check() {
    E_message "Dangerous option combination: sync and resume" && \
    usage && exit 1
 
-sanity_answer=""
+answer=""
 if [[ $starting_step -eq 0 ]]
 then
   # if a sources directory has not been linked, advise the user about this
@@ -674,14 +675,14 @@ then
   else
     # confirm the current configuration before executing main script
     prompt "${BYon}Starting kernelupdate.\n Please confirm configuration above.\n${LBon}Continue? ${Boff}?"
-    [[ ! $sanity_answer == [Yy] ]] && exit
+    [[ ! $answer == [Yy] ]] && exit
   fi
 else
   # resume operation at some step other than 0
   do_first_prompt="${BMon}Resuming at step [ ${BWon}$starting_step${BMon} ] --[ ${BGon}${command_sequence[${starting_step}]}${BMon} ]--${Boff}\n"
   do_first_prompt+="${BYon}Please verify configuration above.${Boff}"
   prompt "${do_first_prompt}\n${LBon} Continue? ${Boff}?"
-  [[ ! $sanity_answer == [yY] ]] && exit
+  [[ ! $answer == [yY] ]] && exit
 fi
 }
 
@@ -722,23 +723,23 @@ do
     else
       if ${INTERACTIVE} ; then
         d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
-        answer=""
+        newanswer=""
         # confirm user is ready/wants to run the next command
         new_prompt "${BMon}Are you ready to run ${BGon}${command_sequence[step_number]}${BMon}?${Boff}"
       elif [ ${step_number} -eq 5 ] ; then
         message "INTERACTIVE is false; ${BMon}Skipping ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
-        answer="s"
+        newanswer="s"
       else
         d_message "INTERACTIVE is false; will automatically execute this step [ $step_number ]" 2
         message "${BMon}Beginning ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
-        answer="y"
+        newanswer="y"
       fi
-      case $answer in
+      case $newanswer in
         [Yy] )  # execute this command and continue
           message "${LBon}About to run ${BYon}${command_sequence[step_number]}${LBon}...${Boff}" ; \
           eval ${command_sequence[step_number]}; right_status $? ;;
         [Ss] ) ;; # skip this command and continue
-        *    )  # abort due to negative answer
+        *    )  # abort due to negative newanswer
           message "${BRon}As instructed, not running ${BGon}${command_sequence[step_number]}${BRon}. Quitting...${Boff}" ; \
           exit ;;
       esac
