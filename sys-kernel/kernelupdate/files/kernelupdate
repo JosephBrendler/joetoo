@@ -5,7 +5,7 @@
 #   installU_onServer of February 2022
 # generalized from kernelupdate-embedded, to build kernels for SBCs *or xen domU/dom0 May 2024
 #
-# 24 July 2024 - first test edit in vscode (rewrite for non-interactive option, etc
+# 24 July 2024 - first test edit in vscode (rewrite for non-interactive option, etc)
 #
 #    *** Note: to have a build-host build a kernel for itself, use model=dom0 ***
 #    *** (i.e. dom0 output is NOT cross-compiled and is installed at default  ***
@@ -74,6 +74,7 @@ host_dir=${build_root}/"domU_kernel_images"
 INTERACTIVE=${FALSE}
 RESUME=${FALSE}
 starting_step=0
+answer=""
 
 # source the current build number, assuming it was properly generated during ebuild deployment
 [[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
@@ -658,19 +659,11 @@ dmseg "done with process_compount_arg" 1
 sanity_check() {
 # veryfy the sanity of the combination of arguments on the command line
 ### this is carried over from jus example, but it is not used here (yet)
-[[ ! ${INTERACTIVE} ]] && [ "$RESUME" == "yes" ] && \
-   E_message "Nonsensical option combination: sync and resume" && \
+[[ ! $INTERACTIVE ]] && [[ $RESUME ]] && \
+   E_message "Dangerous option combination: sync and resume" && \
    usage && exit 1
 
-[ "$SYNC" == "yes" ] && [ "$GO_AHEAD" == "yes" ] && \
-   E_message "Dangerous option combination: sync and go_ahead" && \
-   E_message "(you should never merge packages blindly, please check first)" && \
-   usage && exit 1
-
-# if both remote/local and local-only are set local-only should over-ride
-[ "$GETBINPKG" == "yes" ] && [ "$GETBINPKGONLY" == "yes" ] && GETBINPKG="no"
-[ "$USEPKG" == "yes" ] && [ "$USEPKGONLY" == "yes" ] && USEPKG="no"
-answer=""
+sanity_answer=""
 if [[ $starting_step -eq 0 ]]
 then
   # if a sources directory has not been linked, advise the user about this
@@ -681,14 +674,14 @@ then
   else
     # confirm the current configuration before executing main script
     prompt "${BYon}Starting kernelupdate.\n Please confirm configuration above.\n${LBon}Continue? ${Boff}?"
-    [[ ! $answer == [Yy] ]] && exit
+    [[ ! $sanity_answer == [Yy] ]] && exit
   fi
 else
   # resume operation at some step other than 0
   do_first_prompt="${BMon}Resuming at step [ ${BWon}$starting_step${BMon} ] --[ ${BGon}${command_sequence[${starting_step}]}${BMon} ]--${Boff}\n"
   do_first_prompt+="${BYon}Please verify configuration above.${Boff}"
   prompt "${do_first_prompt}\n${LBon} Continue? ${Boff}?"
-  [[ ! $answer == [yY] ]] && exit
+  [[ ! $sanity_answer == [yY] ]] && exit
 fi
 }
 
@@ -728,12 +721,15 @@ do
       d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
       if ${INTERACTIVE} ; then
+        d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
         answer=""
+        # confirm user is ready/wants to run the next command
         new_prompt "${BMon}Are you ready to run ${BGon}${command_sequence[step_number]}${BMon}?${Boff}"
       elif [ ${step_number} -eq 5 ] ; then
-        message "${BMon}Skipping ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
+        message "INTERACTIVE is false; ${BMon}Skipping ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
         answer="s"
       else
+        d_message "INTERACTIVE is false; will automatically execute this step [ $step_number ]" 2
         message "${BMon}Beginning ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
         answer="y"
       fi
