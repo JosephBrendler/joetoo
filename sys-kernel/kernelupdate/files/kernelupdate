@@ -5,7 +5,7 @@
 #   installU_onServer of February 2022
 # generalized from kernelupdate-embedded, to build kernels for SBCs *or xen domU/dom0 May 2024
 #
-# 24 July 2024 - first test edit in vscode
+# 24 July 2024 - first test edit in vscode (rewrite for non-interactive option, etc
 #
 #    *** Note: to have a build-host build a kernel for itself, use model=dom0 ***
 #    *** (i.e. dom0 output is NOT cross-compiled and is installed at default  ***
@@ -170,7 +170,7 @@ command_sequence=(
 'make_tarball'
 'publish_tarball'
 )
-# 'publish_ebuild'
+#### 'publish_ebuild'
 d_message "done setting command sequence" 3
 
 #-----[ functions ]--------------------------------------------------

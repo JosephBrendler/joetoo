@@ -11,7 +11,8 @@
 		a build process.  The first run of kernelupdate for a new project will create
 		a directory tree for the project, according to the .conf.  The user must then
 		provide a link from the project-root of this tree, to valid kernel sources.
-		More information is provided at README-Instructions.
+		More information is provided at README-Instructions.  This sources selection
+		determines what constitiutes "upstream."
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -33,5 +34,8 @@
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+		<remote-id type="github">https://github.com/raspberrypi/linux</remote-id>
+		<remote-id type="https">https://www.kernel.org/</remote-id>
+		<remote-id type="https">https://dev.gentoo.org/~mpagano/genpatches/</remote-id>
 	</upstream>
 </pkgmetadata>
