@@ -660,8 +660,9 @@ dmseg "done with process_compount_arg" 1
 sanity_check() {
 # veryfy the sanity of the combination of arguments on the command line
 ### this is carried over from jus example, but it is not used here (yet)
-[[ ! $INTERACTIVE ]] && [[ $RESUME ]] && \
-   E_message "Dangerous option combination: sync and resume" && \
+BOGUSTEST=${FALSE}
+[[ ! $INTERACTIVE ]] && [[ $RESUME ]] && $BOGUSTEST \
+   E_message "Dangerous option combination: noninteractive and resume" && \
    usage && exit 1
 
 answer=""
