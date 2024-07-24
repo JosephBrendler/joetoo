@@ -721,7 +721,7 @@ do
       # take no action; the loop will increment step counter on next entry
       d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
-      if ${INTERACTIVE} ; then
+      if [[ ${INTERACTIVE} ]] ; then
         d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
         newanswer=""
         # confirm user is ready/wants to run the next command
