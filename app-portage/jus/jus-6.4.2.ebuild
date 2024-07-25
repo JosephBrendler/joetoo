@@ -34,6 +34,8 @@ src_install() {
 	# Note: utility script header installs in /usr/local/sbin
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "ED=${ED}"
+	einfo "T=${T}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -41,48 +43,49 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "BDEPEND=${BDEPEND}"
 	einfo ""
-	einfo "Copying ${PN}.conf to ${S} to edit if needed"
-	cp -v ${FILESDIR}/${PN}.conf ${S}/
+	# copy config file to temp space, to edit if needed
+	einfo "Copying ${PN}.conf to ${T} to edit if needed"
+	cp -v ${FILESDIR}/${PN}.conf ${T}/
 
 	if use distcc ; then
 		elog "  (USE=\"distcc\") (set)"
-		einfo "About to execute command sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${S}/${PN}.conf"
-		sed -i 's/^DISTCC="no"/DISTCC="yes"/' "${S}/${PN}.conf"
+		einfo "About to execute command sed -i 's/^DISTCC="no"/DISTCC="yes"/' ${T}/${PN}.conf"
+		sed -i 's/^DISTCC="no"/DISTCC="yes"/' "${T}/${PN}.conf"
 	else
 		elog "  (USE=\"-distcc\") (unset)"
-		einfo "About to execute command sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${S}/${PN}.conf"
-		sed -i 's/^?DISTCC="yes"/DISTCC="no"/' "${S}/${PN}.conf"
+		einfo "About to execute command sed -i 's/^?DISTCC="yes"/DISTCC="no"/' ${T}/${PN}.conf"
+		sed -i 's/^?DISTCC="yes"/DISTCC="no"/' "${T}/${PN}.conf"
 	fi
 	if use eix ; then
 		elog "  (USE=\"eix\") (set)"
-		einfo "About to execute command sed -i 's/^EIX="no"/EIX="yes"/' ${S}/${PN}.conf"
-		sed -i 's/^EIX="no"/EIX="yes"/' "${S}/${PN}.conf"
+		einfo "About to execute command sed -i 's/^EIX="no"/EIX="yes"/' ${T}/${PN}.conf"
+		sed -i 's/^EIX="no"/EIX="yes"/' "${T}/${PN}.conf"
 	else
 		elog "  (USE=\"-eix\") (unset)"
-		einfo "About to execute command sed -i 's/^?EIX="yes"/EIX="no"/' ${S}/${PN}.conf"
-		sed -i 's/^?EIX="yes"/EIX="no"/' "${S}/${PN}.conf"
+		einfo "About to execute command sed -i 's/^?EIX="yes"/EIX="no"/' ${T}/${PN}.conf"
+		sed -i 's/^?EIX="yes"/EIX="no"/' "${T}/${PN}.conf"
 	fi
 
 	# install utilities jus and rus in /usr/bin; .conf file in /etc/
 	dodir usr/bin/
 	dodir /etc/${PN}/
 	target="/usr/bin"
-	# install jus in /usr/bin/
+	# install jus
 	einfo "Installing (exe) ${PN} into ${target} ..."
 	exeinto "${target}"
 	newexe "${FILESDIR}/${PN}" "${PN}"
 	elog "Installed (exe) ${PN} in ${target}"
 
-	# install rus in /usr/bin
+	# install rus
 	einfo "Installing (exe) ${PN/j/r} into ${target} ..."
 	exeinto "${target}"
 	newexe "${FILESDIR}/${PN/j/r}" "${PN/j/r}"
 	elog "Installed (exe) ${PN/j/r} in ${target}"
 
-	# install jus.conf in /etc/jus/
+	# install jus.conf
 	target="/etc/jus/"
 	insinto "${target}"
-	newins "${S}/${PN}.conf" "${PN}.conf"
+	newins "${T}/${PN}.conf" "${PN}.conf"
 	elog "Installed (ins) ${PN}.conf in ${target}"
 }
 
@@ -105,6 +108,8 @@ pkg_postinst() {
 	elog "  6.3.3 -- adds jus option to resume at arbitrary step, with (e.g.) -[r]3 or --resume -4"
 	elog "  6.3.4 -- improves rus debug format and fixes verbosity increment bug"
 	elog "  6.4.0 -- rewrite to move content from SRC_URI to FILESDIR"
+	elog "  6.4.1 -- option -h or useage error now also enumerates update sequence"
+	elog "  6.4.2 -- if /usr/share/config/ does not exist, fix that"
 	elog ""
 	elog "Thank you for using ${PN}"
 

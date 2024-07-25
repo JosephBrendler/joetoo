@@ -29,6 +29,9 @@ NOBINFEATURES='MAKEOPTS="-j1 -l1" FEATURES=" -getbinpkg -userpriv -distcc -distc
 #   (assigned here, prior to sourcing jus.conf so it will be properly initialized, just in case it is not assigned in jus.conf
 SCRIPT_DIR=""
 
+# if /usr/share/config/ doesn't exist, fix that
+[ ! -d /usr/share/config ] && mkdir -p /usr/share/config/ && message "created /usr/share/config/"
+
 # PORTDIR, PKGDIR, DISTDIR must be evaluated in this order if e.g. PKGDIR=${PORTDIR}/packages
 eval $( grep ^PORTDIR /etc/portage/make.conf )
 eval $( grep ^PKGDIR /etc/portage/make.conf )
