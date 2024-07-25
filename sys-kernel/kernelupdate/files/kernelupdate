@@ -41,9 +41,10 @@
 # see also https://www.raspberrypi.com/documentation/computers/linux_kernel.html
 #
 
+#---[ execute setup and initialization, as required ]-------------------------
 source /usr/local/sbin/script_header_brendlefly
 
-#---[ local variables ]-------------------------------------------------------
+# local variables 
 BUILD="0"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
@@ -76,6 +77,33 @@ RESUME=${FALSE}
 starting_step=0
 answer=""
 newanswer=""
+my_sshkeys_load_command_file="${build_dir}/my_sshkeys_load_command_file"
+
+# source github credentials to access the passphrase for ssh key
+# needed now, so that key can be added (by $user) to ssh-agent (ssh-add will ask for pashprase)
+# Note: credentials will also be sourced by the script built below in publish_tarball()
+#  - so that git push can be executed (by $user) without passphrase challenge/response
+message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
+# first command uses > to initialize the command file, others concatenate with >>
+echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
+# if ssh-agent is not started, start it
+echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' >> ${my_sshkeys_load_command_file}
+# if the ssh-agent has not keys, add the one we need (will ask for passphrase)
+echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
+chmod +x ${my_sshkeys_load_command_file}
+chown ${user}:${user} ${my_sshkeys_load_command_file}
+message "executing ssh-agent/ssh-add as user ${user} ..."
+sudo -u ${user} ${my_sshkeys_load_command_file}
+right_status $?
+message_n "cleaning up ${my_sshkeys_load_command_file}"
+rm ${my_sshkeys_load_command_file}
+right_status $?
+d_message "done adding ssh-key" 2
+
+#  source joetoo's custom setnodistpath tool, to drop distcc and ccache from PATH
+message "${BMon}About to source ${BGon}setnodistpath${BMon} ..."
+source /usr/local/sbin/setnodistpath && echo "PATH:  $PATH"
+echo
 
 # source the current build number, assuming it was properly generated during ebuild deployment
 [[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
@@ -339,16 +367,14 @@ publish_tarball() {
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
     echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+    # source github credentials to format the git push command
+    # (shouldn't need to load ssh key, because that was done during initialization)
+    echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}
     echo "git status" >> ${publish_tarball_cmd_file}
     echo "git add ${kernel_image_name}.tar.bz2" >> ${publish_tarball_cmd_file}
     echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_tarball_cmd_file}
-    # Have the publish script source credentials, to automate the push
-    # This way they aren't stored in the pubhlish script file, per se
-    echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
-#    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master"'  >> ${publish_tarball_cmd_file}
-    # changed to ssh authentication
     echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_tarball_cmd_file}
     echo 'git push' >> ${publish_tarball_cmd_file}
     echo  >> ${publish_tarball_cmd_file}
@@ -371,7 +397,9 @@ publish_ebuild() {
     echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
     echo "cd ${ebuild_dir}/" > ${publish_ebuild_cmd_file}
-    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
+    # Have the publish script source credentials, to automate the push
+    # This way they aren't stored in the pubhlish script file, per se
+    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
     ebuild_list=()
 
     for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
@@ -398,11 +426,6 @@ publish_ebuild() {
     echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
     echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
     echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
-    # Have the publish script source credentials, to automate the push
-    # This way they aren't stored in the pubhlish script file, per se
-    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-#    echo 'eval "git push https://${gituser}:${gitpass}@github.com/${gituser}/${gitrepo}.git master"'  >> ${publish_tarball_cmd_file}
-    # changed to ssh authentication
     echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
     echo 'git push' >> ${publish_ebuild_cmd_file}
 
@@ -702,10 +725,7 @@ sh_countdown 2
 
 sanity_check
 
-#  source joetoo's custom setnodistpath tool, to drop distcc and ccache from PATH
-message "${BMon}About to source ${BGon}setnodistpath${BMon} ..."
-source /usr/local/sbin/setnodistpath && echo "PATH:  $PATH"
-echo
+
 for ((step_number=${starting_step}; step_number<${#command_sequence[@]}; step_number++))
 do
   d_message "Writing step_number [ $step_number ] to status_file ( $status_file )" 2
