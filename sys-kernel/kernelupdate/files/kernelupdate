@@ -79,8 +79,9 @@ answer=""
 newanswer=""
 my_sshkeys_load_command_file="${build_dir}/my_sshkeys_load_command_file"
 
-# source github credentials to access the passphrase for ssh key
-# needed now, so that key can be added (by $user) to ssh-agent (ssh-add will ask for pashprase)
+# build a script, and execute it as user, to source github credentials to access
+#   the passphrase for ssh key needed now, so that key can be added (by $user)
+#   to ssh-agent (ssh-add will ask for pashprase)
 # Note: credentials will also be sourced by the script built below in publish_tarball()
 #  - so that git push can be executed (by $user) without passphrase challenge/response
 message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
