@@ -15,7 +15,7 @@
 		<flag name="eix">facilitate package indexing support (speedier update)</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://serverfault.com/questions/9936/optimal-procedure-to-upgrade-gentoo-linux</remote-id>
 	</upstream>
 </pkgmetadata>
 
