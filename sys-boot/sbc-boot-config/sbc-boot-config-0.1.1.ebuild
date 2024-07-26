@@ -15,13 +15,17 @@ KEYWORDS="~arm ~arm64"
 RESTRICT="mirror"
 
 IUSE="
-bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b bcm2708-rpi-b
-rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5
+	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
+	rk3288-tinker-s
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
 "
 
 REQUIRED_USE="
-^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b bcm2708-rpi-b
-rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 )
+	^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
+	rk3288-tinker-s
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c )
 "
 
 DEPEND=""
@@ -51,6 +55,8 @@ else if use bcm2711-rpi-4-b ; then
 export board="bcm2711-rpi-4-b"
 else if use bcm2710-rpi-3-b-plus; then
 export board="bcm2710-rpi-3-b-plus"
+else if use bcm2710-rpi-3-b; then
+export board="bcm2710-rpi-3-b"
 else if use bcm2709-rpi-2-b; then
 export board="bcm2709-rpi-2-b"
 else if use bcm2708-rpi-b; then
@@ -63,9 +69,11 @@ else if use rk3399-tinker-2; then
 export board="rk3399-tinker-2"
 else if use rk3588s-orangepi-5; then
 export board="rk3588s-orangepi-5"
+else if use rk3588s-rock-5c; then
+export board="rk3588s-rock-5c"
 else
 export board=""
-fi; fi; fi; fi; fi; fi; fi; fi; fi
+fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 einfo "Assigned board: ${board}"
 }
 
@@ -83,12 +91,12 @@ src_install() {
 	einfo "Installing (ins) configuration files into /boot"
 	insinto "/boot/"
 	case ${board} in
-		"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
+		"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
 			einfo "Installing (ins) raspberry board config files into /boot" ;
 			# install cmdline.txt, config.txt and any other (e.g. README.txt) .txt files
 			newins_all "*.txt" ;
 			newenvd "${FILESDIR}/config_protect-raspi" "99${PN}" ;;
-		"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5" )
+		"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
 			einfo "Copying rockchip board config files to /boot" ;
 			# install boot.cmd, boot.scr, and any other boot.* files
 			newins_all "boot.*" ;
@@ -100,14 +108,14 @@ src_install() {
 
 pkg_postinst() {
 	if [[ -z ${REPLACING_VERSIONS} ]]; then
-		elog "Installed boot config files in /boot/ --"
+		elog "${P} Installed boot config files in /boot/ --"
 		case ${board} in
-			"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
+			"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
 				elog "  cmdline.txt -- kernel command line parameters" ;
 				elog "  config.txt -- bootloader and overlay configuration options" ;
 				elog "  https://www.raspberrypi.org/documentation/configuration/cmdline-txt.md" ;
 				elog "  https://www.raspberrypi.org/documentation/configuration/config-txt/README.md" ;;
-			"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5" )
+			"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
 				elog "  boot.scr -- compiled u-boot script (do not modify)." ;
 				elog "  boot.cmd -- code from which boot.scr is compiled (do not modify)" ;
 				elog "  joetooEnv.txt -- user-configurable u-boot environment variables" ;
