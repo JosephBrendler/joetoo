@@ -25,6 +25,7 @@
                 <flag name="rk3399-rock-pi-4c-plus">Tailor for Rock Pi 4c Plus (armv8/64)</flag>
                 <flag name="rk3399-tinker-2">Tailor for Tinkerboard 2/2S (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
+                <flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
 		<flag name="innercore">Install boot config files and baseline packages</flag>
 		<flag name="gpio">Install libgpiod package and dependencies</flag>
 		<flag name="joetoo">Install joetoo-meta package and its dependencies</flag>
