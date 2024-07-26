@@ -38,6 +38,7 @@
 #   rk3399-rock-pi-4c-plus .....: Tailor for Rock Pi 4c Plus (armv8/64)
 #   rk3399-tinker-2 ............: Tailor for Tinkerboard 2/2s (armv8/64)
 #   rk3588s-orangepi-5 .........: Tailor for OrangePi 5/5b (armv8/64)
+#   rk3588s-rock-5c... .........: Tailor for Rock 5c (armv8/64)
 #
 # The default for >=joetoo-base/joetoo-meta-0.0.1::joeto (below) should be good for a new amd64 install
 #   start point with no USE flags specified; add more later.  The default will currently resolve to --
@@ -56,7 +57,8 @@
 #    -sbc
 #      -bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b
 #      -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b bcm2708-rpi-b
-#      -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5
+#      -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2
+#      -rk3588s-orangepi-5 -rk3588s-rock-5c
 #
 #>=joetoo-base/joetoo-meta-0.0.1::joetoo
 
@@ -69,16 +71,16 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 
 dev-util/joetoolkit iptools -xenvmfiles backup_utilities -utility_archive
-sys-kernel/kernelupdate dom0 domU bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5
+sys-kernel/kernelupdate dom0 domU bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
 
 dev-sbc/sbc-headless-meta bcm2712-rpi-5-b joetoo boot-fw kernelimage
 dev-sbc/sbc-status-leds bcm2712-rpi-5-b
 sys-boot/sbc-boot-config bcm2712-rpi-5-b
 sys-boot/raspi-boot-firmware bcm2712-rpi-5-b dtbo -kernel
-#sys-kernel/linux-bcm2712-rpi-5-b_kernel_image dtb -dtbo raspi-sources -symlink
+sys-boot/rockchip-boot-firmware rk3588s-rock-5c dtbo armbian_kernel
 sys-kernel/linux-joetoo-kernelimage bcm2712-rpi-5-b dtb dtbo raspi-sources -symlink
-sys-kernel/raspi-sources symlink
-sys-kernel/rockchip-sources symlink
+sys-kernel/raspi-sources symlink config
+sys-kernel/rockchip-sources symlink config
 
 #-----[ standardized for baseline joetoo setup ]------------------------
 # This section allows you to configure packages that joetoo developers have chosen as joetoo baseline

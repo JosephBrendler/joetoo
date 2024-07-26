@@ -26,7 +26,7 @@ IUSE="
 	+sysklogd -syslog-ng
 	+script_header_brendlefly
 	-compareConfigs -Terminal
-	-linux-domU_kernel_image
+	-domU
 	-samba
 	-sbc
 	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -126,7 +126,7 @@ RDEPEND="
 	script_header_brendlefly? ( >=dev-util/script_header_brendlefly-0.3.7 )
 	Terminal? ( >=dev-util/Terminal-0.1.0 )
 	compareConfigs? ( >=dev-util/compareConfigs-0.1.0 )
-	linux-domU_kernel_image? ( sys-kernel/linux-domU_kernel_image )
+	domU? ( sys-kernel/linux-joetoo-kernelimage[domU(+)] )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
 "
@@ -424,6 +424,7 @@ pkg_postinst() {
 	elog " 0.4.4 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
 	elog " 0.4.5 changes from use gentoo_pv_kernel_image to linux-domU_kernel_image"
 	elog " 0.4.6/7 add packages using nodist_features.conf to package.env"
+	elog " 0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
