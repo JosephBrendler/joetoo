@@ -24,6 +24,17 @@ BDEPEND+="
 
 S="${WORKDIR}/usr/src/${P}"
 
+pkg_setup() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
+}
+
 src_compile() {
 	MODULES_MAKEARGS+=(
 		KDIR="${KV_OUT_DIR}"
