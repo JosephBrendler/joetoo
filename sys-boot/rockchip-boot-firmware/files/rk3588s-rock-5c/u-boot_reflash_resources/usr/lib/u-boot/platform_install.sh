@@ -1,4 +1,4 @@
-DIR=/usr/lib/linux-u-boot-current-orangepi5
+DIR=/usr/lib/linux-u-boot-edge-rock-5c
 write_uboot_platform () 
 { 
     local logging_prelude="";
