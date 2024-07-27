@@ -49,6 +49,7 @@ REQUIRED_USE="
 		rk3399-rock-pi-4c-plus
 		rk3399-tinker-2
 		rk3588s-orangepi-5
+		rk3588s-rock-5c
 		)
 	)
 	^^ ( ntp chrony )
