@@ -26,6 +26,7 @@ alias makeU="make O=~/build/domU"
 
 alias joemerge='emerge --keep-going --with-bdeps=y --binpkg-respect-use=y --binpkg-changed-deps=y'
 
+alias icmerge='FEATURES="-collision-detect -protect-owned" emerge -1'
 alias nobinmerge='MAKEOPTS="-j2 -l2" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" emerge -1'
 alias j1merge='MAKEOPTS="-j1" FEATURES=" -getbinpkg -userpriv -distcc -distcc-pump" emerge -1'
 alias nodistmerge='MAKEOPTS="-j2 -l2" FEATURES=" -userpriv -distcc -distcc-pump" emerge -1'

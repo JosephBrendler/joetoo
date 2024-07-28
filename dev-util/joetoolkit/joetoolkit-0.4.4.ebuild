@@ -159,6 +159,8 @@ pkg_postinst() {
 	elog " 0.3.10 removed kernelupdate (temp kernelupdate-old)"
 	elog " 0.4.0/1 adds git/nextcloud and archives some tools, aligns # w joetoo packages"
 	elog " 0.4.2 updates gp (git push) tool"
+	elog " 0.4.3 switches xdo... to lxterminal to adapt to plasma 6 (wayland) conversion of konsole"
+	elog " 0.4.4 adds icmerge (ignore-collision merge)"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
