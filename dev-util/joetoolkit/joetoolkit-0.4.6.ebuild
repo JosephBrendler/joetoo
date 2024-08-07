@@ -161,6 +161,8 @@ pkg_postinst() {
 	elog " 0.4.2 updates gp (git push) tool"
 	elog " 0.4.3 switches xdo... to lxterminal to adapt to plasma 6 (wayland) conversion of konsole"
 	elog " 0.4.4 adds icmerge (ignore-collision merge)"
+	elog " 0.4.5 archives old certs and installs Brendler_Consulting_LLC_Root_CA.crt"
+	elog " 0.4.6 archives old cflags tools and introduces get_my_cflags3.sh"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
