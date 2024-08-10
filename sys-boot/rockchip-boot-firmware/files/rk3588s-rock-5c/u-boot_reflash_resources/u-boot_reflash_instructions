@@ -4,13 +4,15 @@ follow these instructions, based on armbian's platform_install.sh which can be f
 u-boot_reflash_resources/usr/lib/u-boot/  --
 
     # (as root)
-    cd /path/to/linux-u-boot-current-orangepi5/
+    cd /path/to/linux-u-boot-edge-rock-5c/
     target=<devicename>
     dd if=idbloader.img of=${target} seek=64 conv=notrunc status=none;
     dd if=u-boot.itb of=${target} seek=16384 conv=notrunc status=none;
 
 Notes:
-(0) This is untested - the platform_install.sh script does not appear to use the rkspi_loader.img
+(0) The above procedure was verified on 8/10/2024 with system rock5c6403
+
+(1) The platform_install.sh script does not appear to use the rkspi_loader.img
 that the u-boot build proces provides...
 
 (1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
@@ -20,7 +22,7 @@ that the u-boot build proces provides...
 (3) First partition should start at sector 32768, to leave room for u-boot images written
     with this method.  For example, see this layout
 
-# fdisk -l /dev/mmcblk1 -----------------------------------------
+# fdisk -l /dev/sda1 ---------------------------------------------
 Disk /dev/sda: 58.27 GiB, 62562238464 bytes, 122191872 sectors
 Disk model: Storage Device  
 Units: sectors of 1 * 512 = 512 bytes
