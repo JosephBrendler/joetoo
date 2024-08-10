@@ -9,8 +9,8 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="bogus">
-			This is a bogus USE flag, just to play with having one
+		<flag name="NA">
+			This package has no USE flags at this time
 		</flag>
 	</use>
 	<upstream>
