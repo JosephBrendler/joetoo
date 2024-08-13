@@ -56,6 +56,9 @@ pkg_pretend() {
 			~CRYPTO_SERPENT ~CRYPTO_TWOFISH"
 
 	check_extra_config
+	[[ $? ]] && \
+		elog "check_extra_config status = passed"  || \
+		elog "check_extra_config status = failed"
 }
 
 
