@@ -66,7 +66,8 @@ pkg_pretend() {
 		for target in ${targets} ; do
 			linux_chkconfig_present ${target}  && \
 				elog "${target} is present" || \
-				die "${target} is not present"
+				# die "${target} is not present"  ### don't kill over this
+				elog "${target} is not present"
 		done
 
 		# now check for some specific string settings
@@ -75,7 +76,7 @@ pkg_pretend() {
 			elog "fat def codepage ok (${fat_def_codepage})" || \
 			die "fat def codepage NOT ok (${fat_def_codepage})"
 		fat_def_iocharset="$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)"
-		[[ "${fat_def_iocharset}" == "iso8859-1" ]] && \
+		[[ "${fat_def_iocharset}" == "\"iso8859-1\"" ]] && \
 			elog "fat def iocharset ok (${fat_def_iocharset})" || \
 			die "fat def iocharset NOT ok (${fat_def_iocharset})"
 	else
