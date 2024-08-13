@@ -62,10 +62,20 @@ pkg_pretend() {
 		check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 
 		# now check for some specific string settings
-		linux_chkconfig_present FAT_DEFAULT_CODEPAGE  && elog "FAT_DEFAULT_CODEPAGE is present"
-		linux_chkconfig_present FAT_DEFAULT_IOCHARSET && elog "FAT_DEFAULT_IOCHARSET is present"
-		[[ $(linux_chkconfig_string FAT_DEFAULT_CODEPAGE) -eq 437 ]] && elog "fat def codepage 437 ok"
-		[[ "$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)" == "iso8859-1" ]] && elog "fat def iocharset iso8859-1 ok"
+		linux_chkconfig_present FAT_DEFAULT_CODEPAGE  && \
+			elog "FAT_DEFAULT_CODEPAGE is present" || \
+			die "FAT_DEFAULT_CODEPAGE is not present"
+		linux_chkconfig_present FAT_DEFAULT_IOCHARSET && \
+			elog "FAT_DEFAULT_IOCHARSET is present" || \
+			die "FAT_DEFAULT_IOCHARSET is not present"
+		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
+		[[ ${fat_def_codepage} -eq 437 ]] && \
+			elog "fat def codepage ok (${fat_def_codepage})" || \
+			die "fat def codepage NOT ok (${fat_def_codepage})"
+		fat_def_iocharset="$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)"
+		[[ "${fat_def_iocharset}" == "iso8859-1" ]] && \
+			elog "fat def iocharset ok (${fat_def_iocharset})" || \
+			die "fat def iocharset NOT ok (${fat_def_iocharset})"
 	else
 		die "I could not find a linux config for joetoo config-check"
 	fi
