@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		test ebuild, to test check-config ebuild functions
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="tbd">tbd</flag>
+	</use>
+	<upstream>
+		<remote-id type="tbd">tbd</remote-id>
+	</upstream>
+</pkgmetadata>
