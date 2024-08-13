@@ -55,12 +55,10 @@ pkg_pretend() {
 			~CRYPTO_RMD160 ~CRYPTO_SHA256 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW \
 			~CRYPTO_SERPENT ~CRYPTO_TWOFISH"
 
-	check_extra_config && export status="passed" || export status="failed"
+	check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 }
 
 
 pkg_postinst() {
 	elog "${P} done"
-	elog ""
-	elog "check_extra_config status = ${status}"
 }
