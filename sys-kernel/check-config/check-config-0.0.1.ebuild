@@ -61,13 +61,15 @@ pkg_pretend() {
 			"
 		check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 
+		# check that these targets are either y or m
+		targets="GENTOO_LINUX GENTOO_LINUX_PORTAGE"
+		for target in ${targets} ; do
+			linux_chkconfig_present ${target}  && \
+				elog "${target} is present" || \
+				die "${target} is not present"
+		done
+
 		# now check for some specific string settings
-		linux_chkconfig_present FAT_DEFAULT_CODEPAGE  && \
-			elog "FAT_DEFAULT_CODEPAGE is present" || \
-			die "FAT_DEFAULT_CODEPAGE is not present"
-		linux_chkconfig_present FAT_DEFAULT_IOCHARSET && \
-			elog "FAT_DEFAULT_IOCHARSET is present" || \
-			die "FAT_DEFAULT_IOCHARSET is not present"
 		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
 		[[ ${fat_def_codepage} -eq 437 ]] && \
 			elog "fat def codepage ok (${fat_def_codepage})" || \
