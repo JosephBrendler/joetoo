@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=7
+EAPI=8
+
+inherit linux-info
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
@@ -29,7 +31,7 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-apps/busybox-1.34.1"
 DEPEND="${RDEPEND}"
 
-pkg_setup() {
+pkg_preinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "P=${P}"
@@ -38,6 +40,22 @@ pkg_setup() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
+}
+
+pkg_pretend() {
+	# define what to check for --
+	#   ''  no prefix means "required"
+	#   '~' prefix means "not required"
+	#   '@' prefix means "must be a module"
+	#   '!' prefix means "must not set"
+	local CONFIG_CHECK="MD BLK_DEV ~BLK_DEV_LOOP ~FUSE_FS \
+		BLK_DEV_INITRD BLK_DEV_DM DM_CRYPT ~DM_UEVENT \
+		~DEVTMPFS ~UEVENT_HELPER ~RD_GZIP ~INITRAMFS_COMPRESSION_GZIP \
+		~CRYPTO ~CRYPTO_AES ~CRYPTO_XTS ~CRYPT_USER_API ~CRYPTO_USER_API_SKCIPHER>
+		~CRYPTO_RMD160 ~CRYPTO_SHA256 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW \
+		~CRYPTO_SERPENT ~CRYPTO_TWOFISH"
+
+	check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 }
 
 src_install() {
@@ -77,7 +95,8 @@ pkg_postinst() {
 	elog "ver 6.6 adds find to dynexecutables and fixes an associated bug"
 	elog "ver 6.7 generalizes init to unlock nvmeXnXpZ, mmcblkXpX devices as well as sdXX"
 	elog "ver 7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs"
-	elog "ver 7.1 fixes bugs in dependent content copy and in output rotation"
+	elog "ver 7.1/2 fix bugs in dependent content copy and in output rotation"
+	elog "ver 7.3 adds kernel config checks with the help of linux-info eclass"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""
