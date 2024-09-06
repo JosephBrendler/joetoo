@@ -29,8 +29,8 @@
 		<flag name="innercore">Install boot config files and baseline packages</flag>
 		<flag name="gpio">Install libgpiod package and dependencies</flag>
 		<flag name="joetoo">Install joetoo-meta package and its dependencies</flag>
-		<flag name="boot-fw">Install raspi or rockchip bootloader, boot firmware </flag>
-		<flag name="kernel_image">install kernel, modules, dtbs, dtbos</flag>
+		<flag name="boot-fw">Install sys-boot/(raspi/rockchip)-boot-firmware (bootloader, boot firmware, optional armbian kernel)</flag>
+		<flag name="kernelimage">install sys-kernel/linux-joetoo-kernelimage (kernel, modules, dtbs, dtbos)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>

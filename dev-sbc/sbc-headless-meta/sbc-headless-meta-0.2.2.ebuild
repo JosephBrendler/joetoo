@@ -14,14 +14,16 @@ IUSE="
 	+innercore +gpio +joetoo +boot-fw -kernelimage
 	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-	rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5
+	rk3288-tinker-s
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
 "
 
 REQUIRED_USE="
 	innercore
 	^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-	rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 )
+	rk3288-tinker-s
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c )
 "
 
 RESTRICT=""
@@ -115,6 +117,10 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-orangepi-5(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		rk3588s-rock-5c?       (
+			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-rock-5c(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
@@ -161,6 +167,10 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-orangepi-5(+)]
 		)
+		rk3588s-rock-5c? (
+			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
+		)
 	)
 	boot-fw? (
 		bcm2712-rpi-5-b?        ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2712-rpi-5-b(+)] )
@@ -173,6 +183,7 @@ RDEPEND="
 		rk3399-rock-pi-4c-plus? ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-rock-pi-4c-plus(+)] )
 		rk3399-tinker-2?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-tinker-2(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
+		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
 	)
 	kernelimage? (
 		bcm2712-rpi-5-b?        ( sys-kernel/linux-joetoo-kernelimage[bcm2712-rpi-5-b(+)] )
@@ -185,6 +196,7 @@ RDEPEND="
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-joetoo-kernelimage[rk3399-rock-pi-4c-plus(+)] )
 		rk3399-tinker-2?        ( sys-kernel/linux-joetoo-kernelimage[rk3399-tinker-2(+)] )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-joetoo-kernelimage[rk3588s-orangepi-5(+)] )
+		rk3588s-rock-5c?        ( sys-kernel/linux-joetoo-kernelimage[rk3588s-rock-5c(+)] )
 	)
 "
 
@@ -210,9 +222,11 @@ pkg_setup() {
 		export board="rk3399-tinker-2"
 	else if use rk3588s-orangepi-5; then
 		export board="rk3588s-orangepi-5"
+	else if use rk3588s-rock-5c; then
+		export board="rk3588s-rock-5c"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 }
 
@@ -228,7 +242,7 @@ src_install() {
 
 	elog "Installing (exe) into /etc/local.d/"
 	exeinto "/etc/local.d/"
-	newexe "${FILESDIR}/cpu_gov.start" "/pu_gov.start"
+	newexe "${FILESDIR}/cpu_gov.start" "cpu_gov.start"
 	elog "Installed (newexe) cpu_gov.start"
 
 	# config_protect this and other files in /etc/local.d
@@ -275,6 +289,8 @@ pkg_postinst() {
 	elog " 0.1.3 adds support for rpi 3 model b v1.2 (32 bit) (bcm2710-rpi-3-b)"
 	elog " 0.1.5 adopts rk3399-rock-pi-4c-plus vice rk3399-rock-4c-plus"
 	elog " 0.2.0 adopts the consolidated sys-kernel/linux-joetoo-kernelimage dependency"
+	elog " 0.2.1 add support for rock 5c (rk3588s-rock-5c)"
+	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

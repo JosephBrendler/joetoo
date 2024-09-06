@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=7
+EAPI=8
+
+inherit linux-info
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
@@ -14,7 +16,7 @@ LICENSE="MIT"
 SLOT="0"
 
 KEYWORDS=""
-IUSE="bogus"
+IUSE=""
 RESTRICT="mirror"
 
 RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
@@ -28,9 +30,8 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-fs/cryptsetup-2.3.6-r2
 	>=sys-apps/busybox-1.34.1"
 DEPEND="${RDEPEND}"
-#	bogus? ( >=dev-util/bogus-2.0 )"
 
-src_install() {
+pkg_preinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "P=${P}"
@@ -39,6 +40,54 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
+}
+
+pkg_pretend() {
+	if linux_config_exists ; then
+		# first check for rotine y/n/m settings
+		# define what to check for --
+		#   ''  no prefix means "required"
+		#   '~' prefix means "not required"
+		#   '@' prefix means "must be a module"
+		#   '!' prefix means "must not set"
+		local CONFIG_CHECK="MD BLK_DEV ~BLK_DEV_LOOP ~FUSE_FS \
+			BLK_DEV_INITRD BLK_DEV_DM DM_CRYPT ~DM_UEVENT \
+			~DEVTMPFS ~UEVENT_HELPER ~RD_GZIP ~INITRAMFS_COMPRESSION_GZIP \
+			~CRYPTO ~CRYPTO_AES ~CRYPTO_XTS ~CRYPT_USER_API ~CRYPTO_USER_API_SKCIPHER \
+			~CRYPTO_RMD160 ~CRYPTO_SHA256 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW \
+			~CRYPTO_XCBC ~CRYPTO_SERPENT ~CRYPTO_TWOFISH \
+			NLS_CODEPAGE_437 NLS_ASCII NLS_ISO8859_1 NLS_UTF8 \
+			~MSDOS_FS VFAT_FS \
+			"
+
+		check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
+
+		# next, check that these targets are either y or m
+		targets="GENTOO_LINUX GENTOO_LINUX_PORTAGE"
+		for target in ${targets} ; do
+			linux_chkconfig_present ${target}  && \
+			elog "${target} is present" || \
+			# die "${target} is not present"  ### don't kill over this
+			ewarn "${target} is not present"
+		done
+
+		# now check for some specific string settings
+		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
+		[[ ${fat_def_codepage} -eq 437 ]] && \
+			elog "fat def codepage ok (${fat_def_codepage})" || \
+			# die "fat def codepage NOT ok (${fat_def_codepage})"  ### don't kill over this
+			ewarn "fat def codepage NOT ok (${fat_def_codepage})"
+		fat_def_iocharset="$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)"
+		[[ "${fat_def_iocharset}" == "\"iso8859-1\"" ]] && \
+			elog "fat def iocharset ok (${fat_def_iocharset})" || \
+			# die "fat def iocharset NOT ok (${fat_def_iocharset})"  ### don't kill over this
+			ewarn "fat def iocharset NOT ok (${fat_def_iocharset})"
+	else
+		die "I could not find a linux config for joetoo kernel config-check"
+	fi
+}
+
+src_install() {
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
 	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
@@ -58,7 +107,11 @@ src_install() {
 	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
 	elog ""
+}
 
+pkg_postinst() {
+	elog "${P} installation complete."
+	elog ""
 	elog "mkinitramfs-5.4 was a significant rewrite of the package."
 	elog "ver 5.9 corrects issues with lvm early availability."
 	elog "Ensure you do not have USE=udev set for lvm2"
@@ -71,8 +124,10 @@ src_install() {
 	elog "ver 6.6 adds find to dynexecutables and fixes an associated bug"
 	elog "ver 6.7 generalizes init to unlock nvmeXnXpZ, mmcblkXpX devices as well as sdXX"
 	elog "ver 7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs"
+	elog "ver 7.1/2 fix bugs in dependent content copy and in output rotation"
+	elog "ver 7.3 adds kernel config checks with the help of linux-info eclass"
 	elog ""
-	elog "Please report any bugs you find to the maintainer."
+	elog "Please report bugs to the maintainer."
 	elog ""
-	elog "Thank you for using mkinitramfs"
+	elog "Thank you for using ${PN}"
 }
