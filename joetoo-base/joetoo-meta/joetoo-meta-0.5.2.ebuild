@@ -31,7 +31,8 @@ IUSE="
 	-sbc
 	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
-	-rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5
+	-rk3288-tinker-s
+	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5 -rk3588s-rock-5c
 	"
 
 REQUIRED_USE="
@@ -49,6 +50,7 @@ REQUIRED_USE="
 		rk3399-rock-pi-4c-plus
 		rk3399-tinker-2
 		rk3588s-orangepi-5
+		rk3588s-rock-5c
 		)
 	)
 	^^ ( ntp chrony )
@@ -157,7 +159,9 @@ pkg_setup() {
 			export board="rk3399-tinker-2"
 		else if use rk3588s-orangepi-5 ; then
 			export board="rk3588s-orangepi-5"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+		else if use rk3588s-rock-5c ; then
+			export board="rk3588s-rock-5c"
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
@@ -324,7 +328,7 @@ src_install() {
 		insinto "${target}"
 		if use sbc ; then
 			case $board in
-				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
+				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
 				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -349,7 +353,7 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi3_binhosts_conf_joetoo" "joetoo_rpi3_binhosts.conf" ;;
 				"bcm2709-rpi-2-b")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi2_binhosts_conf_joetoo" "joetoo_rpi2_binhosts.conf" ;;
-				"bcm2710-rpi-3-b"|"bcm2708-rpi-b"|"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s"|"rk3399-tinker-2"|"rk3588s-orangepi-5")
+				"bcm2710-rpi-3-b"|"bcm2708-rpi-b"|"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					# nothing, yet - I only have one of each of these
 					;;
 			esac
@@ -425,6 +429,8 @@ pkg_postinst() {
 	elog " 0.4.5 changes from use gentoo_pv_kernel_image to linux-domU_kernel_image"
 	elog " 0.4.6/7 add packages using nodist_features.conf to package.env"
 	elog " 0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency"
+	elog " 0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
+	elog " 0.5.2 adds packages using nodist_features.conf to package.env"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
