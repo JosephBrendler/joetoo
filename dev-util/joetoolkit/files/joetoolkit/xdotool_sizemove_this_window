@@ -30,6 +30,12 @@ exit
 }
 
 find_current_window() {
+  message_n "finding current active window ... "
+  current_window=$(xdotool getactivewindow)
+  echo ${current_window}
+}
+
+old_find_current_window() {
   window_list=($(xdotool search --any lxterminal 2>/dev/null))
   window_list+=($(xdotool search --any UXTerm 2>/dev/null))
   message_n "Finding current terminal window among: " && echo ${window_list[@]}
@@ -83,7 +89,8 @@ show_config() {
 
 #------[ main script ]-----------------------------------------------
 separator "xdotool_sizemove_this_window"
-checkroot
+#checkroot
+checknotroot
 d_message "cmdline: $@" 1
 d_message "\$#: [$#]"
 find_current_window
@@ -95,5 +102,7 @@ case $LR in
   [Rr]) X="${X2}";;
   *   ) E_message "Error in variable LR [$LR]"; exit;;
 esac
+message "moving window [${current_window}] to position [$X $Y1] ..."
 xdotool windowmove ${current_window} $X $Y1
+message "resizing window [${current_window}] to size [$width $height] ..."
 xdotool windowsize ${current_window} $width $height

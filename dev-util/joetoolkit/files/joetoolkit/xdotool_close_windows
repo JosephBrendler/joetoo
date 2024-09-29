@@ -15,6 +15,8 @@ sleepWait=0.1
 DEBUG="true"
 #DEBUG="false"
 
+rm $logFile
+
 exec 6>&1 2>/dev/null           # Link file descriptor #6 with stdout. Saves stdout.
 exec > $logFile  2>/dev/null    # stdout replaced with file.
 # ----------------------------------------------------------- #
@@ -30,29 +32,49 @@ do
 done
 x=""
 
-message "Now closing terminal windows..."
+my_window=$(xdotool getactivewindow)
+message "my_window: ${my_window}"
 num_desktops=$(xdotool get_num_desktops)
 message "num_desktops: $num_desktops"
 
+window_list=()
 window_list=($(xdotool search --any lxterminal 2>/dev/null))
-#window_list+=($(xdotool search --any Konsole))
+window_list+=($(xdotool search --any Konsole))
 window_list+=($(xdotool search --any UXTerm 2>/dev/null))
-message "Closing the following windows:"
+message "Current window list:"
 echo ${window_list[@]}
+echo
+message "Now closing all terminal windows except my_window [${my_window}] ..."
+
+
 for win in ${window_list[@]}
 do
   desktop=$(xdotool get_desktop_for_window $win 2>/dev/null)
   message_n "Examining window [ $win ] on desktop [ $desktop ] ... "
-  if [[ $desktop -gt -1 ]]
+#  if [[ $desktop -gt -1 ]]
+  if [[ $win -ne $my_window ]]
   then
 #    xdotool windowkill $win 2>/dev/null && echo "killed" || echo "tried, but failed to kill"
     xdotool windowclose $win 2>/dev/null && echo "closed" || echo "tried, but failed to close"
   else
-    echo "not > -1; skipping"
+    echo "my_window; skipping"
   fi
 #  xdotool windowclose $win
   sleep $sleepWait
 done
+
+# move the active window to desktop 0, if it isn't already there
+my_window=$(xdotool getactivewindow)
+message "my_window: ${my_window}"
+my_desktop=$(xdotool get_desktop_for_window ${my_window})
+message "my_desktop: ${my_desktop}"
+if [[ ${my_desktop} -eq 0 ]]
+then
+  message "my_window [${my_window}] is already on desktop 0; no action required"
+else
+  message "moving my_window [${my_window}] to desktop 0 ..."
+  xdotool set_desktop_for_window ${my_window} 0
+fi
 
 exec 1>&6 6>&-  2>/dev/null     # Restore stdout and close file descriptor #6.
 
