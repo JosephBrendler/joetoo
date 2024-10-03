@@ -55,9 +55,15 @@ display_config() {
 }
 
 get_webapp_installed_version(){
-  webapp_installed_version=$(basename $(find /var/www/localhost/htdocs/myCloud/ -maxdepth 1 -iname '.webapp-nextcloud*') | \
-    sed 's/\.webapp-nextcloud-//')
-  message "webapp_installed_version: ${webapp_installed_version}"
+  if [ -z "$(find /var/www/localhost/htdocs/myCloud/ 2>/dev/null)" ]
+  then
+    E_message "nextcloud has not been installed by webapp-config"
+    exit
+  else
+    webapp_installed_version=$(basename $(find /var/www/localhost/htdocs/myCloud/ -maxdepth 1 -iname '.webapp-nextcloud*') | \
+      sed 's/\.webapp-nextcloud-//')
+    message "webapp_installed_version: ${webapp_installed_version}"
+  fi
 }
 
 get_emerged_versions() {
