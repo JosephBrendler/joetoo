@@ -165,6 +165,7 @@ pkg_postinst() {
 	elog " 0.4.6 archives old cflags tools and introduces get_my_cflags3.sh"
 	elog " 0.4.7 switches from root back to user execution, for plasma 6 (x11 session)"
 	elog " 0.4.8 adds nextcloud_check_version and moves _current_version to _version"
+	elog " 0.4.9/10 fix bug(s) in nextcloud_check_version"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"

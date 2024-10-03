@@ -100,16 +100,16 @@ message "${msg}"
 d_message () { [[ $VERBOSE ]] && [[ $2 -le $verbosity ]] && message "$1" ; }
 
 check_emerged_versions() {
-  for ((i=0; i<=${#emerged_version_list[@]}; i++))
+  for ((i=0; i<${#emerged_version_list[@]}; i++))
   do
     myver="${emerged_version_list[$i]}"
     vercomp ${myver} ${webapp_installed_version} ; result=$?
-    echo -e "${BWon}${myver} $(show_result ${result}) ${BWon}${webapp_installed_version}${Boff}"
+    echo -e "${BGon} * ${BWon}(emerged version) ${myver} $(show_result ${result}) ${BWon}${webapp_installed_version} (webapp-installed version)${Boff}"
     case ${result} in
-      2 ) message "${BRon}version $myver should be removed${Boff}" ;; # 2 is <
-      0 ) message "${BWon}version $myver is current; no action required${Boff}" ;; # 0 is =
-      1 ) message "${BYon}version $myver is newer; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ;; # 1 is >
-      * ) E_message "error: bad version comparison"; exit ;;
+      2 ) message "${BRon}  version $myver should be removed${Boff}" ;; # 2 is <
+      0 ) message "${BWon}  version $myver is current; no action required${Boff}" ;; # 0 is =
+      1 ) message "${BYon}  version $myver is newer; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ;; # 1 is >
+      * ) E_message "  error: bad version comparison"; exit ;;
     esac
   done
 }
