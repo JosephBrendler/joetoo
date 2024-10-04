@@ -430,7 +430,7 @@ pkg_postinst() {
 	elog " 0.4.6/7 add packages using nodist_features.conf to package.env"
 	elog " 0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency"
 	elog " 0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
-	elog " 0.5.2 updates package.use/joetoo"
+	elog " 0.5.2/3 add packages using nodist_features.conf to package.env"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"

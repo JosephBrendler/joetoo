@@ -7,7 +7,7 @@ height="85%"
 X1="1%"
 Y1="5%"
 X2="51%"
-BUILD="0.002b 190113"
+BUILD="0.003 240918"
 
 user=joe
 
@@ -93,10 +93,10 @@ setup_window_for_idx() {
       fi
       # open ssh session to idxed target
       d_message "$(my_short_date) launching ssh with commands [su ${user}] and [$cmd_target] in window $newtermname on desktop ${i}" 1
-      xdotool type --window ${newterm} --delay 30 --clearmodifiers "su ${user}"
-      sleep $sleepWait
-      xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
-      sleep $sleepWait
+#      xdotool type --window ${newterm} --delay 30 --clearmodifiers "su ${user}"
+#      sleep $sleepWait
+#      xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
+#      sleep $sleepWait
       xdotool type --window ${newterm} --delay 30 --clearmodifiers "ssh ${cmd_target}"
       sleep $sleepWait
       xdotool key --window ${newterm} --delay 30 --clearmodifiers Return
@@ -108,6 +108,7 @@ setup_window_for_idx() {
 #-----[ main script ]-----------------------------------------------------
 d_message "now in main script" 3
 #checknotroot
+checknotroot
 
 d_message "$(my_short_date) first closing open windows..." 1
 xdotool_close_windows  ## partner external script
@@ -140,7 +141,6 @@ d_message "$(my_short_date) about to enumerate ssh session list..." 1
 print_ssh_session_list
 
 d_message "$(my_short_date) now openning new windows" 1
-#for i in $(seq 0 $(($num_desktops - 1)) )
 for ((i=0; i<${#ssh_session_list[@]}; i+=2 ))
 do   # launch two terminal windows per desktop
   let index=$(( $i / 2 ))

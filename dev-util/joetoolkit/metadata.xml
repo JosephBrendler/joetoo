@@ -9,7 +9,7 @@
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
-		<name>Joseph Brendler</name>
+		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
 		<flag name="iptools">Install tools helpful for ip networking</flag>
