@@ -307,6 +307,7 @@ src_install() {
 		newins "${FILESDIR}/etc_portage_env_suppress-distcc.conf_joetoo" "suppress-distcc.conf"
 		newins "${FILESDIR}/etc_portage_env_suppress-distcc-pump.conf_joetoo" "suppress-distcc-pump.conf"
 		newins "${FILESDIR}/etc_portage_env_portage_tmpdir_on_rootfs.conf_joetoo" "portage_tmpdir_on_rootfs.conf"
+		newins "${FILESDIR}/etc_portage_env_mysql-with-protobuf-bundled-conf_joetoo" "mysql-with-protobuf-bundled.conf"
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/portage/package.env/"
 		einfo "Installing (ins) files into ${target} ..."
