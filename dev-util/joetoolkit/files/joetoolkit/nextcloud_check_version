@@ -120,6 +120,7 @@ maybe_do_upgrade() {
   prompt "${BYon}  would you like to run ${BRon}# ${BGon}nextcloud_upgrade ${myver}${BYon} now?${Boff}"
   case ${answer:0:1} in
     [yY] ) eval "nextcloud_upgrade ${myver}" ;;
+    [nN] ) message "${BRon}Not${Boff} running nextcloud_upgrade; user declined" ;;
     *    ) E_message "error; bad response to upgrade question" ;;
   esac
 }
