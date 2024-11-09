@@ -55,9 +55,15 @@ display_config() {
 }
 
 get_webapp_installed_version(){
-  webapp_installed_version=$(basename $(find /var/www/localhost/htdocs/myCloud/ -maxdepth 1 -iname '.webapp-nextcloud*') | \
-    sed 's/\.webapp-nextcloud-//')
-  message "webapp_installed_version: ${webapp_installed_version}"
+  if [ -z "$(find /var/www/localhost/htdocs/myCloud/ 2>/dev/null)" ]
+  then
+    E_message "nextcloud has not been installed by webapp-config"
+    exit
+  else
+    webapp_installed_version=$(basename $(find /var/www/localhost/htdocs/myCloud/ -maxdepth 1 -iname '.webapp-nextcloud*') | \
+      sed 's/\.webapp-nextcloud-//')
+    message "webapp_installed_version: ${webapp_installed_version}"
+  fi
 }
 
 get_emerged_versions() {
@@ -94,19 +100,31 @@ message "${msg}"
 d_message () { [[ $VERBOSE ]] && [[ $2 -le $verbosity ]] && message "$1" ; }
 
 check_emerged_versions() {
-  for ((i=0; i<=${#emerged_version_list[@]}; i++))
+  for ((i=0; i<${#emerged_version_list[@]}; i++))
   do
     myver="${emerged_version_list[$i]}"
     vercomp ${myver} ${webapp_installed_version} ; result=$?
-    echo -e "${BWon}${myver} $(show_result ${result}) ${BWon}${webapp_installed_version}${Boff}"
+    echo -e "${BGon} * ${BWon}(emerged version) ${myver} $(show_result ${result}) ${BWon}${webapp_installed_version} (webapp-installed version)${Boff}"
     case ${result} in
-      2 ) message "${BRon}version $myver should be removed${Boff}" ;; # 2 is <
-      0 ) message "${BWon}version $myver is current; no action required${Boff}" ;; # 0 is =
-      1 ) message "${BYon}version $myver is newer; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ;; # 1 is >
-      * ) E_message "error: bad version comparison"; exit ;;
+      2 ) message "${BRon}  version $myver should be removed${Boff}" ;; # 2 is <
+      0 ) message "${BWon}  version $myver is current; no action required${Boff}" ;; # 0 is =
+      1 ) message "${BYon}  version $myver is newer ; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ; maybe_do_upgrade "${myver}" ;; # 1 is >
+      * ) E_message "  error: bad version comparison"; exit ;;
     esac
   done
 }
+
+maybe_do_upgrade() {
+  myver="$1"
+  answer=""
+  prompt "${BYon}  would you like to run ${BRon}# ${BGon}nextcloud_upgrade ${myver}${BYon} now?${Boff}"
+  case ${answer:0:1} in
+    [yY] ) eval "nextcloud_upgrade ${myver}" ;;
+    [nN] ) message "${BRon}Not${Boff} running nextcloud_upgrade; user declined" ;;
+    *    ) E_message "error; bad response to upgrade question" ;;
+  esac
+}
+
 
 #-----[ main script ]--------------------------------------------
 separator "${program}-${BUILD}"
