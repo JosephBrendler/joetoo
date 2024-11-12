@@ -113,6 +113,7 @@ check_vpn() {
       * ) [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && echo "* Invalid last status..." ; LAST_VPN_OK=$FALSE ;;
     esac
   fi
+  echo "done"
 }
 
 restart_vpn() {
