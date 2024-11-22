@@ -108,11 +108,23 @@ check_emerged_versions() {
     case ${result} in
       2 ) message "${BRon}  version $myver should be removed${Boff}" ;; # 2 is <
       0 ) message "${BWon}  version $myver is current; no action required${Boff}" ;; # 0 is =
-      1 ) message "${BYon}  version $myver is newer; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ;; # 1 is >
+      1 ) message "${BYon}  version $myver is newer ; please run ${BGon}nextcloud_upgrade ${myver}${Boff}" ; maybe_do_upgrade "${myver}" ;; # 1 is >
       * ) E_message "  error: bad version comparison"; exit ;;
     esac
   done
 }
+
+maybe_do_upgrade() {
+  myver="$1"
+  answer=""
+  prompt "${BYon}  would you like to run ${BRon}# ${BGon}nextcloud_upgrade ${myver}${BYon} now?${Boff}"
+  case ${answer:0:1} in
+    [yY] ) eval "nextcloud_upgrade ${myver}" ;;
+    [nN] ) message "${BRon}Not${Boff} running nextcloud_upgrade; user declined" ;;
+    *    ) E_message "error; bad response to upgrade question" ;;
+  esac
+}
+
 
 #-----[ main script ]--------------------------------------------
 separator "${program}-${BUILD}"

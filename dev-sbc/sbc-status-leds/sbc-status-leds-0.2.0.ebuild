@@ -126,7 +126,8 @@ pkg_postinst() {
 	elog " 0.0.5 changes yellow service-check led, now off = good on = problem"
 	elog " 0.1.0 makes all checks optional (sent in .conf)"
 	elog " 0.1.1 adds support for rpi 3 model b v1.2 (32bit) (bcm2710-rpi-3-b)"
-	elog " 0.1.2 adds support for Rock 5c (64bit) (rk3588s-rock-5c)"
+	elog " 0.1.2/3 adds/updates support for Rock 5c (64bit) (rk3588s-rock-5c)"
+	elog " 0.2.0 fixes vpn check/restart algorithm"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

@@ -48,7 +48,7 @@ CHECKTEMP=$TRUE
         echo "use eselect sbc-status-leds to create it" )
 
 [ ! -d $(dirname ${vpn_status_file}) ] && mkdir -p $(dirname ${vpn_status_file})
-[ ! -f ${vpn_status_file} ] && echo "up 1715612707" > ${vpn_status_file}
+[ ! -f ${vpn_status_file} ] && echo "1 1715612707" > ${vpn_status_file}
 
 #-----[ functions ]---------------------------------------------
 
@@ -73,45 +73,41 @@ check_vpn() {
   echo -n "Checking VPN... "
   # blink vpn led to indicate running check
   blink_light ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
-
-  # get last result from storeage, for comparison
-  read last_status < ${vpn_status_file}
-  last_timestamp="$(echo ${last_status} | cut -d' ' -f2)"
-  last_updown="$(echo ${last_status} | cut -d' ' -f1)"
-
-  # check the vpn using ping
+  # use ping to check the vpn
   response="$(ping -c1 -w${wait_time} ${vpn_server_ip})"
   result="$(echo ${response} | grep transmitted | \
            cut -d',' -f3 | cut -d'%' -f1 | cut -d'.' -f1 | sed 's/[[:space:]]//g')"
-  # capture time of this result
+  # rechord time of this result
   timestamp="$(date +%s)"
   # set a boolean variable with the result
   [[ ${result} -eq 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
-
+  # get last result from storeage, for comparison
+  read last_status < ${vpn_status_file}
+  case "$(echo ${last_status} | cut -d' ' -f1)" in
+    1 ) LAST_VPN_OK=$TRUE ;;
+    0 ) LAST_VPN_OK=$FALSE ;;
+    * ) [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && echo "* Invalid last status..." ; LAST_VPN_OK=$FALSE ;;
+  esac
+  last_timestamp="$(echo ${last_status} | cut -d' ' -f2)"
   # store and conditionally log the result and set led as appropriate (on = good status; off = problem)
-  if [[ ${VPN_OK} ]]   # current status: no loss; good vpn
+  if [[ ${VPN_OK} ]]   # no loss; good vpn
   then
-    # record status in file, overwriting old status
-    echo "up ${timestamp}" > ${vpn_status_file}
+    echo "1 ${timestamp}" > ${vpn_status_file}
     [[ $VERBOSE ]] && [[ verbosity -ge 3 ]] && \
       /usr/bin/logger -p cron.notice "${PROG_NAME} success -- vpn result: ${result}; all OK."
     light_on ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
   else
-    # if last status was OK (up oldtime), then record new status (down newtime) in file, turn off LED and continue
-    # if last status was NOT_OK (down oldtime), then if newtime - oldtime > 3 min then restart, else let old time "age"
-    case "${last_updown}" in
-      "up"   ) echo "down ${timestamp}" > ${vpn_status_file} ;
-               [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
-                   /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- vpn response: ${response}" ;
-               light_off ${VPN_LED[${chip}]} ${VPN_LED[${line}]} ;;
-      "down" ) if [ $(( ${timestamp} - ${last_timestamp} )) -gt 180 ]
-               then
-                 [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
-                     /usr/bin/logger -p cron.notice "${PROG_NAME} vpn falure over 3 min; resetting ..." ;
-                 restart_vpn ;
-               fi ;;
-      * ) [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && echo "* Invalid last status..." ; LAST_VPN_OK=$FALSE ;;
-    esac
+    echo "0 ${timestamp}" > ${vpn_status_file}
+    [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- vpn response: ${response}"
+    light_off ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
+  fi
+  # if the vpn has been out for over three minutes, reset it
+  timediff=$(( ${timestamp} - ${last_timestamp} ))
+  if  [ ! VPN_OK ] && [ ! LAST_VPN_OK ] && [ ${timediff} -gt 180 ] ; then
+    [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
+      /usr/bin/logger -p cron.notice "${PROG_NAME} vpn falure over 3 min; resetting ..."
+    restart_vpn
   fi
   echo "done"
 }
