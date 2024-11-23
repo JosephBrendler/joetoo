@@ -350,6 +350,8 @@ publish_tarball() {
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
 
+##    # maybe remove all of this and adopt practice of using net-misc/keychain or ssh-agent/ssh-add
+#
     # ToDo: source github credentials to access passphrase for ssh key, so key can be added (by $user)
     #   to ssh-agent (ssh-add will ask for pashprase)
     # Note: automatically providing credentials to ssh_add did not work -- but putting this code
@@ -361,10 +363,10 @@ publish_tarball() {
     ## echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
     ### if ssh-agent is not started, start it
     ## echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${my_sshkeys_load_command_file}
-    echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${publish_tarball_cmd_file}
+#    echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${publish_tarball_cmd_file}
     # if the ssh-agent has not keys, add the one we need (will ask for passphrase)
     ## echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
-    echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${publish_tarball_cmd_file}
+#    echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${publish_tarball_cmd_file}
     ## chmod +x ${my_sshkeys_load_command_file}
     ## chown ${user}:${user} ${my_sshkeys_load_command_file}
     ## message "executing ssh-agent/ssh-add as user ${user} ..."
@@ -375,8 +377,8 @@ publish_tarball() {
     ## right_status $?
     ## d_message "done adding ssh-key" 2
 
-    ## echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
-    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
+    echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+#    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     # source github credentials to format the git push command
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
