@@ -79,27 +79,8 @@ answer=""
 newanswer=""
 my_sshkeys_load_command_file="${build_dir}/my_sshkeys_load_command_file"
 
-# build a script, and execute it as user, to source github credentials to access
-#   the passphrase for ssh key needed now, so that key can be added (by $user)
-#   to ssh-agent (ssh-add will ask for pashprase)
-# Note: credentials will also be sourced by the script built below in publish_tarball()
-#  - so that git push can be executed (by $user) without passphrase challenge/response
-message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
-# first command uses > to initialize the command file, others concatenate with >>
-echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
-# if ssh-agent is not started, start it
-echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' >> ${my_sshkeys_load_command_file}
-# if the ssh-agent has not keys, add the one we need (will ask for passphrase)
-echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
-chmod +x ${my_sshkeys_load_command_file}
-chown ${user}:${user} ${my_sshkeys_load_command_file}
-message "executing ssh-agent/ssh-add as user ${user} ..."
-sudo -u ${user} ${my_sshkeys_load_command_file}
-right_status $?
-message_n "cleaning up ${my_sshkeys_load_command_file}"
-rm ${my_sshkeys_load_command_file}
-right_status $?
-d_message "done adding ssh-key" 2
+# previous version loaded ssh keys here, but they were later unaccessible to other shells
+# this now build into "publish" script
 
 #  source joetoo's custom setnodistpath tool, to drop distcc and ccache from PATH
 message "${BMon}About to source ${BGon}setnodistpath${BMon} ..."
@@ -365,11 +346,38 @@ publish_tarball() {
     chown ${user}:${user} ${devel_dir}/${kernel_image_name}.tar.bz2
 
     cd ${old_dir} && message "Now working in $PWD"
+
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
-    echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+
+    # ToDo: source github credentials to access passphrase for ssh key, so key can be added (by $user)
+    #   to ssh-agent (ssh-add will ask for pashprase)
+    # Note: automatically providing credentials to ssh_add did not work -- but putting this code
+    # here allows us ot provide pashprase manually once instead of three times,
+    # ** also use ${publish_tarball_cmd_file} instead of ${my_sshkeys_load_command_file}
+    # since the script will pull, push, push
+    ## message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
+    ### first command uses > to initialize the command file, others concatenate with >>
+    ## echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
+    ### if ssh-agent is not started, start it
+    ## echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${my_sshkeys_load_command_file}
+    echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${publish_tarball_cmd_file}
+    # if the ssh-agent has not keys, add the one we need (will ask for passphrase)
+    ## echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
+    echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${publish_tarball_cmd_file}
+    ## chmod +x ${my_sshkeys_load_command_file}
+    ## chown ${user}:${user} ${my_sshkeys_load_command_file}
+    ## message "executing ssh-agent/ssh-add as user ${user} ..."
+    ## sudo -u ${user} ${my_sshkeys_load_command_file}
+    ## right_status $?
+    ## message_n "cleaning up ${my_sshkeys_load_command_file}"
+    ## rm ${my_sshkeys_load_command_file}
+    ## right_status $?
+    ## d_message "done adding ssh-key" 2
+
+    ## echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     # source github credentials to format the git push command
-    # (shouldn't need to load ssh key, because that was done during initialization)
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}

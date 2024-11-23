@@ -16,14 +16,16 @@ IUSE="
 	+dom0 domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
-	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5
+	rk3288-tinker-s
+	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5 rk3588s-rock-5c
 "
 
 BOARDLIST="
 	dom0 domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
-	rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5
+	rk3288-tinker-s
+	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5 rk3588s-rock-5c
 "
 
 # dom0 is default above, but "at least one of" the options
@@ -147,6 +149,7 @@ pkg_postinst() {
 	elog " 0.5.2 uses just one make for all targets, vice three (image, modules, dtbs)"
 	elog " 0.6.0 is rewritten in vscode, to allow non-interactive option, etc."
 	elog " 0.6.1 adds a method to obtain ssh key needed for git push"
+	elog " 0.6.2 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
