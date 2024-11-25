@@ -77,7 +77,7 @@ RESUME=${FALSE}
 starting_step=0
 answer=""
 newanswer=""
-SSH_AUTH_SOCK="/home/joe/.ssh/ssh-agent.sock"
+my_sshkeys_load_command_file="${build_dir}/my_sshkeys_load_command_file"
 
 # previous version loaded ssh keys here, but they were later unaccessible to other shells
 # this now build into "publish" script
@@ -349,23 +349,38 @@ publish_tarball() {
 
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
-    echo "#!/bin/bash" > ${publish_tarball_cmd_file}
-    # set SSH_AUTH_SOCK env var to a fixed value
-    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_tarball_cmd_file}
-    # test whether ${SSH_AUTH_SOCK} is valid
-    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_tarball_cmd_file}
-    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
-    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_tarball_cmd_file}
-    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_tarball_cmd_file}
-    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
-    echo "ssh-add -l" >> ${publish_tarball_cmd_file}
+
+##    # maybe remove all of this and adopt practice of using net-misc/keychain or ssh-agent/ssh-add
+#
+    # ToDo: source github credentials to access passphrase for ssh key, so key can be added (by $user)
+    #   to ssh-agent (ssh-add will ask for pashprase)
+    # Note: automatically providing credentials to ssh_add did not work -- but putting this code
+    # here allows us ot provide pashprase manually once instead of three times,
+    # ** also use ${publish_tarball_cmd_file} instead of ${my_sshkeys_load_command_file}
+    # since the script will pull, push, push
+    ## message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
+    ### first command uses > to initialize the command file, others concatenate with >>
+    ## echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
+    ### if ssh-agent is not started, start it
+    ## echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${my_sshkeys_load_command_file}
+#    echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${publish_tarball_cmd_file}
+    # if the ssh-agent has not keys, add the one we need (will ask for passphrase)
+    ## echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
+#    echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${publish_tarball_cmd_file}
+    ## chmod +x ${my_sshkeys_load_command_file}
+    ## chown ${user}:${user} ${my_sshkeys_load_command_file}
+    ## message "executing ssh-agent/ssh-add as user ${user} ..."
+    ## sudo -u ${user} ${my_sshkeys_load_command_file}
+    ## right_status $?
+    ## message_n "cleaning up ${my_sshkeys_load_command_file}"
+    ## rm ${my_sshkeys_load_command_file}
+    ## right_status $?
+    ## d_message "done adding ssh-key" 2
+
+    echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
+#    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     # source github credentials to format the git push command
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
-    # check for ssh keys, and add if they are not already loaded
-    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
-    # now do git pull, push, push using ssh key
-    echo "echo" >> ${publish_tarball_cmd_file}
-    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}
     echo "git status" >> ${publish_tarball_cmd_file}
