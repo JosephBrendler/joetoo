@@ -147,7 +147,6 @@ RDEPEND="
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
-		www-client/google-chrome
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
