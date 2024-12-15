@@ -144,7 +144,6 @@ RDEPEND="
 		media-fonts/corefonts
 		media-fonts/croscorefonts
 		media-fonts/liberation-fonts
-		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
