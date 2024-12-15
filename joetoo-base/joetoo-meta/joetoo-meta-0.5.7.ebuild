@@ -79,6 +79,7 @@ RDEPEND="
 		>=app-misc/screen-4.7.0
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
+		>=app-shells/bash-completion-2.14.0
 		>=app-text/tree-1.8.0
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
@@ -101,6 +102,7 @@ RDEPEND="
 			>=sys-kernel/gentoo-sources-5.15.26
 			>=sys-boot/grub-2.06-r1
 		)
+		>=sys-kernel/installkernel-48-r1
 		>=sys-kernel/linux-firmware-20200619
 		>=sys-kernel/linux-headers-5.4
 		>=sys-process/cronie-1.5.5
@@ -131,6 +133,34 @@ RDEPEND="
 	domU? ( sys-kernel/linux-joetoo-kernelimage[domU(+)] )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
+	plasma? (
+		app-misc/wayland-utils
+		app-shells/bash-completion
+		dev-libs/intel-compute-runtime
+		dev-util/clinfo
+		dev-util/vulkan-tools
+		kde-apps/kde-apps-meta
+		kde-apps/kwalletmanager
+		kde-plasma/kwallet-pam
+		kde-plasma/plasma-meta
+		lxde-base/lxterminal
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/liberation-fonts
+		media-fonts/oxygen-fonts
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		www-client/google-chrome
+		x11-apps/igt-gpu-tools
+		x11-apps/mesa-progs
+		x11-apps/xdpyinfo
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-misc/xdotool
+	)
 "
 
 DEPEND="${RDEPEND}"
@@ -323,6 +353,9 @@ src_install() {
 		else
 			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_amd64" "00cpu_flags"
 		fi
+		if use plasma ; then
+			newins "${FILESDIR}/etc_portage_package.use_plasma" "plasma"
+		fi
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/portage/package.accept_keywords/"
 		einfo "Installing (ins) files into ${target} ..."
@@ -339,6 +372,9 @@ src_install() {
 		else
 			# arch=amd64
 			newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo" "joetoo"
+		fi
+		if use plasma ; then
+			newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma" "plasma"
 		fi
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/portage/binrepos.conf/"
@@ -432,10 +468,23 @@ pkg_postinst() {
 	elog " 0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency"
 	elog " 0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
 	elog " 0.5.2/3 add packages using nodist_features.conf to package.env"
+	elog " 0.5.6 adds dependencies for plasma USE and installs package.use and .keywords"
+	elog " 0.5.7 adds packages using nodist_features.conf to package.env"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
 	elog "and then run again with +i after successful ${PN} install"
+	elog ""
+	if use plasma; then
+		ewarn "USE = plasma was specified, so /etc/portage/package.accept_keywords/plasma"
+		ewarn "  has been installed, and current version assumes ~amd64 target."
+		ewarn "  You must edit this file if ~amd64 is incorrect in your case."
+		ewarn ""
+		elog "USE = plasma was specified, so /etc/portage/package.accept_keywords/plasma"
+		elog "  has been installed, and current version assumes ~amd64 target."
+		elog "  You must edit this file if ~amd64 is incorrect in your case."
+		elog ""
+	fi
 	elog ""
 	elog "Thank you for using ${PN}"
 }
