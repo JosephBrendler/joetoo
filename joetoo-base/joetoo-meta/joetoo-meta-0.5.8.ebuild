@@ -136,8 +136,6 @@ RDEPEND="
 	plasma? (
 		app-misc/wayland-utils
 		app-shells/bash-completion
-		dev-util/clinfo
-		dev-util/vulkan-tools
 		kde-apps/kde-apps-meta
 		kde-apps/kwalletmanager
 		kde-plasma/kwallet-pam
