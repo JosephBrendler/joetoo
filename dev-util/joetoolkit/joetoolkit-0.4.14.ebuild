@@ -168,6 +168,8 @@ pkg_postinst() {
 	elog " 0.4.9/10 fix bug(s) in nextcloud_check_version tool"
 	elog " 0.4.11 adds maybe_do_upgrade() function to nextcloud_check_version tool"
 	elog " 0.4.12 fixes bug(s) in nextcloud_check_version tool"
+	elog " 0.4.13 re-activates installU_inImageFile tool to deploy xen pv kernel/modules"
+	elog " 0.4.14 fixes a bug in the alphasort_usefile tool"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
