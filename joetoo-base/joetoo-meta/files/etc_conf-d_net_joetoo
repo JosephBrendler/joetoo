@@ -1,2 +1,6 @@
+dns_domain="brendler"
+dns_search="brendler"
+dns_servers="192.168.62.17 192.168.63.1 192.168.1.1 8.8.8.8"
+
 # Prefer wpa_supplicant over wireless-tools
 modules="wpa_supplicant"
