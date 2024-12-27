@@ -11,8 +11,6 @@ HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 #SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-${PV}.tbz2"
 SRC_URI=""
 
-S="${WORKDIR}/${PN}"
-
 LICENSE="MIT"
 SLOT="0"
 
@@ -32,17 +30,8 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-apps/busybox-1.34.1"
 DEPEND="${RDEPEND}"
 
-pkg_preinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
-	einfo "FILESDIR=${FILESDIR}"
-}
+# set manually, since there is no upstream source
+S="${WORKDIR}"
 
 pkg_pretend() {
 	if linux_config_exists ; then
@@ -90,6 +79,16 @@ pkg_pretend() {
 }
 
 src_install() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
+	einfo "FILESDIR=${FILESDIR}"
+
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
 	einfo 'About to issue command: cp -R '${FILESDIR}'/ '${D}'/usr/src/'
@@ -112,7 +111,17 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "${P} installation complete."
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "RDEPEND=${RDEPEND}"
+	elog "DEPEND=${DEPEND}"
+	elog "FILESDIR=${FILESDIR}"
+	elog ""
+	elog "${P} installed."
 	elog ""
 	elog "mkinitramfs-5.4 was a significant rewrite of the package."
 	elog "ver 5.9 corrects issues with lvm early availability."
