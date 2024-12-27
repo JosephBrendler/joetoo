@@ -1,22 +1,22 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 2024-2062 Joe Brendler
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
+# initramfs builder for joetoo system with LUKS/lvm, etc
 
 EAPI=8
 
 inherit linux-info
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
-HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-${PV}.tbz2"
+HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS=""
+KEYWORDS="arm arm64 amd64 ~arm ~arm64 ~amd64
+"
 IUSE=""
-RESTRICT="mirror"
+REQUIRED_USE=""
 
 RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-apps/which-2.21
@@ -28,7 +28,10 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-fs/lvm2-2.02.188-r2
 	>=sys-fs/cryptsetup-2.3.6-r2
 	>=sys-apps/busybox-1.34.1"
+
 DEPEND="${RDEPEND}"
+
+RESTRICT="mirror"
 
 # set manually, since there is no upstream source
 S="${WORKDIR}"
