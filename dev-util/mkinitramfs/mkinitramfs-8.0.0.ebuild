@@ -34,7 +34,8 @@ DEPEND="${RDEPEND}"
 RESTRICT="mirror"
 
 # set manually, since there is no upstream source
-S="${WORKDIR}"
+#S="${WORKDIR}"
+S="${FILESDIR}"
 
 pkg_pretend() {
 	if linux_config_exists ; then
