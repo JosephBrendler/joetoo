@@ -90,29 +90,26 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	einfo "S=${S}"
-	tree --charset=utf8 ${S}
 	einfo "FILESDIR=${FILESDIR}"
-	tree --charset=utf8 ${FILESDIR}
 	einfo "D=${D}"
-	tree --charset=utf8 ${D}
 
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
-	einfo 'About to issue command: cp -R '${FILESDIR}'/ '${D}'/usr/src/'
-	cp -R "${FILESDIR}/*" "${D}/usr/src/${PN}/" || die "Install failed!"
+	einfo 'About to issue command: cp -R '${S}'/* '${D}'/usr/src/'
+	cp -R "${S}/*" "${D}/usr/src/${PN}/" || die "Install failed!"
 	elog ""
 	dodir usr/bin/
-	einfo "About to execute command cp -v "${FILESDIR}"/ckinitramfs "${D}"/usr/bin/"
-	cp -v "${FILESDIR}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -v "${S}"/ckinitramfs "${D}"/usr/bin/"
+	cp -v "${S}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
 	elog ""
 	dodir etc/mkinitramfs/
-	einfo "About to execute command cp -R "${FILESDIR}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${FILESDIR}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
+	cp -v "${S}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "mkinitramfs.conf installed in /etc/mkinitramfs/"
 	elog ""
-	einfo "About to execute command cp -R "${FILESDIR}"/init.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${FILESDIR}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}"/init.conf "${D}"/etc/mkinitramfs/"
+	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
 	elog ""
 }
