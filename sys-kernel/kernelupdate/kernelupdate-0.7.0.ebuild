@@ -41,6 +41,7 @@ RDEPEND="
 	>=dev-util/joetoolkit-0.1.5
 	>=joetoo-base/joetoo-meta-0.0.4b
 	>=app-admin/eselect-1.4.27-r1
+	domU? ( >=dev-util/pkgdev-0.2.11 )
 "
 
 DEPEND="${RDEPEND}"
@@ -150,7 +151,9 @@ pkg_postinst() {
 	elog " 0.6.0 is rewritten in vscode, to allow non-interactive option, etc."
 	elog " 0.6.1 adds a method to obtain ssh key needed for git push"
 	elog " 0.6.2 adds support for Rock 5c 64 bit (rk3588s-rock-5c)"
-	elog " 0.6.3 moves ssh key load to publish function"
+	elog " 0.6.3 moves ssh key load to publish function (did not work)"
+	elog " 0.6.4 adds reusable ssh authentication socket to hold loaded ssh key(s)"
+	elog " 0.7.0 reintroduces publish_ebuild (only for domU)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
