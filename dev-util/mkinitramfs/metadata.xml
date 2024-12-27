@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		automatic generation of an initramfs for a luks-encrypted lvm system
+		automatic generation of an initramfs for a joetoo system with lvm on luks-encrypted storage
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>

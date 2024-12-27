@@ -128,6 +128,7 @@ pkg_postinst() {
 	elog "ver 7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs"
 	elog "ver 7.1/2 fix bugs in dependent content copy and in output rotation"
 	elog "ver 7.3 adds kernel config checks with the help of linux-info eclass"
+	elog "ver 8.0 migrates to a merged-usr-like layout and moves scripts to FILESDIR"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""
