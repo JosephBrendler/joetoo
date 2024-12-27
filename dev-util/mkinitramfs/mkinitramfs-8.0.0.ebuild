@@ -89,11 +89,11 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
 	einfo "S=${S}"
-	tree ${S}
+	tree --charset=utf8 ${S}
 	einfo "FILESDIR=${FILESDIR}"
-	tree ${FILESDIR}
+	tree --charset=utf8 ${FILESDIR}
 	einfo "D=${D}"
-	tree ${D}
+	tree --charset=utf8 ${D}
 
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
