@@ -82,15 +82,18 @@ pkg_pretend() {
 }
 
 src_install() {
-	einfo "S=${S}"
-	einfo "D=${D}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "DEPEND=${DEPEND}"
+	einfo "S=${S}"
+	tree ${S}
 	einfo "FILESDIR=${FILESDIR}"
+	tree ${FILESDIR}
+	einfo "D=${D}"
+	tree ${D}
 
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
