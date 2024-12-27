@@ -1,0 +1,12 @@
+BDEPEND==sys-kernel/gentoo-sources-6.6.67
+DEFINED_PHASES=install postinst preinst setup
+DESCRIPTION=kernel image for joetoo pv xen vm
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+KEYWORDS=amd64 ~amd64
+LICENSE=MIT
+RDEPEND==sys-kernel/gentoo-sources-6.6.67
+RESTRICT=mirror
+SLOT=6.6.67
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-domU_kernel_image-6.6.67.tar.bz2
+_md5_=f95958066223bcec02d3e02aae3917c7
