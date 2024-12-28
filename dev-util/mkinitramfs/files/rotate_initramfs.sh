@@ -9,11 +9,17 @@ source ${SCRIPT_HEADER_DIR}/script_header_brendlefly
 # script header will over-ride BUILD, but globals must be sourced 1st to get _DIRs
 BUILD="${KERNEL_VERSION}-${DATE_STAMP}"
 
-#source /usr/local/sbin/script_header_brendlefly
-#BUILD="0.0.0a"
-
 VERBOSE=$TRUE
 verbosity=2
+
+# identify config files
+[[ -e ${MAKE_DIR}/init.conf ]] && CONF_DIR=${MAKE_DIR}
+[[ -e /etc/mkinitramfs/init.conf ]] && CONF_DIR="/etc/mkinitramfs"
+[[ -e ${MAKE_DIR}/mkinitramfs.conf ]] && MAKE_CONF_DIR=${MAKE_DIR}
+[[ -e /etc/mkinitramfs/mkinitramfs.conf ]] && MAKE_CONF_DIR="/etc/mkinitramfs"
+
+# override (ROTATE and verbosity) variables with mkinitramfs.conf file
+source ${MAKE_CONF_DIR}/mkinitramfs.conf
 
 #-----[ initialize local variables ]-------------------------------------------------------
 newinitramfs=""

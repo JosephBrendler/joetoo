@@ -16,9 +16,14 @@ VERBOSE=$TRUE
 #VERBOSE=$FALSE
 verbosity=2
 
-# identify config file
+# identify config files
 [[ -e ${MAKE_DIR}/init.conf ]] && CONF_DIR=${MAKE_DIR}
 [[ -e /etc/mkinitramfs/init.conf ]] && CONF_DIR="/etc/mkinitramfs"
+[[ -e ${MAKE_DIR}/mkinitramfs.conf ]] && MAKE_CONF_DIR=${MAKE_DIR}
+[[ -e /etc/mkinitramfs/mkinitramfs.conf ]] && MAKE_CONF_DIR="/etc/mkinitramfs"
+
+# override (ROTATE and verbosity) variables with mkinitramfs.conf file
+source ${MAKE_CONF_DIR}/mkinitramfs.conf
 
 # define lists of files that need to be copied
 config_file="${CONF_DIR}/init.conf"
@@ -332,11 +337,8 @@ copy_dependent_libraries()
   #   ignore case (3) lines with grep -v interpreter; trim leading and trailing whitespace;
   #   sort and eliminate duplicates; we need only the third field of lddtree output (/target/path/target_name)
   d_message "Copying dependent libraries ..." 1
-  for x in $( \
-    for i in $bin_dyn_executables $usr_bin_dyn_executables $sbin_dyn_executables; \
-      do lddtree $(which $i); \
-    done | \
-    sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3 )
+  for x in $( for i in $bin_dyn_executables $usr_bin_dyn_executables $sbin_dyn_executables; \
+      do lddtree $(which $i); done | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3 )
   do
     # run the "file" command on each /target/path/target_name listed, the second field of
     #   this output shows if it is case (1) symlink or (2) ELF
@@ -346,6 +348,7 @@ copy_dependent_libraries()
     case $2 in
       "" )
         d_message "  blank line - possible case 3 (dyn_executable blanked by grep -v interpreter). Ignoring trivial case ..." 3
+        message "  ignoring trivial case ..."
         ;;
       "ELF" )
         # just copy the target executable (first item in the line)

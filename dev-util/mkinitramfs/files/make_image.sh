@@ -18,6 +18,15 @@ source ${SOURCES_DIR}/BUILD
 VERBOSE=$TRUE
 verbosity=1
 
+# identify config files
+[[ -e ${MAKE_DIR}/init.conf ]] && CONF_DIR=${MAKE_DIR}
+[[ -e /etc/mkinitramfs/init.conf ]] && CONF_DIR="/etc/mkinitramfs"
+[[ -e ${MAKE_DIR}/mkinitramfs.conf ]] && MAKE_CONF_DIR=${MAKE_DIR}
+[[ -e /etc/mkinitramfs/mkinitramfs.conf ]] && MAKE_CONF_DIR="/etc/mkinitramfs"
+
+# override (ROTATE and verbosity) variables with mkinitramfs.conf file
+source ${MAKE_CONF_DIR}/mkinitramfs.conf
+
 d_message "make_image.sh Debug - dump config" 2
 d_message "BUILD: [ ${BUILD} ]" 2
 d_message "MAKE_DIR: [ ${MAKE_DIR} ]" 2
