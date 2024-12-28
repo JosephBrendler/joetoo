@@ -95,22 +95,21 @@ src_install() {
 
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
-	ls -al ${FILESDIR}/
-	einfo 'About to issue command: cp -R '${S}'/* '${D}'/usr/src/'
-	cp -r "${FILESDIR}/*" "${D}/usr/src/${PN}/" || die "Install failed!"
+	einfo "About to issue command: cp -R ${S}/* ${D}/usr/src/${PN}/"
+	cp -R ${S}/* ${D}/usr/src/${PN}/ || die "Install failed!"
 	elog ""
 	dodir usr/bin/
-	einfo "About to execute command cp -v "${S}"/ckinitramfs "${D}"/usr/bin/"
-	cp -v "${S}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -v ${S}/ckinitramfs ${D}/usr/bin/"
+	cp -v ${S}/ckinitramfs ${D}/usr/bin/ || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
 	elog ""
 	dodir etc/mkinitramfs/
-	einfo "About to execute command cp -R "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${S}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R ${S}/mkinitramfs.conf ${D}/etc/mkinitramfs/"
+	cp -v ${S}/mkinitramfs.conf ${D}/etc/mkinitramfs/ || die "Install failed!"
 	elog "mkinitramfs.conf installed in /etc/mkinitramfs/"
 	elog ""
-	einfo "About to execute command cp -R "${S}"/init.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R ${S}/init.conf ${D}/etc/mkinitramfs/"
+	cp -v ${S}/init.conf ${D}/etc/mkinitramfs/ || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
 	elog ""
 }
