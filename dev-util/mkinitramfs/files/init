@@ -54,7 +54,8 @@ mini_udev() {
     #    /proc/sys/kernel
     #    /proc/partitions
     #    /sys/class
-    #    /sbin  - with binary udevadm and link to busybox for mdev
+    #    /sbin --> /usr/bin - with binary udevadm and link to busybox for mdev
+    #    (updated 28 Dec 2024 - merged-usr-like layout)
 
     # The simple explanation here is that you need to [1] make sure /dev is
     # a tmpfs filesystem.  Then you want to [2] create the /dev/pts mount point

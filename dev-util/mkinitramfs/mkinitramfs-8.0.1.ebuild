@@ -1,23 +1,22 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 2024-2062 Joe Brendler
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
+# initramfs builder for joetoo system with LUKS/lvm, etc
 
 EAPI=8
 
 inherit linux-info
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
-HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-${PV}.tbz2"
-
-S="${WORKDIR}/${PN}"
+HOMEPAGE="https://github.com/JosephBrendler/joetoo"
+SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS=""
+KEYWORDS="arm arm64 amd64 ~arm ~arm64 ~amd64
+"
 IUSE=""
-RESTRICT="mirror"
+REQUIRED_USE=""
 
 RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-apps/which-2.21
@@ -29,18 +28,14 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
 	>=sys-fs/lvm2-2.02.188-r2
 	>=sys-fs/cryptsetup-2.3.6-r2
 	>=sys-apps/busybox-1.34.1"
+
 DEPEND="${RDEPEND}"
 
-pkg_preinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
-}
+RESTRICT="mirror"
+
+# set manually, since there is no upstream source
+#S="${WORKDIR}"
+S="${FILESDIR}"
 
 pkg_pretend() {
 	if linux_config_exists ; then
@@ -88,29 +83,49 @@ pkg_pretend() {
 }
 
 src_install() {
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "DEPEND=${DEPEND}"
+	einfo "S=${S}"
+	einfo "FILESDIR=${FILESDIR}"
+	einfo "D=${D}"
+
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
-	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
-	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
+	einfo "About to issue command: cp -R ${S}/* ${D}/usr/src/${PN}/"
+	cp -R ${S}/* ${D}/usr/src/${PN}/ || die "Install failed!"
 	elog ""
 	dodir usr/bin/
-	einfo "About to execute command cp -R "${S}"/ckinitramfs "${D}"/usr/bin/"
-	cp -v "${S}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -v ${S}/ckinitramfs ${D}/usr/bin/"
+	cp -v ${S}/ckinitramfs ${D}/usr/bin/ || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
 	elog ""
 	dodir etc/mkinitramfs/
-	einfo "About to execute command cp -R "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${S}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R ${S}/mkinitramfs.conf ${D}/etc/mkinitramfs/"
+	cp -v ${S}/mkinitramfs.conf ${D}/etc/mkinitramfs/ || die "Install failed!"
 	elog "mkinitramfs.conf installed in /etc/mkinitramfs/"
 	elog ""
-	einfo "About to execute command cp -R "${S}"/init.conf "${D}"/etc/mkinitramfs/"
-	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
+	einfo "About to execute command cp -R ${S}/init.conf ${D}/etc/mkinitramfs/"
+	cp -v ${S}/init.conf ${D}/etc/mkinitramfs/ || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
 	elog ""
 }
 
 pkg_postinst() {
-	elog "${P} installation complete."
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "RDEPEND=${RDEPEND}"
+	elog "DEPEND=${DEPEND}"
+	elog "FILESDIR=${FILESDIR}"
+	elog ""
+	elog "${P} installed."
 	elog ""
 	elog "mkinitramfs-5.4 was a significant rewrite of the package."
 	elog "ver 5.9 corrects issues with lvm early availability."
@@ -126,6 +141,8 @@ pkg_postinst() {
 	elog "ver 7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs"
 	elog "ver 7.1/2 fix bugs in dependent content copy and in output rotation"
 	elog "ver 7.3 adds kernel config checks with the help of linux-info eclass"
+	elog "ver 8.0 migrates to a merged-usr-like layout and moves scripts to FILESDIR"
+	elog "ver 8.0.1 provides bugfix for dynamic executable dependency handling"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""

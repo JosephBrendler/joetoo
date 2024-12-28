@@ -76,7 +76,7 @@ other_link_dir=(    "/"     "/"      )
 other_link_target=( "lib"   "init"   )
 other_link_name=(   "lib64" "linuxrc")
 
-# note 27 Dec 24 - w merged-usr all esecutables are now in /usr/bin
+# note 27 Dec 24 - w merged-usr all executables are now in /usr/bin
 #   add to the arrays values associated with /bin/ (link relative to target /usr/bin in ../../init)
 other_link_dir+=(    "/bin/"   )
 other_link_target+=( "../../init" )
@@ -318,9 +318,10 @@ copy_dependent_libraries()
 {
   # Beginning with version 5.3.1, I'm using lddtree (from app-misc/pax-utils) instead of ldd.
   # This appears to simplify the situation to three cases (one of which is trivial):
+  # inspect each result from lddtree with the file command -- find three cases of output
   # (1) symlink_name => dir_name/target_name shown
   # (2) target_name => dir_name/target_name        (where target_name is the executable)
-  # (3) dyn_executable (interpreter => /lib{64}/ld-linux{-x86-64}.so.2) {ignore with grep -v}
+  # (3) dyn_executable (interpreter => /lib{64}/ld-linux{-x86-64}.so.2) {ignore with 'grep -v interpreter'}
   # parsing strategy:
   # Ignore case (3) - (trivial) the dyn_executable is already copied, and ld-linux is on the list separately
   # For case (2) - just make sure the target executable (dependency) gets copied if it hasn't been already
@@ -331,15 +332,21 @@ copy_dependent_libraries()
   #   ignore case (3) lines with grep -v interpreter; trim leading and trailing whitespace;
   #   sort and eliminate duplicates; we need only the third field of lddtree output (/target/path/target_name)
   d_message "Copying dependent libraries ..." 1
-  for x in $( for i in $bin_dyn_executables $usr_bin_dyn_executables $sbin_dyn_executables; do lddtree $(which $i); done | \
-    grep -v interpreter | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3)
+  for x in $( \
+    for i in $bin_dyn_executables $usr_bin_dyn_executables $sbin_dyn_executables; \
+      do lddtree $(which $i); \
+    done | \
+    sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3 )
   do
     # run the "file" command on each /target/path/target_name listed, the second field of
     #   this output shows if it is case (1) symlink or (2) ELF
-    line=$(file $x)
+    line=$( file $x | grep -v interpreter )
     d_message "---[ New line to examine: ( ${line} ) ]---" 3
     set ${line}
     case $2 in
+      "" )
+        d_message "  blank line - possible case 3 (dyn_executable blanked by grep -v interpreter). Ignoring trivial case ..." 3
+        ;;
       "ELF" )
         # just copy the target executable (first item in the line)
         target_name=$(basename $1 | sed 's/:$//')   # drop the trailing colon
