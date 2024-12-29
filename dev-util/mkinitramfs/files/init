@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/usr/bin/sh
 #
 # /usr/src/initramfs/init
 # Joe Brendler   28 Feb 2008
 #  for version history and "credits", see accompanying file "historical_notes"
-#
+#  28 Dec 2024 - update for merged-usr-like layout
 
 # make my usual functions and formatting "shortcuts" available
 [ "${init_DEBUG}" == "true" ] && echo "about to source /script_header_brendlefly"
@@ -32,7 +32,7 @@ rescue_shell() {
     # pause for time to read message
     sleep $(($init_wait * 3));
     busybox --install -s;
-    exec /bin/sh;
+    exec /usr/bin/sh;
 }
 
 print_config() {
@@ -61,7 +61,7 @@ mini_udev() {
     # a tmpfs filesystem.  Then you want to [2] create the /dev/pts mount point
     # and [3] mount the devpts filesystem on it. Then [4] you want to have /sys
     # mounted before executing mdev. (these steps handled before call to mini_udev)
-    # Then you [5] instruct the kernel to execute /sbin/mdev whenever
+    # Then you [5] instruct the kernel to execute /usr/bin/mdev whenever
     # a device is added or removed so that the device node can be created or
     # destroyed.  Then you [6] seed /dev with all the device nodes that were created
     # while the system was booting.
@@ -79,7 +79,7 @@ mini_udev() {
     sh_countdown $(( ${init_wait} * 3 ));
 
     # instruct kernel to execute mdev whenever a device is added or removed
-    sysctl -w kernel.hotplug=/sbin/mdev;
+    sysctl -w kernel.hotplug=/usr/bin/mdev;
 
     # seed /dev/ with all the device nodes that were created while the system was booting
     mdev -s || E_message ${BRon}"mdev failed to start"${Boff};
@@ -119,7 +119,7 @@ unlock_devices() {
 ##        line="${device} $(echo $device | cut -d'/' -f3 | sed 's/^s/e/')";
         case "$method" in
             "prompt")
-                echo "echo $pass | /sbin/cryptsetup luksOpen $line" > mycmd;
+                echo "echo $pass | /usr/bin/cryptsetup luksOpen $line" > mycmd;
                 chmod 777 mycmd;
                 [ "$init_DEBUG" == "true" ] && message "about to execute from file ./mycmd:" && \
                     message "[ $(cat mycmd) ]" && sh_countdown 10;
@@ -386,14 +386,14 @@ sub_main() {
     root_volume=$(lvs | awk '$1~/root/ {print $2"-"$1}')
     usr_volume=$(lvs | awk '$1~/usr/ {print $2"-"$1}')
     # make lvm logical volumes available
-    /sbin/vgscan
-    /sbin/vgchange -a y
+    /usr/bin/vgscan
+    /usr/bin/vgchange -a y
 
     # show what we've found...
     separator "The following volume groups are available" "initramfs-$BUILD"
-    /sbin/vgs
+    /usr/bin/vgs
     separator "The following volumes are available" "initramfs-$BUILD"
-    /sbin/lvs
+    /usr/bin/lvs
     sleep $(($init_wait))
 
     # interactive stop for debugging
@@ -413,7 +413,7 @@ sub_main() {
     while [[ ! -b $(echo "/dev/mapper/$root_volume") ]]
     do
         message "checking for existence of block device /dev/mapper/$root_volume"
-        /sbin/vgscan --mknodes --ignorelockingfailure
+        /usr/bin/vgscan --mknodes --ignorelockingfailure
     done
     message "$(color ${RED} ${BBACK} ${BOLD})running fsck.${init_root_fs} on /dev/mapper/$root_volume${Boff}" && fsck.${init_root_fs} -p /dev/mapper/$root_volume
     message "$(color ${RED} ${BBACK} ${BOLD})running fsck.${init_usr_fs} on /dev/mapper/$usr_volume${Boff}" && fsck.${init_usr_fs} -p /dev/mapper/$usr_volume
@@ -438,12 +438,12 @@ sub_main() {
     umount /sys
 
     separator "Switching root to encrypted volume" "initramfs-$BUILD"
-    message "-  Will continue with /sbin/init"
+    message "-  Will continue with /usr/bin/init"
     [[ -z $CMDLINE ]] || message "-  using cmdline: ${CMDLINE}"
     separator "Switching to /newroot mounted on /dev/mapper/$root_volume" "initramfs-$BUILD"
 
     # boot the real thing or exit to rescue shell if not locked down
-    exec /bin/busybox switch_root /newroot /sbin/init ${CMDLINE} || [[ "$init_lock_down" == "no" ]] && rescue_shell "Failed to pivot root"
+    exec /usr/bin/busybox switch_root /newroot /usr/bin/init ${CMDLINE} || [[ "$init_lock_down" == "no" ]] && rescue_shell "Failed to pivot root"
 }
 
 # -- not sure why this is needed - copied from livedvd ----------
@@ -482,7 +482,7 @@ fi
 [ "${init_DEBUG}" == "true" ] && sleep $(($init_wait * 3))
 [ "${init_splash}" == "yes" ] && splash 'init' "Initializing Brendlefly kernel..." && message "Splash initialized"
 [ "${init_splash}" == "yes" ] && sleep $(($init_wait * 5))
-[ "${init_splash}" == "yes" ] && splash set_msg "Splash initialized and used" && /sbin/fbcondecor_helper 2 'repaint'
+[ "${init_splash}" == "yes" ] && splash set_msg "Splash initialized and used" && /usr/bin/fbcondecor_helper 2 'repaint'
 [ "${init_DEBUG}" == "true" ] && sleep $(($init_wait * 3))
 
 # echo to console to confirm entry into init; pause so we can read this
