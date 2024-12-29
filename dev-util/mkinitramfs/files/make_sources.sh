@@ -482,7 +482,7 @@ copy_dependent_libraries()
             if [ ! -e ${thistarget} ]
             then
               # try to copy the target file from the host system
-              #newtarget="$(for x in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $x; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
+              newtarget="$(for x in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $x; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
               d_message "  about to try to copy ${thistarget} from the host system ..." 2
               [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
               copy_one_part "${newtarget}" "${SOURCES_DIR}${dir_name}/" || \
