@@ -128,7 +128,7 @@ display_config()
   d_message_n "executables: [ " 2
   for ((i=0; i<${#executables[@]}; i++))
   do
-    d_echo_n "${executables[$i]} " 2
+    d_echo -n "${executables[$i]} " 2
   done
   d_echo "]" 2
 }
