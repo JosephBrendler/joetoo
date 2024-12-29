@@ -1,14 +1,12 @@
-DEFINED_PHASES=install preinst
-DEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
-DESCRIPTION=kernel image for domU sbc
+BDEPEND==sys-kernel/gentoo-sources-0.0.0
+DEFINED_PHASES=install postinst preinst setup
+DESCRIPTION=kernel image for joetoo pv xen vm
 EAPI=8
 HOMEPAGE=https://github.com/JosephBrendler/myUtilities
-IUSE=+dtb +dtbo -symlink -raspi-sources -rockchip-sources
-KEYWORDS=~arm ~arm64 ~amd64
+KEYWORDS=amd64 ~amd64
 LICENSE=MIT
-RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
-REQUIRED_USE=raspi-sources? ( !rockchip-sources ) rockchip-sources? ( !raspi-sources )
+RDEPEND==sys-kernel/gentoo-sources-0.0.0
 RESTRICT=mirror
-SLOT=0
+SLOT=0.0.0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-domU_kernel_image-0.0.0.tar.bz2
-_md5_=aeec47f5e452fdcffe8d4623f471e0c9
+_md5_=f95958066223bcec02d3e02aae3917c7

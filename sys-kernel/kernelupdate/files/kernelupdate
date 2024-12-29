@@ -44,7 +44,7 @@
 #---[ execute setup and initialization, as required ]-------------------------
 source /usr/local/sbin/script_header_brendlefly
 
-# local variables 
+# local variables
 BUILD="0"
 
 eval $( grep ^PORTDIR /etc/portage/make.conf )
@@ -77,7 +77,7 @@ RESUME=${FALSE}
 starting_step=0
 answer=""
 newanswer=""
-my_sshkeys_load_command_file="${build_dir}/my_sshkeys_load_command_file"
+SSH_AUTH_SOCK="/home/joe/.ssh/ssh-agent.sock"
 
 # previous version loaded ssh keys here, but they were later unaccessible to other shells
 # this now build into "publish" script
@@ -181,6 +181,7 @@ command_sequence=(
 'install_dtbs'
 'make_tarball'
 'publish_tarball'
+'publish_ebuild'
 )
 #### 'publish_ebuild'
 d_message "done setting command sequence" 3
@@ -349,38 +350,23 @@ publish_tarball() {
 
     echo; message "Building publish_tarball_cmd_file [ ${publish_tarball_cmd_file} ]..."
     # first command uses single ">", to initialize the file; then others use ">>"
-
-##    # maybe remove all of this and adopt practice of using net-misc/keychain or ssh-agent/ssh-add
-#
-    # ToDo: source github credentials to access passphrase for ssh key, so key can be added (by $user)
-    #   to ssh-agent (ssh-add will ask for pashprase)
-    # Note: automatically providing credentials to ssh_add did not work -- but putting this code
-    # here allows us ot provide pashprase manually once instead of three times,
-    # ** also use ${publish_tarball_cmd_file} instead of ${my_sshkeys_load_command_file}
-    # since the script will pull, push, push
-    ## message "sourcing github credentials and (if needed) adding ssh key to ssh-agent"
-    ### first command uses > to initialize the command file, others concatenate with >>
-    ## echo "source ${my_devel_dir_credentials}" > ${my_sshkeys_load_command_file}
-    ### if ssh-agent is not started, start it
-    ## echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${my_sshkeys_load_command_file}
-#    echo '[[ -z $(ps -aef | grep ssh-agent | grep -v grep) ]] && eval $(ssh-agent -s)' > ${publish_tarball_cmd_file}
-    # if the ssh-agent has not keys, add the one we need (will ask for passphrase)
-    ## echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${my_sshkeys_load_command_file}
-#    echo '[[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}' >> ${publish_tarball_cmd_file}
-    ## chmod +x ${my_sshkeys_load_command_file}
-    ## chown ${user}:${user} ${my_sshkeys_load_command_file}
-    ## message "executing ssh-agent/ssh-add as user ${user} ..."
-    ## sudo -u ${user} ${my_sshkeys_load_command_file}
-    ## right_status $?
-    ## message_n "cleaning up ${my_sshkeys_load_command_file}"
-    ## rm ${my_sshkeys_load_command_file}
-    ## right_status $?
-    ## d_message "done adding ssh-key" 2
-
-    echo "cd ${devel_dir}/" > ${publish_tarball_cmd_file}
-#    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
-    # source github credentials to format the git push command
+    echo "#!/bin/bash" > ${publish_tarball_cmd_file}
+    # set SSH_AUTH_SOCK env var to a fixed value
+    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_tarball_cmd_file}
+    # test whether ${SSH_AUTH_SOCK} is valid
+    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_tarball_cmd_file}
+    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
+    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_tarball_cmd_file}
+    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_tarball_cmd_file}
+    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
+    echo "ssh-add -l" >> ${publish_tarball_cmd_file}
+    # source github credentials to format the git push command and identify keys to load
     echo "source ${my_devel_dir_credentials}" >> ${publish_tarball_cmd_file}
+    # check for ssh keys, and add if they are not already loaded
+    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
+    # now do git pull, push, push using ssh key
+    echo "echo" >> ${publish_tarball_cmd_file}
+    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}
     echo "git status" >> ${publish_tarball_cmd_file}
@@ -405,12 +391,7 @@ publish_tarball() {
 publish_ebuild() {
     ## leaving this here, but not using - moved to consolidated sys-kernel/linux-joetoo-kernelimage
     # publish updated ebuild for domU or sbc kernels (dom0 don't need ebuilds)
-    echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
-    # first command uses single ">", to initialize the file; then others use ">>"
-    echo "cd ${ebuild_dir}/" > ${publish_ebuild_cmd_file}
-    # Have the publish script source credentials, to automate the push
-    # This way they aren't stored in the pubhlish script file, per se
-    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
+
     ebuild_list=()
 
     for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
@@ -427,9 +408,28 @@ publish_ebuild() {
       kernel_image_name="${new_kernel_image_name}"
     fi
     echo "new version: ${version_number}"
-
-    echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+    echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
+   # first command uses single ">", to initialize the file; then others use ">>"
+    echo "#!/bin/bash" > ${publish_ebuild_cmd_file}
+    # set SSH_AUTH_SOCK env var to a fixed value
+    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_ebuild_cmd_file}
+    # test whether ${SSH_AUTH_SOCK} is valid
+    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_ebuild_cmd_file}
+    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
+    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_ebuild_cmd_file}
+    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_ebuild_cmd_file}
+    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
+    echo "ssh-add -l" >> ${publish_ebuild_cmd_file}
+    # source github credentials to format the git push command and identify keys to load
+    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
+    # check for ssh keys, and add if they are not already loaded
+    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
+    # now do git pull, push, push using ssh key
+    echo "echo" >> ${publish_ebuild_cmd_file}
+    echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
+    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
     echo "git pull" >> ${publish_ebuild_cmd_file}
+    echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
     echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
     echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
     echo "git status" >> ${publish_ebuild_cmd_file}
@@ -439,6 +439,7 @@ publish_ebuild() {
     echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
     echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
     echo 'git push' >> ${publish_ebuild_cmd_file}
+    echo  >> ${publish_ebuild_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
@@ -755,30 +756,38 @@ do
       # take no action; the loop will increment step counter on next entry
       d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
-      if [[ ${INTERACTIVE} ]] ; then
-        d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
-        newanswer=""
-        # confirm user is ready/wants to run the next command
-        new_prompt "${BMon}Are you ready to run ${BGon}${command_sequence[step_number]}${BMon}?${Boff}"
-      elif [ ${step_number} -eq 5 ] ; then
-        message "INTERACTIVE is false; ${BMon}Skipping ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
-        newanswer="s"
+      if [ "${command_sequence[step_number]}" == "publish_ebuild" ] && \
+           [ ! "${model}" == "domU" ]
+      then
+        # currently, only domU gets its own ebuild published
+        # take no action; the loop will increment step counter on next entry
+        d_message "non-domU install does not get its own ebuild -- skipping this step" 2
       else
-        d_message "INTERACTIVE is false; will automatically execute this step [ $step_number ]" 2
-        message "${BMon}Beginning ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
-        newanswer="y"
-      fi
-      case $newanswer in
-        [Yy] )  # execute this command and continue
-          message "${LBon}About to run ${BYon}${command_sequence[step_number]}${LBon}...${Boff}" ; \
-          eval ${command_sequence[step_number]}; right_status $? ;;
-        [Ss] ) ;; # skip this command and continue
-        *    )  # abort due to negative newanswer
-          message "${BRon}As instructed, not running ${BGon}${command_sequence[step_number]}${BRon}. Quitting...${Boff}" ; \
-          exit ;;
-      esac
-    fi
-  fi
+        if [[ ${INTERACTIVE} ]] ; then
+          d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
+          newanswer=""
+          # confirm user is ready/wants to run the next command
+          new_prompt "${BMon}Are you ready to run ${BGon}${command_sequence[step_number]}${BMon}?${Boff}"
+        elif [ ${step_number} -eq 5 ] ; then  # skip menuconfig for non-interactive
+          message "INTERACTIVE is false; ${BMon}Skipping ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
+          newanswer="s"
+        else  # automatically execute other steps for non-interactive
+          d_message "INTERACTIVE is false; will automatically execute this step [ $step_number ]" 2
+          message "${BMon}Beginning ${BGon}${command_sequence[step_number]}${BMon} as instructed ...${Boff}"
+          newanswer="y"
+        fi  ## interactive
+        case $newanswer in
+          [Yy] )  # execute this command and continue
+            message "${LBon}About to run ${BYon}${command_sequence[step_number]}${LBon}...${Boff}" ; \
+            eval ${command_sequence[step_number]}; right_status $? ;;
+          [Ss] ) ;; # skip this command and continue
+          *    )  # abort due to negative newanswer
+            message "${BRon}As instructed, not running ${BGon}${command_sequence[step_number]}${BRon}. Quitting...${Boff}" ; \
+            exit ;;
+        esac
+      fi  # only domU gets its own ebuild
+    fi  # no publish or tarball for dom0
+  fi # no dtbs for dom)/U
 done
 final_msg="${BMon}${image}, modules, and dtb file for ${model} successfully staged in\n"
 final_msg+="${build_dir}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
