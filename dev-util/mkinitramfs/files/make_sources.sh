@@ -527,7 +527,7 @@ copy_dependent_libraries()
           dest_dir="/usr/bin"
         fi
         d_message "  Case 3 (ELF). dir_name=[$dir_name], target_name=[$target_name] dest_dir=[$dest_dir]" 3
-        d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dest_dir}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dest_dir}/\"" 3
+        d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dest_dir}/${target_name} ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dest_dir}/\"" 3
         d_message "  Copy ${SOURCES_DIR}${dest_dir}/$target_name ..." 2
         # copy the executable target if it diesn't already exist
         [[ ! -e ${SOURCES_DIR}${dest_dir}/${target_name} ]] && \
@@ -542,7 +542,9 @@ copy_dependent_libraries()
           elif [[ "$dir_name" == *"bin"* ]]; then
             dest_dir="/usr/bin"
           fi
-          d_message "  Copy ${SOURCES_DIR}${dest_dir}/${interpreter} ..."
+          d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dest_dir}/${interpreter} ]] && copy_one_part \"${sourcefile}\" \"${SOURCES_DIR}${dest_dir}/\"" 3
+
+          d_message "  Copy ${SOURCES_DIR}${dest_dir}/${interpreter} ..." 2
           [[ ! -e ${SOURCES_DIR}${dest_dir}/${interpreter} ]] && \  
             copy_one_part "${sourcefile}" "${SOURCES_DIR}${dest_dir}/"
         fi
