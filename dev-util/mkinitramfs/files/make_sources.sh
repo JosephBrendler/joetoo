@@ -36,13 +36,11 @@ admin_files="README LICENSE"
 other_content_src=("/usr/local/sbin/script_header_brendlefly" "${MAKE_DIR}/etc/lvm/lvm.conf"        "${MAKE_DIR}/etc/modules")
 other_content_dest=("${SOURCES_DIR}/"                         "${SOURCES_DIR}/etc/lvm/"  "${SOURCES_DIR}/etc/")
 
-#source the list of executables used by the init script, using the
-#  which command to locate each on the host system
+# initialize list of executables
 executables=()
-while read line
-do
-  executables+=("$(which $line)")
-done <<< $(grep -v '#' ${MAKE_DIR}/init_executables )
+
+# initialize list of dependencies of executables
+dependencies=()
 
 #   link everything in busybox, except commands we do NOT want busybox to run --
 #   modprobe-->kmod, blkid, e2fsck, find, findfs, fsck, (fsck.ext2, fsck.ext3, fsck.ext4), and of course our own init
@@ -98,7 +96,7 @@ other_link_dir+=(    "/bin/"   )
 other_link_target+=( "../../init" )
 other_link_name+=(   "init"    )
 
-#   add to the arrays values associated with /sbin/ - used to link more from /bin /sbin /usr/ssbin, but w merged-usr; dont need 
+#   add to the arrays values associated with /sbin/ - used to link more from /bin /sbin /usr/ssbin, but w merged-usr; dont need
 other_link_dir+=(    "/sbin/"   )
 other_link_target+=( "kmod"     )
 other_link_name+=(   "modprobe" )
@@ -120,6 +118,41 @@ other_link_target+=( "../console" )
 other_link_name+=(   "0"          )
 
 #---[ functions ]-----------------------------------------------
+
+
+load_executables()
+{
+  executables=();  i=0
+  while read line
+  do
+    candidate=$(echo $line)
+    if [[ ! "${candidate}" == "" && ! "${candidate:0:1}" == "#" ]]
+    then
+      target=$(which ${candidate})
+      executables+=("${target}")
+      d_message "$i: $candidate   which is ${target}   executables[$i] ${executables[$i]}" 3
+      let i++
+    fi
+  done < ${MAKE_DIR}/init_executables
+}
+
+list_executables()
+{
+  for ((i=0; i<${#executables[$@]}; i++))
+  do
+    [ ! -z ${executables[$i]} ] && echo "${executables[$i]}"
+  done
+}
+
+dump_executables()
+{
+  count=0
+  for ((i=0; i<${#executables[$@]}; i++))
+  do
+    [ ! -z ${executables[$i]} ] && message "$i: ${executables[$i]}" && let count++
+  done
+  message "dumped ${count} executables"
+}
 
 display_config()
 {
@@ -376,42 +409,51 @@ build_merged-usr_dir_tree_links()
   d_message "Changed from SOURCES_DIR: ${SOURCES_DIR} tp old_dir: $(pwd)" 2
 }
 
-identify_dependent_libraries()
+identify_initial_depencies_with_lddtree()
 {
   # use lddtree to identify dependent libraries needed by the executables, filtering for case (3a) [see below]
-  for ((i=0;i<${#executables[@]}; i++))
+  for x in $( list_executables )
   do
-    lddtree $(which ${executables[$i]})
-  done | grep -v 'interpreter' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3
+    lddtree ${x}
+  done | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3
+#  done | grep -v 'interpreter' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3
+}
+
+identify_all_dependencies()
+{
+  dependencies=()
+  while read library
+  do
+    d_message "  identified dependent library: ${library}   case: $(file ${library} | cut -d' ' -f2)  " 4
+    d_message "     file: $(file ${library})  " 4
+    dependencies+=("$(echo ${library})")
+  done <<< $( identify_initial_depencies_with_lddtree )
 }
 
 copy_dependent_libraries()
 {
   # Beginning with version 5.3.1, I'm using lddtree (from app-misc/pax-utils) instead of ldd.
-  # This appears to simplify the situation to three cases (one of which is trivial):
-  # inspect each result from lddtree directly and using the file command -- find three cases of output
-  # (1) symlink_name => dir_name/target_name shown
-  # (2) target_name => dir_name/target_name        (where target_name is the executable)
-  # (3) dynamic executable (interpreter => /lib{64}/ld-linux{-x86-64}.so.2)
-  # parsing strategy:
-  # Ignore case (3) - (trivial) the dynamic executable is already copied, and ld-linux is on the list separately
-  #   sub-(3a) - identified by 'interpreter' in lddtree command output
-  #   sub-(3ba) - identified by 'interpreter' in output file command when run on remaining lines of lddtree output
-  #   for both sub-cases: ignore such lines with 'grep -v interpreter'
-  # For case (2) - just make sure the target executable (dependency) gets copied if it hasn't been already
-  # For each case (1), copy the target executable to - and create the symlink in - the ${SOURCES_DIR}
+  # Beginning with version 8.0.2, I've updated the algorithm to accomodate merged-usr-like layouts
+  # General algorithm:  process the new list of ecutables in init_executables to identify libraries they depend on --
+  #   Step 1) use the lddtree command (from app-misc/pax-utils) to identify dependencies for each executable
+  #   Step 2) use the file command (from sys-apps/file) to determine how to handle each
+  #   There appear to be three cases identified by the second field in the output of the file command
+  #     where dir_name is the location of target_name or link_name (the executable/link) on the host system
+  #     case 1 (shell script) format: dir_name/target_name
+  #         Action 3:  if not already there, copy dir_name/target_name to /usr/bin
+  #     case 2 (symlink) format: dir_name/link_name: symbolic link to dir_name/target_name
+  #         Action 2: if not already there, copy target to dest dir (/lib or /usr/bin) amd/or make linkt to it
+  #     case 3 (ELF) format: dir_name/target_name
+  #       case 3a ELF is a pie executable normally identified by "interpreter" (a library; normally ld-linux-x86-64.so.2)
+  #         Action 3a: if not already there, copy dir_name/target_name to /usr/bin and/or interpreter to /lib
+  #       case 3b ELF is a shared object library
+  #         Action 3b: if not already there, copy dir_name/target_name to /lib
+  #       case 3c (subset of 1b) ELF is a shared object library that is also identified by
+  #         Action 3c: if not already there, copy dir_name/target_name to /lib and/or interpreter to /lib
 
-  # General algorithm:  process the dynamic executables to identify libraries they depend on --
-  #   for each dynamic executable, use lddtree to list all dependencies.
-  #   ignore case (3) lines with grep -v interpreter; trim leading and trailing whitespace;
-  #   sort and eliminate duplicates; we need only the third field of lddtree output (/target/path/target_name)
   d_message "Identifying dependent libraries ..." 1
-  dependencies=()
-  while read library
-  do
-    d_message "  identified dependent library: ${library}" 4
-    dependencies+=("$(echo ${library})")
-  done <<< $( identify_dependent_libraries )
+
+  identify_all_dependencies
 
   d_message "Copying dependent libraries ..." 1
   for ((x=0; x<${#dependencies[@]}; x++))
@@ -419,24 +461,19 @@ copy_dependent_libraries()
     # run the "file" command on each /target/path/target_name in ${dependencies[@]}
     #   the second field of this output shows if it is case (1) symlink or (2) ELF
     #   also filter vor case (3b) [see above]
-    line=$( file ${dependencies[$x]} | grep -v 'interpreter' )
-    d_message "  for [${dependencies[$x]}], examining: ( ${line} ) ..." 4
+    line=$(file ${dependencies[$x]})
     thiscase=$( echo $line | cut -d' ' -f2)
+    d_message "  $x: ${dependencies[$x]}" 4
+    d_message "    case: ${thiscase}" 4
+    d_message "    examining line: ( ${line} )" 4
     case $thiscase in
-      "" )
-        d_message "  blank line - possible case 3 (dyn_executable blanked by grep -v interpreter). Ignoring trivial case ..." 3
-        message "  ignoring trivial case ..."
-      ;;
-      "ELF" )
-        # just copy the target executable (first item in the line)
+      "Bourne-Again" )
         thistarget=$( echo $line | cut -d' ' -f1)
         target_name=$(basename $thistarget | sed 's/:$//')   # drop the trailing colon
         dir_name=$(dirname $thistarget)
-        d_message "  Case 2 (ELF). dir_name=[$dir_name], target_name=[$target_name]" 3
-        d_message "  Copy/Link ${SOURCES_DIR}${dir_name}/$target_name..." 2
-        # create target directory if it diesn't already exist
-        d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name} ]] && mkdir -p ${SOURCES_DIR}${dir_name}" 3
-        [[ ! -e ${SOURCES_DIR}${dir_name} ]] && mkdir -p ${SOURCES_DIR}${dir_name}
+        d_message "  Case 3 (Bourne-Again). dir_name=[$dir_name], target_name=[$target_name]" 3
+        d_message "  Copy ${SOURCES_DIR}${dir_name}/$target_name..." 2
+        # all executables now go in /usr/bin (merged-usr-like layout)
         d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dir_name}/\"" 3
         [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
           copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dir_name}/"
@@ -450,54 +487,67 @@ copy_dependent_libraries()
         # ignore the special case of host system links in /lib to ../lib64 ../usr/lib or ../usr/lib64
         #   since all libs are linked to /lib in the current merged layout of this initramfs
         #   e.g.  /lib/ld-linux-aarch64.so.1: symbolic link to ../lib64/ld-linux-aarch64.so.1
-        d_message "  Case 1 (symlink) dir_name=[$dir_name], link_name=[$link_name], target_name=[$target_name]" 3
-        if [[ ! "${dir_name}" == "/lib" ]]
+        d_message "  Case 2 (symlink) dir_name=[$dir_name], link_name=[$link_name], target_name=[$target_name]" 3
+        # first copy the target
+        if [[ "$dir_name" == *"lib"* ]] ; then
+          dest_dir="/lib"
+        elif [[ "$dir_name" == *"bin"* ]]; then
+          dest_dir="/usr/bin"
+        fi
+        d_message "  Copy/Link ${SOURCES_DIR}${dir_name}/$target_name ..." 2
+        # copy the target of the link if it doesn't already exist
+        d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dir_name}/\"" 3
+        [[ ! -e ${SOURCES_DIR}${dest_dir}/${target_name} ]] && \
+          copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dest_dir}/"
+        # next, create the link - be careful to not overwrite an executable with a link to itself
+        old_pwd=$(pwd)
+        cd ${SOURCES_DIR}${dest_dir}
+        d_message "just changed from directory [ $old_pwd ] to directory: [ $(pwd) ]" 3
+        d_message_n "Linking:   ${LBon}${link_name}${Boff} --> ${BGon}${dest_dir}/${target_name}${Boff} ..." 2
+        if [[ ! -e ${SOURCES_DIR}${dest_dir}/${link_name} ]]
         then
-          # first copy the target
-          d_message "  Copy/Link ${SOURCES_DIR}${dir_name}/$target_name..." 2
-          # create target directory if it diesn't already exist
-          d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name} ]] && mkdir -p ${SOURCES_DIR}${dir_name}" 3
-          [[ ! -e ${SOURCES_DIR}${dir_name} ]] && mkdir -p ${SOURCES_DIR}${dir_name}
-          # copy the target of the link if it doesn't already exist
-          d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dir_name}/\"" 3
-          [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
-            copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dir_name}/"
-          # next, create the link
-          old_pwd=$(pwd)
-          cd ${SOURCES_DIR}${dir_name}
-          d_message "just changed from directory [ $old_pwd ] to directory: [ $(pwd) ]" 3
-          d_message_n "Linking:   ${LBon}${link_name}${Boff} --> ${BGon}${dir_name}/${target_name}${Boff} ..." 2
-          if [[ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]]
-          then
-            ln -s $target_name $link_name
-            d_right_status $? 2
-          else
-            d_message_n " {link already created} " 2
-            d_right_status $? 2
-          fi    ## [ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]
-          cd $old_pwd
-          d_message "just changed back to directory: [ $(pwd) ]" 3
+          ln -s $target_name $link_name
+          d_right_status $? 2
         else
-          d_message "  Case 1 (symlink) but dir_name=[$dir_name] is /lib, link_name=[$link_name], target_name=[$target_name]" 3
-          # ensure the target of the link exists in /lib
-          target_basename=$(basename ${target_name})
-          target_dirname=$(dirname ${target_name})
-          # if the link_name is the same as the target_basename, then just make sure the target exists
-          # if it doesn't exist, copy it from the host system if possible
-          if [[ "${link_name}" == "${target_basename}" ]]
-          then
-            if [[ ! -e ${thistarget} ]]
-            then
-              # try to copy the target file from the host system
-              newtarget="$(for candidate in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $candidate; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
-              d_message "  about to try to copy ${thistarget} from the host system ..." 2
-              [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
-              copy_one_part "${newtarget}" "${SOURCES_DIR}${dir_name}/" || \
-              d_message "  ${SOURCES_DIR}${dir_name}/${target_name} already exists, skipping" 2
-            fi
+          d_message_n " {link already exists} " 2
+          d_right_status $? 2
+        fi    ## [ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]
+        cd $old_pwd
+        d_message "just changed back to directory: [ $(pwd) ]" 3
+      ;;
+      "ELF" )
+        # simplify for cases 1a, 1b, 1c - if they are not already there - if source dir_name is a "bin" copy target to /usr/bin
+        #   if source dir is a "lib" copy target to /lib; if there is an "interpreter" copy it to /lib or /usr/bin
+        thistarget=$( echo $line | cut -d' ' -f1)
+        target_name=$(basename $thistarget | sed 's/:$//')   # drop the trailing colon
+        dir_name=$(dirname $thistarget)
+        if [[ "$dir_name" == *"lib"* ]] ; then
+          dest_dir="/lib"
+        elif [[ "$dir_name" == *"bin"* ]]; then
+          dest_dir="/usr/bin"
+        fi
+        d_message "  Case 3 (ELF). dir_name=[$dir_name], target_name=[$target_name] dest_dir=[$dest_dir]" 3
+        d_message "  Copy/Link ${SOURCES_DIR}${dest_dir}/$target_name ..." 2
+        # copy the executable target if it diesn't already exist
+        d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dest_dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dest_dir}/\"" 3
+        [[ ! -e ${SOURCES_DIR}${dest_dir}/${target_name} ]] && \
+          copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dest_dir}/"
+        # if this executable also has an interpreter, ensure it is also loaded
+        if [[ "$line" == *"interpreter"* ]]; then
+          interpreter=$(basename $(echo ${line#*"interpreter"} | cut -d',' -f1))
+          sourcefile=$(find / -name ${interpreter} 2>/dev/null | grep -v ${SOURCES_DIR})
+          dir_name=$(dirname ${sourcefile})
+          if [[ "$dir_name" == *"lib"* ]] ; then
+            dest_dir="/lib"
+          elif [[ "$dir_name" == *"bin"* ]]; then
+            dest_dir="/usr/bin"
           fi
+          d_message "  Copy ${SOURCES_DIR}${dest_dir}/${interpreter} ..."
+          [[ ! -e ${SOURCES_DIR}${dest_dir}/${interpreter} ]] && \  
+            copy_one_part "${sourcefile}" "${SOURCES_DIR}${dest_dir}/"
         fi
       ;;
+
       * )
         E_message "error in copying/linking dependencies"
         exit 1
@@ -545,6 +595,9 @@ separator "Build directory tree, device nodes, and links"  "mkinitramfs-$BUILD"
 build_dir_tree
 build_other_devices
 build_merged-usr_dir_tree_links
+
+separator "Load list of executables"
+load_executables
 
 separator "Check for Parts"  "mkinitramfs-$BUILD"
 check_for_parts
