@@ -527,9 +527,9 @@ copy_dependent_libraries()
           dest_dir="/usr/bin"
         fi
         d_message "  Case 3 (ELF). dir_name=[$dir_name], target_name=[$target_name] dest_dir=[$dest_dir]" 3
-        d_message "  Copy/Link ${SOURCES_DIR}${dest_dir}/$target_name ..." 2
-        # copy the executable target if it diesn't already exist
         d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dest_dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dest_dir}/\"" 3
+        d_message "  Copy ${SOURCES_DIR}${dest_dir}/$target_name ..." 2
+        # copy the executable target if it diesn't already exist
         [[ ! -e ${SOURCES_DIR}${dest_dir}/${target_name} ]] && \
           copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dest_dir}/"
         # if this executable also has an interpreter, ensure it is also loaded
