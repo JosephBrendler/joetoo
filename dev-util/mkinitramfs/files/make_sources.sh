@@ -535,7 +535,7 @@ copy_dependent_libraries()
         # if this executable also has an interpreter, ensure it is also loaded
         if [[ "$line" == *"interpreter"* ]]; then
           interpreter=$(basename $(echo ${line#*"interpreter"} | cut -d',' -f1))
-          sourcefile=$(find / -name ${interpreter} 2>/dev/null | grep -v ${SOURCES_DIR})
+          sourcefile=$(find / -type f -name ${interpreter} 2>/dev/null | grep -v ${SOURCES_DIR})
           dir_name=$(dirname ${sourcefile})
           if [[ "$dir_name" == *"lib"* ]] ; then
             dest_dir="/lib"
