@@ -142,7 +142,7 @@ pkg_postinst() {
 	elog "ver 7.1/2 fix bugs in dependent content copy and in output rotation"
 	elog "ver 7.3 adds kernel config checks with the help of linux-info eclass"
 	elog "ver 8.0 migrates to a merged-usr-like layout and moves scripts to FILESDIR"
-	elog "ver 8.0.1 adds verbosity to mkinitramfs.conf and bugfix for dyn_executable handling"
+	elog "ver 8.0.1 adds verbosity to .conf and updates handling deps of executables"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""
