@@ -1,6 +1,6 @@
 #!/bin/bash
-# rotate_initramfs
-# joe Brendler 20 Nov 2020
+# rollback_initramfs
+# joe Brendler 29 Dec 2024
 
 # the GLOBALS file identifies the BUILD, SOURCES_DIR (e.g. /usr/src/initramfs),
 #   and the MAKE_DIR (parent dir of this script)
@@ -31,22 +31,6 @@ working=""
 safe=""
 
 #-----[ functions ]-----------------------------------------------------------------------
-identify_new_initramfs() {
-  # identify new initramfs
-  #   there should only be one, but examine all and overwrite variable to operate only on the last
-  while read line
-  do
-    newinitramfs="${line}"
-    d_message "newinitramfs: [${newinitramfs}]" 1
-  done <<< $(find . -iname 'initramfs-*' -type f -printf '%Ts\t%p\n' | sort -n | cut -f2)
-
-#  newtimestamp=$(echo ${newinitramfs} | cut -d'-' -f4)
-  newtimestamp="${newinitramfs##*-}"
-  d_echo 1
-  d_message "${BYon}newinitramfs: [${Boff}${newinitramfs}${BYon}]${Boff}" 1
-  d_message "${BYon}newtimestamp: [${Boff}${newtimestamp}${BYon}]${Boff}" 1
-  d_echo 1
-}
 
 identify_current_targets() {
   # if any exist, identify the current targets of links (latest, working, safe)
@@ -77,33 +61,26 @@ makelink() {
 
 #-----[ main script ]---------------------------------------------------------------------
 checkroot
-separator "rotate_initramfs-${BUILD}"
+separator "rollback_initramfs-${BUILD}"
 
 # move to /boot
 message_n "saving current directory name; cd to /boot/..."
 old_dir=$(pwd) && cd /boot/
 right_status $?
 
-identify_new_initramfs
 identify_current_targets
 
-# rename new initramfs file in .working. format
-message_n "renaming ${BYon}${newinitramfs}${BBon} initramfs.working.${newtimestamp}${Boff} ..."
-mv ${newinitramfs} initramfs.working.${newtimestamp}
-right_status $?
-# reassign newinitramfs variable to the new name
-newinitramfs="initramfs.working.${newtimestamp}"
+# delete the current latest
+[ -f "${latest}" ] && \message_n "removing current latest [${BRon}${latest}${Boff}]" && \
+  ( rm ${latest} ; right_status $? )
 
-# put the newest initramfs in rotation and rotate older ones if they exist
-makelink ${newinitramfs} "initramfs.latest"
-[ -f "${latest}" ] && makelink ${latest} "initramfs.working"
-[ -f "${working}" ] && makelink ${working} "initramfs.safe"
+# rollback the remaining initramfs
+[ -f "${working}" ] && makelink ${working} "initramfs.latest"
+[ -f "${safe}" ] && makelink ${safe} "initramfs.working"
 
-# delete the oldest
-[ -f "${safe}" ] && \message_n "removing oldest [${BRon}${safe}${Boff}]" && \
-  ( rm ${safe} ; right_status $? )
+# remove the link for "safe"
+[ -L initramfs.safe ] && rm -v initramfs.safe
 
 message_n "returning to ${old_dir}..."
 cd ${old_dir}
 right_status $?
-
