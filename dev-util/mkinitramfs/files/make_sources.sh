@@ -210,7 +210,7 @@ copy_parts()
   # update 27 Dec 24 -- merged-usr layout; everything goes in /usr/bin now
 
   #copy /bin executable parts
-  for part in ${executables}
+  for part in ${executables[@]}
   do
     # find the actual executable and copy it to the merged-usr layout
     copy_one_part "${part}" "${SOURCES_DIR}/usr/bin/"
