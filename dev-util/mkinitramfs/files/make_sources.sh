@@ -133,31 +133,51 @@ check_for_parts()
   #look for lvm and cryptsetup, and if not found, ask if user wants to install them
   d_message_n "Finding lvm..." 1
   if [ ! -e /sbin/lvm ]
-  then d_right_status 1 1; PARTSTRING+=" sys-fs/lvm2";
-  else d_right_status 0 1; fi
+  then
+    d_right_status 1 1
+    PARTSTRING+=" sys-fs/lvm2"
+  else
+    d_right_status 0 1
+  fi
 
   d_message_n "Finding cryptsetup..." 1
   if [ ! -e /sbin/cryptsetup ]
-  then d_right_status 1 1; PARTSTRING+=" sys-fs/cryptsetup";
-  else d_right_status 0 1; fi
+  then
+    d_right_status 1 1
+    PARTSTRING+=" sys-fs/cryptsetup"
+  else
+    d_right_status 0 1
+  fi
 
   d_message_n "Finding cpio..." 1
   if [ ! -e /bin/cpio ]
-  then d_right_status 1 1; PARTSTRING+=" app-arch/cpio";
-  else d_right_status 0 1; fi
+  then
+    d_right_status 1 1
+    PARTSTRING+=" app-arch/cpio"
+  else
+   d_right_status 0 1
+  fi
 
   d_message_n "Finding grub..." 1
   if [ ! -e /usr/sbin/grub-install ]
-  then d_right_status 1 1; PARTSTRING+=" sys-boot/grub";
-  else d_right_status 0 1; fi
+  then
+    d_right_status 1 1
+    PARTSTRING+=" sys-boot/grub"
+  else
+    d_right_status 0 1
+  fi
 
   # if splash is requested, check for it
   if [ "${init_splash}" == "yes" ]
   then
     d_message_n "Finding splashutils..." 1
     if [ ! -e /sbin/fbcondecor_helper ]
-    then d_right_status 1 1; PARTSTRING+=" media-gfx/splashutils";
-    else d_right_status 0 1; fi
+    then
+      d_right_status 1 1
+      PARTSTRING+=" media-gfx/splashutils"
+    else
+      d_right_status 0 1
+    fi
   else
     d_message "Skipping check for splashutils... (not requested)" 1
   fi
@@ -192,8 +212,10 @@ copy_parts()
 
   # copy splash parts, if needed
   if [ "${init_splash}" == "yes" ]
-  then copy_one_part /sbin/fbcondecor_helper ${SOURCES_DIR}/usr/bin/
-  else d_message "Skipping copy for /sbin/fbcondecor_helper... (splash not requested)" 2
+  then
+    copy_one_part /sbin/fbcondecor_helper ${SOURCES_DIR}/usr/bin/
+  else
+    d_message "Skipping copy for /sbin/fbcondecor_helper... (splash not requested)" 2
   fi
   copy_one_part ./init ${SOURCES_DIR}/
 
@@ -223,8 +245,10 @@ copy_one_part()
 {
   d_message_n "Copying [ $1 ] to [ $2 ]..." 2
   if [[ $verbosity -ge 3 ]]
-  then cp -av $1 $2 ; d_right_status $? 2
-  else cp -a $1 $2 ; d_right_status $? 2
+  then
+    cp -av $1 $2 ; d_right_status $? 2
+  else
+    cp -a $1 $2 ; d_right_status $? 2
   fi
 }
 
@@ -235,30 +259,45 @@ create_links()
   d_message "Creating busybox links in initramfs/bin/ ..." 1
   cd ${SOURCES_DIR}/usr/bin/
   for i in $busybox_link_list
-  do d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}busybox${Boff} ..." 2;
-  ln -s busybox "$i" ; d_right_status $? 2; done
+  do
+    d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}busybox${Boff} ..." 2
+    ln -s busybox "$i"
+    d_right_status $? 2
+  done
 
   # create symlinks in /sbin - updated 27 Dec 24 with merged-usr layout; everything goes in /usr/bin
   d_message "Creating lvm2 links in initramfs/sbin/ ..." 1
   cd ${SOURCES_DIR}/usr/bin/
   for i in $lvm_link_list
-  do d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}lvm${Boff} ..." 2;
-  ln -s lvm "$i" ; d_right_status $? 2; done
+  do
+    d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}lvm${Boff} ..." 2
+    ln -s lvm "$i"
+    d_right_status $? 2
+  done
   for i in $e2fsck_link_list
-  do d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}e2fsck${Boff} ..." 2;
-  ln -s e2fsck "$i" ; d_right_status $? 2; done
+  do
+    d_message_n "Linking:   ${LBon}$i${Boff} --> ${BGon}e2fsck${Boff} ..." 2
+    ln -s e2fsck "$i"
+    d_right_status $? 2
+  done
   #splash_helper -> //sbin/fbcondecor_helper - updated 27 Dec 24 with merged-usr layout; everything goes in /usr/bin
   if [ "${init_splash}" == "yes" ]
-  then d_message_n "Linking:   ${LBon}splash_helper${Boff} --> ${BGon}//sbin/fbcondecor_helper${Boff} ..." 2;
+  then
+    d_message_n "Linking:   ${LBon}splash_helper${Boff} --> ${BGon}//sbin/fbcondecor_helper${Boff} ..." 2
     ln -s //usr/bin/fbcondecor_helper splash_helper ; d_right_status $? 2
-  else d_message "Skipping linking for splash... (not requested)" 2;
+  else
+    d_message "Skipping linking for splash... (not requested)" 2
   fi
 
   # create links to other executables in associated dirs, using array set
   d_message "Creating [${#other_link_name[@]}] additional links..." 1
   for ((i=0; i<${#other_link_name[@]}; i++))
-  do d_message_n "Linking:   ${BBon}[${other_link_dir[i]}] ${LBon}${other_link_name[i]}${Boff} --> ${BGon}${other_link_target[i]}${Boff} ..." 2;
-  cd ${SOURCES_DIR}${other_link_dir[i]}; ln -s "${other_link_target[i]}"  "${other_link_name[i]}" ; d_right_status $? 2; done
+  do
+    d_message_n "Linking:   ${BBon}[${other_link_dir[i]}] ${LBon}${other_link_name[i]}${Boff} --> ${BGon}${other_link_target[i]}${Boff} ..." 2
+    cd ${SOURCES_DIR}${other_link_dir[i]}
+    ln -s "${other_link_target[i]}"  "${other_link_name[i]}"
+    d_right_status $? 2
+  done
 
   cd $old_pwd
 }
@@ -277,9 +316,12 @@ for i in ${treelist}
 do
   if [ ! -e ${SOURCES_DIR}$i ]
   then
-    d_message_n " Creating ${SOURCES_DIR}/$i..." 2; mkdir ${SOURCES_DIR}$i ; d_right_status $? 2
+    d_message_n " Creating ${SOURCES_DIR}/$i..." 2
+    mkdir ${SOURCES_DIR}$i
+    d_right_status $? 2
   else
-    d_message_n " Found existing ${SOURCES_DIR}/$i..." 2; d_right_status $? 2
+    d_message_n " Found existing ${SOURCES_DIR}/$i..." 2
+    d_right_status $? 2
   fi
 done
 }
@@ -316,7 +358,8 @@ build_merged-usr_dir_tree_links()
       ln -s ${targets[$i]} ${links[$i]}; d_right_status $? 2
     else
       found_target="echo $(stat ${links[$i]} | head -n1 | cut -d'>' -f2)"
-      d_message_n " Found existing link ${SOURCES_DIR}${links[$i]} --> ${found_target} ..." 2; d_right_status $? 2
+      d_message_n " Found existing link ${SOURCES_DIR}${links[$i]} --> ${found_target} ..." 2
+      d_right_status $? 2
     fi
   done
   cd ${old_dir}
@@ -327,7 +370,8 @@ identify_dependent_libraries()
 {
   # use lddtree to identify dependent libraries needed by the executables, filtering for case (3a) [see below]
   for ((i=0;i<${#executables[@]}; i++))
-  do lddtree $(which ${executables[$i]})
+  do
+    lddtree $(which ${executables[$i]})
   done | grep -v 'interpreter' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | sort -u | cut -d' ' -f3
 }
 
@@ -355,17 +399,18 @@ copy_dependent_libraries()
   dependencies=()
   while read library
   do
+    d_message "  identified dependent library: ${library}" 4
     dependencies+=("$(echo ${library})")
   done <<< $( identify_dependent_libraries )
 
   d_message "Copying dependent libraries ..." 1
-  for ((x=0;x<${#dependencies[@]}; x++))
+  for ((x=0; x<${#dependencies[@]}; x++))
   do
     # run the "file" command on each /target/path/target_name in ${dependencies[@]}
     #   the second field of this output shows if it is case (1) symlink or (2) ELF
     #   also filter vor case (3b) [see above]
     line=$( file ${dependencies[$x]} | grep -v 'interpreter' )
-    d_message "---[ New line from [$x], to examine: ( ${line} ) ]---" 3
+    d_message "  for [$x], examining: ( ${line} ) ..." 4
     thiscase=$( echo $line | cut -d' ' -f2)
     case $thiscase in
       "" )
@@ -414,13 +459,14 @@ copy_dependent_libraries()
           d_message_n "Linking:   ${LBon}${link_name}${Boff} --> ${BGon}${dir_name}/${target_name}${Boff} ..." 2
           if [ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]
           then
-            ln -s $target_name $link_name ; d_right_status $? 2
+            ln -s $target_name $link_name
+            d_right_status $? 2
           else
-            d_message_n " {link already created} " 2; d_right_status $? 2
-          fi
+            d_message_n " {link already created} " 2
+            d_right_status $? 2
+          fi    ## [ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]
           cd $old_pwd
           d_message "just changed back to directory: [ $(pwd) ]" 3
-          ;;
         else
           # ensure the target of the link exists in /lib
           target_basename=$(basename ${target_name}
@@ -433,17 +479,18 @@ copy_dependent_libraries()
             then
               # try to copy the target file from the host system
               newtarget="$(for x in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $x; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
-              d_message "  about to try to copy ${thistarget} from the host system ..."
+              d_message "  about to try to copy ${thistarget} from the host system ..." 2
               [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
-              copy_one_part "${newtarget}" "${SOURCES_DIR}${dir_name}/"
+              copy_one_part "${newtarget}" "${SOURCES_DIR}${dir_name}/" || \
+              d_message "  ${SOURCES_DIR}${dir_name}/${target_name} already exists, skipping" 2
             fi
-          else
           fi
         fi
+        ;;
       * )
-       E_message "error in copying/linking dependencies"
-       exit 1
-       ;;
+        E_message "error in copying/linking dependencies"
+        exit 1
+        ;;
     esac
     d_message "--------------------------------------------" 3
   done
@@ -467,7 +514,7 @@ copy_dependent_libraries()
   target_name=$(basename ${missing_file})
   dir_name=$(dirname ${missing_file})
 
-  d_message "  about to copy missing file [ ${missing_file} ] to ${SOURCES_DIR}${dir_name}/$target_name "
+  d_message "  about to copy missing file [ ${missing_file} ] to ${SOURCES_DIR}${dir_name}/$target_name " 2
   [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
      copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dir_name}/"
 
