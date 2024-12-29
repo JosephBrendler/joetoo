@@ -225,12 +225,16 @@ copy_parts()
   # copy admin files
   d_message "Copying necessary admin files..." 1
   for i in $admin_files
-  do copy_one_part ${MAKE_DIR}/$i ${SOURCES_DIR}/; done
+  do
+    copy_one_part ${MAKE_DIR}/$i ${SOURCES_DIR}/
+  done
 
   # copy other required content
   d_message "Copying other required content ..." 1
   for ((i=0; i<${#other_content_src[@]}; i++))
-  do copy_one_part ${other_content_src[i]} ${other_content_dest[i]}; done
+  do
+    copy_one_part ${other_content_src[i]} ${other_content_dest[i]}
+  done
   if [ "${init_splash}" == "yes" ]
   then
     copy_one_part ${MAKE_DIR}/etc/initrd.splash ${SOURCES_DIR}/etc/
@@ -238,7 +242,6 @@ copy_parts()
   else
     d_message "Skipping copy for splash files in /etc/ ... (splash not requested)" 2
   fi
-
 }
 
 copy_one_part()
@@ -284,7 +287,8 @@ create_links()
   if [ "${init_splash}" == "yes" ]
   then
     d_message_n "Linking:   ${LBon}splash_helper${Boff} --> ${BGon}//sbin/fbcondecor_helper${Boff} ..." 2
-    ln -s //usr/bin/fbcondecor_helper splash_helper ; d_right_status $? 2
+    ln -s //usr/bin/fbcondecor_helper splash_helper
+    d_right_status $? 2
   else
     d_message "Skipping linking for splash... (not requested)" 2
   fi
@@ -416,7 +420,7 @@ copy_dependent_libraries()
       "" )
         d_message "  blank line - possible case 3 (dyn_executable blanked by grep -v interpreter). Ignoring trivial case ..." 3
         message "  ignoring trivial case ..."
-        ;;
+      ;;
       "ELF" )
         # just copy the target executable (first item in the line)
         thistarget=$( echo $line | cut -d' ' -f1)
@@ -430,7 +434,7 @@ copy_dependent_libraries()
         d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name}/$target_name ]] && copy_one_part \"${dir_name}/${target_name}\" \"${SOURCES_DIR}${dir_name}/\"" 3
         [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
           copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dir_name}/"
-        ;;
+      ;;
       "symbolic" )
         # copy the target executable (last item in the line) and create the symlink (first item in the line) to it
         target_name=$( echo $line | awk '{print $(NF)}' )   # $(NF) is the number of fields in awk input
@@ -486,11 +490,11 @@ copy_dependent_libraries()
             fi
           fi
         fi
-        ;;
+      ;;
       * )
         E_message "error in copying/linking dependencies"
         exit 1
-        ;;
+      ;;
     esac
     d_message "--------------------------------------------" 3
   done
@@ -517,7 +521,6 @@ copy_dependent_libraries()
   d_message "  about to copy missing file [ ${missing_file} ] to ${SOURCES_DIR}${dir_name}/$target_name " 2
   [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
      copy_one_part "${dir_name}/${target_name}" "${SOURCES_DIR}${dir_name}/"
-
 }
 
 #---[ Main Script ]-------------------------------------------------------
