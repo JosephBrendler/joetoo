@@ -340,7 +340,7 @@ build_other_devices()
 {
   # used to also build block device nodes, now just the console character dev
   old_dir=$(pwd)
-  cd ${SOURCES_DIR}
+  cd ${SOURCES_DIR}/dev/
   d_message "Changed from ${old_dir} to SOURCES_DIR: $(pwd)" 2
 
   # build console character device
