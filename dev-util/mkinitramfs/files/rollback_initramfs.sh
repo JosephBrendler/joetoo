@@ -40,7 +40,7 @@ identify_current_targets() {
     do
       linkname=$(basename $(echo $line | cut -d' ' -f1 | sed 's/://'))
       target="${line##*link\ to\ }"
-      d_message "linkname: [${LBon}${linkname}${Boff}], target: [${BGon}${target}${Boff}]" 1
+      d_message "  linkname: [${LBon}${linkname}${Boff}], target: [${BGon}${target}${Boff}]" 1
       case $(echo ${linkname} | cut -d'.' -f2) in
         "latest" ) latest="${target}";;
         "working" ) working="${target}";;
@@ -68,18 +68,20 @@ message_n "saving current directory name; cd to /boot/..."
 old_dir=$(pwd) && cd /boot/
 right_status $?
 
+message "Identifying current link targets ..."
 identify_current_targets
 
 # delete the current latest
-[ -f "${latest}" ] && \message_n "removing current latest [${BRon}${latest}${Boff}]" && \
+[ -f "${latest}" ] && message_n "removing current latest [${BRon}${latest}${Boff}]" && \
   ( rm ${latest} ; right_status $? )
 
 # rollback the remaining initramfs
 [ -f "${working}" ] && makelink ${working} "initramfs.latest"
 [ -f "${safe}" ] && makelink ${safe} "initramfs.working"
 
-# remove the link for "safe"
-[ -L initramfs.safe ] && rm -v initramfs.safe
+# remove the obsolete link for "safe"
+[ -L initramfs.safe ] && message_n "removing obsolete link [${BRon}initramfs.safe${Boff}]" && \
+  ( rm initramfs.safe ; right_status $? )
 
 message_n "returning to ${old_dir}..."
 cd ${old_dir}
