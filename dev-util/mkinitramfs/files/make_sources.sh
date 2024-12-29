@@ -123,8 +123,14 @@ other_link_name+=(   "0"          )
 
 display_config()
 {
-  d_message "SOURCES_DIR: "${SOURCES_DIR} 2
-  d_message "MAKE_DIR: "${MAKE_DIR} 2
+  d_message "SOURCES_DIR: ${SOURCES_DIR}" 2
+  d_message "MAKE_DIR: ${MAKE_DIR}" 2
+  d_message_n "executables: [ " 2
+  for ((i=0; i<${#executables[@]}; i++))
+  do
+    d_echo_n "${executables[$i]} " 2
+  done
+  d_echo "]" 2
 }
 
 check_for_parts()
@@ -207,38 +213,38 @@ copy_parts()
   for part in ${executables}
   do
     # find the actual executable and copy it to the merged-usr layout
-    copy_one_part ${part} ${SOURCES_DIR}/usr/bin/
+    copy_one_part "${part}" "${SOURCES_DIR}/usr/bin/"
   done
 
   # copy splash parts, if needed
   if [ "${init_splash}" == "yes" ]
   then
-    copy_one_part /sbin/fbcondecor_helper ${SOURCES_DIR}/usr/bin/
+    copy_one_part "/sbin/fbcondecor_helper" "${SOURCES_DIR}/usr/bin/"
   else
     d_message "Skipping copy for /sbin/fbcondecor_helper... (splash not requested)" 2
   fi
-  copy_one_part ./init ${SOURCES_DIR}/
+  copy_one_part "./init" "${SOURCES_DIR}/"
 
   # copy config file
-  copy_one_part ${config_file} ${SOURCES_DIR}/
+  copy_one_part "${config_file}" "${SOURCES_DIR}/"
 
   # copy admin files
   d_message "Copying necessary admin files..." 1
   for i in $admin_files
   do
-    copy_one_part ${MAKE_DIR}/$i ${SOURCES_DIR}/
+    copy_one_part "${MAKE_DIR}/$i" "${SOURCES_DIR}/"
   done
 
   # copy other required content
   d_message "Copying other required content ..." 1
   for ((i=0; i<${#other_content_src[@]}; i++))
   do
-    copy_one_part ${other_content_src[i]} ${other_content_dest[i]}
+    copy_one_part "${other_content_src[i]}" "${other_content_dest[i]}"
   done
   if [ "${init_splash}" == "yes" ]
   then
-    copy_one_part ${MAKE_DIR}/etc/initrd.splash ${SOURCES_DIR}/etc/
-    copy_one_part ${MAKE_DIR}/etc/splash ${SOURCES_DIR}/etc/
+    copy_one_part "${MAKE_DIR}/etc/initrd.splash" "${SOURCES_DIR}/etc/"
+    copy_one_part "${MAKE_DIR}/etc/splash" "${SOURCES_DIR}/etc/"
   else
     d_message "Skipping copy for splash files in /etc/ ... (splash not requested)" 2
   fi
@@ -414,7 +420,7 @@ copy_dependent_libraries()
     #   the second field of this output shows if it is case (1) symlink or (2) ELF
     #   also filter vor case (3b) [see above]
     line=$( file ${dependencies[$x]} | grep -v 'interpreter' )
-    d_message "  for [$x], examining: ( ${line} ) ..." 4
+    d_message "  for [${dependencies[$x]}], examining: ( ${line} ) ..." 4
     thiscase=$( echo $line | cut -d' ' -f2)
     case $thiscase in
       "" )
@@ -444,10 +450,10 @@ copy_dependent_libraries()
         # ignore the special case of host system links in /lib to ../lib64 ../usr/lib or ../usr/lib64
         #   since all libs are linked to /lib in the current merged layout of this initramfs
         #   e.g.  /lib/ld-linux-aarch64.so.1: symbolic link to ../lib64/ld-linux-aarch64.so.1
-        if [ ! "${dir_name}" == "/lib" ]
+        d_message "  Case 1 (symlink) dir_name=[$dir_name], link_name=[$link_name], target_name=[$target_name]" 3
+        if [[ ! "${dir_name}" == "/lib" ]]
         then
           # first copy the target
-          d_message "  Case 1 (symlink) dir_name=[$dir_name], link_name=[$link_name], target_name=[$target_name]" 3
           d_message "  Copy/Link ${SOURCES_DIR}${dir_name}/$target_name..." 2
           # create target directory if it diesn't already exist
           d_message "  about to execute: [[ ! -e ${SOURCES_DIR}${dir_name} ]] && mkdir -p ${SOURCES_DIR}${dir_name}" 3
@@ -461,7 +467,7 @@ copy_dependent_libraries()
           cd ${SOURCES_DIR}${dir_name}
           d_message "just changed from directory [ $old_pwd ] to directory: [ $(pwd) ]" 3
           d_message_n "Linking:   ${LBon}${link_name}${Boff} --> ${BGon}${dir_name}/${target_name}${Boff} ..." 2
-          if [ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]
+          if [[ ! -L ${SOURCES_DIR}${dir_name}/${link_name} ]]
           then
             ln -s $target_name $link_name
             d_right_status $? 2
@@ -472,17 +478,18 @@ copy_dependent_libraries()
           cd $old_pwd
           d_message "just changed back to directory: [ $(pwd) ]" 3
         else
+          d_message "  Case 1 (symlink) but dir_name=[$dir_name] is /lib, link_name=[$link_name], target_name=[$target_name]" 3
           # ensure the target of the link exists in /lib
-          target_basename=$(basename ${target_name}
-          target_dirname=$(dirname ${target_name}
+          target_basename=$(basename ${target_name})
+          target_dirname=$(dirname ${target_name})
           # if the link_name is the same as the target_basename, then just make sure the target exists
           # if it doesn't exist, copy it from the host system if possible
-          if [ "${link_name}" == "${target_basename}" ]
+          if [[ "${link_name}" == "${target_basename}" ]]
           then
-            if [ ! -e ${thistarget} ]
+            if [[ ! -e ${thistarget} ]]
             then
               # try to copy the target file from the host system
-              newtarget="$(for x in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $x; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
+              newtarget="$(for candidate in $(find / -name $(basename ${target_name}) 2>/dev/null); do file $candidate; done | grep ELF | grep -v ${SOURCES_DIR} | cut -d':' -f1)"
               d_message "  about to try to copy ${thistarget} from the host system ..." 2
               [[ ! -e ${SOURCES_DIR}${dir_name}/${target_name} ]] && \
               copy_one_part "${newtarget}" "${SOURCES_DIR}${dir_name}/" || \
@@ -529,6 +536,9 @@ copy_dependent_libraries()
 separator "Make Sources"  "mkinitramfs-$BUILD"
 checkroot
 display_config
+
+exit
+
 # determine if splash is requested in init.conf
 eval $(grep "splash" ${config_file} | grep -v "#")
 [ "${init_splash}" == "yes" ] && d_message "splash requested" 1 || d_message "splash not requested" 1
