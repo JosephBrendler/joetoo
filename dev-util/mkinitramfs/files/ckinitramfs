@@ -10,8 +10,13 @@ BUILD="0.0.2"
 SOURCES_DIR="/usr/src/initramfs"
 MAKE_DIR="/usr/src/mkinitramfs"
 
-source ${MAKE_DIR}/dyn_executables_header
-executables=(${bin_dyn_executables} ${sbin_dyn_executables} ${usr_bin_dyn_executables} ${sbin_non_dyn_executables})
+#source the list of executables used by the init script, using the
+#  which command to locate each on the host system
+executables=()
+while read line
+do
+  executables+=("$(which $line)")
+done <<< $(grep -v '#' ${MAKE_DIR}/init_executables )
 
 separator "ckinitramfs-${BUILD}"
 checkroot
