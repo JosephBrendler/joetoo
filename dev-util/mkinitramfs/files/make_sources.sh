@@ -537,8 +537,6 @@ separator "Make Sources"  "mkinitramfs-$BUILD"
 checkroot
 display_config
 
-exit
-
 # determine if splash is requested in init.conf
 eval $(grep "splash" ${config_file} | grep -v "#")
 [ "${init_splash}" == "yes" ] && d_message "splash requested" 1 || d_message "splash not requested" 1
