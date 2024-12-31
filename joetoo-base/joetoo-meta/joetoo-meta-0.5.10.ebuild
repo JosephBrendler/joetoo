@@ -135,7 +135,6 @@ RDEPEND="
 	samba? ( >=net-fs/samba-4.15.4-r2 )
 	plasma? (
 		app-misc/wayland-utils
-		app-shells/bash-completion
 		kde-apps/kde-apps-meta
 		kde-apps/kwalletmanager
 		kde-plasma/kwallet-pam
@@ -368,7 +367,19 @@ src_install() {
 			newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo" "joetoo"
 		fi
 		if use plasma ; then
-			newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma" "plasma"
+			if use sbc ; then
+				case $board in
+					"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+						# arch=arm64
+						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm64" "plasma" ;;
+					"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
+						# arch=arm
+						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm" "plasma" ;;
+				esac
+			else
+				# arch=amd64
+				newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma" "plasma"
+			fi
 		fi
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/portage/binrepos.conf/"
@@ -463,20 +474,17 @@ pkg_postinst() {
 	elog " 0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
 	elog " 0.5.2/3 add packages using nodist_features.conf to package.env"
 	elog " 0.5.6 adds dependencies for plasma USE and installs package.use and .keywords"
-	elog " 0.5.7 adds packages using nodist_features.conf to package.env"
+	elog " 0.5.7/8 adds packages using nodist_features.conf to package.env"
+	elog " 0.5.9 updates conf.d/net and plasma USE (package.use and .accept_keywords)"
+	elog " 0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
 	elog "and then run again with +i after successful ${PN} install"
 	elog ""
-	if use plasma; then
-		ewarn "USE = plasma was specified, so /etc/portage/package.accept_keywords/plasma"
-		ewarn "  has been installed, and current version assumes ~amd64 target."
-		ewarn "  You must edit this file if ~amd64 is incorrect in your case."
-		ewarn ""
-		elog "USE = plasma was specified, so /etc/portage/package.accept_keywords/plasma"
-		elog "  has been installed, and current version assumes ~amd64 target."
-		elog "  You must edit this file if ~amd64 is incorrect in your case."
+	if use gnome; then
+		ewarn "USE = gnome was specified, but is not implemented yet..."
+		elog "USE = gnome was specified, but is not implemented yet..."
 		elog ""
 	fi
 	elog ""

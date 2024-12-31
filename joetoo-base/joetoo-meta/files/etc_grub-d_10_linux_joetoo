@@ -219,6 +219,8 @@ while [ "x$list" != "x" ] ; do
 	   "initrd.img-${alt_version}" "initrd-${alt_version}.img" \
 	   "initrd-${alt_version}" "initramfs-${alt_version}.img" \
 	   "initramfs.latest" \
+	   "initramfs.working" \
+	   "initramfs.safe" \
 	   "initramfs-genkernel-${version}" \
 	   "initramfs-genkernel-${alt_version}" \
 	   "initramfs-genkernel-${GENKERNEL_ARCH}-${version}" \
