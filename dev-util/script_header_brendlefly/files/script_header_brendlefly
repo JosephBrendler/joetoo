@@ -149,10 +149,10 @@ CPR()  # Report the current position (row, col) of the cursor [tip: hit return a
 # ---[ common function blocks ]------------------------------------------
 
 isnumber()      # test if $1 is a decimal number; return true/false
-{ TRUE=0; FALSE=""; [[ $1 =~ ^[0-9]+$ ]] && return $TRUE || return $FALSE ; }
+{ re='^[0-9]+$'; if echo "$1" | egrep -q "$re"; then return $TRUE; else return $FALSE; fi ; }
 
 ishex()      # test if $1 is a hexadecimal number; return true/false
-{ TRUE=0; FALSE=""; [[ $1 =~ ^[0-9a-fA-F]+$ ]] && return $TRUE || return $FALSE ; }
+{ re='^[0-9a-fA-F]+$'; if echo "$1" | egrep -q "$re"; then return $TRUE; else return $FALSE; fi ; }
 
 checkroot()     # Run as root, of course.
 { if [ "$UID" -ne "$ROOT_UID" ]; then E_message "${E_NOTROOT}"; echo; exit 1; else return 0; fi; }
@@ -196,9 +196,9 @@ dE_message_n()  # pass argument $1 to E_message() if "external" boolean VERBOSE 
 { [[ $VERBOSE && $2 -le $verbosity ]] && E_message_n "$1"; }
 
 d_echo()        # echo all but last (level) argument if $VERBOSE && verbosity -ge $level
-{ level=$( echo $@ | awk '{print $(NF)}' ); ! isnumber $level && \
-  E_message "d_echo expects a numeric verbosity level as final argument" || \
-  ([[ $VERBOSE && $verbosity -ge $level ]] && echo "${@:1:$#-1}"); }
+{ input="$@"; set $input; level=$(echo $@ | cut -d' ' -f$#); if ! isnumber $level ; then \
+  E_message "final arg must be decimal verbosity level"; elif [[ $VERBOSE ]] && \
+  [[ $verbosity -ge $level ]] ; then echo $@ | cut -d' ' -f1-$(($# - 1)); fi ; }
 
 status_color()  # emit to stdout the escape seq for color based on arg $1 (T/F Y/N 1/0)
 { case $1 in "1"|[yY]*|[tT]*|"up"|$TRUE   ) echo -en ${BGon};;

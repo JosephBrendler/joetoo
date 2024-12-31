@@ -56,6 +56,7 @@ src_install() {
 		fi
 
 
+	elog "${P} installed"
 	elog "Employ ${PN} functions after sourcing it "
 	elog "(e.g. # source /usr/local/sbin/${PN})"
 	elog ""
@@ -65,13 +66,15 @@ src_install() {
 	elog "  use commands \"summarize_me\" and \"summarize_my_extension\""
 	elog ""
 	elog "version 0.2.0 added color(), incl reverse video \"\${RVon}\""
-	elog "version 0.2.11, moved bs() and countdown() to the extended function set"
-	elog "version 0.3.0 added checkshell() to adjust for non-interactive shells"
-	elog "version 0.3.7 updated the swr() function, to use nmap"
-	elog "version 0.3.8 moved watchdistcc to dev-util/joetoolkit and added fe()"
-	elog "version 0.3.9 moved which() to dev-util/joetoolkit"
-	elog "version 0.3.10 updates checkboot() for x86/ x86_64/armv7l/aarch64"
-	elog "version 0.4.0 is a major rewrite, consolidating content in FILESDIR"
+	elog " 0.2.11, moved bs() and countdown() to the extended function set"
+	elog " 0.3.0 added checkshell() to adjust for non-interactive shells"
+	elog " 0.3.7 updated the swr() function, to use nmap"
+	elog " 0.3.8 moved watchdistcc to dev-util/joetoolkit and added fe()"
+	elog " 0.3.9 moved which() to dev-util/joetoolkit"
+	elog " 0.3.10 updates checkboot() for x86/ x86_64/armv7l/aarch64"
+	elog " 0.4.0 is a major rewrite, consolidating content in FILESDIR"
+	elog " 0.4.1 fixes d_echo() and adds isnumber() and ishex() functions"
+	elog " 0.4.2 fixes isnumber(), ishex(), and d_echo() for busybox (ash shell)"
 	elog ""
 	elog "Thank you for using ${PN}"
 
