@@ -15,7 +15,7 @@ S="${WORKDIR}/${PN}"
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="amd64 ~amd64"
+KEYWORDS="amd64 ~amd64 ~arn64"
 IUSE=""
 RESTRICT="mirror"
 
@@ -43,6 +43,10 @@ pkg_preinst() {
 }
 
 pkg_pretend() {
+	if ! linux_config_exists ; then
+		# try to load with modprobe
+		modprobe configs
+	fi
 	if linux_config_exists ; then
 		# first check for rotine y/n/m settings
 		# define what to check for --
