@@ -91,7 +91,7 @@ src_install() {
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
 	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
-	cp -R "${S}/*" "${D}/usr/src/${PN}/" || die "Install failed!"
+	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	elog ""
 	dodir usr/bin/
 	einfo "About to execute command cp -R "${S}"/ckinitramfs "${D}"/usr/bin/"
