@@ -1,5 +1,4 @@
-#!/bin/sh
-####!/bin/bash   ### switched so it's also valid in busybox (ash) shell
+#!/bin/bash
 #   script header with basic functions
 # Author: brendlefly 19 Jul 2014
 #
@@ -16,9 +15,8 @@ TRUE=0    # will evaluate to be logically true in a boolean operation
 FALSE=""  # will evaluate to be logically false in a boolean operation
   # play with test function:
   # test ( ) { [ $1 ] && echo "$1 is true" || echo "$1 is false"; }
-  # asign VERBOSE and verbosity, but only if not yet assigned
-[[ -z $VERBOSE ]] && VERBOSE=$FALSE
-[[ -z $verbosity ]] && verbosity=1
+VERBOSE=$FALSE
+verbosity=1
 
 non_interactive_header=/usr/local/sbin/script_header_brendlefly_noninteractive
 
