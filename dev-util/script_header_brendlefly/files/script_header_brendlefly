@@ -55,6 +55,13 @@ MBACK="45"     # background magenta
 LBACK="46"     # background light blue (cyan)
 WBACK="47"     # background white
 #---[ My Favorite Colors (terminate with ${Boff} ]-----------------
+Ron="${CSI}${RED}m"
+Gon="${CSI}${GREEN}m"
+Yon="${CSI}${YELLOW}m"
+Bon="${CSI}${BLUE}m"
+Mon="${CSI}${MAG}m"
+Lon="${CSI}${LBLUE}m"
+Won="${CSI}${WHITE}m"
 BRon="${CSI}${RED};${BOLD}m"
 BGon="${CSI}${GREEN};${BOLD}m"
 BYon="${CSI}${YELLOW};${BOLD}m"
