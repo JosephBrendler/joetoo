@@ -15,11 +15,11 @@ S="${WORKDIR}/${PN}"
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="amd64 ~amd64 ~arn64"
+KEYWORDS="~amd64 ~arn64"
 IUSE=""
 RESTRICT="mirror"
 
-RDEPEND=">=dev-util/script_header_brendlefly-0.3.9
+RDEPEND=">=dev-util/script_header_brendlefly-0.4.3
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7
 	>=sys-libs/glibc-2.23
@@ -43,10 +43,6 @@ pkg_preinst() {
 }
 
 pkg_pretend() {
-	if ! linux_config_exists ; then
-		# try to load with modprobe
-		modprobe configs
-	fi
 	if linux_config_exists ; then
 		# first check for rotine y/n/m settings
 		# define what to check for --
@@ -134,6 +130,9 @@ pkg_postinst() {
 	elog " 8.0.1 added verbosity to .conf and updates handling deps of executables"
 	elog " 8.1.0 is a major rewrite of make_sources.sh (workedonly for merged-usr)"
 	elog " 8.2.0 updates the init script and moves sources back to myUtilities repo"
+	elog " 8.2.1 fixes bugs"
+	elog " 8.2.2 stable for arm64, header dep >=0.4.2 for d_echo() isnumber() for ash"
+	elog " 8.3.0 is a new init w auto dev/fs scan, updates for simplicity, stability"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""
