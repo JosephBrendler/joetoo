@@ -132,7 +132,7 @@ pkg_postinst() {
 	elog " 8.2.0 updates the init script and moves sources back to myUtilities repo"
 	elog " 8.2.1 fixes bugs"
 	elog " 8.2.2 stable for arm64, header dep >=0.4.2 for d_echo() isnumber() for ash"
-	elog " 8.3.0 has a new init w auto dev/fs scan, updates for simplicity, stability"
+	elog " 8.3.0 has new init w auto dev/fs scan, updates for simplicity, stability"
 	elog ""
 	elog "Please report bugs to the maintainer."
 	elog ""

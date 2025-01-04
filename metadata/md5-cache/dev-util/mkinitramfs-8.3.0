@@ -11,4 +11,4 @@ RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-8.3.0.tbz2
 _eclasses_=toolchain-funcs	14648d8795f7779e11e1bc7cf08b7536	multilib	b2a329026f2e404e9e371097dda47f96	linux-info	ea4122ba1d8791a12b78e53f9510a2e3
-_md5_=2ff4f7cc65e335055e743c94e97232cc
+_md5_=eea731c0110ad0040d8f80b5daf8b27f
