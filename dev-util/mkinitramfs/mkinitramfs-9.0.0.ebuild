@@ -15,8 +15,8 @@ S="${WORKDIR}/${PN}"
 LICENSE="MIT"
 SLOT="0"
 
-KEYWORDS="~amd64 ~arm64"
-#KEYWORDS="amd64 ~amd64 arm64 ~arm64"
+#KEYWORDS="~amd64 ~arm64"
+KEYWORDS="amd64 ~amd64 arm64 ~arm64"
 IUSE=""
 RESTRICT="mirror"
 
