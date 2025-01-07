@@ -136,7 +136,7 @@ pkg_postinst() {
 	elog " 8.2.2 stable for arm64, header dep >=0.4.2 for d_echo() isnumber() for ash"
 	elog " 8.3.0-2 provide automatic dev/fs scan, simplicity, stability, resilience"
 	elog " 9.0.0 is a renewed major rewrite of make_sources.sh"
-	elog ""
+	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
 	elog "Thank you for using ${PN}"
