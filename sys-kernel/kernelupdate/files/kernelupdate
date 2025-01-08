@@ -501,7 +501,7 @@ d_message "${LBon}............RESUME=[$(status_color ${RESUME})$(TrueFalse ${RES
 d_message "${LBon}.....starting_step=[${BWon}$starting_step${LBon}]${Boff}" 1
 d_message "${LBon}...........VERBOSE=[$(status_color ${VERBOSE})$(TrueFalse ${VERBOSE})${LBon}]${Boff}" 1
 d_message "${LBon}.........verbosity=[${BWon}$verbosity${LBon}]${Boff}" 1
-d_echo
+d_echo 1
 separator "Auto-configured" $(hostname)
 d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
 d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
@@ -518,10 +518,10 @@ d_message "${LBon}.kernel_image_name=[${BWon}$kernel_image_name${LBon}]${Boff}" 
 d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
 d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
 d_message "${LBon}.......status_file=[${BWon}$status_file${LBon}]${Boff}" 1
-d_echo
+d_echo 1
 d_message "${LBon}..publish_tarball_cmd_file=[${BWon}$publish_tarball_cmd_file${LBon}]${Boff}" 1
 d_message "${LBon}...publish_ebuild_cmd_file=[${BWon}$publish_ebuild_cmd_file${LBon}]${Boff}" 1
-d_echo
+d_echo 1
 d_message "${LBon}........make_me='${BWon}$make_me${LBon}'${Boff}" 1
 }
 
