@@ -112,8 +112,8 @@ src_install() {
 	elog "init.conf installed in /etc/mkinitramfs/"
 	einfo "About to create PKG_PVR file"
 	echo "${PVR}" > ${T}/PKG_PVR
-	einfo "About to execute command cp -v "${T}"/PKG_PVR "${D}"/PKG_PVR"
-	cp -v "${T}/PKG_PVR" "${D}/PKG_PVR" || die "Install failed!"
+	einfo "About to execute command cp -v "${T}"/PKG_PVR "${D}"/usr/src/mkinitramfs/PKG_PVR"
+	cp -v "${T}/PKG_PVR" "${D}/usr/src/mkinitramfs/PKG_PVR" || die "Install failed!"
 	elog "PKG_PVR file with content [${PVR}] installed in /PKG_PVR"
 	elog ""
 }
