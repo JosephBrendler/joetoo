@@ -4,6 +4,7 @@
 # The main point of meta-package USE flags is to reduce
 #   what you have to manually install/specify in your @world set (/var/lib/portage/world)
 #
+# joetoolkit .................: Pull in joetoo's joetollkit package
 # headless ...................: Configure joetoo for use as a headless server
 # plasma .....................: (to do) Configure joetoo for use with a plasma desktop
 # gnome ......................: (to do) Configure joetoo for use with a gnome desktop
@@ -43,6 +44,7 @@
 # The default for >=joetoo-base/joetoo-meta-0.0.1::joeto (below) should be good for a new amd64 install
 #   start point with no USE flags specified; add more later.  The default will currently resolve to --
 #    +innercore
+#    +joetoolkit
 #    +headless -plasma -gnome
 #    -lamp -nextcloud -mysql -mariadb
 #    +cloudsync
@@ -134,6 +136,6 @@ sys-kernel/linux-firmware -initramfs
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* PHP_TARGETS: php8-3
-*/* RUBY_TARGETS: ruby31
-*/* LLVM_TARGETS: ARM X86
+#*/* PHP_TARGETS: php8-3     # 8.2 is stable 8.3 testing as of 9 Jan 25
+#*/* RUBY_TARGETS: ruby31    # not using ruby...
+#*/* LLVM_TARGETS: ARM X86   # profile forces archs on anyway
