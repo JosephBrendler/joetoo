@@ -207,12 +207,12 @@ dE_message_n()  # pass argument $1 to E_message() if "external" boolean VERBOSE 
 d_echo()        # echo all but last (level) argument if $VERBOSE && verbosity -ge $level
 { input="$@"; set $input; level=$(echo $@ | cut -d' ' -f$#); if ! isnumber $level ; then \
   E_message "final arg must be decimal verbosity level"; elif [[ $VERBOSE ]] && \
-  [[ $verbosity -ge $level ]] ; then [[ $# -eq 0 ]] && echo || echo $@ | cut -d' ' -f1-$(($# - 1)); fi ; }
+  [[ $verbosity -ge $level ]] ; then [[ $# -eq 1 ]] && echo || echo $@ | cut -d' ' -f1-$(($# - 1)); fi ; }
 
 de_echo()       # echo -e all but last (level) argument if $VERBOSE && verbosity -ge $level
 { input="$@"; set $input; level=$(echo $@ | cut -d' ' -f$#); if ! isnumber $level ; then \
   E_message "final arg must be decimal verbosity level"; elif [[ $VERBOSE ]] && \
-  [[ $verbosity -ge $level ]] ; then [[ $# -eq 0 ]] && echo || echo -e $@ | cut -d' ' -f1-$(($# - 1)); fi ; }
+  [[ $verbosity -ge $level ]] ; then [[ $# -eq 1 ]] && echo || echo -e $@ | cut -d' ' -f1-$(($# - 1)); fi ; }
 
 status_color()  # emit to stdout the escape seq for color based on arg $1 (T/F Y/N 1/0)
 { case $1 in "1"|[yY]*|[tT]*|"up"|$TRUE   ) echo -en ${BGon};;
