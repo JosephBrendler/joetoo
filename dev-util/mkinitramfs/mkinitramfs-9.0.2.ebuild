@@ -20,7 +20,7 @@ KEYWORDS="amd64 ~amd64 arm64 ~arm64"
 IUSE=""
 RESTRICT="mirror"
 
-RDEPEND=">=dev-util/script_header_brendlefly-0.4.3
+RDEPEND=">=dev-util/script_header_brendlefly-0.4.4
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7[python(+)]
 	>=sys-libs/glibc-2.23
