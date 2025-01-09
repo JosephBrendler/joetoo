@@ -36,6 +36,8 @@ DEPEND="${RDEPEND}"
 pkg_preinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "A=${A}"
+	einfo "T=${T}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -92,22 +94,27 @@ pkg_pretend() {
 src_install() {
 	# install utility scripts and baseline initramfs sources in /usr/src
 	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
-	einfo 'About to issue command: cp -R '${S}'/ '${D}'/usr/src/'
+	einfo 'About to issue command: cp -v '${S}'/ '${D}'/usr/src/'
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	elog ""
 	dodir usr/bin/
-	einfo "About to execute command cp -R "${S}"/ckinitramfs "${D}"/usr/bin/"
+	einfo "About to execute command cp -v "${S}"/ckinitramfs "${D}"/usr/bin/"
 	cp -v "${S}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
 	elog ""
 	dodir etc/mkinitramfs/
-	einfo "About to execute command cp -R "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
+	einfo "About to execute command cp -v "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
 	cp -v "${S}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "mkinitramfs.conf installed in /etc/mkinitramfs/"
 	elog ""
-	einfo "About to execute command cp -R "${S}"/init.conf "${D}"/etc/mkinitramfs/"
+	einfo "About to execute command cp -v "${S}"/init.conf "${D}"/etc/mkinitramfs/"
 	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
+	einfo "About to create PKG_PVR file"
+	echo "${PVR}" > ${T}/PKG_PVR
+	einfo "About to execute command cp -v "${T}"/PKG_PVR "${D}"/PKG_PVR"
+	cp -v "${T}/PKG_PVR" "${D}/PKG_PVR" || die "Install failed!"
+	elog "PKG_PVR file with content [${PVR}] installed in /PKG_PVR"
 	elog ""
 }
 

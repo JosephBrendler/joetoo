@@ -1,0 +1,14 @@
+DEFINED_PHASES=install postinst preinst pretend setup
+DEPEND=>=dev-util/script_header_brendlefly-0.4.3 >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7[python(+)] >=sys-libs/glibc-2.23 >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-boot/grub-2.06-r1[device-mapper(+)] >=sys-fs/lvm2-2.02.188-r2[-udev(-)] >=sys-fs/cryptsetup-2.3.6-r2[urandom(+),openssl(+)] >=sys-apps/busybox-1.34.1[-static(-)]
+DESCRIPTION=create initramfs for LUKS encrypted / lvm system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+INHERIT=linux-info
+KEYWORDS=amd64 ~amd64 arm64 ~arm64
+LICENSE=MIT
+RDEPEND=>=dev-util/script_header_brendlefly-0.4.3 >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7[python(+)] >=sys-libs/glibc-2.23 >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-boot/grub-2.06-r1[device-mapper(+)] >=sys-fs/lvm2-2.02.188-r2[-udev(-)] >=sys-fs/cryptsetup-2.3.6-r2[urandom(+),openssl(+)] >=sys-apps/busybox-1.34.1[-static(-)]
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-9.0.2.tbz2
+_eclasses_=toolchain-funcs	14648d8795f7779e11e1bc7cf08b7536	multilib	b2a329026f2e404e9e371097dda47f96	linux-info	ea4122ba1d8791a12b78e53f9510a2e3
+_md5_=b6f12ae5f3b520c31612296f70dde398
