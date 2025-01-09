@@ -75,6 +75,8 @@ src_install() {
 	elog " 0.4.0 is a major rewrite, consolidating content in FILESDIR"
 	elog " 0.4.1 fixes d_echo() and adds isnumber() and ishex() functions"
 	elog " 0.4.2 fixes isnumber(), ishex(), and d_echo() for busybox (ash shell)"
+	elog " 0.4.3 now uses #!/bin/sh, asigns VERBOSE/verbosity only if null, offers unbold colors"
+	elog " 0.4.4 fixes d_echo and de_echo for null string e.g. d_echo 1"
 	elog ""
 	elog "Thank you for using ${PN}"
 
