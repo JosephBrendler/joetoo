@@ -73,7 +73,7 @@ RVon="${CSI}${REVERSE}m"
 Boff="${CSI}${SGRoff}m"          # Bold off (reset all SGR (e.g. blink, underline)
 #---[ Here setting background as well ]-----------------------------
 BBonY="${CSI}${BLUE};${YBACK};${BOLD}m"
-color()        # set both foreground and background color; optional bold
+color()  # set both foreground and background color; optional bold
 {
   local FG=""  # foreground
   local BG=""  # optional background
@@ -120,39 +120,39 @@ uD_LL_wall='\u255A'
 uD_LR_wall='\u255D'
 
 #---[ Cursor Movement Commands ]-----------------------------------
-SCP()  # save the current cursor position
+SCP()    # save the current cursor position
 { echo -en "${CSI}s" && return 0 || return 1; }
-RCP()  # restore the cursor to the saved position
+RCP()    # restore the cursor to the saved position
 { echo -en "${CSI}u" && return 0 || return 1; }
-HCU()  # Hide the cursor (Note: the trailing character is lowercase L)
+HCU()    # Hide the cursor (Note: the trailing character is lowercase L)
 { echo -en "${CSI}?25l" && return 0 || return 1; }
-SCU()  # Show the cursor
+SCU()    # Show the cursor
 { echo -en "${CSI}?25h" && return 0 || return 1; }
-HVP()  # move cursor to position row=$1, col=$2 (both default to 1 if omitted)
+HVP()    # move cursor to position row=$1, col=$2 (both default to 1 if omitted)
 {
   local row col
   [ ! -z "$1" ] && row=$1 || row=1
   [ ! -z "$2" ] && col=$2 || col=1
   echo -en "${CSI}${row};${col}f" && return 0 || return 1
 }
-CUP()  # move cursor to position row=$1, col=$2 (both default to 1 if omitted)
+CUP()    # move cursor to position row=$1, col=$2 (both default to 1 if omitted)
 {
   local row col
   [ ! -z "$1" ] && row=$1 || row=1
   [ ! -z "$2" ] && col=$2 || col=1
   echo -en "${CSI}${row};${col}H" && return 0 || return 1
 }
-CLR()  # Clear the screen
+CLR()    # Clear the screen
 { echo -en "${CSI}2J" && return 0 || return 1; }
-CUU()  # Move the cursor up ($1 cells)
+CUU()    # Move the cursor up ($1 cells)
 { [ ! -z "$1" ] && reps=$1 || reps=1; echo -en "${CSI}"$(( ${reps} + 1 ))"A" && return 0 || return 1; }
-CUD()  # Move the cursor down ($1 cells)
+CUD()    # Move the cursor down ($1 cells)
 { [ ! -z "$1" ] && reps=$1 || reps=1; echo -en "${CSI}"$(( ${reps} - 1 ))"B" && return 0 || return 1; }
-CUF()  # Move the cursor forward ($1 cells)
+CUF()    # Move the cursor forward ($1 cells)
 { [ ! -z "$1" ] && reps=$1 || reps=1; echo -en "${CSI}"$(( ${reps} ))"C" && return 0 || return 1; }
-CUB()  # Move the cursor back ($1 cells)
+CUB()    # Move the cursor back ($1 cells)
 { [ ! -z "$1" ] && reps=$1 || reps=1; echo -en "${CSI}"$(( ${reps} ))"D" && return 0 || return 1; }
-CPR()  # Report the current position (row, col) of the cursor [tip: hit return again]
+CPR()    # Report the current position (row, col) of the cursor [tip: hit return again]
 { perl -e '$/ = "R";' -e 'print "\033[6n";my $x=<STDIN>;my($n, $m)=$x=~m/(\d+)\;(\d+)/;print "Col: $m, Row: $n\n";'; }
 
 # ---[ common function blocks ]------------------------------------------
@@ -306,7 +306,7 @@ separator()     # draw a horizontal line with a simple title (arg $1) and prefac
 get_longest()    # return via echo to stdout the length of longest string in input $@
 { ans=0; for x in $@; do [ ${#x} -gt $ans ] && ans=${#x}; done ; echo $ans ; }
 
-display_vars() # output dot-padded standard config display for each var in $@; incl bool_ lv_ ; $1=longest
+display_vars()   # show aligned values for vars in $@; incl bool_ lv_ ; $1=longest
 {
   if ! isnumber $1 ; then E_message "Error: arg \$1 must be numeric longest expected input var name"; exit; fi
   if [ $# -le 1 ] ; then E_message "Error: \$# not gt 1; arg 1 must be followed by var names"; exit; fi
