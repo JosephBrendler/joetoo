@@ -306,22 +306,22 @@ separator()     # draw a horizontal line with a simple title (arg $1) and prefac
 get_longest()    # return via echo to stdout the length of longest string in input $@
 { ans=0; for x in $@; do [ ${#x} -gt $ans ] && ans=${#x}; done ; echo $ans ; }
 
-display_vars()   # show aligned values for vars in $@; incl bool_ lv_ ; $1=longest
+display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longest
 {
   if ! isnumber $1 ; then E_message "Error: arg \$1 must be numeric longest expected input var name"; exit; fi
   if [ $# -le 1 ] ; then E_message "Error: \$# not gt 1; arg 1 must be followed by var names"; exit; fi
   maxlen=$(($1 + 2)); shift; for var_name in $@;
   do
-    type="$(echo $var_name | awk  -F \_ '{print $1}')"
+    type="$(echo $var_name | awk  -F \. '{print $1}')"
     case ${type} in
       "bool" )  # boolean convention: parameter is "bool_${var}" where ${var} is e.g. "VRBOSE"
-        var="$(echo $var_name | awk  -F \_ '{print $2}')"
+        var="$(echo $var_name | awk  -F \. '{print $2}')"
         eval "key=\$${var}"
         pad="$(repeat '.' $(( ${maxlen} - ${#var})) )"
         message "${LBon}${var}${pad}: [ $(status_color ${key})$(TrueFalse ${key}) ${LBon}]${Boff}"
       ;;
       "lv"   )  # lonstring convention: parameter is "lv_${var}" wehre ${var} is e.g. "CMDLINE"
-        var="$(echo $var_name | awk  -F \_ '{print $2}')"
+        var="$(echo $var_name | awk  -F \. '{print $2}')"
         eval "key=\$${var}"
         pad="$(repeat '.' $(( ${maxlen} - ${#var})) )"
         message_n "${LBon}${var}${pad}: [ ${Boff}"
