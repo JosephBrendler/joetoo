@@ -71,7 +71,7 @@ my_devel_dir="/home/joe/myUtilities"
 my_devel_dir_credentials="/home/joe/myUtilities/.git/.credentials"
 my_ebuild_dir="/home/joe/joetoo/sys-kernel"
 my_ebuild_dir_credentials="/home/joe/joetoo/.git/.credentials"
-host_dir=${build_root%/}/"domU_kernel_images"
+host_dir=${build_root}/"domU_kernel_images"
 INTERACTIVE=${FALSE}
 RESUME=${FALSE}
 starting_step=0
@@ -88,37 +88,33 @@ source /usr/local/sbin/setnodistpath && echo "PATH:  $PATH"
 echo
 
 # source the current build number, assuming it was properly generated during ebuild deployment
-if [[ -e /etc/kernelupdate/BUILD ]] ; then
-  message_n "sourcing BUILD ..."
-  source /etc/kernelupdate/BUILD
-  right_status $?
-fi
+[[ -e /etc/kernelupdate/BUILD ]] && source /etc/kernelupdate/BUILD
 
 # source kernelupdate.conf in order to load customized settings
 #   check each setting below to assign, if needed
 #   Note: kernelupdate.conf in /etc/kernelupdate/ will override one in pwd
-
-[[ -e kernelupdate.conf ]] && CONF_DIR="$(pwd)"
-[[ -e /etc/kernelupdate/kernelupdate.conf ]] && CONF_DIR="/etc/kernelupdate"
-message_n "sourcing ${CONF_DIR%/}/kernelupdate.conf ..."
-source ${CONF_DIR%/}/kernelupdate.conf; right_status $?
+[[ -e kernelupdate.conf ]] && \
+    source kernelupdate.conf && \
+    CONF_DIR=$PWD"/kernelupdate.conf"
+[[ -e /etc/kernelupdate/kernelupdate.conf ]] && \
+    source /etc/kernelupdate/kernelupdate.conf && \
+    CONF_DIR="/etc/kernelupdate/kernelupdate.conf"
 
 # append "/" to dtb_folder and overlay_folder if missing and not null
-#( [[ ${#dtb_folder} -gt 0 ]] && [[ ! "${dtb_folder: -1}" == "/" ]] ) && dtb_folder+="/"
-#( [[ ${#overlay_folder} -gt 0 ]] && [[ ! "${overlay_folder: -1}" == "/" ]] ) && overlay_folder+="/"
-# don't need these, since I adopted ${xxx_dir%/}/ instead
+( [[ ${#dtb_folder} -gt 0 ]] && [[ ! "${dtb_folder: -1}" == "/" ]] ) && dtb_folder+="/"
+( [[ ${#overlay_folder} -gt 0 ]] && [[ ! "${overlay_folder: -1}" == "/" ]] ) && overlay_folder+="/"
 
 # you should not need to edit anything below this point
-sources_dir="${build_root%/}/linux"
-config_dir="${build_root%/}/kernelconfigs"
-build_dir="${build_root%/}/build"
-status_file="${build_dir%/}/status"
-model_dir="${build_dir%/}/${model}"
-model_config="${model_dir%/}/.config"
-kernel_basename="linux-${model}_joetoo_kernelimage"
-distrib_dir="${model_dir%/}/tmp/distrib"
-lib_dir="${distrib_dir%/}/lib"
-boot_dir="${distrib_dir%/}/boot"
+sources_dir="${build_root}/linux"
+config_dir="${build_root}/kernelconfigs"
+build_dir="${build_root}/build"
+status_file="${build_dir}/status"
+model_dir="${build_dir}/${model}"
+model_config="${model_dir}/.config"
+kernel_basename="linux-${model}_kernel_image"
+distrib_dir="${model_dir}/tmp/distrib"
+lib_dir="${distrib_dir}/lib"
+boot_dir="${distrib_dir}/boot"
 module_dir=""  # to be set after make modules_install
 
 # create the build directory structure if it does not exist (-p makes parents)
@@ -138,21 +134,21 @@ make_model="MAKEOPTS="
 make_model+="\"${makeopts}\" "
 make_model+=" FEATURES="
 make_model+="\"${features}\" "
-make_model+="make O=${model_dir%/}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
+make_model+="make O=${model_dir}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
 # set up the host build command for dom0
 make0="MAKEOPTS="
 make0+="\"${makeopts}\" "
 make0+=" FEATURES="
 make0+="\"${features}\" "
-make0+="make O=${model_dir%/}/ "
+make0+="make O=${model_dir}/ "
 
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
 
 # get and set kernel version number and image name
 old_dir=$PWD
-message "Old pwd: ${old_dir}" && cd ${sources_dir%/} && message "Now working in $PWD"
+message "Old pwd: ${old_dir}" && cd ${sources_dir} && message "Now working in $PWD"
 ### This change was un-necessary -- undo it
 version_number=$(eval ${make_me} -s kernelversion)
 # dom0/domU using gentoo-sources, will get version line "X.Y.Z-gentoo"
@@ -162,31 +158,18 @@ version_number=$(eval ${make_me} -s kernelversion)
 d_message "version_number: ${version_number}" 3
 kernel_image_name="${kernel_basename}-${version_number}"
 
-devel_dir="${my_devel_dir%/}"
-ebuild_dir="${my_ebuild_dir%/}/${kernel_basename}"
-publish_tarball_cmd_file="${build_dir%/}/publish_tarball_${kernel_image_name}"
-publish_ebuild_cmd_file="${build_dir%/}/publish_ebuild_${kernel_image_name}"
-
-# if the ebuild_dir does not exist, create it
-if [[ ! -d "${ebuild_dir}" ]] ; then
-  mkdir -pv -m 755 "${ebuild_dir}"
-  chown -R ${user}:${user} "${ebuild_dir}"
-  git_command_sequence+=("git add ./")
-else
-  d_message "${ebuild_dir} already exists; not creating." 3
-fi
-
+devel_dir="${my_devel_dir}"
+ebuild_dir="${my_ebuild_dir}/${kernel_basename}"
+publish_tarball_cmd_file="${build_dir}/publish_tarball_${kernel_image_name}"
+publish_ebuild_cmd_file="${build_dir}/publish_ebuild_${kernel_image_name}"
+[[ ! -d "${ebuild_dir}" ]] &&  mkdir -pv -m 755 "${ebuild_dir}" && chown ${user}:${user} "${ebuild_dir}"
 d_message "done setup and auto-configure" 3
 
-message "pwd: $(pwd)" && cd ${ebuild_dir} && message "Now working in $$(pwd)"
-
-# 20240724 - removed 'publish_ebuild' from sequence; now using consolidated linux-joetoo-kernelimage.${PV}.ebuild
-#            (found that the consolidated ebuild doesn't work until ALL of the candidate kernels are actually built)
-# 20250112 - put back 'publish_ebuild' for all but dom0; now using separate linux-${model_joetoo-kernelimage.${PV}.ebuilds
+# 20240724 - removed 'publish_ebuild' from sequence; now using consolidated linux-joetoo-kernelupdate.${PV}.ebuild
 command_sequence=(
 'backup_config'
 'make_mrproper'
-'cp -v ${config_dir%/}/.config.bak ${model_config}'
+'cp -v ${config_dir}/.config.bak ${model_config}'
 'eval ${make_me} oldconfig'
 'eval ${make_me} prepare'
 'eval ${make_me} menuconfig'
@@ -200,6 +183,7 @@ command_sequence=(
 'publish_tarball'
 'publish_ebuild'
 )
+#### 'publish_ebuild'
 d_message "done setting command sequence" 3
 
 #-----[ functions ]--------------------------------------------------
@@ -218,7 +202,7 @@ make_mrproper() {
 backup_config() {
   if [[ -f ${model_config} ]]
   then
-    cp -v ${model_config} ${config_dir%/}/.config.bak
+    cp -v ${model_config} ${config_dir}/.config.bak
   else
     msg="Config file [ ${model_config} ] not found.\n"
     msg+="${BYon} Please put a .config file in model build directory [ ${model_dir} ],\n"
@@ -229,7 +213,7 @@ backup_config() {
 }
 
 save_new_config() {
-  cp -v ${model_config} ${config_dir%/}/.config.${model}-${version_number}
+  cp -v ${model_config} ${config_dir}/.config.${model}-${version_number}
 }
 
 # leaving this here for reference, but it is depracated, since I now
@@ -282,8 +266,8 @@ install_kernel()
     # Otherwise (SBC kernel), install to boot_dir for tarball.  Don't just use make install;
     #   also copy the proper image manually to the proper deployed kernel name
     *      ) eval "INSTALL_PATH=${boot_dir} ${make_me} install" ;
-             cp -av ${model_dir%/}/arch/${arch}/boot/${image} \
-                 ${boot_dir%/}/${kernel}-${version_number};;
+             cp -av ${model_dir}/arch/${arch}/boot/${image} \
+                 ${boot_dir}/${kernel}-${version_number};;
   esac
 }
 
@@ -299,14 +283,14 @@ install_modules()
     eval "${make_me} INSTALL_MOD_PATH=${distrib_dir} modules_install"
 
     # identify the new module directory
-    module_dir=$( basename $( find ${lib_dir%/}/modules/  -maxdepth 1  -iname ${version_number}*  -type d ) )
+    module_dir=$( basename $( find ${lib_dir}/modules/  -maxdepth 1  -iname ${version_number}*  -type d ) )
 
     # fix the build and source symlinks
-    message "${LBon}Fixing the ${lib_dir%/}/modules/${module_dir%/}/build symlink...${Boff}"
-    cd ${lib_dir%/}/modules/${module_dir} && message "Now working in $PWD"
+    message "${LBon}Fixing the ${lib_dir}/modules/${module_dir}/build symlink...${Boff}"
+    cd ${lib_dir}/modules/${module_dir} && message "Now working in $PWD"
     rm -v build 2>/dev/null
     ln -snfv /usr/src/linux build
-    message "${LBon}Fixing the ${lib_dir%/}/modules/${module_dir%/}/source symlink...${Boff}"
+    message "${LBon}Fixing the ${lib_dir}/modules/${module_dir}/source symlink...${Boff}"
     rm -v source 2>/dev/null
     ln -snfv /usr/src/linux source
   fi
@@ -318,7 +302,7 @@ install_dtbs()
     # note - dtb_folder and overlay_folder are relative to build/${model}/arch/${ARCH}/boot/dts/
     cd ${sources_dir} && message "Now working in $PWD"
     message "${LBon}Installing device tree and overlay [.dtb and .dtbo] files ...${Boff}"
-    mkdir -p ${boot_dir%/}/dts/${dtb_folder}
+    mkdir -p ${boot_dir}/dts/${dtb_folder}
     eval "${make_me} INSTALL_DTBS_PATH=${boot_dir%/}/dts/${dtb_folder%/}/ dtbs_install"
     message "In case of error in dtbs_install, will try to manually copy ..."
     # manually install dtb files from dtb_folder (omit subdirectories like "overlays")
@@ -347,7 +331,7 @@ make_tarball()
 
     # create tarball from staged contents; don't include kernel sources
     tar_command="tar "
-    tar_command+="  --exclude lib/modules/${module_dir%/}/source/"
+    tar_command+="  --exclude lib/modules/${module_dir}/source/"
 #  tar_command+="  --exclude lib/firmware"
     tar_command+="  -cvjf ${kernel_image_name}.tar.bz2 ./boot ./lib"
     eval $tar_command && \
@@ -357,10 +341,10 @@ make_tarball()
 }
 
 publish_tarball() {
-    echo; message "copying package ${distrib_dir%/}/${kernel_image_name}.tar.bz2 to ${devel_dir%/}/"
-    cp -v ${distrib_dir%/}/${kernel_image_name}.tar.bz2 ${devel_dir%/}/
+    echo; message "copying package ${distrib_dir}/${kernel_image_name}.tar.bz2 to ${devel_dir}/"
+    cp -v ${distrib_dir}/${kernel_image_name}.tar.bz2 ${devel_dir}/
     message "changing ownership for upload"
-    chown ${user}:${user} ${devel_dir%/}/${kernel_image_name}.tar.bz2
+    chown ${user}:${user} ${devel_dir}/${kernel_image_name}.tar.bz2
 
     cd ${old_dir} && message "Now working in $PWD"
 
@@ -382,7 +366,7 @@ publish_tarball() {
     [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
     # now do git pull, push, push using ssh key
     echo "echo" >> ${publish_tarball_cmd_file}
-    echo "cd ${devel_dir%/}/" >> ${publish_tarball_cmd_file}
+    echo "cd ${devel_dir}/" >> ${publish_tarball_cmd_file}
     echo "echo new PWD: \${PWD}" >> ${publish_tarball_cmd_file}
     echo "git pull" >> ${publish_tarball_cmd_file}
     echo "git status" >> ${publish_tarball_cmd_file}
@@ -405,141 +389,64 @@ publish_tarball() {
 }
 
 publish_ebuild() {
-    # tried retiring this and consolidating all kernels of a given version in one ebuild
-    #   (but then you have to build all 12 kernels before anyone can use the ebuild)
-    #   (so I'm going back to an ebuild for the kernel for each model)
+    ## leaving this here, but not using - moved to consolidated sys-kernel/linux-joetoo-kernelimage
+    # publish updated ebuild for domU or sbc kernels (dom0 don't need ebuilds)
+
     ebuild_list=()
-    message_n "enumerating existing ebuilds for $kernel_basename ..."
+
     for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
     do
       ebuild_list+=("${x}")
-    done ; right_status $?
-    # the ebuild dir will contain at least the 0.0.0 template created by first run of this script for this model
-    message_n "finding most recent existing ebuild version ..."
-    old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir%/}/${kernel_basename}-||" | sed 's|.ebuild||')
-    right_status $?
-    message "old version: ${old_version}"
-    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
-    if [ ! "${model}" == "dom0" ]; then
-      message_n "determining new version number and kernel image name ..."
-      new_version="$(echo ${version_number} | sed 's/-gentoo//')" && \
-      version_number="${new_version}" && \
-      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')" && \
-      kernel_image_name="${new_kernel_image_name}"
-      right_status $?
-    fi
-    message "new version: ${version_number}"
-
-    ebuild_command_sequence=('#!/bin/bash' \
-        'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' \
-        "ssh-add -l 2>/dev/null >/dev/null" \
-        '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' \
-        "echo 'ssh-agent added, listing keys ...'" \
-        "ssh-add -l" \
-        "source ${my_ebuild_dir_credentials}" \
-        "echo" \
-        "cd ${ebuild_dir%/}/" \
-        "echo new PWD: \${PWD}" \
-        "git pull" )
-
-
-    # if the ebuild dir does not contain a template ebuild, then populate it
-    if [[ ! -f "${ebuild_dir%/}/template_linux-${model}-joetoo_kernelimage-0.0.0.ebuild" ]] ; then
-      # populate ebuild template if needed
-      if [[ -f ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild ]] ; then
-        cp  ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild \
-           ${ebuild_dir%/}/linux-${model}-joetoo_kernelimage-0.0.0.ebuild
-        chown -R ${user}:${user} "${ebuild_dir%/}/"
-        ebuild_command_sequence+=("git add linux-${model}-joetoo_kernelimage-0.0.0.ebuild")
-      else
-        E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild does not exist" 3
-      fi
-    else
-      d_message "${ebuild_dir%/}/template_linux-${model}-joetoo_kernelimage-0.0.0.ebuild already exists; not creating." 3
-    fi
-    # if the ebuild dir does not contain a metadata file, then populate it
-    message "CONF_DIR: ${CONF_DIR}"
-    if [[ ! -f "${ebuild_dir%/}/metadata.xml" ]] ; then
-      # populate metadata.xml if needed
-      if [[ -f ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml ]] ; then
-        cp  ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml \
-           ${ebuild_dir%/}/metadata.xml
-        chown -R ${user}:${user} "${ebuild_dir%/}/"
-        ebuild_command_sequence+=("git add /metadata.xml")
-      else
-        E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml does not exist" 3
-      fi
-    else
-      d_message "${ebuild_dir%/}/metadata.xml already exists; not creating." 3
-    fi
-
-    # create the new ebuild file
-    cp ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir%/}/${kernel_image_name}.ebuild"
-    chown -R ${user}:${user} "${ebuild_dir%/}/"
-    # remove the old Manifest file
-    rm ${ebuild_dir%/}/Manifest 2>/dev/null
-
-    ebuild_command_sequence+=( \
-        "pkgdev manifest -f -d ${DISTDIR}" \
-        "git status" \
-        "git add Manifest" \
-        "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" \
-        "git add ${kernel_image_name}.ebuild" \
-        "git commit -m \"adding ${kernel_image_name}\"" \
-        'eval "git push git@github.com:${gituser}/${gitrepo}.git master"' \
-        'git push' \
-        '' )
-
-#    echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
-#    # first command uses single ">", to initialize the file; then others use ">>"
-#    echo "#!/bin/bash" > ${publish_ebuild_cmd_file}
-#    # set SSH_AUTH_SOCK env var to a fixed value
-#    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_ebuild_cmd_file}
-#    # test whether ${SSH_AUTH_SOCK} is valid
-#    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_ebuild_cmd_file}
-#    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
-#    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_ebuild_cmd_file}
-#    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_ebuild_cmd_file}
-#    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
-#    echo "ssh-add -l" >> ${publish_ebuild_cmd_file}
-#    # source github credentials to format the git push command and identify keys to load
-#    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-#    # check for ssh keys, and add if they are not already loaded
-#    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
-#    # now do git pull, push, push using ssh key
-#    echo "echo" >> ${publish_ebuild_cmd_file}
-#    echo "cd ${ebuild_dir%/}/" >> ${publish_ebuild_cmd_file}
-#    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
-#    echo "git pull" >> ${publish_ebuild_cmd_file}
-#    echo "cp ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir%/}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-#    echo "rm ${ebuild_dir%/}/Manifest" >> ${publish_ebuild_cmd_file}
-#    echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
-#    echo "git status" >> ${publish_ebuild_cmd_file}
-#    echo "git add Manifest" >> ${publish_ebuild_cmd_file}
-#    echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
-#    echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-#    echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
-#    echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
-#    echo 'git push' >> ${publish_ebuild_cmd_file}
-#    echo  >> ${publish_ebuild_cmd_file}
-
-    echo ${ebuild_command_sequence[0]} > ${publish_ebuild_cmd_file}
-    for ((i=1; i<${#ebuild_command_sequence[@]}; i++))
-        message_n "adding line $i [ "${ebuild_command_sequence[$i]}" ..."
-        echo ${ebuild_command_sequence[$i]} >> ${publish_ebuild_cmd_file}
-        right_status $?
     done
-
-    message_n "loading ssh key if needed ..."
-    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey} ; right_status $?
+    old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir}/${kernel_basename}-||" | sed 's|.ebuild||')
+    echo "old version: ${old_version}"
+    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
+    if [ "${model}" == "domU" ]; then
+      new_version="$(echo ${version_number} | sed 's/-gentoo//')"
+      version_number="${new_version}"
+      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')"
+      kernel_image_name="${new_kernel_image_name}"
+    fi
+    echo "new version: ${version_number}"
+    echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
+   # first command uses single ">", to initialize the file; then others use ">>"
+    echo "#!/bin/bash" > ${publish_ebuild_cmd_file}
+    # set SSH_AUTH_SOCK env var to a fixed value
+    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_ebuild_cmd_file}
+    # test whether ${SSH_AUTH_SOCK} is valid
+    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_ebuild_cmd_file}
+    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
+    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_ebuild_cmd_file}
+    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_ebuild_cmd_file}
+    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
+    echo "ssh-add -l" >> ${publish_ebuild_cmd_file}
+    # source github credentials to format the git push command and identify keys to load
+    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
+    # check for ssh keys, and add if they are not already loaded
+    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
+    # now do git pull, push, push using ssh key
+    echo "echo" >> ${publish_ebuild_cmd_file}
+    echo "cd ${ebuild_dir}/" >> ${publish_ebuild_cmd_file}
+    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
+    echo "git pull" >> ${publish_ebuild_cmd_file}
+    echo "cp ${ebuild_dir}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+    echo "rm ${ebuild_dir}/Manifest" >> ${publish_ebuild_cmd_file}
+    echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
+    echo "git status" >> ${publish_ebuild_cmd_file}
+    echo "git add Manifest" >> ${publish_ebuild_cmd_file}
+    echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
+    echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
+    echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
+    echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
+    echo 'git push' >> ${publish_ebuild_cmd_file}
+    echo  >> ${publish_ebuild_cmd_file}
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
     cat ${publish_ebuild_cmd_file}
-    echo
-    message_n "setting permissions on ${publish_ebuild_cmd_file}... " $(hostname)
-    chown joe:joe ${publish_ebuild_cmd_file} && \
-    chmod +x ${publish_ebuild_cmd_file} ; right_status $?
+    separator "setting permissions on ${publish_ebuild_cmd_file}... " $(hostname)
+    chown joe:joe ${publish_ebuild_cmd_file}
+    chmod +x ${publish_ebuild_cmd_file}
 
     # now actually execute the publication by running the publication command file
     separator "now executing commands in ${publish_ebuild_cmd_file}... " $(hostname)
@@ -578,35 +485,44 @@ RCP; message_n "$ps [Yes/no/skip|Yns]: " && read newanswer; done; }
 
 display_config()
 {
-varlist="CONF_DIR arch cross_compile model image kernel dtb_folder overlay_folder build_root"
-varlist+=" INTERACTIVE RESUME starting_step VERBOSE verbosity version_number sources_dir"
-varlist+=" config_dir build_dir model_dir model_config distrib_dir lib_dir boot_dir host_dir"
-varlist+=" kernel_basename kernel_image_name devel_dir ebuild_dir status_file"
-longest=$(get_longest ${varlist})
-
 message "${BMon}Current Configuration:${Boff}"
-display_vars ${longest} "CONF_DIR"
+d_message "${LBon}..........CONF_DIR=[${BWon}$CONF_DIR${LBon}]${Boff}" 1
 separator "From Config File and/or command line" $(hostname)
-parmlist="arch cross_compile model image kernel dtb_folder overlay_folder build_root"
-parmlist+=" bool.INTERACTIVE bool.RESUME starting_step bool.VERBOSE verbosity"
-display_vars ${longest} ${parmlist}
-
-echo
+d_message "${LBon}..............arch=[${BWon}$arch${LBon}]${Boff}" 1
+d_message "${LBon}.....cross_compile=[${BWon}$cross_compile${LBon}]${Boff}" 1
+d_message "${LBon}.............model=[${BWon}$model${LBon}]${Boff}" 1
+d_message "${LBon}.............image=[${BWon}$image${LBon}]${Boff}" 1
+d_message "${LBon}............kernel=[${BWon}$kernel${LBon}]${Boff}" 1
+d_message "${LBon}........dtb_folder=[${BWon}$dtb_folder${LBon}]${Boff}" 1
+d_message "${LBon}....overlay_folder=[${BWon}$overlay_folder${LBon}]${Boff}" 1
+d_message "${LBon}........build_root=[${BWon}$build_root${LBon}]${Boff}" 1
+d_message "${LBon}.......INTERACTIVE=[$(status_color ${INTERACTIVE})$(TrueFalse ${INTERACTIVE})${LBon}]${Boff}" 1
+d_message "${LBon}............RESUME=[$(status_color ${RESUME})$(TrueFalse ${RESUME})${LBon}]${Boff}" 1
+d_message "${LBon}.....starting_step=[${BWon}$starting_step${LBon}]${Boff}" 1
+d_message "${LBon}...........VERBOSE=[$(status_color ${VERBOSE})$(TrueFalse ${VERBOSE})${LBon}]${Boff}" 1
+d_message "${LBon}.........verbosity=[${BWon}$verbosity${LBon}]${Boff}" 1
+d_echo 1
 separator "Auto-configured" $(hostname)
-parmlist=" version_number sources_dir"
-parmlist+=" config_dir build_dir model_dir model_config distrib_dir lib_dir boot_dir host_dir"
-parmlist+=" kernel_basename kernel_image_name devel_dir ebuild_dir status_file"
-display_vars ${longest} ${parmlist}
-echo
-
-varlist="publish_tarball_cmd_file publish_ebuild_cmd_file make_me"
-longest=$(get_longest ${varlist})
-parmlist="${varlist}"
-display_vars ${longest} ${parmlist}
-echo
-myvar="make_me"
-display_vars ${#myvar} "${myvar}"
-
+d_message "${LBon}....version_number=[${BWon}$version_number${LBon}]${Boff}" 1
+d_message "${LBon}.......sources_dir=[${BWon}$sources_dir${LBon}]${Boff}" 1
+d_message "${LBon}........config_dir=[${BWon}$config_dir${LBon}]${Boff}" 1
+d_message "${LBon}.........build_dir=[${BWon}$build_dir${LBon}]${Boff}" 1
+d_message "${LBon}.........model_dir=[${BWon}$model_dir${LBon}]${Boff}" 1
+d_message "${LBon}......model_config=[${BWon}$model_config${LBon}]${Boff}" 1
+d_message "${LBon}.......distrib_dir=[${BWon}$distrib_dir${LBon}]${Boff}" 1
+d_message "${LBon}...........lib_dir=[${BWon}$lib_dir${LBon}]${Boff}" 1
+d_message "${LBon}..........boot_dir=[${BWon}$boot_dir${LBon}]${Boff}" 1
+d_message "${LBon}..........host_dir=[${BWon}$host_dir${LBon}]${Boff}" 1
+d_message "${LBon}...kernel_basename=[${BWon}$kernel_basename${LBon}]${Boff}" 1
+d_message "${LBon}.kernel_image_name=[${BWon}$kernel_image_name${LBon}]${Boff}" 1
+d_message "${LBon}.........devel_dir=[${BWon}$devel_dir${LBon}]${Boff}" 1
+d_message "${LBon}........ebuild_dir=[${BWon}$ebuild_dir${LBon}]${Boff}" 1
+d_message "${LBon}.......status_file=[${BWon}$status_file${LBon}]${Boff}" 1
+d_echo 1
+d_message "${LBon}..publish_tarball_cmd_file=[${BWon}$publish_tarball_cmd_file${LBon}]${Boff}" 1
+d_message "${LBon}...publish_ebuild_cmd_file=[${BWon}$publish_ebuild_cmd_file${LBon}]${Boff}" 1
+d_echo 1
+d_message "${LBon}........make_me='${BWon}$make_me${LBon}'${Boff}" 1
 }
 
 make_sources_message() {
@@ -624,8 +540,10 @@ do
     echo -en ${BWon}
   fi
   echo ${line}
-done < $(dirname ${CONF_dir%/})/README-instructions
+done < $(dirname ${CONF_DIR})/README-instructions
+#done < /etc/kernelupdate/README-instructions
 echo -e ${Boff}
+
 }
 
 process_command_line() {
@@ -806,8 +724,20 @@ else
 fi
 }
 
-run_logical_step_sequence()
-{
+
+#-----[ main script ]------------------------------------------------
+checkroot
+separator "kernelupdate-${BUILD}" $(hostname)
+starting_step=0
+
+process_command_line "${@}"
+
+display_config
+sh_countdown 2
+
+sanity_check
+
+
 for ((step_number=${starting_step}; step_number<${#command_sequence[@]}; step_number++))
 do
   d_message "Writing step_number [ $step_number ] to status_file ( $status_file )" 2
@@ -827,15 +757,11 @@ do
       d_message "dom0 install does not need a tarball -- skipping this step" 2
     else
       if [ "${command_sequence[step_number]}" == "publish_ebuild" ] && \
-           [ "${model}" == "dom0" ]
+           [ ! "${model}" == "domU" ]
       then
-        ###   [ ! "${model}" == "domU" ]
-        # tried retiring this and consolidating all kernels of a given version in one ebuild
-        #   (but then you have to build all 12 kernels before anyone can use the ebuild)
-        #   (so I'm going back to an ebuild for the kernel for each model)
-        #   (*** do now, dom0 is the only model that does NOT get an ebuild ***)
-        ### d_message "non-domU install does not get its own ebuild -- skipping this step" 2
-        d_message "dom0 install does not get its own ebuild -- skipping this step" 2
+        # currently, only domU gets its own ebuild published
+        # take no action; the loop will increment step counter on next entry
+        d_message "non-domU install does not get its own ebuild -- skipping this step" 2
       else
         if [[ ${INTERACTIVE} ]] ; then
           d_message "INTERACTIVE is true, will prompt before executing this step [ $step_number ]" 2
@@ -863,23 +789,6 @@ do
     fi  # no publish or tarball for dom0
   fi # no dtbs for dom)/U
 done
-}
-
-#-----[ main script ]------------------------------------------------
-checkroot
-separator "kernelupdate-${BUILD}" $(hostname)
-starting_step=0
-
-process_command_line "${@}"
-
-display_config
-sh_countdown 2
-
-sanity_check
-
-run_logical_step_sequence
-
-final_msg="${BMon}Components, including kernel image [ ${image} ], modules, overlays, "
-final_msg+="and dtb files, as appropriate for model [ ${model} ], successfully staged in "
-final_msg+="${build_dir%/}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
+final_msg="${BMon}${image}, modules, and dtb file for ${model} successfully staged in\n"
+final_msg+="${build_dir}/${model} and published in ${kernel_image_name}.ebuild${Boff}"
 message "${final_msg}"
