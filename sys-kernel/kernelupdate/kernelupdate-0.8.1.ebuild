@@ -1,6 +1,6 @@
 # Copyright 2022-2052 Joe Brendler
 # Distributed under the terms of the GNU General Public License v2
-# kernel builder program for embedded systems (tinkerboard s)
+# kernel builder program for joetoo systems
 
 EAPI=8
 
@@ -10,7 +10,7 @@ SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-#KEYWORDS="~arm ~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64"
 
 IUSE="
 	+dom0 domU
@@ -37,11 +37,12 @@ REQUIRED_USE="
 S="${WORKDIR}"
 
 RDEPEND="
+	>=dev-util/script_header_brendlefly-0.4.5
 	>=sys-devel/crossdev-20230321
 	>=dev-util/joetoolkit-0.1.5
 	>=joetoo-base/joetoo-meta-0.0.4b
 	>=app-admin/eselect-1.4.27-r1
-	domU? ( >=dev-util/pkgdev-0.2.11 )
+	>=dev-util/pkgdev-0.2.11
 "
 
 DEPEND="${RDEPEND}"
@@ -116,6 +117,16 @@ src_install() {
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
 	newenvd "${FILESDIR}/config_protect_mask" "99${PN}-BUILD"
 	elog "Installed config_protect_mask 99${PN}-BUILD"
+	# install a template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild file
+	einfo "Installing (ins) template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild ..."
+	insinto "/etc/${PN}/"
+	newins "${FILESDIR}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild" "template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
+	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
+	# install a template metadata.xml file
+	einfo "Installing (ins) template template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml ..."
+	insinto "/etc/${PN}/"
+	newins "${FILESDIR}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml" "template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
+	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
 }
 
 pkg_postinst() {
@@ -154,7 +165,9 @@ pkg_postinst() {
 	elog " 0.6.3 moves ssh key load to publish function (did not work)"
 	elog " 0.6.4 adds reusable ssh authentication socket to hold loaded ssh key(s)"
 	elog " 0.7.0 reintroduces publish_ebuild (only for domU)"
-	elog " 0.7.1 fixes a bug in display_config()"
+	elog " 0.7.1 fixes a bug in display_config() [0.8 adopted script_header display_vars]"
+	elog " 0.8.0 reintroduces publish_ebuild for all models except dom0"
+	elog " 0.8.1 fixes bugs in publish_tarball, _ebuild to fix initial templates 0.0.0"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
