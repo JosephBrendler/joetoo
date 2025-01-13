@@ -167,18 +167,7 @@ ebuild_dir="${my_ebuild_dir%/}/${kernel_basename}"
 publish_tarball_cmd_file="${build_dir%/}/publish_tarball_${kernel_image_name}"
 publish_ebuild_cmd_file="${build_dir%/}/publish_ebuild_${kernel_image_name}"
 
-# if the ebuild_dir does not exist, create it
-if [[ ! -d "${ebuild_dir}" ]] ; then
-  mkdir -pv -m 755 "${ebuild_dir}"
-  chown -R ${user}:${user} "${ebuild_dir}"
-  git_command_sequence+=("git add ./")
-else
-  d_message "${ebuild_dir} already exists; not creating." 3
-fi
-
 d_message "done setup and auto-configure" 3
-
-message "pwd: $(pwd)" && cd ${ebuild_dir} && message "Now working in $$(pwd)"
 
 # 20240724 - removed 'publish_ebuild' from sequence; now using consolidated linux-joetoo-kernelimage.${PV}.ebuild
 #            (found that the consolidated ebuild doesn't work until ALL of the candidate kernels are actually built)
@@ -408,28 +397,8 @@ publish_ebuild() {
     # tried retiring this and consolidating all kernels of a given version in one ebuild
     #   (but then you have to build all 12 kernels before anyone can use the ebuild)
     #   (so I'm going back to an ebuild for the kernel for each model)
-    ebuild_list=()
-    message_n "enumerating existing ebuilds for $kernel_basename ..."
-    for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
-    do
-      ebuild_list+=("${x}")
-    done ; right_status $?
-    # the ebuild dir will contain at least the 0.0.0 template created by first run of this script for this model
-    message_n "finding most recent existing ebuild version ..."
-    old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir%/}/${kernel_basename}-||" | sed 's|.ebuild||')
-    right_status $?
-    message "old version: ${old_version}"
-    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
-    if [ ! "${model}" == "dom0" ]; then
-      message_n "determining new version number and kernel image name ..."
-      new_version="$(echo ${version_number} | sed 's/-gentoo//')" && \
-      version_number="${new_version}" && \
-      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')" && \
-      kernel_image_name="${new_kernel_image_name}"
-      right_status $?
-    fi
-    message "new version: ${version_number}"
 
+    ebuild_command_sequence=()
     ebuild_command_sequence=('#!/bin/bash' \
         'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' \
         "ssh-add -l 2>/dev/null >/dev/null" \
@@ -442,40 +411,81 @@ publish_ebuild() {
         "echo new PWD: \${PWD}" \
         "git pull" )
 
+    # if the ebuild_dir does not exist, create it
+    if [[ ! -d "${ebuild_dir}" ]] ; then
+      mkdir -pv -m 755 "${ebuild_dir}"
+      chown -R ${user}:${user} "${ebuild_dir}"
+      ebuild_command_sequence+=("git add ./")
+    else
+      d_message "${ebuild_dir} already exists; not creating." 3
+    fi
+
+    # move to the ebuild dir
+    message "pwd: $(pwd)" && cd ${ebuild_dir} && message "Now working in $$(pwd)"
 
     # if the ebuild dir does not contain a template ebuild, then populate it
-    if [[ ! -f "${ebuild_dir%/}/template_linux-${model}-joetoo_kernelimage-0.0.0.ebuild" ]] ; then
+    if [[ ! -f "${ebuild_dir%/}/template_linux-${model}_joetoo_kernelimage-0.0.0.ebuild" ]] ; then
       # populate ebuild template if needed
-      if [[ -f ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild ]] ; then
-        cp  ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild \
-           ${ebuild_dir%/}/linux-${model}-joetoo_kernelimage-0.0.0.ebuild
+      if [[ -f ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild ]] ; then
+        cp  ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild \
+           ${ebuild_dir%/}/linux-${model}_joetoo_kernelimage-0.0.0.ebuild
         chown -R ${user}:${user} "${ebuild_dir%/}/"
-        ebuild_command_sequence+=("git add linux-${model}-joetoo_kernelimage-0.0.0.ebuild")
+        ebuild_command_sequence+=("git add linux-${model}_joetoo_kernelimage-0.0.0.ebuild")
       else
-        E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild does not exist" 3
+	E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild does not exist" 3
       fi
     else
-      d_message "${ebuild_dir%/}/template_linux-${model}-joetoo_kernelimage-0.0.0.ebuild already exists; not creating." 3
+      d_message "${ebuild_dir%/}/template_linux-${model}_joetoo_kernelimage-0.0.0.ebuild already exists; not creating." 3
     fi
+
     # if the ebuild dir does not contain a metadata file, then populate it
     message "CONF_DIR: ${CONF_DIR}"
     if [[ ! -f "${ebuild_dir%/}/metadata.xml" ]] ; then
       # populate metadata.xml if needed
-      if [[ -f ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml ]] ; then
-        cp  ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml \
+      if [[ -f ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml ]] ; then
+        cp  ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml \
            ${ebuild_dir%/}/metadata.xml
         chown -R ${user}:${user} "${ebuild_dir%/}/"
         ebuild_command_sequence+=("git add /metadata.xml")
       else
-        E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml does not exist" 3
+	E_message "${BRon}Error: ${Boff} ${CONF_DIR%/}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml does not exist" 3
       fi
     else
       d_message "${ebuild_dir%/}/metadata.xml already exists; not creating." 3
     fi
 
+    # enumerate existign ebuilds and determine the most recent "old version" of the ebuild
+    ebuild_list=()
+    message_n "enumerating existing ebuilds for $kernel_basename ..."
+    for x in $(find ${ebuild_dir} -type f -iname "linux-*" | sort)
+    do
+      ebuild_list+=("${x}")
+    done ; right_status $?
+    # the ebuild dir will contain at least the 0.0.0 template (populated above during first run of this script for this model)
+    message_n "finding most recent existing ebuild version ..."
+    old_version=$(echo ${ebuild_list[$((${#ebuild_list[@]}-1))]} | sed "s|${ebuild_dir%/}/${kernel_basename}-||" | sed 's|.ebuild||')
+    right_status $?
+    message "old version: ${old_version}"
+
+    # determine the new version number and kernel image name
+    # ebuild naming syntax forbids the "-gentoo" in the image name, and domU using gentoo-sources will be named that way, so fix it
+    if [ ! "${model}" == "dom0" ]; then
+      message_n "determining new version number and kernel image name ..."
+      new_version="$(echo ${version_number} | sed 's/-gentoo//')" && \
+      version_number="${new_version}" && \
+      new_kernel_image_name="$(echo ${kernel_image_name} | sed 's/-gentoo//')" && \
+      kernel_image_name="${new_kernel_image_name}"
+      right_status $?
+    fi
+    message "new version: ${version_number}"
+
     # create the new ebuild file
-    cp ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir%/}/${kernel_image_name}.ebuild"
-    chown -R ${user}:${user} "${ebuild_dir%/}/"
+    message "ebuild_dir: ${ebuild_dir}"
+    message "kernel_basename: ${kernel_basename}"
+    message "old ebuild full pathname: ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild"
+    message "new ebuild full pathname: ${ebuild_dir%/}/${kernel_image_name}.ebuild"
+    cp ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir%/}/${kernel_image_name}.ebuild
+    chown -R ${user}:${user} ${ebuild_dir%/}/
     # remove the old Manifest file
     rm ${ebuild_dir%/}/Manifest 2>/dev/null
 
@@ -490,48 +500,18 @@ publish_ebuild() {
         'git push' \
         '' )
 
-#    echo; message "Building publish_ebuild_cmd_file [ ${publish_ebuild_cmd_file} ]..."
-#    # first command uses single ">", to initialize the file; then others use ">>"
-#    echo "#!/bin/bash" > ${publish_ebuild_cmd_file}
-#    # set SSH_AUTH_SOCK env var to a fixed value
-#    echo 'export SSH_AUTH_SOCK="'"${SSH_AUTH_SOCK}"'"' >> ${publish_ebuild_cmd_file}
-#    # test whether ${SSH_AUTH_SOCK} is valid
-#    echo "ssh-add -l 2>/dev/null >/dev/null" >> ${publish_ebuild_cmd_file}
-#    # if not valid, then start ssh-agent using ${SSH_AUTH_SOCK}
-#    echo '[ $? -ge 2 ] && ssh-agent -a ${SSH_AUTH_SOCK} >/dev/null' >> ${publish_ebuild_cmd_file}
-#    echo "echo 'ssh-agent added, listing keys ...'" >> ${publish_ebuild_cmd_file}
-#    # list ssh keys. Note: this method depends on users .bashrc to have loaded them, if not, then do it here
-#    echo "ssh-add -l" >> ${publish_ebuild_cmd_file}
-#    # source github credentials to format the git push command and identify keys to load
-#    echo "source ${my_ebuild_dir_credentials}" >> ${publish_ebuild_cmd_file}
-#    # check for ssh keys, and add if they are not already loaded
-#    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey}
-#    # now do git pull, push, push using ssh key
-#    echo "echo" >> ${publish_ebuild_cmd_file}
-#    echo "cd ${ebuild_dir%/}/" >> ${publish_ebuild_cmd_file}
-#    echo "echo new PWD: \${PWD}" >> ${publish_ebuild_cmd_file}
-#    echo "git pull" >> ${publish_ebuild_cmd_file}
-#    echo "cp ${ebuild_dir%/}/${kernel_basename}-${old_version}.ebuild ${ebuild_dir%/}/${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-#    echo "rm ${ebuild_dir%/}/Manifest" >> ${publish_ebuild_cmd_file}
-#    echo "pkgdev manifest -f -d ${DISTDIR}" >> ${publish_ebuild_cmd_file}
-#    echo "git status" >> ${publish_ebuild_cmd_file}
-#    echo "git add Manifest" >> ${publish_ebuild_cmd_file}
-#    echo "git add ../../metadata/md5-cache/sys-kernel/${kernel_image_name}" >> ${publish_ebuild_cmd_file}
-#    echo "git add ${kernel_image_name}.ebuild" >> ${publish_ebuild_cmd_file}
-#    echo "git commit -m \"adding ${kernel_image_name}\"" >> ${publish_ebuild_cmd_file}
-#    echo 'eval "git push git@github.com:${gituser}/${gitrepo}.git master"'  >> ${publish_ebuild_cmd_file}
-#    echo 'git push' >> ${publish_ebuild_cmd_file}
-#    echo  >> ${publish_ebuild_cmd_file}
-
     echo ${ebuild_command_sequence[0]} > ${publish_ebuild_cmd_file}
     for ((i=1; i<${#ebuild_command_sequence[@]}; i++))
-        message_n "adding line $i [ "${ebuild_command_sequence[$i]}" ..."
+    do
+        message_n "adding line $i: [ "
+        echo -n ${ebuild_command_sequence[$i]}
+        echo -n " ] ..."
         echo ${ebuild_command_sequence[$i]} >> ${publish_ebuild_cmd_file}
         right_status $?
     done
 
-    message_n "loading ssh key if needed ..."
-    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey} ; right_status $?
+#    message_n "loading ssh key if needed ..."
+#    [[ -z $(ssh-add -l | grep -v "no identities") ]] && ssh-add ${gitsshkey} ; right_status $?
 
     cd ${old_dir} && message "Now working in $PWD"
     separator "contents of ${publish_ebuild_cmd_file}... " $(hostname)
@@ -544,6 +524,8 @@ publish_ebuild() {
     # now actually execute the publication by running the publication command file
     separator "now executing commands in ${publish_ebuild_cmd_file}... " $(hostname)
     sudo -u ${user} ${publish_ebuild_cmd_file}
+
+
 }
 
 usage() {
