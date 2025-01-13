@@ -10,7 +10,7 @@ SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-#KEYWORDS="~arm ~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64"
 
 IUSE="
 	+dom0 domU
@@ -117,16 +117,16 @@ src_install() {
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
 	newenvd "${FILESDIR}/config_protect_mask" "99${PN}-BUILD"
 	elog "Installed config_protect_mask 99${PN}-BUILD"
-	# install a template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild file
-	einfo "Installing (ins) template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild ..."
+	# install a template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild file
+	einfo "Installing (ins) template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild ..."
 	insinto "/etc/${PN}/"
-	newins "${FILESDIR}/template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild" "template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild"
-	elog "Installed template_linux-MODEL-joetoo_kernelimage-0.0.0.ebuild"
+	newins "${FILESDIR}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild" "template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
+	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
 	# install a template metadata.xml file
-	einfo "Installing (ins) template template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml ..."
+	einfo "Installing (ins) template template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml ..."
 	insinto "/etc/${PN}/"
-	newins "${FILESDIR}/template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml" "template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml"
-	elog "Installed template_linux-MODEL-joetoo_kernelimage-0.0.0.metadata.xml"
+	newins "${FILESDIR}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml" "template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
+	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
 }
 
 pkg_postinst() {
