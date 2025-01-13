@@ -604,7 +604,7 @@ parmlist+=" kernel_basename kernel_image_name devel_dir ebuild_dir status_file"
 display_vars ${longest} ${parmlist}
 echo
 
-varlist="publish_tarball_cmd_file publish_ebuild_cmd_file make_me"
+varlist="publish_tarball_cmd_file publish_ebuild_cmd_file"
 longest=$(get_longest ${varlist})
 parmlist="${varlist}"
 display_vars ${longest} ${parmlist}
