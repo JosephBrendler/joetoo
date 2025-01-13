@@ -26,7 +26,6 @@ RESTRICT="mirror"
 RDEPEND="
 	raspi-sources?    ( =sys-kernel/raspi-sources-${PV} )
 	rockchip-sources? ( =sys-kernel/rockchip-sources-${PV} )
-	domU?             ( =sys-kernel/gentoo-sources-${PV} )
 "
 
 BDEPEND="${RDEPEND}"
