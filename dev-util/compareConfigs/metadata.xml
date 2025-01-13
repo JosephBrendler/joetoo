@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		I'll get around to filling this out later
+		Compare two kernel configurations, side by side
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
@@ -17,7 +17,7 @@
 		</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
 	</upstream>
 </pkgmetadata>
 
