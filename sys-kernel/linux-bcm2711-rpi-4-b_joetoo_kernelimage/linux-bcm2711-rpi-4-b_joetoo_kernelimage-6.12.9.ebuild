@@ -92,7 +92,7 @@ src_install() {
 	insinto "/lib/"
 	doins -r "${S}/lib/modules"
 	elog "Installed modules"
-	if ! use domU ; then
+	if ! "${model}" == "domU" ; then
 		# note: joetoo's kernelupdate tarball upstream sources put dtb files in
 		#       "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
 		# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
@@ -166,7 +166,7 @@ src_install() {
 			elog "use dtbo not selected ; dtbo files not installed"
 		fi
 	else
-		elog "use domU is selected ; dtb files are not applicable, not installed"
+		elog "model = domU; dtb/overlay files are not applicable, not installed"
 	fi
 	# conditionally install symlink
 	# To Do - if boot is not on vfat ==> [ ! "$(grep -v '^#' /etc/fstab | grep boot | awk '{print $3}')" == "vfat" ]

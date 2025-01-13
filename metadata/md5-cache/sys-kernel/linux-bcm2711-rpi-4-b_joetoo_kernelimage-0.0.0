@@ -10,4 +10,4 @@ RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =
 RESTRICT=mirror
 SLOT=0.0.0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_joetoo_kernelimage-0.0.0.tar.bz2
-_md5_=959823b1011a23948b395e150f628a02
+_md5_=f1360fbc1fed2ba3ef15d559740d6cf8
