@@ -37,7 +37,7 @@ S=${WORKDIR}
 # NOTE: joetoo kernels for some rockchip models don't work... (lacking patched sources)
 
 my_PN=${PN/linux-/}
-model=${my_PN/-joetoo_kernelimage/}
+model=${my_PN/_joetoo_kernelimage/}
 
 pkg_setup() {
 	einfo "Starting pkg_setup ..."
