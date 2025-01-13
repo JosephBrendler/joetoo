@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 BDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
+=======
+BDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 ) domU? ( =sys-kernel/gentoo-sources-0.0.0 )
+>>>>>>> ab9d41a3253b0d272aa0b5119616691a16f51324
 DEFINED_PHASES=install postinst preinst setup
 DESCRIPTION=kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms
 EAPI=8
@@ -6,8 +10,16 @@ HOMEPAGE=https://github.com/JosephBrendler/myUtilities
 IUSE=-raspi-sources -rockchip-sources +dtb +dtbo -symlink
 KEYWORDS=arm arm64 amd64 ~arm ~arm64 ~amd64
 LICENSE=MIT
+<<<<<<< HEAD
 RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
 RESTRICT=mirror
 SLOT=0.0.0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_joetoo_kernelimage-0.0.0.tar.bz2
 _md5_=959823b1011a23948b395e150f628a02
+=======
+RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 ) domU? ( =sys-kernel/gentoo-sources-0.0.0 )
+RESTRICT=mirror
+SLOT=0.0.0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/linux-bcm2711-rpi-4-b_joetoo_kernelimage-0.0.0.tar.bz2
+_md5_=6b12306341af876eecf331143c36cbbb
+>>>>>>> ab9d41a3253b0d272aa0b5119616691a16f51324
