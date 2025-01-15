@@ -17,6 +17,7 @@ SLOT="0"
 
 IUSE="
 	+innercore
+	+joetoolkit
 	+headless -plasma -gnome
 	-lamp -nextcloud -mysql -mariadb
 	+cloudsync
@@ -81,6 +82,7 @@ RDEPEND="
 		>=app-portage/gentoolkit-0.4.6
 		>=app-shells/bash-completion-2.14.0
 		>=app-text/tree-1.8.0
+		>=app-text/wgetpaste-2.33-r3[ssl(+)]
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
 		>=sys-apps/util-linux-2.34-r3
@@ -122,6 +124,7 @@ RDEPEND="
 		>=www-servers/apache-2.4.41
 		dev-lang/php
 	)
+	joetoolkit? ( >=dev-util/joetoolkit-0.4.13 )
 	nextcloud? (
 		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
 	)
@@ -205,6 +208,7 @@ src_install() {
 		newins "${FILESDIR}/etc_resolv-conf_joetoo" "resolv.conf"
 		newins "${FILESDIR}/etc_rsyncd-conf_joetoo" "rsyncd.conf"
 		newins "${FILESDIR}/etc_syslog-conf_joetoo" "syslog.conf"
+		newins "${FILESDIR}/etc_wgetpaste-conf_joetoo" "wgetpaste.conf"
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/apache2/"
 		einfo "Installing (ins) files into ${target} ..."
@@ -477,6 +481,8 @@ pkg_postinst() {
 	elog " 0.5.7/8 adds packages using nodist_features.conf to package.env"
 	elog " 0.5.9 updates conf.d/net and plasma USE (package.use and .accept_keywords)"
 	elog " 0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen"
+	elog " 0.5.11 adds a joetoolkit USE (default +) and /etc/wgetpaste.conf"
+	elog " 0.5.12 fixes env no_collision-protect "
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
