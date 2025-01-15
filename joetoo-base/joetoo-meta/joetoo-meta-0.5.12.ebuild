@@ -133,7 +133,7 @@ RDEPEND="
 	script_header_brendlefly? ( >=dev-util/script_header_brendlefly-0.3.7 )
 	Terminal? ( >=dev-util/Terminal-0.1.0 )
 	compareConfigs? ( >=dev-util/compareConfigs-0.1.0 )
-	domU? ( sys-kernel/linux-joetoo-kernelimage[domU(+)] )
+	domU? ( sys-kernel/linux-domU_joetoo_kernelimage )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
 	plasma? (
@@ -482,7 +482,7 @@ pkg_postinst() {
 	elog " 0.5.9 updates conf.d/net and plasma USE (package.use and .accept_keywords)"
 	elog " 0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen"
 	elog " 0.5.11 adds a joetoolkit USE (default +) and /etc/wgetpaste.conf"
-	elog " 0.5.12 fixes env no_collision-protect "
+	elog " 0.5.12 fixes env no_collision-protect, and de-consolidates kernelimage "
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
