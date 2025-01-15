@@ -92,7 +92,7 @@ src_install() {
 	insinto "/lib/"
 	doins -r "${S}/lib/modules"
 	elog "Installed modules"
-	if ! "${model}" == "domU" ; then
+	if [[ ! "${model}" == "domU" ]] ; then
 		# note: joetoo's kernelupdate tarball upstream sources put dtb files in
 		#       "/boot/dts/${dtb_folder}/" where ${dtb_folder} is "rockchip" or "broadcom"
 		# note: armbian upstream sources put dtb/overlay files in "boot/dtb-<branch>-<version>/${dtb_folder}/"
