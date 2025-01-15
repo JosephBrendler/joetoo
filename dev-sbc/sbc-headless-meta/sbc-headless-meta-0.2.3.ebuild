@@ -1,6 +1,10 @@
 # Copyright (c) brendlefly  joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
+# as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
+#  it is a maintenance challenge - all possible kernels must be built (i.e. for 12 boards as of now) before the
+#  consolidated kernel ebuild will work for any of them.  We are moving instead back to an individual joetoo_kernelimage
+#  for each board (model) supported
 
 EAPI=7
 
@@ -186,17 +190,17 @@ RDEPEND="
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
 	)
 	kernelimage? (
-		bcm2712-rpi-5-b?        ( sys-kernel/linux-joetoo-kernelimage[bcm2712-rpi-5-b(+)] )
-		bcm2711-rpi-4-b?        ( sys-kernel/linux-joetoo-kernelimage[bcm2711-rpi-4-b] )
-		bcm2710-rpi-3-b-plus?   ( sys-kernel/linux-joetoo-kernelimage[bcm2710-rpi-3-b-plus(+)] )
-		bcm2710-rpi-3-b?        ( sys-kernel/linux-joetoo-kernelimage[bcm2710-rpi-3-b(+)] )
-		bcm2709-rpi-2-b?        ( sys-kernel/linux-joetoo-kernelimage[bcm2709-rpi-2-b(+)] )
-		bcm2708-rpi-b?          ( sys-kernel/linux-joetoo-kernelimage[bcm2708-rpi-b(+)] )
-		rk3288-tinker-s?        ( sys-kernel/linux-joetoo-kernelimage[rk3288-tinker-s(+)] )
-		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-joetoo-kernelimage[rk3399-rock-pi-4c-plus(+)] )
-		rk3399-tinker-2?        ( sys-kernel/linux-joetoo-kernelimage[rk3399-tinker-2(+)] )
-		rk3588s-orangepi-5?     ( sys-kernel/linux-joetoo-kernelimage[rk3588s-orangepi-5(+)] )
-		rk3588s-rock-5c?        ( sys-kernel/linux-joetoo-kernelimage[rk3588s-rock-5c(+)] )
+		bcm2712-rpi-5-b?        ( sys-kernel/linux-bcm2712-rpi-5-b_joetoo_kernelimage )
+		bcm2711-rpi-4-b?        ( sys-kernel/linux-bcm2711-rpi-4-b_joetoo_kernelimage )
+		bcm2710-rpi-3-b-plus?   ( sys-kernel/linux-bcm2710-rpi-3-b-plus_joetoo_kernelimage )
+		bcm2710-rpi-3-b?        ( sys-kernel/linux-bcm2710-rpi-3-b_joetoo_kernelimage )
+		bcm2709-rpi-2-b?        ( sys-kernel/linux-bcm2709-rpi-2-b_joetoo_kernelimage )
+		bcm2708-rpi-b?          ( sys-kernel/linux-bcm2708-rpi-b_joetoo_kernelimage )
+		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_joetoo_kernelimage )
+		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage )
+		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_joetoo_kernelimage )
+		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
+		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
 	)
 "
 
@@ -290,6 +294,7 @@ pkg_postinst() {
 	elog " 0.1.5 adopts rk3399-rock-pi-4c-plus vice rk3399-rock-4c-plus"
 	elog " 0.2.0 adopts the consolidated sys-kernel/linux-joetoo-kernelimage dependency"
 	elog " 0.2.1 add support for rock 5c (rk3588s-rock-5c)"
+	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

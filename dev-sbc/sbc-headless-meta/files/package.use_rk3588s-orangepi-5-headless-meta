@@ -8,7 +8,7 @@
 # + - gpio                   : Install libgpiod package and dependencies
 # + - innercore              : Install boot config files and baseline packages
 # + - joetoo                 : Install joetoo-meta package and its dependencies
-# - - kernelimage            : Install sys-kernal/linux-joetoo-kernelimage
+# - - kernelimage            : Install sys-kernal/linux-rk3588s-orangepi-5_joetoo_kernelimage
 #
 # - - bcm2708-rpi-b          : Tailor for Raspberry Pi model B (armv6/32)
 # - - bcm2709-rpi-2-b        : Tailor for Raspberry Pi 2 B (armv7/32)
