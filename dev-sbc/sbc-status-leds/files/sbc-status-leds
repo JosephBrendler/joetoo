@@ -86,7 +86,9 @@ check_vpn() {
   # capture time of this result
   timestamp="$(date +%s)"
   # set a boolean variable with the result
-  [[ ${result} -eq 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
+###  [[ ${result} -eq 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
+### had to include test for null ${result}, which oddly tests true for [[ ${result} -eq 0 ]]
+  [[ ${result} -eq 0 && ${#result} -ne 0 ]] && VPN_OK=${TRUE} || VPN_OK=${FALSE}
 
   # store and conditionally log the result and set led as appropriate (on = good status; off = problem)
   if [[ ${VPN_OK} ]]   # current status: no loss; good vpn
