@@ -107,17 +107,17 @@ src_install() {
 	# install the .conf files for each USE'd board in ${boards}
 	insinto "/etc/${PN}/"
 	for board in ${boards}; do
-		if [ -e ${S}/${PN}_${board}_template.conf ] ; then
-			newins "${S}/${PN}_${board}_template.conf" "${PN}_${board}_template.conf"
+		if [ -e ${S}/${PN}/${PN}_${board}_template.conf ] ; then
+			newins "${S}/${PN}/${PN}_${board}_template.conf" "${PN}_${board}_template.conf"
 			elog "  Installed (newins) ${PN}_${board}_template.conf"
 		else
-			elog "  Tried to install (newins) but could not find ${S}/${PN}_${board}_template.conf"
+			elog "  Tried to install (newins) but could not find ${S}/${PN}/${PN}_${board}_template.conf"
 		fi
 	done
 
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	for x in $(find ${S} -type f -executable); do
+	for x in $(find ${S}/${PN}/ -type f -executable); do
 		y=$(basename $x)
 		newexe "${x}" "${y}"
 		elog "Installed (newexe) ${y}"
@@ -125,7 +125,7 @@ src_install() {
 
 	elog "Installing the joetoo ${PN}.conf eselect module..."
 	dodir "/usr/share/eselect/modules/"
-	newins "${S}/${PN}.eselect" "${PN}.eselect"
+	newins "${S}/${PN}/${PN}.eselect" "${PN}.eselect"
 	elog "Done installing the joetoo ${PN}.conf eselect module."
 }
 
