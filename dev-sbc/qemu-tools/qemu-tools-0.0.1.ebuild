@@ -48,20 +48,6 @@ RDEPEND="
 		)
 "
 
-pkg_preinst() {
-        einfo "S=${S}"
-        einfo "D=${D}"
-        einfo "A=${A}"
-        einfo "T=${T}"
-        einfo "P=${P}"
-        einfo "PN=${PN}"
-        einfo "PV=${PV}"
-        einfo "PVR=${PVR}"
-        einfo "FILESDIR=${FILESDIR}"
-        einfo "RDEPEND=${RDEPEND}"
-        einfo "BDEPEND=${BDEPEND}"
-}
-
 pkg_pretend() {
 	if linux_config_exists ; then
 		# first check for routine y/n/m settings
@@ -105,6 +91,18 @@ pkg_setup() {
 }
 
 src_install() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "A=${A}"
+	einfo "T=${T}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "FILESDIR=${FILESDIR}"
+	einfo "RDEPEND=${RDEPEND}"
+	einfo "BDEPEND=${BDEPEND}"
+
 	elog "Installing (ins) into /etc/${PN}/"
 	# install the .conf files for each USE'd board in ${boards}
 	insinto "/etc/${PN}/"
