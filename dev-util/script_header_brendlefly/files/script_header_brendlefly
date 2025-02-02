@@ -314,7 +314,7 @@ display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longe
   do
     type="$(echo $var_name | awk  -F \. '{print $1}')"
     case ${type} in
-      "bool" )  # boolean convention: parameter is "bool_${var}" where ${var} is e.g. "VRBOSE"
+      "bool" )  # boolean convention: parameter is "bool_${var}" where ${var} is e.g. "VERBOSE"
         var="$(echo $var_name | awk  -F \. '{print $2}')"
         eval "key=\$${var}"
         pad="$(repeat '.' $(( ${maxlen} - ${#var})) )"
@@ -348,7 +348,7 @@ echo_n_long()    #  spread a long string over several lines, if needed.  $1=star
   start=$(( $1 + ${#left} + ${#right} )); shift; input="$@"; tw=$(termwidth); newline=""
   for x in $input
   do
-    d_echo "start: $start  #newline: ${#newline}   #x: ${#x}  tw: $tw   sum: $(( ${start} + ${#newline} + ${#x} + 1))" 5
+    d_echo "start: $start  #newline: ${#newline}   #x: ${#x}  tw: $tw   sum: $(( ${start} + ${#newline} + ${#x} + 1))" 6
     if [[  $(( ${start} + ${#newline} + ${#x} + 1)) -le ${tw} ]] ; then
       [[ ${#newline} -eq 0 ]] && newline="${x}" || newline="${newline} ${x}"
     else

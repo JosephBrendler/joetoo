@@ -77,6 +77,8 @@ src_install() {
 	elog " 0.4.2 fixes isnumber(), ishex(), and d_echo() for busybox (ash shell)"
 	elog " 0.4.3 now uses #!/bin/sh, asigns VERBOSE/verbosity only if null, offers unbold colors"
 	elog " 0.4.4 fixes d_echo and de_echo for null string e.g. d_echo 1"
+	elog " 0.4.5 adds display_vars() and supporting functions get_longest(), echo_n_long()"
+	elog " 0.4.6 fixes bugs"
 	elog ""
 	elog "Thank you for using ${PN}"
 
