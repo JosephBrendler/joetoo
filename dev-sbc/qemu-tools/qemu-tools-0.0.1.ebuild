@@ -103,6 +103,7 @@ src_install() {
 	einfo "RDEPEND=${RDEPEND}"
 	einfo "BDEPEND=${BDEPEND}"
 
+	# Install config files and README
 	elog "Installing (ins) into /etc/${PN}/"
 	# install the .conf files for each USE'd board in ${boards}
 	insinto "/etc/${PN}/"
@@ -114,7 +115,10 @@ src_install() {
 			elog "  Tried to install (newins) but could not find ${S}/${PN}/${PN}_${board}_template.conf"
 		fi
 	done
+	newins "${FILESDIR}/README" "README"
+	elog "  Installed (newins) README"
 
+	# Install executables
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	for x in $(find ${S}/${PN}/ -type f -executable); do
@@ -123,10 +127,12 @@ src_install() {
 		elog "Installed (newexe) ${y}"
 	done
 
+	# Install eselect module
 	elog "Installing the joetoo ${PN}.conf eselect module..."
-	dodir "/usr/share/eselect/modules/"
+	insinto "/usr/share/eselect/modules/"
 	newins "${S}/${PN}/${PN}.eselect" "${PN}.eselect"
 	elog "Done installing the joetoo ${PN}.conf eselect module."
+
 }
 
 pkg_postinst() {

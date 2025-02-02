@@ -1,0 +1,10 @@
+Welcome to joetoo's dev-sbc/qemu-tools
+
+please use the provided template .conf files to create your own configs
+
+note that the eselect module will allow you to select from among any
+config file whose name begins "qemu-tools_" and ends ".conf"
+
+for example, I created a .conf for my raspi3b+ image as follows
+# cp /etc/qemu-tools/qemu-tools_bcm2710-rpi-3-b-plus_template.conf \
+     /etc/qemu-tools/qemu-tools_raspi364q1.conf
