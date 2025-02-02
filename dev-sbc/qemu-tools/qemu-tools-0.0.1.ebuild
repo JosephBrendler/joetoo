@@ -12,7 +12,7 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${P
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~arm ~arm64"
+KEYWORDS="~arm ~arm64 ~amd64"
 IUSE="
 	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
