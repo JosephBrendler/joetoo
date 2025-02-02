@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		program and configuration files for qemu-tools
+		with eselect module to select config file
+		(one or more sbc use flag must be selectd)
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+                <flag name="bcm2708-rpi-b">Configure for Raspberry Pi model B (armv6/32)</flag>
+                <flag name="bcm2709-rpi-2-b">Configure for Raspberry Pi 2 B (armv7/32)</flag>
+                <flag name="bcm2710-rpi-3-b">Configure for Raspberry Pi 3 B v1.2 (armv7/32)</flag>
+                <flag name="bcm2710-rpi-3-b-plus">Configure for Raspberry Pi 3 B Plus (armv8/64)</flag>
+                <flag name="bcm2711-rpi-4-b">Configure for Raspberry Pi 4 B (armv8/64)</flag>
+                <flag name="bcm2712-rpi-5-b">Configure for Raspberry Pi 5 B (armv8/64)</flag>
+                <flag name="rk3288-tinker-s">Configure for Tinkerboard S (armv7/32)</flag>
+                <flag name="rk3399-rock-pi-4c-plus">Configure for Rock Pi 4c Plus (armv8/64)</flag>
+                <flag name="rk3399-tinker-2">Configure for Tinkerboard 2/2S (armv8/64)</flag>
+                <flag name="rk3588s-orangepi-5">Configure for OrangePi 5/5b (armv8/64)</flag>
+                <flag name="rk3588s-rock-5c">Configure for Rock 5c (armv8/64)</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
+
