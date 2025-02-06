@@ -21,11 +21,11 @@ REQUIRED_USE=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-DEPEND=">=joetoo-base/joetoo-meta-0.0.4b
+BDEPEND="
 "
 
 RDEPEND="
-	${DEPEND}
+	${BDEPEND}
 	iptools? (
 		>=net-analyzer/nmap-7.92
 		>=net-dns/bind-tools-9.16
@@ -47,7 +47,7 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
+	einfo "BDEPEND=${BDEPEND}"
 
 	# basic set of utilities for joetoo
 	elog "Installing joetoolkit..."
@@ -138,38 +138,12 @@ pkg_postinst() {
 	elog "PVR=${PVR}"
 	elog "FILESDIR=${FILESDIR}"
 	elog "RDEPEND=${RDEPEND}"
-	elog "DEPEND=${DEPEND}"
+	elog "BDEPEND=${BDEPEND}"
 	elog ""
-	elog "joetoolkit installed"
-	elog "Version 0.0.4 adds a vpn watch service for raspi4 (optional with iptools USE flag"
-	elog " 0.0.5 adds/tweaks a nextcloud_upgrade utility"
-	elog " 0.1.8 moved kernelupdate-tinker utility to a separate eponymous package"
-	elog " 0.1.9 adds tool to remove bogus binary packages on \"Destination exists\""
-	elog " up to 0.1.14 tweak tools and move some tools to/from other packages"
-	elog " 0.2.0 improves the nextcloud_upgrade utility"
-	elog " 0.3.0 introduces nuoromis infrastructure related code"
-	elog " 0.3.1 adds server cert for tinker05"
-	elog " 0.3.2 add to x_arg_nobinmergelist list of pkgs to add to package.env"
-	elog " 0.3.3 updates geolocate utility (ipapi.co vs tools.keycdn.com)"
-	elog " 0.3.4 updates the loggit utility"
-	elog " 0.3.5 updates the ipset_countrycode_load, update_ipdeny tools and cronjobs"
-	elog " 0.3.6 removes vpn/svc/temp tools now provided by headless-mata packages"
-	elog " 0.3.7 adds alias mb='mount /boot' to bashrc_aliases_include_joe_brendler"
-	elog " 0.3.8/9 add/update utilities"
-	elog " 0.3.10 removed kernelupdate (temp kernelupdate-old)"
-	elog " 0.4.0/1 adds git/nextcloud and archives some tools, aligns # w joetoo packages"
-	elog " 0.4.2 updates gp (git push) tool"
-	elog " 0.4.3 switches xdo... to lxterminal to adapt to plasma 6 (wayland) conversion of konsole"
-	elog " 0.4.4 adds icmerge (ignore-collision merge)"
-	elog " 0.4.5 archives old certs and installs Brendler_Consulting_LLC_Root_CA.crt"
-	elog " 0.4.6 archives old cflags tools and introduces get_my_cflags3.sh"
-	elog " 0.4.7 switches from root back to user execution, for plasma 6 (x11 session)"
-	elog " 0.4.8 adds nextcloud_check_version tool and moves _current_version to _version"
-	elog " 0.4.9/10 fix bug(s) in nextcloud_check_version tool"
-	elog " 0.4.11 adds maybe_do_upgrade() function to nextcloud_check_version tool"
-	elog " 0.4.12 fixes bug(s) in nextcloud_check_version tool"
-	elog " 0.4.13 re-activates installU_inImageFile tool to deploy xen pv kernel/modules"
-	elog " 0.4.14 fixes a bug in the alphasort_usefile tool"
+	elog "${P} installed"
+	elog "Version history can be found in the ebuild's files directory"
+	elog " 0.4.15 improves and generalizes the insert_into_file() tool"
+	elog " 0.4.16 eliminates build-time dependency on joetoo-base/joetoo-meta"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
