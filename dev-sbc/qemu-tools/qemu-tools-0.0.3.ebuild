@@ -115,8 +115,12 @@ src_install() {
 			elog "  Tried to install (newins) but could not find ${S}/${PN}/${PN}_${board}_template.conf"
 		fi
 	done
+	# install README and BUILD files in /etc/${PN}
 	newins "${FILESDIR}/README" "README"
 	elog "  Installed (newins) README"
+	echo "BUILD=${PVR}" > ${T}/BUILD
+	newins "${T}/BUILD" "BUILD"
+	elog "  Installed (newins) BUILD"
 
 	# Install executables
 	elog "Installing (exe) into /usr/sbin/"
@@ -152,7 +156,8 @@ pkg_postinst() {
 	elog "Use eselect ${PN} to pick one of them"
 	elog ""
 	elog ""
-	elog "version 0.0.1 is the initial build"
-	elog ""
+	elog "ver 0.0.1 is the initial build"
+	elog " 0.0.2 adds qemu-virt-launch and config template"
+	elog " 0.0.3 updates qemu-raspi-launch"
 	elog "Thank you for using ${PN}"
 }
