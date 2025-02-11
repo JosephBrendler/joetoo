@@ -13,20 +13,20 @@
 #-----[ packages only found in joetoo ]---------------------
 app-portage/jus ** ~amd64
 dev-util/compareConfigs ** ~amd64
-dev-util/mkinitramfs ** ~amd64
+dev-util/mkinitramfs ~amd64
 dev-util/script_header_brendlefly ~amd64
 dev-util/Terminal ** ~amd64
-joetoo-base/joetoo-meta::joetoo ** ~amd64
+joetoo-base/joetoo-meta ** ~amd64
 net-misc/cloudsync ** ~amd64
 
 #-----[ bleeding edge ]--------------------------------------
-media-libs/raspberrypi-userland **
-sys-boot/raspberrypi-firmware **
-sys-kernel/raspberrypi-sources **
-dev-java/rxtx
-dev-embedded/arduino
-dev-embedded/avrdude
-media-libs/mesa **
+#media-libs/raspberrypi-userland **
+#sys-boot/raspberrypi-firmware **
+#sys-kernel/raspberrypi-sources **
+#dev-java/rxtx
+#dev-embedded/arduino
+#dev-embedded/avrdude
+#media-libs/mesa **
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired

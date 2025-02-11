@@ -14,19 +14,19 @@
 joetoo-base/joetoo-meta ** ~arm
 app-portage/jus ** ~arm
 dev-util/compareConfigs ** ~arm
-dev-util/mkinitramfs ** ~arm
+dev-util/mkinitramfs ~arm
 dev-util/script_header_brendlefly ~arm
 dev-util/Terminal ** ~arm
 net-misc/cloudsync ** ~arm
 
 #-----[ bleeding edge ]--------------------------------------
-media-libs/raspberrypi-userland **
-sys-boot/raspberrypi-firmware **
-sys-kernel/raspberrypi-sources **
-dev-java/rxtx
-dev-embedded/arduino
-dev-embedded/avrdude
-media-libs/mesa **
+#media-libs/raspberrypi-userland **
+#sys-boot/raspberrypi-firmware **
+#sys-kernel/raspberrypi-sources **
+#dev-java/rxtx
+#dev-embedded/arduino
+#dev-embedded/avrdude
+#media-libs/mesa **
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired

@@ -98,20 +98,23 @@ sys-fs/lvm2 lvm readline thin -udev
 #-----[ standardized for additional joetoo setup ]------------------------
 # This section establishes the defaults for joetoo and allows you to configure packages in ways that
 # differ from those default choices that joetoo developers have made
-app-emulation/qemu bzip2 lzo ncurses pin-upstream-blobs seccomp threads usb vhost-net vnc xattr xen -debug -pulseaudio -test
+app-emulation/qemu bzip2 lzo ncurses pin-upstream-blobs seccomp threads usb vhost-net vnc xattr -xen -debug gtk -pulseaudio -test doc keyutils nls plugins sdl-image smartcard ssh vte zstd
 app-emulation/xen -custom-cflags -debug -efi -flask
 app-emulation/xen-tools api -custom-cflags -debug -doc -flask hvm ocaml -ovmf pam -pygrub -python qemu qemu-traditional screen -sdl -static-libs -system-qemu -xend
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
+app-misc/pax-utils python
 app-portage/gemato blake2 bzip2 gpg lzma sha3
 dev-lang/php acl apache2 bcmath bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
 >=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
 >=dev-libs/libpcre2-10.39-r1 jit pcre32
 >=dev-libs/libxml2-2.9.9-r3 python
->=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png svg tiff truetype xml zlib -openmp
+>=media-gfx/imagemagick-7.0.10.46 bzip2 cxx perl png tiff truetype xml zlib -openmp -svg
 media-libs/freetype harfbuzz
+>=media-libs/tiff-4.6.0-r1 jpeg
 net-firewall/iptables conntrack netlink
 net-fs/samba acl aio caps client examples fam gnutls netapi pam readline server smbclient smbsharemodes syslog winbind -cups
+>=net-misc/curl-7.21.5 -gnutls
 net-nds/openldap crypt cxx gnutls ipv6 odbc perl samba sasl sha2 ssl syslog
 net-vpn/openvpn ssl
 net-wireless/wpa_supplicant dbus gnutls readline ssl -qt5
@@ -121,8 +124,7 @@ sys-apps/portage gentoo-dev ipc native-extensions rsync-verify xattr
 sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
->=sys-devel/gcc-11.2.1_p20220115 fortran hardened go default-stack-clash-protection default-znow
-sys-fs/eudev blkid efi hwdb introspection kmod rule-generator
+>=sys-devel/gcc-11.2.1_p20220115 fortran hardened go rust objc objc++ default-stack-clash-protection default-znow
 sys-kernel/gentoo-sources symlink
 virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
@@ -137,6 +139,4 @@ sys-kernel/linux-firmware -initramfs
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-#*/* PHP_TARGETS: php8-3     # 8.2 is stable 8.3 testing as of 9 Jan 25
-#*/* RUBY_TARGETS: ruby31    # not using ruby...
-#*/* LLVM_TARGETS: ARM X86   # profile forces archs on anyway
+*/* APACHE2_MPMS: event worker
