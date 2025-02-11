@@ -483,6 +483,7 @@ pkg_postinst() {
 	elog " 0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen"
 	elog " 0.5.11 adds a joetoolkit USE (default +) and /etc/wgetpaste.conf"
 	elog " 0.5.12 fixes env no_collision-protect, and de-consolidates kernelimage "
+	elog " 0.5.13/4 adds packages using nodist_features.conf to package.env"
 	elog ""
 	elog "Note: setting immutable attribute on files (e.g. resolv.conf) may cause install to fail."
 	elog "If this is is the case, run as root, for example: chattr -i /etc/resolv.conf"
