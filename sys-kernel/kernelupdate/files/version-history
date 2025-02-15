@@ -1,16 +1,39 @@
-Version 0.0.5 incorporated ${PN}.conf file(s) and generalized for multiple models
-Version 0.0.6 enabled use of multiple .conf files and provided examples for models
-Version 0.1.0 added Rock4cplus, Pi 3b+, Pi 5b, and consolidated src_install()
-Version 0.1.1-4 provided bugfixes
-Version 0.1.5 installed README-instructions in /etc/${PN}/ vs /usr/sbin/
-Version 0.2.0 split publish tarball and ebuild functions, either being skipable
+ 0.0.5 incorporated ${PN}.conf file(s) and generalized for multiple models
+ 0.0.6 enabled use of multiple .conf files and provided examples for models
+ 0.1.0 added Rock4cplus, Pi 3b+, Pi 5b, and consolidated src_install()
+ 0.1.1-4 provided bugfixes
+ 0.1.5 installed README-instructions in /etc/${PN}/ vs /usr/sbin/
+ 0.2.0 split publish tarball and ebuild functions, either being skipable
   also made makeopts and features .conf variables and command sequence resumable
-Version 0.2.1 added support for bcm2709-rpi-2-b (Raspberry Pi 2 B)
-Version 0.2.2 provided bugfixes
-Version 0.2.3 added a .conf eselect module
-Version 0.2.4 removed pre-pub steps (skip publish_tarball if user uploads w git-desktop)
-Version 0.2.5 added support for rk3399-tinker-2 -s and tuned up dtb/overlay installation
-Version 0.2.6 generalized to support dom0/U and renamed from kernelupdate-embedded
-Version 0.2.7-9 provided bugfixes for dom0/U and dropped the term embedded
-Version 0.2.10 refactors for newexe and newins ebuild commands
+ 0.2.1 added support for bcm2709-rpi-2-b (Raspberry Pi 2 B)
+ 0.2.2 provided bugfixes
+ 0.2.3 added a .conf eselect module
+ 0.2.4 removed pre-pub steps (skip publish_tarball if user uploads w git-desktop)
+ 0.2.5 added support for rk3399-tinker-2 -s and tuned up dtb/overlay installation
+ 0.2.6 generalized to support dom0/U and renamed from kernelupdate-embedded
+ 0.2.7-9 provided bugfixes for dom0/U and dropped the term embedded
+ 0.2.10 refactors for newexe and newins ebuild commands
+ 0.3.0 is the preliminary release of refactored, consolidated ${PN} tool"
+ 0.3.1 renames rk3399-tinker-2 and adds supporting files for orangepi 5/5b"
+ 0.3.2-8 provide bugfixes (dom0/U)"
+ 0.4.0,1 fixes ebuild naming for domU kernel images"
+ 0.4.2 adds support for original raspberry pi model b (bcm2708-rpi-b)"
+ 0.4.3 adds support for github credentials, to automate publishing"
+ 0.4.4 amends handling of dtb_folder and adds overlay_folder"
+ 0.4.5-6 are more selective about contents of dtb_folder and overlay_folder"
+ 0.4.7 amends kernel image deployment and generates BUILD number"
+ 0.4.8/9 refine overlay file selection and adds rpi kernel build reference info"
+ 0.4.10 adds boot-mount verification for dom0 kernel installation"
+ 0.4.11 amends kernel_image version number/name for domU"
+ 0.4.12 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
+ 0.5.0 fixes a typo and changes to ssh authentication for github repos"
+ 0.5.1 adopts rk3399-rock-pi-4c-plus vice rk3399-rock-4c-plus"
+ 0.5.2 uses just one make for all targets, vice three (image, modules, dtbs)"
+ 0.6.0 is rewritten in vscode, to allow non-interactive option, etc."
+ 0.6.1 adds a method to obtain ssh key needed for git push"
+ 0.6.2 adds support for Rock 5c 64 bit (rk3588s-rock-5c)"
+ 0.6.3 moves ssh key load to publish function (did not work)"
+ 0.6.4 adds reusable ssh authentication socket to hold loaded ssh key(s)"
+ 0.7.0 reintroduces publish_ebuild (only for domU)"
+ 0.7.1 fixes a bug in display_config() [0.8 adopted script_header display_vars]"
 

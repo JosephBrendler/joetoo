@@ -13,7 +13,7 @@ branch_version=X.Z   ## e.g. 6.8
 git clone --depth 1 --branch rpi-${branch_version}.y https://github.com/raspberrypi/linux.git linux-${branch_version}.y
 
 cd linux-${branch_version}.y
-kernelversion=$(make kernelversion)
+kernelversion=$(make kernelversion) ; echo "kernelversion: $kernelversion"
 cd ..
 mv linux-${branch_version}.y linux-${kernelversion}-raspi
 

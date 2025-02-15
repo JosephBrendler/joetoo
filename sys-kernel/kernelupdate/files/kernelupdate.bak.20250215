@@ -145,8 +145,7 @@ make0="MAKEOPTS="
 make0+="\"${makeopts}\" "
 make0+=" FEATURES="
 make0+="\"${features}\" "
-#make0+="make O=${model_dir%/}/ "
-make0+="O=${model_dir%/}/ make "
+make0+="make O=${model_dir%/}/ "
 
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
@@ -612,9 +611,7 @@ display_vars ${longest} ${parmlist}
 echo
 myvar="make_me"
 display_vars ${#myvar} "${myvar}"
-echo
-message "if building manually, use copy/paste this variable assignment --"
-message "make_me=\'${make_me}\'"
+
 }
 
 make_sources_message() {
