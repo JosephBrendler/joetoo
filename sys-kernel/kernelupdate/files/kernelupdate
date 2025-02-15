@@ -133,20 +133,26 @@ module_dir=""  # to be set after make modules_install
 [[ ! -d "${boot_dir}" ]]           && mkdir -pv -m 755 "${boot_dir}"            && chown ${user}:${user} "${boot_dir}"
 [[ ! -d "${host_dir}" ]]           && mkdir -pv -m 755 "${host_dir}"            && chown ${user}:${user} "${host_dir}"
 
+# set up the parts of the make command
+make_prefix="MAKEOPTS="
+make_prefix+="\"${makeopts}\" "
+make_prefix+=" FEATURES="
+make_prefix+="\"${features}\""
+
+make_arch="ARCH=${arch} CROSS_COMPILE=${cross_compile}"
+make_where="O=${model_dir%/}/"
+make_src="-C ${sources_dir}"
+
 # set up the cross-building make command for sbcs or domU
-make_model="MAKEOPTS="
-make_model+="\"${makeopts}\" "
-make_model+=" FEATURES="
-make_model+="\"${features}\" "
-make_model+="make O=${model_dir%/}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
+make_model="${make_prefix} ${make_where} ${make_arch} make ${make_src}"
+#make_model+="make O=${model_dir%/}/ ARCH=${arch} CROSS_COMPILE=${cross_compile} "
 
 # set up the host build command for dom0
-make0="MAKEOPTS="
-make0+="\"${makeopts}\" "
-make0+=" FEATURES="
-make0+="\"${features}\" "
+make0="${make_prefix} ${make_where} make ${make_src}"
 #make0+="make O=${model_dir%/}/ "
-make0+="O=${model_dir%/}/ make "
+
+# set up the host build command for manual use, assuming already in ${sources_dir}
+manual_prefix="${make_prefix} ${make_where} ${make_arch}"
 
 # pick one of the above based on model selection
 [ "${model}" == "dom0" ] && make_me="${make0}" || make_me="${make_model}"
@@ -613,8 +619,19 @@ echo
 myvar="make_me"
 display_vars ${#myvar} "${myvar}"
 echo
-message "if building manually, use copy/paste this variable assignment --"
-message "make_me=\'${make_me}\'"
+message "${Mon}If building manually${Boff} --"
+message "  ${Mon}first${Boff} cd ${sources_dir}"
+message "  ${Mon}then${Boff} copy/paste this manual_prefix variable assignment --"
+message "  ${Gon}manual_prefix='${manual_prefix}'${Boff}"
+echo
+message "${Mon}then use e.g.${Boff} --"
+msg1='eval ${manual_prefix}'
+msg2="./scripts/kconfig/merge_config.sh .config ${Boff}<path-to-config-fragment>"
+message "${Gon}${msg1} ${msg2}${Boff}"
+message "or"
+msg2="make menuconfig${Boff}"
+message "${Gon}${msg1} ${msg2}${Boff}"
+echo
 }
 
 make_sources_message() {
