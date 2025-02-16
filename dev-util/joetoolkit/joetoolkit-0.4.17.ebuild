@@ -21,11 +21,11 @@ REQUIRED_USE=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-DEPEND=">=joetoo-base/joetoo-meta-0.0.4b
+BDEPEND="
 "
 
 RDEPEND="
-	${DEPEND}
+	${BDEPEND}
 	iptools? (
 		>=net-analyzer/nmap-7.92
 		>=net-dns/bind-tools-9.16
@@ -47,7 +47,7 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
+	einfo "BDEPEND=${BDEPEND}"
 
 	# basic set of utilities for joetoo
 	elog "Installing joetoolkit..."
@@ -138,11 +138,13 @@ pkg_postinst() {
 	elog "PVR=${PVR}"
 	elog "FILESDIR=${FILESDIR}"
 	elog "RDEPEND=${RDEPEND}"
-	elog "DEPEND=${DEPEND}"
+	elog "BDEPEND=${BDEPEND}"
 	elog ""
-	elog "joetoolkit installed"
+	elog "${P} installed"
 	elog "Version history can be found in the ebuild's files directory"
 	elog " 0.4.15 improves and generalizes the insert_into_file() tool"
+	elog " 0.4.16 eliminates build-time dependency on joetoo-base/joetoo-meta"
+	elog " 0.4.17 fixes a bug in insert-into-file, so it can run from anywhere"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"

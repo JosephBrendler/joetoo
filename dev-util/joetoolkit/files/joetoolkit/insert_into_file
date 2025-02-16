@@ -127,6 +127,8 @@ do_insert() {
 }
 
 read_input_and_edit_output() {
+  # read input from file specified in arg1
+  in_file="$1"
   while read line
   do
     # if line is not null and it matches tartet text, then insert before/after
@@ -152,7 +154,7 @@ read_input_and_edit_output() {
       d_message "adding line [ ${line} ] to output array" 4
       output+=("$(echo "${line}")")
     fi
-  done < ${target_file}
+  done < ${in_file}
 }
 
 sanity_check() {
@@ -234,14 +236,14 @@ read_config
 sanity_check
 display_config
 
-for filename in ${target_file_list}
+for filename in ${target_folder%/}/${target_file_list}
 do
   # reinitialize output array
   output=()
   separator ${filename} $(basename $0)
-  target_file="${target_folder}/${filename}"
+  target_file="${filename}"
   d_message "target_file: [ ${target_file} ]" 2
-  read_input_and_edit_output
+  read_input_and_edit_output "${target_file}"
   [ ${verbosity} -ge 3 ] && dump_output
   if [ ! ${PRETEND} ] ; then
     # do it for real
