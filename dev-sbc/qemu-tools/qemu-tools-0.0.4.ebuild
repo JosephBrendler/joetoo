@@ -38,8 +38,7 @@ BDEPEND="
 	>=app-admin/eselect-1.4.27-r1
 "
 
-# to do: version 0.0.4 starts migration of required packages to joetoo
-#   so you won't need the genpi overlay
+# as of 20250201 stable qemu does not have a raspi4b model, so use ~arm64 version of qemu for that board
 RDEPEND="
 	${BDEPEND}
 	app-emulation/qemu[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
@@ -66,6 +65,7 @@ pkg_pretend() {
 		check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 	fi
 }
+# keeping this below as example of how to check specific CONFIG_ settings with linux_chkconfig_string
 #		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
 #		[[ ${fat_def_codepage} -eq 437 ]] && \
 #			elog "FAT_DEFAULT_CODEPAGE ok (${fat_def_codepage})" || \
@@ -108,15 +108,19 @@ src_install() {
 	# install the .conf files for each USE'd board in ${boards}
 	insinto "/etc/${PN}/"
 	for board in ${boards}; do
-		if [ -e ${S}/${PN}/${PN}_${board}_template.conf ] ; then
-			newins "${S}/${PN}/${PN}_${board}_template.conf" "${PN}_${board}_template.conf"
+		if [ -e ${S}/${PN}/configs/${PN}_${board}_template.conf ] ; then
+			newins "${S}/${PN}/configs/${PN}_${board}_template.conf" "${PN}_${board}_template.conf"
 			elog "  Installed (newins) ${PN}_${board}_template.conf"
 		else
 			elog "  Tried to install (newins) but could not find ${S}/${PN}/${PN}_${board}_template.conf"
 		fi
 	done
+	# install README and BUILD files in /etc/${PN}
 	newins "${FILESDIR}/README" "README"
 	elog "  Installed (newins) README"
+	echo "BUILD=${PVR}" > ${T}/BUILD
+	newins "${T}/BUILD" "BUILD"
+	elog "  Installed (newins) BUILD"
 
 	# Install executables
 	elog "Installing (exe) into /usr/sbin/"
@@ -142,8 +146,6 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "BDEPEND=${BDEPEND}"
 	einfo "boards=${boards}"
 	elog ""
 	elog "${P} installed"
@@ -154,6 +156,8 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 adds qemu-virt-launch and config template"
+	elog " 0.0.3 updates qemu-raspi-launch"
+	elog " 0.0.4 generalizes qemu-image-mount & qemu-image-launch"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
