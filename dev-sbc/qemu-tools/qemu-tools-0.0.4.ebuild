@@ -122,10 +122,10 @@ src_install() {
 	newins "${T}/BUILD" "BUILD"
 	elog "  Installed (newins) BUILD"
 
-	# Install executables
+	# Install qemu-tools executables (but not scripts in sub-directories)
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	for x in $(find ${S}/${PN}/ -type f -executable); do
+	for x in $(find ${S}/${PN}/ -maxdepth 1 -type f -executable); do
 		y=$(basename $x)
 		newexe "${x}" "${y}"
 		elog "Installed (newexe) ${y}"
