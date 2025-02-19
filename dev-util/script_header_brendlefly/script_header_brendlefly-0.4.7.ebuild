@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # joe brendler 6/8/2024
-# this is a re-design which no longer uses a SRC_URI, juse ${FILESDIR}
+# this is a re-design which no longer uses a SRC_URI, just ${FILESDIR}
 
 EAPI=8
 
@@ -78,6 +78,8 @@ src_install() {
 	elog " 0.4.3 now uses #!/bin/sh, asigns VERBOSE/verbosity only if null, offers unbold colors"
 	elog " 0.4.4 fixes d_echo and de_echo for null string e.g. d_echo 1"
 	elog " 0.4.5 adds display_vars() and supporting functions get_longest(), echo_n_long()"
+	elog " 0.4.6 fixes bugs"
+	elog " 0.4.7 fixes a bug in display_vars()"
 	elog ""
 	elog "Thank you for using ${PN}"
 

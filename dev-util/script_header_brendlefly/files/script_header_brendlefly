@@ -309,7 +309,7 @@ get_longest()    # return via echo to stdout the length of longest string in inp
 display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longest
 {
   if ! isnumber $1 ; then E_message "Error: arg \$1 must be numeric longest expected input var name"; exit; fi
-  if [ $# -le 1 ] ; then E_message "Error: \$# not gt 1; arg 1 must be followed by var names"; exit; fi
+  if [ $# -le 1 ] ; then set $@ "<empty>"; fi  # insert placeholder "<empty>" as $2
   maxlen=$(($1 + 2)); shift; for var_name in $@;
   do
     type="$(echo $var_name | awk  -F \. '{print $1}')"
