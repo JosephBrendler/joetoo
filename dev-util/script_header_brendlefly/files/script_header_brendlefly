@@ -343,7 +343,7 @@ display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longe
 echo_n_long()    #  spread a long string over several lines, if needed.  $1=start
 {
   if ! isnumber $1 ; then E_message "Error: arg \$1 must be numeric starting caracter position"; exit; fi
-  if [ $# -le 1 ] ; then E_message "Error: \$# not gt 1; arg 1 must be followed by a long string of input"; exit; fi
+  if [ $# -le 1 ] ; then set $@ "<empty>"; fi
   left=" * "; right=": [ "
   start=$(( $1 + ${#left} + ${#right} )); shift; input="$@"; tw=$(termwidth); newline=""
   for x in $input
