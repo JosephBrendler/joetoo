@@ -59,7 +59,7 @@ setup_window_for_idx() {
     cmd_target=${ssh_session_list[$idx]}
     d_message "$(my_short_date) debug ssh_session_list: i=$i idx=$idx ssh_session_list[\$idx]=${ssh_session_list[$idx]} cmd_target=$cmd_target" 3
     d_message "$(my_short_date) idx = [$idx] , cmd_target = $cmd_target" 2
-    if [[ "${cmd_target:0:2}" != "x_" ]]
+    if [[ "${cmd_target:0:1}" != "x" ]]
     then
       cmd="--command=\"su -user joe ssh $cmd_target\""
 #      d_message "$(my_short_date) about to run \"${terminal_program} --title=\"$(basename ${terminal_program})_${i}.${idx} &\"" 1
@@ -83,12 +83,12 @@ setup_window_for_idx() {
       # move window - put even numbered windows on right, odd left (leave cursor on left)
       if [[ $((${idx}%2)) -eq 0 ]]
       then # even
-        d_message "$(my_short_date) moving window $newtermname to ${X1} ${Y1}" 2
-        xdotool windowmove --sync $newterm ${X1} ${Y1}
-        sleep $sleepWait
-      else # odd
         d_message "$(my_short_date) moving window $newtermname to ${X2} ${Y1}" 2
         xdotool windowmove --sync $newterm ${X2} ${Y1}
+        sleep $sleepWait
+      else # odd
+        d_message "$(my_short_date) moving window $newtermname to ${X1} ${Y1}" 2
+        xdotool windowmove --sync $newterm ${X1} ${Y1}
         sleep $sleepWait
       fi
       # open ssh session to idxed target

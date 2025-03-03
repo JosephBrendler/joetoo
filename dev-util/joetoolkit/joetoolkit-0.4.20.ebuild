@@ -144,6 +144,8 @@ pkg_postinst() {
 	elog " 0.4.16 eliminates build-time dependency on joetoo-base/joetoo-meta"
 	elog " 0.4.17 fixes a bug in insert-into-file, so it can run from anywhere"
 	elog " 0.4.18 moved qemu-image mount/launch tools to a new package"
+	elog " 0.4.19 adds temp_freq utility"
+	elog " 0.4.20 updates xdotool_open_windows (ignore x_ and move L -> R)"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
