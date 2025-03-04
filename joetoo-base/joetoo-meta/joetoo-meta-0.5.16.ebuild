@@ -466,7 +466,7 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.5.13/4 adds packages using nodist_features.conf to package.env"
-	elog " 0.5.15/16 updates joetoo package.use and package.accept_keywords"
+	elog " 0.5.15-16 updates joetoo package.use and package.accept_keywords"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
