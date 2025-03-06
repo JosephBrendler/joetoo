@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		This package provides files that constitute the per-package
+		environment configurations for joetoo systems
+		More to follow...
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="TBD">TBD (this flag currently has no functionality)</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+	</upstream>
+</pkgmetadata>
