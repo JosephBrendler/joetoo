@@ -1,6 +1,5 @@
 # Copyright 2022-2052 Joe Brendler
 # Distributed under the terms of the GNU General Public License v2
-# Originally inspired (as raspberry-headless-meta) by "genpi64" work done by sakaki, abandoned in 2020
 
 EAPI=8
 
@@ -67,6 +66,7 @@ REQUIRED_USE="
 S="${WORKDIR}"
 
 RDEPEND="
+	>=joetoo-base/joetoo-per-package-env-0.0.1
 	>=sys-apps/openrc-0.42.1
 	>=app-shells/bash-5.0
 	innercore? (
@@ -319,29 +319,8 @@ src_install() {
 			newins "${FILESDIR}/etc_portage_make_conf_joetoo_amd64" "make.conf"
 		fi
 		elog "Done installing (ins) files into ${target} ..."
-	target="/etc/portage/env"
-		einfo "Installing (ins) files into ${target} ..."
-		insinto "${target}"
-		newins "${FILESDIR}/etc_portage_env_gold.conf_joetoo" "gold.conf"
-		newins "${FILESDIR}/etc_portage_env_j1_makeopts.conf_joetoo" "j1_makeopts.conf"
-		newins "${FILESDIR}/etc_portage_env_j4_makeopts.conf_joetoo" "j4_makeopts.conf"
-		newins "${FILESDIR}/etc_portage_env_no_collision-protect.conf_joetoo" "no_collision-protect.conf"
-		newins "${FILESDIR}/etc_portage_env_nodist_features.conf_joetoo" "nodist_features.conf"
-		newins "${FILESDIR}/etc_portage_env_perl-5.26-always-dot_joetoo" "perl-5.26-always-dot"
-		newins "${FILESDIR}/etc_portage_env_perl-5.26-unsafe-inc_joetoo" "perl-5.26-unsafe-inc"
-		newins "${FILESDIR}/etc_portage_env_safe-cflags.conf_joetoo" "safe-cflags.conf"
-		newins "${FILESDIR}/etc_portage_env_serialize-make.conf_joetoo" "serialize-make.conf"
-		newins "${FILESDIR}/etc_portage_env_suppress-distcc.conf_joetoo" "suppress-distcc.conf"
-		newins "${FILESDIR}/etc_portage_env_suppress-distcc-pump.conf_joetoo" "suppress-distcc-pump.conf"
-		newins "${FILESDIR}/etc_portage_env_portage_tmpdir_on_rootfs.conf_joetoo" "portage_tmpdir_on_rootfs.conf"
-		newins "${FILESDIR}/etc_portage_env_mysql-with-protobuf-bundled-conf_joetoo" "mysql-with-protobuf-bundled.conf"
-		newins "${FILESDIR}/etc_portage_env_lang-en-us-utf8.conf_joetoo" "lang-en-us-utf8.conf"
-		elog "Done installing (ins) files into ${target} ..."
-	target="/etc/portage/package.env/"
-		einfo "Installing (ins) files into ${target} ..."
-		insinto "${target}"
-		newins "${FILESDIR}/etc_portage_package.env_joetoo" "package.env"
-		elog "Done installing (ins) files into ${target} ..."
+# Note targets "/etc/portage/env" and "/etc/portage/package.env/"
+#   have been moved to separate package joetoo-base/joetoo-per-package-env 6 Mar 2025
 	target="/etc/portage/package.use/"
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
@@ -466,8 +445,7 @@ pkg_postinst() {
 	elog "Please report bugs to the maintainer."
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
-	elog " 0.5.13/4 adds packages using nodist_features.conf to package.env"
-	elog " 0.5.15-16 updates joetoo package.use and package.accept_keywords"
+	elog " 0.6.0 moves per-package configs to joetoo-base/joetoo-per-package-env"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."

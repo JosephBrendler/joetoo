@@ -28,23 +28,24 @@ version 0.1.3 introduces embedded and tinker USE flags
 0.3.23 updates package.env, openvpn parts, and config_protect
 0.3.24-27 update package.env (for additional pkgs that have failed to compile with distcc)
 0.3.28/29 introduces support for rk3399-tinker-2/2s
-0.3.28/29 introduces support for rk3399-tinker-2"
-0.3.30 introduces support for rk3588s-orangepi-5"
-0.3.31 adds supporting files for rk3588s-orangepi-5"
-0.3.32 fixes supporting files for rk3399-tinker-2"
-0.4.0 adds support for original rpi model b (bcm2708-rpi-b)"
-0.4.1 updates package.use/joetoo and revises board assignment"
-0.4.3 adapts to consolidated dev-util/script_header_brendlefly"
-0.4.4 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)"
-0.4.5 changes from use gentoo_pv_kernel_image to linux-domU_kernel_image"
-0.4.6/7 add packages using nodist_features.conf to package.env"
-0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency"
-0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)"
-0.5.2/3 add packages using nodist_features.conf to package.env"
-0.5.6 adds dependencies for plasma USE and installs package.use and .keywords"
-0.5.7/8 adds packages using nodist_features.conf to package.env"
-0.5.9 updates conf.d/net and plasma USE (package.use and .accept_keywords)"
-0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen"
-0.5.11 adds a joetoolkit USE (default +) and /etc/wgetpaste.conf"
-0.5.12 fixes env no_collision-protect, and de-consolidates kernelimage "
-
+0.3.28/29 introduces support for rk3399-tinker-2
+0.3.30 introduces support for rk3588s-orangepi-5
+0.3.31 adds supporting files for rk3588s-orangepi-5
+0.3.32 fixes supporting files for rk3399-tinker-2
+0.4.0 adds support for original rpi model b (bcm2708-rpi-b)
+0.4.1 updates package.use/joetoo and revises board assignment
+0.4.3 adapts to consolidated dev-util/script_header_brendlefly
+0.4.4 adds support for rpi 3 model b v1.2 32bit (bcm2710-rpi-3-b)
+0.4.5 changes from use gentoo_pv_kernel_image to linux-domU_kernel_image
+0.4.6/7 add packages using nodist_features.conf to package.env
+0.5.0 adopts consolidated sys-kernel/linux-joetoo-kernelimage dependency
+0.5.1 add support for Rock 5c 64 bit (rk3588s-rock-5c)
+0.5.2/3 add packages using nodist_features.conf to package.env
+0.5.6 adds dependencies for plasma USE and installs package.use and .keywords
+0.5.7/8 adds packages using nodist_features.conf to package.env
+0.5.9 updates conf.d/net and plasma USE (package.use and .accept_keywords)
+0.5.10 adds initramfs.working, .safe to /etc/grub.d/10_linux, 20_linux_xen
+0.5.11 adds a joetoolkit USE (default +) and /etc/wgetpaste.conf
+0.5.12 fixes env no_collision-protect, and de-consolidates kernelimage 
+0.5.13/4 adds packages using nodist_features.conf to package.env
+0.5.15-16 updates joetoo package.use and package.accept_keywords
