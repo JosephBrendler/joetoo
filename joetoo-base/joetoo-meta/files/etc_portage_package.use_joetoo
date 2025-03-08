@@ -20,6 +20,7 @@
 # syslog-ng ..................: Pull in syslog-ng as system logger
 # netifrc ....................: Pull in netifrc to manage network
 # networkmanager .............: Pull in networkmanager to manage network
+# distcc......................: Pull in sys-devel/distcc
 # mkinitramfs ................: Pull in joetoo's initramfs builder and required components
 # jus ........................: Pull in the joetoo update sequence script and dependencies
 # script_header_brendlefly ...: Pull in the joetoo script header
@@ -48,6 +49,7 @@
 #    +headless -plasma -gnome
 #    -lamp -nextcloud -mysql -mariadb
 #    +cloudsync
+#    +distcc
 #    +mkinitramfs +jus
 #    +netifrc -networkmanager
 #    -ntp +chrony
@@ -104,6 +106,7 @@ app-emulation/xen-tools api -custom-cflags -debug -doc -flask hvm ocaml -ovmf pa
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
 app-misc/pax-utils python
 app-portage/gemato blake2 bzip2 gpg lzma sha3
+app-text/mandoc -cgi
 dev-lang/php acl apache2 bcmath bzip2 cgi cli crypt ctype curl enchant fileinfo filter flatfile fpm gd gdbm gmp hash iconv intl ipv6 jit json ldap mysql mysqli odbc opcache pdo phar posix readline session simplexml sockets spell sqlite ssl sysvipc threads tokenizer truetype unicode xml xmlreader xmlwriter xpm zip zlib -snmp
 >=dev-lang/python-2.7.17-r1:2.7 sqlite
 dev-libs/boost threads python tools
@@ -139,4 +142,5 @@ sys-kernel/linux-firmware -initramfs
 # Note that many other standardized configuration choices are provided in the included default
 # make.conf file
 */* PYTHON_TARGETS: -python2_7
-*/* APACHE2_MPMS: event worker
+*/* APACHE2_MPMS: event
+
