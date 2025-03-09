@@ -320,7 +320,7 @@ display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longe
         pad="$(repeat '.' $(( ${maxlen} - ${#var})) )"
         message "${LBon}${var}${pad}: [ $(status_color ${key})$(TrueFalse ${key}) ${LBon}]${Boff}"
       ;;
-      "lv"   )  # lonstring convention: parameter is "lv_${var}" where ${var} is e.g. "CMDLINE"
+      "lv"   )  # lonstring convention: parameter is "lv_${var}" wehre ${var} is e.g. "CMDLINE"
         var="$(echo $var_name | awk  -F \. '{print $2}')"
         eval "key=\$${var}"
         pad="$(repeat '.' $(( ${maxlen} - ${#var})) )"
@@ -337,47 +337,6 @@ display_vars()   # show aligned values for vars in $@; incl bool. lv. ; $1=longe
         message "${LBon}${var}${pad}: [ ${Boff}${key} ${LBon}]${Boff}"
       ;;
     esac
-  done
-}
-
-initialize_vars()   # initialize values for vars in $@; incl bool. lv.
-{
-  [ $# -lt 1 ] && return
-  d_message "initializing vars: $@" 5
-  for var_name in $@
-  do
-    type="$(echo $var_name | awk  -F \. '{print $1}')"
-    d_message "about to initialize $var_name of type: [ $type ]" 4
-    case ${type} in
-      "bool" )  # boolean convention: parameter is "bool_${var}" where ${var} is e.g. "VERBOSE"
-        # initialize booleans $FALSE
-        var="$(echo $var_name | awk  -F \. '{print $2}')"
-        d_message_n "  initializing boolean ${var} FALSE ..." 2
-        eval "${var}=\$FALSE" ; d_right_status $? 2
-      ;;
-      "lv"   )  # lonstring convention: parameter is "lv_${var}" where ${var} is e.g. "CMDLINE"
-        # initialize longstring to null string
-        var="$(echo $var_name | awk  -F \. '{print $2}')"
-        d_message_n "  initializing lv ${var} NULL ..." 2
-        eval "${var}=''" ; d_right_status $? 2
-      ;;
-      "BREAK"   )  # lonstring convention
-        d_message_n "  ignoring BREAK ..." 2
-        d_right_status $TRUE 2
-      ;;
-      *      )  # all other variable types
-        var="${type}"
-        d_message_n "  initializing ${var} NULL ..." 2
-        eval "${var}=''" ; d_right_status $? 2
-      ;;
-    esac
-  done
-}
-
-holder() {
-  for var_name in $@ ; do
-    type="$(echo $var_name | awk  -F \. '{print $1}')"
-    d_message "about to initialize $varname of type: [ $type ]" 3
   done
 }
 

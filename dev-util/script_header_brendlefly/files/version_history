@@ -1,0 +1,15 @@
+version 0.2.0 added color(), incl reverse video \"\${RVon}\"
+ 0.2.11, moved bs() and countdown() to the extended function set
+ 0.3.0 added checkshell() to adjust for non-interactive shells
+ 0.3.7 updated the swr() function, to use nmap
+ 0.3.8 moved watchdistcc to dev-util/joetoolkit and added fe()
+ 0.3.9 moved which() to dev-util/joetoolkit
+ 0.3.10 updates checkboot() for x86/ x86_64/armv7l/aarch64
+ 0.4.0 is a major rewrite, consolidating content in FILESDIR
+ 0.4.1 fixes d_echo() and adds isnumber() and ishex() functions
+ 0.4.2 fixes isnumber(), ishex(), and d_echo() for busybox (ash shell)
+ 0.4.3 now uses #!/bin/sh, asigns VERBOSE/verbosity only if null, offers unbold colors
+ 0.4.4 fixes d_echo and de_echo for null string e.g. d_echo 1
+ 0.4.5 adds display_vars() and supporting functions get_longest(), echo_n_long()
+ 0.4.6 fixes bugs
+ 0.4.7 fixes a bug in display_vars()

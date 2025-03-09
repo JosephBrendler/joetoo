@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # joe brendler 6/8/2024
-# this is a re-design which no longer uses a SRC_URI, juse ${FILESDIR}
+# this is a re-design which no longer uses a SRC_URI, just ${FILESDIR}
 
 EAPI=8
 
@@ -65,20 +65,9 @@ src_install() {
 	elog "  enable the \"niopt\" USE flag to employ/source the noninteractive function set"
 	elog "  use commands \"summarize_me\" and \"summarize_my_extension\""
 	elog ""
-	elog "version 0.2.0 added color(), incl reverse video \"\${RVon}\""
-	elog " 0.2.11, moved bs() and countdown() to the extended function set"
-	elog " 0.3.0 added checkshell() to adjust for non-interactive shells"
-	elog " 0.3.7 updated the swr() function, to use nmap"
-	elog " 0.3.8 moved watchdistcc to dev-util/joetoolkit and added fe()"
-	elog " 0.3.9 moved which() to dev-util/joetoolkit"
-	elog " 0.3.10 updates checkboot() for x86/ x86_64/armv7l/aarch64"
-	elog " 0.4.0 is a major rewrite, consolidating content in FILESDIR"
-	elog " 0.4.1 fixes d_echo() and adds isnumber() and ishex() functions"
-	elog " 0.4.2 fixes isnumber(), ishex(), and d_echo() for busybox (ash shell)"
-	elog " 0.4.3 now uses #!/bin/sh, asigns VERBOSE/verbosity only if null, offers unbold colors"
-	elog " 0.4.4 fixes d_echo and de_echo for null string e.g. d_echo 1"
-	elog " 0.4.5 adds display_vars() and supporting functions get_longest(), echo_n_long()"
-	elog " 0.4.6 fixes bugs"
+	elog "version_history, in the ebuild's FILESDIR, records version history"
+	elog " 0.4.7 fixes a bug in display_vars()"
+	elog " 0.4.8 adds function initialize_vars()"
 	elog ""
 	elog "Thank you for using ${PN}"
 
