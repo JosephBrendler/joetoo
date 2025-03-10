@@ -1,0 +1,30 @@
+Welcome to joetoo's dev-sbc/reflash_rp2
+
+please use the provided template .conf files to create your own configs
+
+note that the eselect module will allow you to select from among any
+config file whose name begins "reflash_rp2_" and ends ".conf"
+
+the reflash_rp2 script provided with this package will default to
+"PRETEND" mode (display config but don't execute) and it has two ${command}
+execution modes --
+"list" - (default) list the *.uf2 files under the ${IMAGE_TREE} path selected by reflash_rp2.conf
+"flash" - chosen by use of the commandline option f|f (flash)
+
+Note:  "flash" will mount the RP2040 in usb-storage mode and copy the ${PROGRAM} selected
+by reflash_rp2.conf to the RP2040, and then it will un-mount the mountpoint
+
+See documentation at:
+ https://wiki.gentoo.org/wiki/User:Brendlefly62/Radxa_x4_N100_sbc_with_RP2040/Use_the_RP2040_Microcontroller#Copy_the_program_to_the_rp2040
+Which also references:
+ https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf
+ https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf
+ https://www.youtube.com/watch?v=rUkpIG_3D9k
+ https://github.com/raspberrypi/pico-sdk#quick-start-your-own-project
+ https://forums.gentoo.org/viewtopic-t-1134474-start-0.html
+ https://forums.gentoo.org/viewtopic-p-8734951.html?sid=e340ef1c346252d518007863854b9ba6
+ https://github.com/raspberrypi/pico-examples
+ https://docs.radxa.com/en/x/x4/software/c_sdk_examples
+ https://docs.radxa.com/en/x/x4/software/flash?flash_way=Software
+ https://wiki.gentoo.org/wiki/Pip
+ https://wiki.gentoo.org/wiki/ARM

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		program and configuration files for reflash_rp2
+		with eselect module to select config file
+		(works on with the Radxa X4 SBC, to reflash its RP2040)
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+                <flag name="TBD">TBD (currently no function)</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
+
