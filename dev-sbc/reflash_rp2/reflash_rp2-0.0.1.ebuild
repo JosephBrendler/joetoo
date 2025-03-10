@@ -15,6 +15,8 @@ SLOT="0"
 KEYWORDS="amd64 ~amd64"
 IUSE="+serial +stress"
 
+RESTRICT="mirror"
+
 REQUIRED_USE=""
 
 S="${WORKDIR}"
