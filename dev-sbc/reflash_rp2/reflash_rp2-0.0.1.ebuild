@@ -6,7 +6,7 @@ EAPI=8
 
 inherit linux-info
 
-DESCRIPTION="joetoo program to run and configure sbc emulation instances with qemu"
+DESCRIPTION="joetoo program to flash a program to the RP2040 microcontroller on a Radxa X4 SBC"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${P}.tbz2"
 
