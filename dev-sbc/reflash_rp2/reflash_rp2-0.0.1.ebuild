@@ -57,7 +57,7 @@ src_install() {
 	# install the .conf files for each USE'd board in ${boards}
 	insinto "/etc/${PN}/"
 	for x in ${S}/${PN}/configs/${PN}_*.conf ; do
-		z=$(basename ${x})
+		y=$(basename ${x})
 		newins "${x}" "${y}"
 		elog "  Installed (newins) ${y})"
 	done
