@@ -22,6 +22,7 @@
                 <flag name="rk3399-tinker-2">Configure for Tinkerboard 2/2S (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Configure for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Configure for Rock 5c (armv8/64)</flag>
+                <flag name="x4-n100">Configure for X4 N100 (amd64) with RP2040 (arm v6)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>

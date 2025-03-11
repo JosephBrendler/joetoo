@@ -1,0 +1,10 @@
+version 0.0.1 is the initial build
+ 0.0.2 refactors for rk3399-tinker-2 board name
+ 0.0.3 adds code to check and if needed, restart network interface(s)
+ 0.0.4 adds support for original rpi model b (bcm2708-rpi-b)
+ 0.0.5 changes yellow service-check led, now off = good on = problem
+ 0.1.0 makes all checks optional (sent in .conf)
+ 0.1.1 adds support for rpi 3 model b v1.2 (32bit) (bcm2710-rpi-3-b)
+ 0.1.2/3 adds/updates support for Rock 5c (64bit) (rk3588s-rock-5c)
+ 0.2.0 fixes vpn check/restart algorithm
+ 0.2.1 fixes some bugs
