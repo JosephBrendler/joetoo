@@ -2,19 +2,44 @@
 # joe brendler; 15 May 2024
 # test the status leds for an sbc
 #
-# Note gpioset syntax:  gpioset -c <chip#> -t<toggleduration> <line#>=0 (off; =1 for on)
-# Convention:  GPIOH_XN is chip=H and line= 8*X + N
-#
 TRUE=0
 FALSE=
 
-chip=0
-line=1
-VPN_LED=(2 9)         # GPIO2_B1 pin 3 (VPN LED)(green)
-SVC_LED=(2 10)        # GPIO2_B2 pin 5 (Services LED)(yellow)
-TEMP_LED=(0 8)        # GPIO0_B0 pin 7 (Temp LED)(red)
+STATUS=0
+
+# unlike other sbc's the x4 writes status to its internam microcontroller
+# over an internal serial port.  joetoo convention is that the
+# rp2040 microcontroller will have a green, yellow, and red leds
+# in the same physical pin locations as other sbc, but it will use
+# a custom firmware developed for the rp2040 to set these LEDs on/off
+# and that fimware will read a single status byte from the serial port.
+# joetoo convention will be that the x4 uses -
+# status bit 0 to set the green led,
+# status bit 1 to set the yellow led, and
+# status bit 2 to set the red led
+#
+VPN_BIT=0             # maps to VPN LED (green)
+SVC_BIT=1             # maps to Services LED (yellow)
+TEMP_BIT=2            # maps to Temp LED (red)
+
+SERIAL_PORT=/dev/ttyS4
 
 blinkwait=0.05        # s wait during fluttler blink
+#wait_time=2          # s wait for ping
+wait_time=30          # s wait for ping
+
+vpn_server_ip="192.168.63.1"
+vpn_status_file="/root/bin/vpn_status"
+
+cputempfile=/sys/class/thermal/thermal_zone0/temp
+temp_threshold=60     # deg celcius above which to consider cpu to be hot
+
+PROG_NAME="sbc-status-leds"
+
+VPN_OK=$TRUE
+
+#NEED_WORKAROUND=$TRUE
+NEED_WORKAROUND=$FALSE
 
 VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
@@ -27,25 +52,37 @@ verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors o
 
 #-----[ functions ]---------------------------------------------
 
+send_status() {
+    echo ${STATUS} > ${SERIAL_PORT}
+}
+
 light_off() {
-  gpioset -c${1} -t0 ${2}=0
+  # clear the bit masked by $1
+  mask=$(( ~ $((1 << $1)) ))
+  STATUS=$(( $STATUS & $mask ))
+  send_status
 }
 
 light_on() {
-  gpioset -c${1} -t0 ${2}=1
+  # set the bit masked by $1
+  STATUS=$(( $STATUS | $(( 1 << $1 )) ))
+  send_status
 }
 
 blink_light() {
-  # blink LED
+  # blink LED selected by $1; finish off
+  my_led=$1
   for ((i=0;i<10;i++))       # blink on/off 5 times, quickly
   do
-    gpioset -c${1} -t0 ${2}=$(( $(( 1 + $i )) % 2 ))
+    light_on $my_led
+    sleep ${blinkwait}
+    light_off $my_led
     sleep ${blinkwait}
   done
 }
 
 #-----[ main script ]-----------------------
 
-blink_light ${VPN_LED[${chip}]} ${VPN_LED[${line}]}
-blink_light ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
-blink_light ${TEMP_LED[${chip}]} ${TEMP_LED[${line}]}
+blink_light ${VPN_BIT}
+blink_light ${SVC_BIT}
+blink_light ${TEMP_BIT}
