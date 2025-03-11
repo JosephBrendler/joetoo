@@ -125,7 +125,7 @@ check_vpn() {
       "up"   ) echo "down ${timestamp}" > ${vpn_status_file} ;
                [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
                    /usr/bin/logger -p cron.notice "${PROG_NAME} falure -- vpn response: ${response}" ;
-               light_off ${VPN_BIT}
+               light_off ${VPN_BIT} ;;
       "down" ) if [ $(( ${timestamp} - ${last_timestamp} )) -gt 180 ]
                then
                  [[ $VERBOSE ]] && [[ verbosity -ge 2 ]] && \
