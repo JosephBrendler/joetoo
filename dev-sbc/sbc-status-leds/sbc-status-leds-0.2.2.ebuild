@@ -36,7 +36,7 @@ BDEPEND=""
 
 RDEPEND="
 	${BDEPEND}
-	>=dev-libs/libgpiod-2.1
+	>=dev-libs/libgpiod-1.6
 	>=app-admin/eselect-1.4.27-r1
 	x4-n100? ( >=sys-devel/bc-1.08.1 )
 "
