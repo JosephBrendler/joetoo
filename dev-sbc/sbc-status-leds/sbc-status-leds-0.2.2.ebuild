@@ -130,9 +130,18 @@ pkg_postinst() {
 	elog "You can create additional configurations in /etc/${PN}"
 	elog "Use eselect ${PN} to pick one of them"
 	elog ""
-	elog ""
 	elog "version_history is located in the ebuild's $FILESDIR"
 	elog " 0.2.2 supports x4-n100 (amd64) sbc w onboard RP2040 microcontroller"
+	elog ""
+	if use x4-n100 ; then
+		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
+		elog "status data to a serial port (/dev/ttyS4) assuming that a"
+		elog "firware program (e.g. pwn_status.c) has been compiled and flashed"
+		elog "to the rp2040.  You must do so if that has not yet been done."
+		elog "To Do: put such rp2040 firmware e.g. pwn_status.c in a package"
+		elog "For now, see this wiki page:"
+		elog "   https://wiki.gentoo.org/wiki/User:Brendlefly62/Radxa_x4_N100_sbc_with_RP2040"
+	fi
 	elog ""
 	elog "Thank you for using ${PN}"
 }
