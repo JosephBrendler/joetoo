@@ -86,17 +86,13 @@ src_install() {
 
 	elog "Installing the joetoo ${PN}.crontab file..."
 	insinto "/etc/cron.d/"
-	if use x4-n100 ; then
-		newins "${FILESDIR}/x4-n100-${PN}.crontab" "${PN}.crontab"
-		elog "Installed (newins) x4-n100 version of ${PN}.crontab"
-	else
-		newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
-		elog "Installed (newins) ${PN}.crontab"
-	fi
+	newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
+	elog "Installed (newins) ${PN}.crontab"
 
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	if use x4-n100 ; then
+		# install with regular names so the crontab will work unmodified, etc
 		newexe "${FILESDIR}/x4-n100-${PN}" "${PN}"
 		elog "Installed (newexe) x4-n100 version of ${PN}"
 		newexe "${FILESDIR}/x4-n100-test-${PN}" "test-${PN}"
