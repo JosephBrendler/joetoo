@@ -17,7 +17,8 @@ STATUS=0
 # status bit 0 to set the green led,
 # status bit 1 to set the yellow led, and
 # status bit 2 to set the red led
-#
+#CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyS4
+
 VPN_BIT=0             # maps to VPN LED (green)
 SVC_BIT=1             # maps to Services LED (yellow)
 TEMP_BIT=2            # maps to Temp LED (red)
@@ -220,10 +221,13 @@ light_off ${SVC_BIT}
 light_off ${TEMP_BIT}
 
 [ $CHECKVPN ] && check_vpn
+sleep ${blinkwait}
 
 [ $CHECKSVC ] && check_svc
+sleep ${blinkwait}
 
 [ $CHECKTEMP ] && check_temp
+sleep ${blinkwait}
 
 [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
     /usr/bin/logger -p cron.notice "${PROG_NAME} complete"
