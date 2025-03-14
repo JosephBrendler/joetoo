@@ -24,7 +24,7 @@ TEMP_BIT=2            # maps to Temp LED (red)
 
 SERIAL_PORT=/dev/ttyS4
 
-blinkwait=0.05        # s wait during fluttler blink
+blinkwait=0.1         # s wait during fluttler blink
 #wait_time=2          # s wait for ping
 wait_time=30          # s wait for ping
 
@@ -65,14 +65,14 @@ send_status() {
 }
 
 light_off() {
-  # clear the bit masked by $1
+  # clear the bit selected by $1
   mask=$(( ~ $((1 << $1)) ))
   STATUS=$(( $STATUS & $mask ))
   send_status
 }
 
 light_on() {
-  # set the bit masked by $1
+  # set the bit selected by $1
   STATUS=$(( $STATUS | $(( 1 << $1 )) ))
   send_status
 }
@@ -174,7 +174,7 @@ check_restart_network() {
 check_svc() {
   echo -n "Checking Services... "
   # blink svc led to indicate running check
-  blink_light ${SVC_LED[${chip}]} ${SVC_LED[${line}]}
+  blink_light ${SVC_BIT}
   # use rc-status to get services status
   result=$( rc-status | grep '\[' | grep -v 'started\|inactive' )
   # conditionally log the result and set led as appropriate (off = good status; on = problem)
@@ -219,14 +219,11 @@ light_off ${VPN_BIT}
 light_off ${SVC_BIT}
 light_off ${TEMP_BIT}
 
-[ $CHECKVPN ] && check_vpn || \
-    ( blink_light ${VPN_BIT} && light_off ${VPN_BIT} )
+[ $CHECKVPN ] && check_vpn
 
-[ $CHECKSVC ] && check_svc || \
-    ( blink_light ${SVC_BIT} && light_on ${SVC_BIT} )
+[ $CHECKSVC ] && check_svc
 
-[ $CHECKTEMP ] && check_temp || \
-    ( blink_light ${TEMP_BIT} && light_on ${TEMP_BIT} )
+[ $CHECKTEMP ] && check_temp
 
 [[ $VERBOSE ]] && [[ verbosity -ge 1 ]] && \
     /usr/bin/logger -p cron.notice "${PROG_NAME} complete"

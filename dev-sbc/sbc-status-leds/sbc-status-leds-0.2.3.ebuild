@@ -10,40 +10,40 @@ SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~arm64"
+KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
 IUSE="
 	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
+	x4-n100
 "
-
+# required: one and only one of --
 REQUIRED_USE="
 	^^ (
 		bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
+		x4-n100
 	)
 "
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-BDEPEND="
-	>=dev-libs/libgpiod-2.1
-	>=app-admin/eselect-1.4.27-r1
-"
+BDEPEND=""
 
-# to do: version 0.0.4 starts migration of required packages to joetoo
-#   so you won't need the genpi overlay
 RDEPEND="
 	${BDEPEND}
+	>=dev-libs/libgpiod-1.6
+	>=app-admin/eselect-1.4.27-r1
+	x4-n100? ( >=sys-devel/bc-1.08.1 )
 "
 
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
-	einfo "USE sbc is selected. Assigning board..."
+	einfo "Assigning board..."
 	if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
 	else if use bcm2711-rpi-4-b ; then
@@ -66,9 +66,11 @@ pkg_setup() {
 		export board="rk3588s-orangepi-5"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
+	else if use x4-n100; then
+		export board="x4-n100"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "board: ${board}"
 }
 
@@ -89,10 +91,18 @@ src_install() {
 
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	newexe "${FILESDIR}/${PN}" "${PN}"
-	elog "Installed (newexe) ${PN}"
-	newexe "${FILESDIR}/test-${PN}" "test-${PN}"
-	elog "Installed (newexe) test-${PN}"
+	if use x4-n100 ; then
+		# install with regular names so the crontab will work unmodified, etc
+		newexe "${FILESDIR}/x4-n100-${PN}" "${PN}"
+		elog "Installed (newexe) x4-n100 version of ${PN}"
+		newexe "${FILESDIR}/x4-n100-test-${PN}" "test-${PN}"
+		elog "Installed (newexe) x4-n100 version of test-${PN}"
+	else
+		newexe "${FILESDIR}/${PN}" "${PN}"
+		elog "Installed (newexe) ${PN}"
+		newexe "${FILESDIR}/test-${PN}" "test-${PN}"
+		elog "Installed (newexe) test-${PN}"
+	fi
 
 	elog "Installing the joetoo ${PN}.conf eselect module..."
 	dodir "/usr/share/eselect/modules/"
@@ -109,8 +119,6 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "BDEPEND=${BDEPEND}"
 	einfo "board=${board}"
 	elog ""
 	elog "${P} installed"
@@ -118,16 +126,18 @@ pkg_postinst() {
 	elog "You can create additional configurations in /etc/${PN}"
 	elog "Use eselect ${PN} to pick one of them"
 	elog ""
+	elog "version_history is located in the ebuild's $FILESDIR"
+	elog " 0.2.2 supports x4-n100 (amd64) sbc w onboard RP2040 microcontroller"
 	elog ""
-	elog "version 0.0.1 is the initial build"
-	elog " 0.0.2 refactors for rk3399-tinker-2 board name"
-	elog " 0.0.3 adds code to check and if needed, restart network interface(s)"
-	elog " 0.0.4 adds support for original rpi model b (bcm2708-rpi-b)"
-	elog " 0.0.5 changes yellow service-check led, now off = good on = problem"
-	elog " 0.1.0 makes all checks optional (sent in .conf)"
-	elog " 0.1.1 adds support for rpi 3 model b v1.2 (32bit) (bcm2710-rpi-3-b)"
-	elog " 0.1.2/3 adds/updates support for Rock 5c (64bit) (rk3588s-rock-5c)"
-	elog " 0.2.0 fixes vpn check/restart algorithm"
+	if use x4-n100 ; then
+		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
+		elog "status data to a serial port (/dev/ttyS4) assuming that a"
+		elog "firware program (e.g. pwn_status.c) has been compiled and flashed"
+		elog "to the rp2040.  You must do so if that has not yet been done."
+		elog "To Do: put such rp2040 firmware e.g. pwn_status.c in a package"
+		elog "For now, see this wiki page:"
+		elog "   https://wiki.gentoo.org/wiki/User:Brendlefly62/Radxa_x4_N100_sbc_with_RP2040"
+	fi
 	elog ""
 	elog "Thank you for using ${PN}"
 }
