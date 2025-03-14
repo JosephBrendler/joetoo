@@ -179,7 +179,7 @@ check_temp() {
   cpu_temp=0
   for x in ${thermalzones} ; do
     c_temp=$(echo "scale=0; $(cat $x/temp)/1000" | bc)
-    [ ${c_temp} -gt ${cpu_temp} ] && ${cpu_temp}=${c_temp}
+    [ ${c_temp} -gt ${cpu_temp} ] && cpu_temp=${c_temp}
   done
   int_temp=${cpu_temp:0:2}
   # conditionally log the result and set led as appropriate (off = good status; on = > threshold)
