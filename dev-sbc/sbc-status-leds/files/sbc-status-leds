@@ -23,9 +23,7 @@ wait_time=30          # s wait for ping
 vpn_server_ip="192.168.63.1"
 vpn_status_file="/root/bin/vpn_status"
 
-cputempfile=/sys/class/thermal/thermal_zone0/temp
-thermalzones=/sys/class/thermal/thermal_zone*
-
+thermalzones='/sys/class/thermal/thermal_zone*'
 temp_threshold=60     # deg celcius above which to consider cpu to be hot
 
 PROG_NAME="sbc-status-leds"
@@ -180,7 +178,7 @@ check_temp() {
   # get cpu temp from ${thermalzones}
   cpu_temp=0
   for x in ${thermalzones} ; do
-    c_temp=$(echo "scale=2; $(cat $x/temp)/1000" | bc)
+    c_temp=$(echo "scale=0; $(cat $x/temp)/1000" | bc)
     [ ${c_temp} -gt ${cpu_temp} ] && ${cpu_temp}=${c_temp}
   done
   int_temp=${cpu_temp:0:2}
