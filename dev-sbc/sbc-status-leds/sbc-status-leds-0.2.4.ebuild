@@ -128,6 +128,8 @@ pkg_postinst() {
 	elog ""
 	elog "version_history is located in the ebuild's $FILESDIR"
 	elog " 0.2.2 supports x4-n100 (amd64) sbc w onboard RP2040 microcontroller"
+	elog " 0.2.3 provides bug fixes for x4-n100"
+	elog " 0.2.4 takes temp from highest of multiple thermal zones"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
