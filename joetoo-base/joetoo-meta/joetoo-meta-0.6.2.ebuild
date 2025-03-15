@@ -11,8 +11,8 @@ LICENSE="metapackage"
 SLOT="0"
 #KEYWORDS="~arm ~amd64 ~arm64"
 #getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
-# (to do) - make distcc a USE choice? or remove from innercore and let jus choose
-#         - different per-package files for headless vs plasma, gnome, etc (or sed -i below)
+# Note: ver 0.6.0 moved per-package-env files to a separate package
+# Note: ver 0.6.1 makes distcc a USE choice (default yes)
 
 IUSE="
 	+innercore
@@ -20,6 +20,7 @@ IUSE="
 	+headless -plasma -gnome
 	-lamp -nextcloud -mysql -mariadb
 	+cloudsync
+	+distcc
 	+mkinitramfs +jus
 	+netifrc -networkmanager
 	-ntp +chrony
@@ -95,7 +96,6 @@ RDEPEND="
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
 		>=sys-devel/bc-1.07.1
-		>=sys-devel/distcc-3.3.3
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		>=sys-fs/dosfstools-4.1
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
@@ -128,6 +128,7 @@ RDEPEND="
 	nextcloud? (
 		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
 	)
+	distcc? ( >=sys-devel/distcc-3.3.3 )
 	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
 	jus? ( >=app-portage/jus-6.2.5 )
 	script_header_brendlefly? ( >=dev-util/script_header_brendlefly-0.3.7 )
@@ -206,6 +207,7 @@ src_install() {
 		newins "${FILESDIR}/etc_logrotate-conf_joetoo" "logrotate.conf"
 		newins "${FILESDIR}/etc_nanorc_joetoo" "nanorc"
 		newins "${FILESDIR}/etc_resolv-conf_joetoo" "resolv.conf"
+		newins "${FILESDIR}/etc_resolv-conf-head_joetoo" "resolv.conf.head"
 		newins "${FILESDIR}/etc_rsyncd-conf_joetoo" "rsyncd.conf"
 		newins "${FILESDIR}/etc_syslog-conf_joetoo" "syslog.conf"
 		newins "${FILESDIR}/etc_wgetpaste-conf_joetoo" "wgetpaste.conf"
@@ -232,9 +234,13 @@ src_install() {
 		insinto "${target}"
 		newins "${FILESDIR}/etc_conf-d_apache2_joetoo" "apache2"
 		newins "${FILESDIR}/etc_conf-d_ntp-client_joetoo" "ntp-client"
-		newins "${FILESDIR}/etc_conf-d_distccd_joetoo" "distccd"
 		newins "${FILESDIR}/etc_conf-d_net_joetoo" "net"
-		elog "Done installing (ins) files into ${target} ..."
+		if use distcc ; then
+			newins "${FILESDIR}/etc_conf-d_distccd_joetoo" "distccd"
+			elog "Done installing (ins) files into ${target} ..."
+		else
+			elog "USE distcc not selected; /etc/conf.d/distccd not installed"
+		fi
 	target="/etc/default/"
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
@@ -246,10 +252,14 @@ src_install() {
 		newins "${FILESDIR}/etc_dhcp_dhcpd-conf_joetoo" "dhcpd"
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/distcc/"
-		einfo "Installing (ins) files into ${target} ..."
-		insinto "${target}"
-		newins "${FILESDIR}/etc_distcc_hosts_joetoo" "hosts"
-		elog "Done installing (ins) files into ${target} ..."
+		if use distcc ; then
+			einfo "Installing (ins) files into ${target} ..."
+			insinto "${target}"
+			newins "${FILESDIR}/etc_distcc_hosts_joetoo" "hosts"
+			elog "Done installing (ins) files into ${target} ..."
+		else
+			elog "USE distcc not selected; /etc/distcc/hosts not installed"
+		fi
 	target="/etc/eixrc/"
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
@@ -286,7 +296,6 @@ src_install() {
 		newins "${FILESDIR}/etc_logrotate-d_apache2_joetoo" "apache2"
 		newins "${FILESDIR}/etc_logrotate-d_conntrackd_joetoo" "conntrackd"
 		newins "${FILESDIR}/etc_logrotate-d_cron_joetoo" "cron"
-		newins "${FILESDIR}/etc_logrotate-d_distcc_joetoo" "distcc"
 		newins "${FILESDIR}/etc_logrotate-d_elog-save-summary_joetoo" "elog-save-summary"
 		newins "${FILESDIR}/etc_logrotate-d_libvirtd_joetoo" "libvirtd"
 		newins "${FILESDIR}/etc_logrotate-d_mysql_joetoo" "mysql"
@@ -298,6 +307,11 @@ src_install() {
 		newins "${FILESDIR}/etc_logrotate-d_rkhunter_joetoo" "rkhunter"
 		newins "${FILESDIR}/etc_logrotate-d_rsyncd_joetoo" "rsyncd"
 		newins "${FILESDIR}/etc_logrotate-d_sysklogd_joetoo" "sysklogd"
+		if use distcc ; then
+			newins "${FILESDIR}/etc_logrotate-d_distcc_joetoo" "distcc"
+		else
+			elog "USE distcc not selected; /etc/logrotate.d/distcc not installed"
+		fi
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/openvpn/"
 		einfo "Installing (ins) files into ${target} ..."
@@ -437,8 +451,6 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-#	einfo "RDEPEND=${RDEPEND}"
-#	einfo "DEPEND=${DEPEND}"
 	einfo "board=${board}"
 	elog ""
 	elog "${P} installed"
@@ -446,6 +458,8 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.6.0 moves per-package configs to joetoo-base/joetoo-per-package-env"
+	elog " 0.6.1 makes distcc an optional USE choice vs part of innercore"
+	elog " 0.6.2 adds joetoo's resolv.conf.head"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
