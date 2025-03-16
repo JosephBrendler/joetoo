@@ -10,4 +10,4 @@ RDEPEND=>=sys-apps/portage-2.3.3 >=app-portage/portage-utils-0.62 >=app-portage/
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/jus-6.5.0.tbz2
-_md5_=9a4a96c20f5e8e6565a607e3646319e3
+_md5_=34b4b538642c5918e9096b7887644ed9

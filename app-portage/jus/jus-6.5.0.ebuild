@@ -85,7 +85,7 @@ src_install() {
 	elog "Installed (exe) ${PN/j/r} in ${target}"
 
 	# install jus.conf
-	target="/etc/$PN}/"
+	target="/etc/${PN}/"
 	insinto "${target}"
 	newins "${T}/${PN}.conf" "${PN}.conf"
 	elog "Installed (ins) ${PN}.conf in ${target}"
