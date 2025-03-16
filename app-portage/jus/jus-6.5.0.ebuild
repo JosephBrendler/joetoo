@@ -27,8 +27,8 @@ RDEPEND=">=sys-apps/portage-2.3.3
 	>=app-portage/eix-0.32.4
 	eix? ( >=app-shells/push-2.0 )
 	distcc? ( >=sys-devel/distcc-3.1 )
-	>=dev-util/script_header_brendlefly-0.2.11::joetoo[extended]
-	>=dev-util/joetoolkit-0.4.21::joetoo
+	>=dev-util/script_header_brendlefly-0.2.11[extended]
+	>=dev-util/joetoolkit-0.4.21
 "
 # app-portage/show-elogs  --- is in joetoolkit
 BDEPEND="${RDEPEND}"
