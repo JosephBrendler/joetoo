@@ -10,7 +10,7 @@ SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-#KEYWORDS="~amd64 ~arm64"
+KEYWORDS="amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64"
 
 IUSE="+iptools -xenvmfiles -backup_utilities -utility_archive"
 
@@ -146,6 +146,8 @@ pkg_postinst() {
 	elog " 0.4.18 moved qemu-image mount/launch tools to a new package"
 	elog " 0.4.19 adds temp_freq utility"
 	elog " 0.4.20 updates xdotool_open_windows (ignore x_ and move L -> R)"
+	elog " 0.4.21 adds alias bt (LANG=en_US.utf8 botp) for konsole btop use"
+	elog " 0.4.22 stabilize for amd64 x86 arm arm64"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"

@@ -1,13 +1,28 @@
 #   based on author's "update-sequence" and "gus" scripts of 23 Jan 2011 and 9 Mar 2017 >
+Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
 # Build 6 notes:
-#   removed previous functionality atttempting to deal with distcc-friendliness in the s>
-#     (now use per-package env to set FEATURES=" -distcc -distcc-pump")
-#   borrowed some ideas from https://serverfault.com/questions/9936/optimal-procedure-to>
-#     -- check for major upgrade to key packages and recommend full rebuild
-#     -- added companion script "rus" to automate that rebuild
-#     -- included "fixpackages" and "eselect python update" as default options in comman>
-#     -- also included "glsa-check -vp affected" and "emaint --check all"
+   removed previous functionality atttempting to deal with distcc-friendliness in the s>
+     (now use per-package env to set FEATURES=" -distcc -distcc-pump")
+   borrowed some ideas from https://serverfault.com/questions/9936/optimal-procedure-to>
+     -- check for major upgrade to key packages and recommend full rebuild
+     -- added companion script "rus" to automate that rebuild
+     -- included "fixpackages" and "eselect python update" as default options in comman>
+     -- also included "glsa-check -vp affected" and "emaint --check all"
+  6.0.3 -- now includes rebuild update sequnce companion script (rus)"
 # Build 6.1 - read PORTDIR and PORT_LOGDIR from make.conf; incl @golang-rebuild
-#
+  6.1.0 -- reads PORTDIR, PKGDIR from make.conf; incl. golang-rebuild; bugfixes"
+  6.1.2 -- fixes rus-status and recommends rebuild verification steps"
 # Build 6.2 - new idea: nested loops of command sequences within phases
-
+  6.2.0 -- adds pick_binutils() function and -s (get status) option"
+  6.2.1 -- adds stop/start of pkg sync rsync & cron jobs (cloudsync)"
+  6.2.4 -- adds bugfix and messaging in rus to clarify incremental status"
+  6.2.5 -- makes jus rebuilds use non-binary FEATURES"
+  6.2.6 -- uses --oneshot to avoid adding to @world set and option for j1 MAKEOPTS"
+        elog '  6.3.0 -- adds compound argument processing and "resume" options for rus'
+  6.3.1 -- adds show-config and distcc option for rus"
+  6.3.2 -- rus follows gentoo replacement of sys-devel/libtool with dev-build/libtool"
+  6.3.3 -- adds jus option to resume at arbitrary step, with (e.g.) -[r]3 or --resume -4"
+  6.3.4 -- improves rus debug format and fixes verbosity increment bug"
+  6.4.0 -- rewrite to move content from SRC_URI to FILESDIR"
+  6.4.1 -- option -h or useage error now also enumerates update sequence"
+  6.4.2 -- if /usr/share/config/ does not exist, fix that"
