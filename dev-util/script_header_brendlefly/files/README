@@ -1,0 +1,7 @@
+except for version_history, 
+
+These sources have been moved back to myUtilities
+
+left here temporarily to ensure old ebuild will still work
+
+retire when version 0.4.8 is retired
