@@ -2,19 +2,20 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # joe brendler 6/8/2024
-# re-write: move from src_uri to filesdir
+# re-write: moved from filesdir back to src_uri for better version control
 
 EAPI=8
 
 DESCRIPTION="A simple joetoo update sequence (jus)"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tbz2"
 
-S="${WORKDIR}"
+S="${WORKDIR%/}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 #KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86 ~arm ~arm64 amd64 x86 arm arm64"
 
 # automatically also pull in dev-util/script-header-brendlefly-extended
 IUSE="distcc eix"
@@ -23,15 +24,18 @@ RESTRICT="mirror"
 RDEPEND=">=sys-apps/portage-2.3.3
 	>=app-portage/portage-utils-0.62
 	>=app-portage/gentoolkit-0.3.2
-	>=dev-util/script_header_brendlefly-0.2.11[extended]
 	>=app-portage/eix-0.32.4
 	eix? ( >=app-shells/push-2.0 )
-	distcc? ( >=sys-devel/distcc-3.1 )"
-# app-portage/show-elogs  --- I haven't packaged this yet
+	distcc? ( >=sys-devel/distcc-3.1 )
+	>=dev-util/script_header_brendlefly-0.2.11[extended]
+	>=dev-util/joetoolkit-0.4.21
+"
+# app-portage/show-elogs  --- is in joetoolkit
 BDEPEND="${RDEPEND}"
 
 src_install() {
 	# Note: utility script header installs in /usr/local/sbin
+	einfo "WORKDIR=${WORKDIR}"
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "ED=${ED}"
@@ -40,12 +44,10 @@ src_install() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "BDEPEND=${BDEPEND}"
 	einfo ""
 	# copy config file to temp space, to edit if needed
 	einfo "Copying ${PN}.conf to ${T} to edit if needed"
-	cp -v ${FILESDIR}/${PN}.conf ${T}/
+	cp -v ${S}/${PN}.conf ${T}/
 
 	if use distcc ; then
 		elog "  (USE=\"distcc\") (set)"
@@ -73,20 +75,28 @@ src_install() {
 	# install jus
 	einfo "Installing (exe) ${PN} into ${target} ..."
 	exeinto "${target}"
-	newexe "${FILESDIR}/${PN}" "${PN}"
+	newexe "${S}/${PN}" "${PN}"
 	elog "Installed (exe) ${PN} in ${target}"
 
 	# install rus
 	einfo "Installing (exe) ${PN/j/r} into ${target} ..."
 	exeinto "${target}"
-	newexe "${FILESDIR}/${PN/j/r}" "${PN/j/r}"
+	newexe "${S}/${PN/j/r}" "${PN/j/r}"
 	elog "Installed (exe) ${PN/j/r} in ${target}"
 
 	# install jus.conf
-	target="/etc/jus/"
+	target="/etc/${PN}/"
 	insinto "${target}"
 	newins "${T}/${PN}.conf" "${PN}.conf"
 	elog "Installed (ins) ${PN}.conf in ${target}"
+
+	einfo "About to create PKG_PVR (BUILD) file"
+	build_assignment="BUILD='"
+	build_assignment+="${PVR}'"
+	echo "${build_assignment}" > ${T}/PKG_PVR
+	newins "${T}/PKG_PVR" "BUILD"
+	elog "PKG_PVR file with content [${PVR}] installed in ${target}/BUILD"
+	elog ""
 }
 
 pkg_postinst() {
@@ -94,22 +104,8 @@ pkg_postinst() {
 	elog "Completed installation of ${P}"
 	elog ""
 	elog "Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
-	elog "  6.0.3 -- now includes rebuild update sequnce companion script (rus)"
-	elog "  6.1.0 -- reads PORTDIR, PKGDIR from make.conf; incl. golang-rebuild; bugfixes"
-	elog "  6.1.2 -- fixes rus-status and recommends rebuild verification steps"
-	elog "  6.2.0 -- adds pick_binutils() function and -s (get status) option"
-	elog "  6.2.1 -- adds stop/start of pkg sync rsync & cron jobs (cloudsync)"
-	elog "  6.2.4 -- adds bugfix and messaging in rus to clarify incremental status"
-	elog "  6.2.5 -- makes jus rebuilds use non-binary FEATURES"
-	elog "  6.2.6 -- uses --oneshot to avoid adding to @world set and option for j1 MAKEOPTS"
-	elog '  6.3.0 -- adds compound argument processing and "resume" options for rus'
-	elog "  6.3.1 -- adds show-config and distcc option for rus"
-	elog "  6.3.2 -- rus follows gentoo replacement of sys-devel/libtool with dev-build/libtool"
-	elog "  6.3.3 -- adds jus option to resume at arbitrary step, with (e.g.) -[r]3 or --resume -4"
-	elog "  6.3.4 -- improves rus debug format and fixes verbosity increment bug"
-	elog "  6.4.0 -- rewrite to move content from SRC_URI to FILESDIR"
-	elog "  6.4.1 -- option -h or useage error now also enumerates update sequence"
-	elog "  6.4.2 -- if /usr/share/config/ does not exist, fix that"
+	elog " 6.5.0 moves ${PN} bak to myUtilities repo for better version control; updates code"
+	elog " 6.5.1 fixes bug in verbosity of bs sort of updateables"
 	elog ""
 	elog "Thank you for using ${PN}"
 
