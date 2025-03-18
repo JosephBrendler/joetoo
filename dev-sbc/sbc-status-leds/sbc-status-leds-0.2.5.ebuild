@@ -40,9 +40,11 @@ RDEPEND="
 	>=app-admin/eselect-1.4.27-r1
 	x4-n100? (
 		>=sys-devel/bc-1.08.1
-		>=sys-apps/setserial-2.17-r6
+		>=dev-util/serialtalk1.2-r1
 		)
 "
+# serialtalk now, not setserial
+# 		>=sys-apps/setserial-2.17-r6
 
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
@@ -78,22 +80,25 @@ pkg_setup() {
 }
 
 src_install() {
-	elog "Installing (ins) into /etc/${PN}/"
+	target="/etc/${PN}/"
+	elog "Installing (ins) into ${target}"
 	# install only the one .conf file needed
-	insinto "/etc/${PN}/"
+	insinto "${target}"
 	newins "${FILESDIR}/${PN}-${board}.conf" "${PN}-${board}.conf"
 	elog "  Installed (doins) ${PN}-${board}.conf"
 	# install the symlink to this .conf file
 	dosym "/etc/${PN}/${PN}-${board}.conf" "/etc/${PN}/${PN}.conf"
 	elog "  Installed (dosym) ${PN}-${board}.conf"
 
-	elog "Installing the joetoo ${PN}.crontab file..."
-	insinto "/etc/cron.d/"
+	target="/etc/cron.d/"
+	elog "Installing (ins) joetoo ${PN}.crontab file into ${target}"
+	insinto "${target}"
 	newins "${FILESDIR}/${PN}.crontab" "${PN}.crontab"
 	elog "Installed (newins) ${PN}.crontab"
 
-	elog "Installing (exe) into /usr/sbin/"
-	exeinto "/usr/sbin/"
+	target="/usr/sbin/"
+	elog "Installing (exe) into ${target}"
+	exeinto "${target}"
 	if use x4-n100 ; then
 		# install with regular names so the crontab will work unmodified, etc
 		newexe "${FILESDIR}/x4-n100-${PN}" "${PN}"
@@ -107,11 +112,20 @@ src_install() {
 		elog "Installed (newexe) test-${PN}"
 	fi
 
-	elog "Installing the joetoo ${PN}.conf eselect module..."
-	dodir "/usr/share/eselect/modules/"
+	if use x4-n100 ; then
+		target="/etc/local.d/"
+		elog "Installing (exe) into ${target}"
+		exeinto "${target}"
+		newexe "${FILESDIR}/etc_local-d_reflash_rp2-start" "reflash_rp2.start"
+		elog "Installed (newexe) ${target%/}/reflash_rp2.start for x4-n100"
+	fi
+
+	target="/usr/share/eselect/modules/"
+	elog "Installing the joetoo ${PN}.conf eselect module in ${target}"
+	dodir "${target}"
 	z="${PN}.eselect"
-	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}/usr/share/eselect/modules/${z};"
-	cp -v "${FILESDIR}/${z}" "${D}/usr/share/eselect/modules/${z}";
+	einfo "About to execute command cp -v ${FILESDIR}/${z} ${D}${target%/}/${z};"
+	cp -v "${FILESDIR}/${z}" "${D}${target%/}/${z}";
 	elog "Done installing the joetoo ${PN}.conf eselect module."
 }
 
@@ -133,7 +147,7 @@ pkg_postinst() {
 	elog " 0.2.2 supports x4-n100 (amd64) sbc w onboard RP2040 microcontroller"
 	elog " 0.2.3 provides bug fixes for x4-n100"
 	elog " 0.2.4 takes temp from highest of multiple thermal zones"
-	elog " 0.2.5 adds setserial to reset serial port for x4-n100"
+	elog " 0.2.5 adds serialtalk to reset serial port for x4-n100; code update"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
