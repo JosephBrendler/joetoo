@@ -20,6 +20,8 @@ blinkwait=0.05        # s wait during fluttler blink
 #wait_time=2          # s wait for ping
 wait_time=30          # s wait for ping
 
+BLINKS=5              # how many times to blink
+
 vpn_server_ip="192.168.63.1"
 vpn_status_file="/root/bin/vpn_status"
 
@@ -62,7 +64,7 @@ light_on() {
 
 blink_light() {
   # blink LED
-  for ((i=0;i<10;i++))       # blink on/off 5 times, quickly
+  for ((i=0;i<${BLINKS};i++))       # blink on/off 5 times, quickly
   do
     gpioset -c${1} -t0 ${2}=$(( $(( 1 + $i )) % 2 ))
     sleep ${blinkwait}

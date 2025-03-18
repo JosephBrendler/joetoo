@@ -16,6 +16,8 @@ TEMP_LED=(0 8)        # GPIO0_B0 pin 7 (Temp LED)(red)
 
 blinkwait=0.05        # s wait during fluttler blink
 
+BLINKS=5              # how many times to blink
+
 VERBOSE=$TRUE    # verbpse logging pm/off
 verbosity=2     # 0: none; 1: restarts; 2: errors; 3: success; 4: dump vectors on restart
 
@@ -37,7 +39,7 @@ light_on() {
 
 blink_light() {
   # blink LED
-  for ((i=0;i<10;i++))       # blink on/off 5 times, quickly
+  for ((i=0;i<${BLINKS};i++))       # blink on/off 5 times, quickly
   do
     gpioset -c${1} -t0 ${2}=$(( $(( 1 + $i )) % 2 ))
     sleep ${blinkwait}
