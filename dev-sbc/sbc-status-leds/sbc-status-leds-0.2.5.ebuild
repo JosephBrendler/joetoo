@@ -40,11 +40,11 @@ RDEPEND="
 	>=app-admin/eselect-1.4.27-r1
 	x4-n100? (
 		>=sys-devel/bc-1.08.1
-		>=dev-util/serialtalk1.2-r1
+		>=dev-util/serialtalk-1.2-r1
 		)
 "
 # serialtalk now, not setserial
-# 		>=sys-apps/setserial-2.17-r6
+# >=sys-apps/setserial-2.17-r6
 
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
