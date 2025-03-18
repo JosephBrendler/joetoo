@@ -38,7 +38,10 @@ RDEPEND="
 	${BDEPEND}
 	>=dev-libs/libgpiod-1.6
 	>=app-admin/eselect-1.4.27-r1
-	x4-n100? ( >=sys-devel/bc-1.08.1 )
+	x4-n100? (
+		>=sys-devel/bc-1.08.1
+		>=sys-apps/setserial-2.17-r6
+		)
 "
 
 pkg_setup() {
@@ -128,6 +131,9 @@ pkg_postinst() {
 	elog ""
 	elog "version_history is located in the ebuild's $FILESDIR"
 	elog " 0.2.2 supports x4-n100 (amd64) sbc w onboard RP2040 microcontroller"
+	elog " 0.2.3 provides bug fixes for x4-n100"
+	elog " 0.2.4 takes temp from highest of multiple thermal zones"
+	elog " 0.2.5 adds setserial to reset serial port for x4-n100"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"

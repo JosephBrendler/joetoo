@@ -83,6 +83,10 @@ blink_light() {
 
 #-----[ main script ]-----------------------
 
+# set/reset the serial port
+setserial -a ${SERIAL_PORT} baud_base 115200 autoconfig
+
+#blink each LED
 blink_light ${VPN_BIT}
 blink_light ${SVC_BIT}
 blink_light ${TEMP_BIT}

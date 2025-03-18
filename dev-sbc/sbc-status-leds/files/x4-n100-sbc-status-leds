@@ -220,6 +220,10 @@ check_temp() {
 
 #-----[ main script ]-----------------------
 
+# set/reset the serial port
+setserial -a ${SERIAL_PORT} baud_base 115200 autoconfig
+
+# start with LEDs off
 light_off ${VPN_BIT}
 light_off ${SVC_BIT}
 light_off ${TEMP_BIT}
