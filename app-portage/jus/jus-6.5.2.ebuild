@@ -104,7 +104,9 @@ pkg_postinst() {
 	elog "Completed installation of ${P}"
 	elog ""
 	elog "Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
-	elog " 6.5.0 moved ${PN} bak to myUtilities repo for better version control; updated code"
+	elog " 6.5.0 moves ${PN} bak to myUtilities repo for better version control; updates code"
+	elog " 6.5.1 fixes bug in verbosity of bs sort of updateables"
+	elog " 6.5.2 makes update-check quieter"
 	elog ""
 	elog "Thank you for using ${PN}"
 
