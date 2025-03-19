@@ -68,7 +68,9 @@ src_install() {
 	elog "version_history, in the ebuild's FILESDIR, records version history"
 	elog " 0.4.7 fixes a bug in display_vars()"
 	elog " 0.4.8 adds function initialize_vars()"
-	elog " 0.5.0 moves sources back to myUtilities repo and adds yn var type for display_vars"
+	elog " 0.5.0 moves to myUtilities repo and adds yn var type for display_vars"
+	elog " 0.5.1 fixes bugs in display_ and initialize_vars"
+	elog " 0.5.2 makes (extended) bs() quieter"
 	elog ""
 	elog "Thank you for using ${PN}"
 
