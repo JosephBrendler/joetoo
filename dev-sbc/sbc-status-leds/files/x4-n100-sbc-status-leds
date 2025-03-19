@@ -25,8 +25,7 @@ TEMP_BIT=2            # maps to Temp LED (red)
 
 SERIAL_PORT=/dev/ttyS4
 
-blinkwait=0.1         # s wait during fluttler blink
-#wait_time=2          # s wait for ping
+blinkwait=0.2         # s wait during fluttler blink
 wait_time=30          # s wait for ping
 
 BLINKS=3              # how many times to blink
@@ -223,11 +222,7 @@ check_temp() {
 #-----[ main script ]-----------------------
 
 # set/reset the serial port
-#setserial -a ${SERIAL_PORT} baud_base 115200 autoconfig
-serialtalk -b 115200 -B 8 /dev/ttyS4 & pid=$!
-echo 7 > /dev/ttyS4 ; sleep ${blinkwait}; echo 0 > /dev/ttyS4; sleep ${blinkwait}
-echo 7 > /dev/ttyS4 ; sleep ${blinkwait}; echo 0 > /dev/ttyS4; sleep ${blinkwait}
-kill -9 $pid
+# (moved to /etc/local.d/serial_port_kick.start
 
 # start with LEDs off
 light_off ${VPN_BIT}

@@ -118,6 +118,8 @@ src_install() {
 		exeinto "${target}"
 		newexe "${FILESDIR}/etc_local-d_reflash_rp2-start" "reflash_rp2.start"
 		elog "Installed (newexe) ${target%/}/reflash_rp2.start for x4-n100"
+		newexe "${FILESDIR}/etc_local-d_serial_port_kick-start" "serial_port_kick.start"
+		elog "Installed (newexe) ${target%/}/serial_port_kick.start for x4-n100"
 	fi
 
 	target="/usr/share/eselect/modules/"
@@ -148,11 +150,14 @@ pkg_postinst() {
 	elog " 0.2.3 provides bug fixes for x4-n100"
 	elog " 0.2.4 takes temp from highest of multiple thermal zones"
 	elog " 0.2.5 adds serialtalk to reset serial port for x4-n100; code update"
+	elog " 0.2.6 makes the number of blinks configurable"
+	elog " 0.2.7 moves serialtalk reset to /etc/local.d/serial_port_kick.start"
+	elog ""
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
 		elog "status data to a serial port (/dev/ttyS4) assuming that a"
-		elog "firware program (e.g. pwn_status.c) has been compiled and flashed"
+		elog "firware program (e.g. pwm_status.c) has been compiled and flashed"
 		elog "to the rp2040.  You must do so if that has not yet been done."
 		elog "To Do: put such rp2040 firmware e.g. pwn_status.c in a package"
 		elog "For now, see this wiki page:"
