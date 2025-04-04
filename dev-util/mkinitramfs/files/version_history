@@ -1,0 +1,22 @@
+mkinitramfs - see also version history in the package tarball
+5.4 was a significant rewrite of the package.
+5.9 corrects issues with lvm early availability.
+6.1 corrects grub-related bugs
+6.2 patches for a rare issuxe with cryptsetup failure for missing file
+    (libgcc_s.so.1) needed for cancel_pthreads
+6.3 preserves init.conf by moving both config files to /etc/mkinitramfs/
+6.4 puts ckinitramfs in /usr/bin instead of /usr/local/bin
+6.5 drops lvmconf from dynexecutables and adds some lvm linked files
+6.6 adds find to dynexecutables and fixes an associated bug
+6.7 generalizes init to unlock nvmeXnXpZ, mmcblkXpX devices as well as sdXX
+7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs
+7.1/2 fix bugs in dependent content copy and in output rotation
+7.3 adds kernel config checks with the help of linux-info eclass
+8.0 migrated to a merged-usr-like layout and moves scripts to FILESDIR
+8.0.1 added verbosity to .conf and updates handling deps of executables
+8.1.0 is a major rewrite of make_sources.sh (workedonly for merged-usr)
+8.2.0 updates the init script and moves sources back to myUtilities repo
+8.2.1 fixes bugs
+8.2.2 stable for arm64, header dep >=0.4.2 for d_echo() isnumber() for ash
+8.3.0-2 provide automatic dev/fs scan, simplicity, stability, resilience
+
