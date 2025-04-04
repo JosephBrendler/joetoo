@@ -56,8 +56,8 @@ pkg_pretend() {
 		#   '!' prefix means "must not set"
 		local CONFIG_CHECK="MD BLK_DEV ~BLK_DEV_LOOP ~FUSE_FS \
 			BLK_DEV_INITRD BLK_DEV_DM DM_CRYPT ~DM_UEVENT \
-			~DEVTMPFS ~UEVENT_HELPER ~RD_GZIP ~INITRAMFS_COMPRESSION_GZIP \
-			~CRYPTO ~CRYPTO_AES ~CRYPTO_XTS ~CRYPT_USER_API ~CRYPTO_USER_API_SKCIPHER \
+			~DEVTMPFS ~UEVENT_HELPER ~RD_GZIP  \
+			~CRYPTO ~CRYPTO_AES ~CRYPTO_XTS ~CRYPTO_USER_API ~CRYPTO_USER_API_SKCIPHER \
 			~CRYPTO_RMD160 ~CRYPTO_SHA256 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW \
 			~CRYPTO_XCBC ~CRYPTO_SERPENT ~CRYPTO_TWOFISH \
 			NLS_CODEPAGE_437 NLS_ASCII NLS_ISO8859_1 NLS_UTF8 \
@@ -66,25 +66,22 @@ pkg_pretend() {
 
 		check_extra_config && elog "check_extra_config passed" || elog "check_extra_config failed"
 
-		# next, check that these targets are either y or m
+		# next, check that these targets are either y or m - but don't kill over this
 		targets="GENTOO_LINUX GENTOO_LINUX_PORTAGE"
 		for target in ${targets} ; do
 			linux_chkconfig_present ${target}  && \
 			elog "${target} is present" || \
-			# die "${target} is not present"  ### don't kill over this
 			ewarn "${target} is not present"
 		done
 
-		# now check for some specific string settings
+		# now check for some specific string settings - but don't kill over this
 		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
 		[[ ${fat_def_codepage} -eq 437 ]] && \
 			elog "fat def codepage ok (${fat_def_codepage})" || \
-			# die "fat def codepage NOT ok (${fat_def_codepage})"  ### don't kill over this
 			ewarn "fat def codepage NOT ok (${fat_def_codepage})"
 		fat_def_iocharset="$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)"
 		[[ "${fat_def_iocharset}" == "\"iso8859-1\"" ]] && \
 			elog "fat def iocharset ok (${fat_def_iocharset})" || \
-			# die "fat def iocharset NOT ok (${fat_def_iocharset})"  ### don't kill over this
 			ewarn "fat def iocharset NOT ok (${fat_def_iocharset})"
 	else
 		die "I could not find a linux config for joetoo kernel config-check"
@@ -144,6 +141,7 @@ pkg_postinst() {
 	elog " 8.3.0-2 provide automatic dev/fs scan, simplicity, stability, resilience"
 	elog " 9.0.0 is a renewed major rewrite of make_sources.sh"
 	elog " 9.0.1 fixes ckinitramfs and consolidates a common_functions_header"
+	elog " 9.0.2/3 fix bugs and add debug in validate_passdevice()"
 	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
