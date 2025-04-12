@@ -28,7 +28,7 @@ mount -t proc none proc
 mount -o bind /dev dev
 mount -o bind /var/db/repos/gentoo var/db/repos/gentoo
 mount -o bind /var/db/repos/crossdev var/db/repos/crossdev
-mount -o bind /home/joe/raspi-sources/linux-6.12.11-raspi usr/src/linux
+mount -o bind /home/joe/raspi-sources/linux usr/src/linux
 mount -o bind /lib/modules lib/modules
 mount -o bind /sys sys
 cp /etc/resolv.conf etc/resolv.conf
