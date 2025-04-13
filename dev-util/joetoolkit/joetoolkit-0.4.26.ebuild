@@ -150,6 +150,8 @@ pkg_postinst() {
 	elog " 0.4.22 stabilize for amd64 x86 arm arm64"
 	elog " 0.4.23 updates binhost_cleanup tool"
 	elog " 0,4,24 updates and adds tools incl chroot- and mount-the-rest.new"
+	elog " 0.4.25 adds quickpkg-toolchain cross-build tool"
+	elog " 0.4.26 updates chroot-armv6j and chroot-armv7a tools"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"

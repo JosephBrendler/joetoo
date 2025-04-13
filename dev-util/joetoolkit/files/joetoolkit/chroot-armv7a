@@ -9,9 +9,8 @@ TARGET=armv7a-unknown-linux-gnueabihf
 
 cd /usr/${TARGET}
 
-dirlist="proc dev var/db/repos/gentoo \
-  var/db/repos/crossdev usr/src/linux \
-  lib/modules sys tmp dev/pts"
+dirlist="proc dev var/db/repos/gentoo var/db/repos/joetoo \
+  var/db/repos/crossdev usr/src/linux lib/modules sys tmp dev/pts"
 
 for x in ${dirlist}
 do
@@ -26,6 +25,7 @@ done
 
 mount -t proc none proc
 mount -o bind /dev dev
+mount -o bind /var/db/repos/joetoo var/db/repos/joetoo
 mount -o bind /var/db/repos/gentoo var/db/repos/gentoo
 mount -o bind /var/db/repos/crossdev var/db/repos/crossdev
 mount -o bind /home/joe/raspi-sources/linux usr/src/linux
