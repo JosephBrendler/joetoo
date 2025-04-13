@@ -149,6 +149,8 @@ pkg_postinst() {
 	elog " 0.4.21 adds alias bt (LANG=en_US.utf8 botp) for konsole btop use"
 	elog " 0.4.22 stabilize for amd64 x86 arm arm64"
 	elog " 0.4.23 updates binhost_cleanup tool"
+	elog " 0,4,24 updates and adds tools incl chroot- and mount-the-rest.new"
+	elog " 0.4.25 adds quickpkg-toolchain cross-build tool"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
