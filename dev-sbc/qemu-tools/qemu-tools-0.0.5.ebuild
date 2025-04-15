@@ -43,7 +43,7 @@ RDEPEND="
 	${BDEPEND}
 	app-emulation/qemu[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
 	bcm2711-rpi-4-b? (
-		>=app-emulation/qemu-9.2.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
+		>=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
 		)
 "
 
