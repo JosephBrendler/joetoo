@@ -39,7 +39,7 @@ src_install() {
 	# Install config files and README
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	newins -r "${S}/${PN}/files" "files"
+	doins -r "${S}/${PN}/files"
 	elog "Done installing config files"
 	newins "${S}/${PN}/README" "README"
 	elog "Done installing README"
