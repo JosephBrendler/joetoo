@@ -65,5 +65,11 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog ""
+	elog "Note: ${PN} has installed files in /etc/${PN}. By default,"
+	elog "  these will be config-protect'd and you will need to use"
+	elog "  e.g. dispatch-conf to complete their installation."
+	elog "  To override this behavior, add /etc/${PN}/ to"
+	elog "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
