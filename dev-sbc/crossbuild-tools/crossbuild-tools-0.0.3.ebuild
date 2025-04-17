@@ -50,6 +50,7 @@ src_install() {
 	newexe "${S}/${PN}/chroot-target" "chroot-target"
 	newexe "${S}/${PN}/populate-target" "populate-target"
 	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain"
+	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu"
 }
 
 pkg_postinst() {
