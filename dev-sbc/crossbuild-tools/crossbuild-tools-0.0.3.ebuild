@@ -64,6 +64,8 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
+	elog " 0.0.2 adds root/.bash[rc|_profile] and alias emerge-chroot"
+	elog " 0.0.3 adds buildtarget-qemu script"
 	elog ""
 	elog "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	elog "  these will be config-protect'd and you will need to use"
