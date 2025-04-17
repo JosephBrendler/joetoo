@@ -50,6 +50,7 @@ src_install() {
 	newexe "${S}/${PN}/chroot-target" "chroot-target"
 	newexe "${S}/${PN}/populate-target" "populate-target"
 	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain"
+	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu"
 }
 
 pkg_postinst() {
@@ -65,6 +66,8 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 adds root/.bash[rc|_profile] and alias emerge-chroot"
+	elog " 0.0.3 adds buildtarget-qemu script"
+	elog " 0.0.4 adds finalize-chroot to run on first login from .bashrc"
 	elog ""
 	elog "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	elog "  these will be config-protect'd and you will need to use"
