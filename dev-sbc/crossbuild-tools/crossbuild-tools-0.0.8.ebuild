@@ -51,6 +51,7 @@ src_install() {
 	newexe "${S}/${PN}/populate-target" "populate-target"
 	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain"
 	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu"
+	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv"
 }
 
 pkg_postinst() {
