@@ -69,6 +69,8 @@ pkg_postinst() {
 	elog " 0.0.3 adds buildtarget-qemu script"
 	elog " 0.0.4 adds finalize-chroot to run on first login from .bashrc"
 	elog " 0.0.5 adds repos.conf and mkcrossbuildenv script"
+	elog " 0.0.6 adds install_my_local_ca_certificates"
+	elog " 0.0.7 adds keywords for chroot"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
