@@ -43,6 +43,9 @@ src_install() {
 	insinto "/etc/${PN}/"
 	for x in $(find ${S}/${PN}/files/ -type f -not -executable) ; do
 		z="$(echo ${x} | sed 's|${S}/${PN}/files/||')"
+		einfo "x: ${x}"
+		einfo "z: ${z}"
+		einfo "about to run newins \"${x}\" \"${z}\""
 		newins "${x}" "${z}"
 	done
 	elog "Done installing config files"
@@ -50,6 +53,9 @@ src_install() {
 	exeinto "/etc/${PN}/"
 	for x in $(find ${S}/${PN}/files/ -type f -executable) ; do
 		z="$(echo ${x} | sed 's|${S}/${PN}/files/||')"
+		einfo "x: ${x}"
+		einfo "z: ${z}"
+		einfo "about to run newins \"${x}\" \"${z}\""
 		newexe "${x}" "${z}"
 	done
 	elog "Done installing scripts"
