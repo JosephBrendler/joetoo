@@ -8,4 +8,4 @@ RDEPEND=sys-devel/crossdev
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/crossbuild-tools-0.0.14.tbz2
-_md5_=f97b08543725ff2131062b75ee9dbe4e
+_md5_=63bf192240f83e3d56084a40a72a24e5
