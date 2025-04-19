@@ -55,6 +55,7 @@ src_install() {
 	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain" || die "Install failed!"
 	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu" || die "Install failed!"
 	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv" || die "Install failed!"
+	elog "Done installing scripts"
 }
 
 pkg_postinst() {
@@ -77,7 +78,7 @@ pkg_postinst() {
 	elog " 0.0.7 adds keywords for chroot"
 	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
 	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
-	elog " 0.0.10 provides bugfixes and refinements"
+	elog " 0.0.10-12 provide bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
