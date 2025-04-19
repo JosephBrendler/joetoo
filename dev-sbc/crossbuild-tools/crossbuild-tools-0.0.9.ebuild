@@ -1,0 +1,92 @@
+# Copyright (c) brendlefly  joseph.brendler@gmail.com
+# License: GPL v3+
+# NO WARRANTY
+
+EAPI=8
+
+DESCRIPTION="joetoo program to run and configure sbc emulation instances with qemu"
+HOMEPAGE="https://github.com/joetoo"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
+
+LICENSE="MIT"
+SLOT="0"
+KEYWORDS="~arm64 ~amd64"
+IUSE=""
+
+S="${WORKDIR}"
+
+BDEPEND=""
+
+# as of 20250201 stable qemu does not have a raspi4b model, so use ~arm64 version of qemu for that board
+RDEPEND="
+	${BDEPEND}
+	sys-devel/crossdev
+"
+
+
+src_install() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "A=${A}"
+	einfo "T=${T}"
+	einfo "CATEGORY=${CATEGORY}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	einfo "FILESDIR=${FILESDIR}"
+
+	# Install config files and README
+	elog "Installing (ins) into /etc/${PN}/"
+	insinto "/etc/${PN}/"
+	doins -r "${S}/${PN}/files"
+	elog "Done installing config files"
+	newins "${S}/${PN}/README" "README"
+	elog "Done installing README"
+
+	# Install scripts
+	elog "Installing (exe) into /usr/sbin/"
+	exeinto "/usr/sbin/"
+	newexe "${S}/${PN}/chroot-target" "chroot-target"
+	newexe "${S}/${PN}/populate-target" "populate-target"
+	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain"
+	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu"
+	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv"
+
+	# Install BUILD indicator file
+	einfo "About to create PKG_PVR file"
+	echo "${PVR}" > ${T}/BUILD
+	einfo "About to execute command cp -v "${T}"/BUILD "${D}"/etc/${PN}/BUILD"
+	cp -v "${T}/BUILD" "${D}/etc/${PN}/BUILD" || die "Install failed!"
+	elog "BUILD indicator file with content [${PVR}] installed"
+	elog ""
+}
+
+pkg_postinst() {
+	einfo "S=${S}"
+	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
+	einfo "P=${P}"
+	einfo "PN=${PN}"
+	einfo "PV=${PV}"
+	einfo "PVR=${PVR}"
+	elog ""
+	elog "${P} installed"
+	elog ""
+	elog "ver 0.0.1 is the initial build"
+	elog " 0.0.2 adds root/.bash[rc|_profile] and alias emerge-chroot"
+	elog " 0.0.3 adds buildtarget-qemu script"
+	elog " 0.0.4 adds finalize-chroot to run on first login from .bashrc"
+	elog " 0.0.5 adds repos.conf and mkcrossbuildenv script"
+	elog " 0.0.6 adds install_my_local_ca_certificates"
+	elog " 0.0.7 adds keywords for chroot"
+	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
+	elog ""
+	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
+	ewarn "  these will be config-protect'd and you will need to use"
+	ewarn "  e.g. dispatch-conf to complete their installation."
+	ewarn "  To override this behavior, add /etc/${PN}/ to"
+	ewarn "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
+	elog ""
+	elog "Thank you for using ${PN}"
+}
