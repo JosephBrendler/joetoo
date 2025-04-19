@@ -13,6 +13,8 @@ SLOT="0"
 KEYWORDS="~arm64 ~amd64"
 IUSE=""
 
+RESTRICT="mirror"
+
 S="${WORKDIR}"
 
 BDEPEND=""
@@ -78,7 +80,8 @@ pkg_postinst() {
 	elog " 0.0.7 adds keywords for chroot"
 	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
 	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
-	elog " 0.0.10/11 provide bugfixes and refinements"
+	elog " 0.0.10-12 provide bugfixes and refinements"
+	elog " 0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
