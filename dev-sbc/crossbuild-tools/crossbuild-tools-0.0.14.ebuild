@@ -39,30 +39,14 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 
 	# Install config files, scripts, README, and BUILD
-	elog "Installing (ins) into /etc/${PN}/"
-	insinto "/etc/${PN}/"
-	for x in $(find ${S}/${PN}/files/ -type f -not -executable) ; do
+	elog "Installing (cp) into /etc/${PN}/"
+	for x in $(find ${S}/${PN}/files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
-		einfo "x: ${x}"
-		einfo "z: ${z}"
 		DN=$(dirname $z)
-		[ ! -d $DN ] && mkdir -p ${D}/${DN}
-		einfo "about to run cp -v ${x} ${D}/${DN}/"
-		cp -pv ${x} ${D}/${DN}/
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -pv ${x} ${D}/etc/${PN}/${DN}
 	done
-	elog "Done installing config files"
-	elog "Installing (exe) into /etc/${PN}/"
-	exeinto "/etc/${PN}/"
-	for x in $(find ${S}/${PN}/files/ -type f -executable) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/||")
-		einfo "x: ${x}"
-		einfo "z: ${z}"
-		DN=$(dirname $z)
-		[ ! -d $DN ] && mkdir -p ${D}/${DN}
-		einfo "about to run cp -v ${x} ${D}/${DN}/"
-		cp -pv ${x} ${D}/${DN}/
-	done
-	elog "Done installing scripts"
+	elog "Done installing config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
