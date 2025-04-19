@@ -13,6 +13,8 @@ SLOT="0"
 KEYWORDS="~arm64 ~amd64"
 IUSE=""
 
+RESTRICT="mirror"
+
 S="${WORKDIR}"
 
 BDEPEND=""
