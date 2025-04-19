@@ -42,7 +42,7 @@ src_install() {
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	for x in $(find ${S}/${PN}/files/ -type f -not -executable) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/files/||")
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		einfo "x: ${x}"
 		einfo "z: ${z}"
 		einfo "about to run newins \"${x}\" \"${z}\""
@@ -52,7 +52,7 @@ src_install() {
 	elog "Installing (exe) into /etc/${PN}/"
 	exeinto "/etc/${PN}/"
 	for x in $(find ${S}/${PN}/files/ -type f -executable) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/files/||")
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		einfo "x: ${x}"
 		einfo "z: ${z}"
 		einfo "about to run newins \"${x}\" \"${z}\""
