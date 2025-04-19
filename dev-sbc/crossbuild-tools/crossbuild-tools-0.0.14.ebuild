@@ -45,6 +45,8 @@ src_install() {
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		einfo "x: ${x}"
 		einfo "z: ${z}"
+		DN=$(dirname $z)
+		[ ! -d $DN ] && mkdir -p ${D}/${DN}
 		einfo "about to run newins \"${x}\" \"${z}\""
 		newins "${x}" "${z}"
 	done
@@ -55,6 +57,8 @@ src_install() {
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		einfo "x: ${x}"
 		einfo "z: ${z}"
+		DN=$(dirname $z)
+		[ ! -d $DN ] && mkdir -p ${D}/${DN}
 		einfo "about to run newins \"${x}\" \"${z}\""
 		newexe "${x}" "${z}"
 	done
