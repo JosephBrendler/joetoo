@@ -47,8 +47,8 @@ src_install() {
 		einfo "z: ${z}"
 		DN=$(dirname $z)
 		[ ! -d $DN ] && mkdir -p ${D}/${DN}
-		einfo "about to run newins \"${x}\" \"${z}\""
-		newins "${x}" "${z}"
+		einfo "about to run cp -v ${x} ${D}/${DN}/"
+		cp -pv ${x} ${D}/${DN}/
 	done
 	elog "Done installing config files"
 	elog "Installing (exe) into /etc/${PN}/"
@@ -59,8 +59,8 @@ src_install() {
 		einfo "z: ${z}"
 		DN=$(dirname $z)
 		[ ! -d $DN ] && mkdir -p ${D}/${DN}
-		einfo "about to run newins \"${x}\" \"${z}\""
-		newexe "${x}" "${z}"
+		einfo "about to run cp -v ${x} ${D}/${DN}/"
+		cp -pv ${x} ${D}/${DN}/
 	done
 	elog "Done installing scripts"
 	elog "Installing (ins) into /etc/${PN}/"
