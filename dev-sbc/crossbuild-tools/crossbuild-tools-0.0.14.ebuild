@@ -44,7 +44,7 @@ src_install() {
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
-		cp -pv ${x} ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
