@@ -36,30 +36,26 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install config files and README
+	# Install config files, README, and BUILD
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	doins -r "${S}/${PN}/files"
+	doins -r "${S}/${PN}/files" || die "Install failed!"
 	elog "Done installing config files"
-	newins "${S}/${PN}/README" "README"
+	newins "${S}/${PN}/README" "README"  || die "Install failed!"
 	elog "Done installing README"
+	echo "BUILD=${PVR}" > ${T}/BUILD
+	newins "${T}/BUILD" "BUILD" || die "Install failed!"
+	elog "Done installing BUILD"
 
 	# Install scripts
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	newexe "${S}/${PN}/chroot-target" "chroot-target"
-	newexe "${S}/${PN}/populate-target" "populate-target"
-	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain"
-	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu"
-	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv"
-
-	# Install BUILD indicator file
-	einfo "About to create PKG_PVR file"
-	echo "${PVR}" > ${T}/BUILD
-	einfo "About to execute command cp -v "${T}"/BUILD "${D}"/etc/${PN}/BUILD"
-	cp -v "${T}/BUILD" "${D}/etc/${PN}/BUILD" || die "Install failed!"
-	elog "BUILD indicator file with content [${PVR}] installed"
-	elog ""
+	newexe "${S}/${PN}/chroot-target" "chroot-target" || die "Install failed!"
+	newexe "${S}/${PN}/populate-target" "populate-target" || die "Install failed!"
+	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain" || die "Install failed!"
+	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu" || die "Install failed!"
+	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv" || die "Install failed!"
+	elog "Done installing scripts"
 }
 
 pkg_postinst() {
@@ -82,6 +78,7 @@ pkg_postinst() {
 	elog " 0.0.7 adds keywords for chroot"
 	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
 	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
+	elog " 0.0.10/11 provide bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
