@@ -38,11 +38,23 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install config files, README, and BUILD
+	# Install config files, scripts, README, and BUILD
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	doins -r "${S}/${PN}/files" || die "Install failed!"
+	for x in find ${S}/${PN}/files/ -type f -not -executable ; do
+		z="$(echo ${x} | sed 's|${S}/${PN}/files/||')"
+		newins "${x}" "${z}"
+	done
 	elog "Done installing config files"
+	elog "Installing (exe) into /etc/${PN}/"
+	exeinto "/etc/${PN}/"
+	for x in find ${S}/${PN}/files/ -type f -executable ; do
+		z="$(echo ${x} | sed 's|${S}/${PN}/files/||')"
+		newexe "${x}" "${z}"
+	done
+	elog "Done installing scripts"
+	elog "Installing (ins) into /etc/${PN}/"
+	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
 	elog "Done installing README"
 	echo "BUILD=${PVR}" > ${T}/BUILD
@@ -81,6 +93,7 @@ pkg_postinst() {
 	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
 	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
 	elog " 0.0.10-12 provide bugfixes and refinements"
+	elog " 0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
