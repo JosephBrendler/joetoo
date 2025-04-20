@@ -38,11 +38,17 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install config files, README, and BUILD
+	# Install config files, scripts, README, and BUILD
+	elog "Installing (cp) into /etc/${PN}/"
+	for x in $(find ${S}/${PN}/files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	doins -r "${S}/${PN}/files" || die "Install failed!"
-	elog "Done installing config files"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
 	elog "Done installing README"
 	echo "BUILD=${PVR}" > ${T}/BUILD
@@ -82,6 +88,8 @@ pkg_postinst() {
 	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
 	elog " 0.0.10-12 provide bugfixes and refinements"
 	elog " 0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns"
+	elog " 0.0.14 fixes permissions on files populating /etc/${PN}/files/"
+	elog " 0.0.15 tweaks package.use/joetoo and files for crossdev repo"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
