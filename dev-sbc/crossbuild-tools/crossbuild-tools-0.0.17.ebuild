@@ -90,6 +90,7 @@ pkg_postinst() {
 	elog " 0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns"
 	elog " 0.0.14 fixes permissions on files populating /etc/${PN}/files/"
 	elog " 0.0.15 tweaks package.use/joetoo and files for crossdev repo"
+	elog " 0.0.16-17 provide bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
