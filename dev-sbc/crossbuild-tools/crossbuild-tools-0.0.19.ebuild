@@ -91,6 +91,8 @@ pkg_postinst() {
 	elog " 0.0.14 fixes permissions on files populating /etc/${PN}/files/"
 	elog " 0.0.15 tweaks package.use/joetoo and files for crossdev repo"
 	elog " 0.0.16-17 provide bugfixes and refinements"
+	elog " 0.0.18 offers to unmount TARGET resources if already mounted"
+	elog " 0.0.19 provides bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
