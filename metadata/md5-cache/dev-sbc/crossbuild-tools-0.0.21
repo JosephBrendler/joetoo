@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst
+DESCRIPTION=joetoo program to run and configure sbc emulation instances with qemu
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+KEYWORDS=~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=sys-devel/crossdev
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/crossbuild-tools-0.0.21.tbz2
+_md5_=9eb20f219b274bcbf3ab6a887b6f5f27
