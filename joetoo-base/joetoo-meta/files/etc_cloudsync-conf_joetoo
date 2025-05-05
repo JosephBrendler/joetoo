@@ -44,25 +44,34 @@ SCRIPTS=$TRUE
 # list hosts with which you want to sync scripts (or null to not pull or push)
 #pull_scripts_serverlist=""
 #push_scripts_serverlist=""
-pull_scripts_serverlist="thuvia tahawus katahdin slim slim2 oromis zelda nubaldur euler gauss raspi46401 tinker02"
-push_scripts_serverlist="thuvia tahawus katahdin slim slim2 oromis zelda nubaldur euler gauss raspi46401 tinker02"
+pull_scripts_serverlist="gmki91 gmki92 x401 x402 g3nuc01 g5nuc01 thuvia tahawus katahdin nuoromis slim slim2 nueuler nugauss raspi56407 rock5c6403"
+push_scripts_serverlist="gmki91 gmki92 x401 x402 g3nuc01 g5nuc01 thuvia tahawus katahdin nuoromis slim slim2 nueuler nugauss raspi56407 rock5c6403"
 # reassign to change the location of synchronized scripts on the local and remote machines
 #local_scripts_folder="/usr/local/sbin"
 #remote_scripts_folder="usr-local-sbin"
 
 #------------------- for binary package servers  ------------------
 # change to yes if you want to sync packages at all
-#PACKAGES=$FALSE
-PACKAGES=$TRUE
+PACKAGES=$FALSE
+#PACKAGES=$TRUE
 # list hosts with which you want to sync packages (or null to not pull or push)
 #pull_packages_serverlist=""
 #push_packages_serverlist=""
 pull_packages_serverlist="thuvia slim2 slim tahawus euler gauss"
 push_packages_serverlist="thuvia slim2 slim tahawus euler gauss"
 #local_packages_folder="${PKGDIR}"
-#remote_packages_folder="armv6j-hardfloat-linux-gnueabi-packages"
-#remote_packages_folder="armv7a-hardfloat-linux-gnueabi-packages"
-remote_packages_folder="x86_64-pc-linux-gnu-packages"
+# remote packages folder (select carefully, based on BOTH march and cflags)
+#remote_packages_folder="armv6j-unknown-linux-gnueabihf-rpi1-packages"
+#remote_packages_folder="armv7a-unknown-linux-gnueabihf-rpi23A-packages"
+#remote_packages_folder="aarch64-unknown-linux-gnu-rpi3-packages"
+#remote_packages_folder="aarch64-unknown-linux-gnu-rpi4-packages"
+#remote_packages_folder="aarch64-unknown-linux-gnu-rpi5-packages"
+#remote_packages_folder="aarch64-unknown-linux-gnu-rk3588s-packages"
+#remote_packages_folder="x86_64-pc-linux-gnu-packages"
+#remote_packages_folder="x86_64-pc-linux-gnu-ivybridge-packages"
+#remote_packages_folder="x86_64-pc-linux-gnu-haswell-packages"
+#remote_packages_folder="x86_64-pc-linux-gnu-n100-packages"
+remote_packages_folder="x86_64-pc-linux-gnu-alderlake-packages"
 
 # reassign to change the location of synchronized binary packages on the local and remote machines
 #   Note that the local_packages_folder is a directory name, whereas the

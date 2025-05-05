@@ -207,6 +207,7 @@ src_install() {
 		newins "${FILESDIR}/etc_logrotate-conf_joetoo" "logrotate.conf"
 		newins "${FILESDIR}/etc_nanorc_joetoo" "nanorc"
 		newins "${FILESDIR}/etc_resolv-conf_joetoo" "resolv.conf"
+		newins "${FILESDIR}/etc_resolv-conf-head_joetoo" "resolv.conf.head"
 		newins "${FILESDIR}/etc_rsyncd-conf_joetoo" "rsyncd.conf"
 		newins "${FILESDIR}/etc_syslog-conf_joetoo" "syslog.conf"
 		newins "${FILESDIR}/etc_wgetpaste-conf_joetoo" "wgetpaste.conf"
@@ -458,6 +459,8 @@ pkg_postinst() {
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.6.0 moves per-package configs to joetoo-base/joetoo-per-package-env"
 	elog " 0.6.1 makes distcc an optional USE choice vs part of innercore"
+	elog " 0.6.2 adds joetoo's resolv.conf.head"
+	elog " 0.6.3 updates cloudsync.conf, distcc/hosts"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
