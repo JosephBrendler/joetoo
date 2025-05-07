@@ -75,7 +75,7 @@ dev-util/script_header_brendlefly extended niopt
 dev-util/Terminal examples
 
 dev-util/joetoolkit iptools -xenvmfiles backup_utilities -utility_archive
-sys-kernel/kernelupdate dom0 domU bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
+sys-kernel/kernelupdate domU bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2709-rpi-2-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
 
 dev-sbc/sbc-headless-meta bcm2712-rpi-5-b joetoo boot-fw -kernelimage
 dev-sbc/sbc-status-leds bcm2712-rpi-5-b
@@ -128,11 +128,12 @@ sys-boot/grub device-mapper efiemu fonts ncurses sdl themes truetype
 sys-devel/binutils multitarget
 sys-devel/distcc crossdev hardened
 >=sys-devel/gcc-11.2.1_p20220115 fortran hardened go rust objc objc++ default-stack-clash-protection default-znow
-sys-kernel/gentoo-sources symlink
 virtual/linux-sources firmware
 www-apache/mod_security fuzzyhash geoip
 www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
+sys-kernel/gentoo-kernel savedconfig -initramfs
+sys-kernel/gentoo-sources symlink
 sys-kernel/installkernel -dracut
 sys-kernel/linux-firmware -initramfs
 

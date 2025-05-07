@@ -30,8 +30,6 @@ net-misc/cloudsync ** ~amd64
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired
-#>sys-kernel/gentoo-sources-5.16.16 -~amd64
-#<=sys-kernel/gentoo-sources-5.16.16 ~amd64
 #dev-libs/icu ~amd64
 #sys-libs/gdbm ~amd64
 #dev-libs/libical ~amd64
@@ -40,7 +38,12 @@ net-misc/cloudsync ** ~amd64
 #dev-libs/libffi ~amd64
 #dev-lang/perl ~amd64
 
-#-----[ stabilize toolchain ]-------------------------------
+#-----[ stabilize kernel ]----------------------------------
+sys-kernel/gentoo-kernel -~amd64
+#>sys-kernel/gentoo-sources-5.16.16 -~amd64
+#<=sys-kernel/gentoo-sources-5.16.16 ~amd64
+
+#-----[ stabilize toolchain(s) ]-------------------------------
 >sys-libs/glibc-2.34-r8  -~amd64
 <=sys-libs/glibc-2.34-r8  ~amd64
 >sys-devel/binutils-2.37_p1-r2 -~amd64
@@ -55,6 +58,9 @@ net-misc/cloudsync ** ~amd64
 <=sys-kernel/linux-headers-5.16 ~amd64
 >sys-devel/gcc-config-2.5-r1 -~amd64
 <=sys-devel/gcc-config-2.5-r1 ~amd64
+llvm-core/* -~amd64
+dev-lang/rust -~amd64
+dev-lang/rust-bin -~amd64
 
 #-----[ stable virtualbox ]----------------------------------
 app-emulation/virtualbox -~amd64

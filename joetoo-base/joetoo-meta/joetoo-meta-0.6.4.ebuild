@@ -101,7 +101,7 @@ RDEPEND="
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
 		sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
 		!sbc? (
-			>=sys-kernel/gentoo-sources-5.15.26
+			sys-kernel/gentoo-kernel
 			>=sys-boot/grub-2.06-r1
 		)
 		>=sys-kernel/installkernel-48-r1
@@ -460,6 +460,8 @@ pkg_postinst() {
 	elog " 0.6.0 moves per-package configs to joetoo-base/joetoo-per-package-env"
 	elog " 0.6.1 makes distcc an optional USE choice vs part of innercore"
 	elog " 0.6.2 adds joetoo's resolv.conf.head"
+	elog " 0.6.3 updates cloudsync.conf, distcc/hosts"
+	elog " 0.6.4 shifts dependency from gentoo-sources to gentoo-kernel"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."

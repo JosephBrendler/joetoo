@@ -40,7 +40,13 @@ net-misc/cloudsync ** ~arm64
 #dev-libs/libffi ~arm64
 #dev-lang/perl ~arm64
 
-#-----[ stabilize toolchain ]-------------------------------
+#-----[ stabilize kernel ]-------------------------------------
+#>sys-kernel/gentoo-sources-5.16.16 -~arm64
+#<=sys-kernel/gentoo-sources-5.16.16 ~arm64
+sys-kernel/raspi-sources ** ~arm64
+sys-kernel/rockchip-sources ** ~arm64
+
+#-----[ stabilize toolchain(s) ]-------------------------------
 >sys-libs/glibc-2.34-r8  -~arm64
 <=sys-libs/glibc-2.34-r8  ~arm64
 >sys-devel/binutils-2.37_p1-r2 -~arm64
@@ -55,6 +61,9 @@ net-misc/cloudsync ** ~arm64
 <=sys-kernel/linux-headers-5.16 ~arm64
 >sys-devel/gcc-config-2.5-r1 -~arm64
 <=sys-devel/gcc-config-2.5-r1 ~arm64
+llvm-core/* -~arm64
+dev-lang/rust -~arm64
+dev-lang/rust-bin -~arm64
 
 #-----[ stable virtualbox ]----------------------------------
 app-emulation/virtualbox -~arm64

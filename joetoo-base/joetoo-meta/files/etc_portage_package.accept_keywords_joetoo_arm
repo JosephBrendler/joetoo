@@ -30,8 +30,6 @@ net-misc/cloudsync ** ~arm
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired
-#>sys-kernel/gentoo-sources-5.16.16 -~arm
-#<=sys-kernel/gentoo-sources-5.16.16 ~arm
 #dev-libs/icu ~arm
 #sys-libs/gdbm ~arm
 #dev-libs/libical ~arm
@@ -40,7 +38,13 @@ net-misc/cloudsync ** ~arm
 #dev-libs/libffi ~arm
 #dev-lang/perl ~arm
 
-#-----[ stabilize toolchain ]-------------------------------
+#-----[ stabilize kernel ]-------------------------------------
+#>sys-kernel/gentoo-sources-5.16.16 -~arm
+#<=sys-kernel/gentoo-sources-5.16.16 ~arm
+sys-kernel/raspi-sources ** ~arm
+sys-kernel/rockchip-sources ** ~arm
+
+#-----[ stabilize toolchain(s) ]-------------------------------
 >sys-libs/glibc-2.34-r8  -~arm
 <=sys-libs/glibc-2.34-r8  ~arm
 >sys-devel/binutils-2.37_p1-r2 -~arm
@@ -55,6 +59,9 @@ net-misc/cloudsync ** ~arm
 <=sys-kernel/linux-headers-5.16 ~arm
 >sys-devel/gcc-config-2.5-r1 -~arm
 <=sys-devel/gcc-config-2.5-r1 ~arm
+llvm-core/* -~arm
+dev-lang/rust -~arm
+dev-lang/rust-bin -~arm
 
 #-----[ stable virtualbox ]----------------------------------
 app-emulation/virtualbox -~arm
@@ -81,4 +88,3 @@ net-fs/samba -~arm
 
 dev-db/mysql -~arm
 dev-libs/protobuf -~arm
-
