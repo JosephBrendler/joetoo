@@ -150,7 +150,7 @@ pkg_postinst() {
 	elog " 0.8.3 reformats make_me and provides easier cut/paste line for manual build"
 	elog " 0.9.0 sources from myUtilities, drops dom0, adds KERNEL_DIR, KBUILD_OUTPUT"
 	elog " 0.9.1 fixes bug in git cmd sequence, to add new template's hash file"
-	elog " 0.9.2 fixes bug in git cmd sequence, for location for new metadata file"
+	elog " 0.9.2 fixes bugs in git cmd sequence, incl location for new metadata file"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
