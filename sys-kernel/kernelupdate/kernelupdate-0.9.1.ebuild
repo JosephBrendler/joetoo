@@ -149,7 +149,7 @@ pkg_postinst() {
 	elog " 0.8.2 incorporates display_vars() from script_header in display_config()"
 	elog " 0.8.3 reformats make_me and provides easier cut/paste line for manual build"
 	elog " 0.9.0 sources from myUtilities, drops dom0, adds KERNEL_DIR, KBUILD_OUTPUT"
-	elog " 0.9.1 fixes bug in git command sequence, to add new template's hash file"
+	elog " 0.9.1 fixes bug in git cmd sequence, to add new template's hash file"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
