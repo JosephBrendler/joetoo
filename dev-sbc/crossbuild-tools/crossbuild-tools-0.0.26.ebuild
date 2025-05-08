@@ -96,6 +96,8 @@ pkg_postinst() {
 	elog " 0.0.21 fixes chroot PKGDIR etc and consolidated common files"
 	elog " 0.0.22/23 provide bugfixes and refinements"
 	elog " 0.0.24 adds TARGET-emerge-world and cloudsync.conf"
+	elog " 0.0.25 corrects CBUILD and HOSTCC in emerge-chroot alias"
+	elog " 0.0.26 enables media mount for image build"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
