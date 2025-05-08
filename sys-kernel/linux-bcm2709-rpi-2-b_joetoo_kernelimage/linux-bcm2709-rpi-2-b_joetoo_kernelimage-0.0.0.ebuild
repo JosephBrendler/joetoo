@@ -30,7 +30,7 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${P}.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tar.bz2"
 # fix S
 S=${WORKDIR}
 

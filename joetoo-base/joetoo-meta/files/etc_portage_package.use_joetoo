@@ -134,7 +134,7 @@ www-apps/nextcloud curl imagemagick mysql vhosts
 www-servers/apache threads
 sys-kernel/gentoo-kernel savedconfig -initramfs
 sys-kernel/gentoo-sources symlink
-sys-kernel/installkernel -dracut
+sys-kernel/installkernel grub -dracut
 sys-kernel/linux-firmware -initramfs
 
 #-----[ standardized TARGETS for joetoo ]-------------------------------

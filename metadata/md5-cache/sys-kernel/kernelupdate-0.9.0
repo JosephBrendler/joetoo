@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst
+DEPEND=>=dev-util/script_header_brendlefly-0.4.5 >=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-meta-0.0.4b >=app-admin/eselect-1.4.27-r1 >=dev-util/pkgdev-0.2.11
+DESCRIPTION=kernel build script, incl support for xen dom0 or domU, or several SBC systems
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=domU bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5 rk3588s-rock-5c
+KEYWORDS=~amd64 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=>=dev-util/script_header_brendlefly-0.4.5 >=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-meta-0.0.4b >=app-admin/eselect-1.4.27-r1 >=dev-util/pkgdev-0.2.11
+REQUIRED_USE=|| ( domU bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588s-orangepi-5 rk3588s-rock-5c )
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/sys-kernel/kernelupdate-0.9.0.tbz2
+_md5_=13d8ceee3eca2020c3bfa30ccef9e068
