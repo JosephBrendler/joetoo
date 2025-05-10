@@ -9,11 +9,14 @@ SRC_URI=""
 
 LICENSE="metapackage"
 SLOT="0"
-#KEYWORDS="~arm ~amd64 ~arm64"
+KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
+
 #getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
 # Note: ver 0.6.0 moved per-package-env files to a separate package
 # Note: ver 0.6.1 makes distcc a USE choice (default yes)
 
+# gentoo-kernel and gentoo-sources optional, and only for non-sbc
+# grub optional, and only for non-sbc
 IUSE="
 	+innercore
 	+joetoolkit
@@ -34,13 +37,19 @@ IUSE="
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
 	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5 -rk3588s-rock-5c
+	gentoo-kernel gentoo-sources
+	grub
 	"
 
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )
 	lamp? ( ^^ ( mysql mariadb ) )
-	sbc? ( ^^ (
+	sbc? (
+		!gentoo-sources
+		!gentoo-kernel
+		!grub
+		^^ (
 		bcm2712-rpi-5-b
 		bcm2711-rpi-4-b
 		bcm2710-rpi-3-b-plus
@@ -61,6 +70,10 @@ REQUIRED_USE="
 	compareConfigs? ( Terminal )
 	jus ( script_header_brendlefly )
 	cloudsync ( script_header_brendlefly )
+	!sbc? (
+		grub(+)
+		|| ( gentoo-sources(-) gentoo-kernel(+) )
+	)
 	"
 
 # required by Portage, as we have no SRC_URI...
@@ -100,10 +113,13 @@ RDEPEND="
 		>=sys-fs/dosfstools-4.1
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
 		sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
-		!sbc? (
+		gentoo-kernel? (
 			sys-kernel/gentoo-kernel
-			>=sys-boot/grub-2.06-r1
 		)
+		gentoo-sources? (
+			sys-kernel/gentoo-sources
+		)
+		grub? ( >=sys-boot/grub-2.06-r )
 		>=sys-kernel/installkernel-48-r1
 		>=sys-kernel/linux-firmware-20200619
 		>=sys-kernel/linux-headers-5.4
@@ -462,6 +478,7 @@ pkg_postinst() {
 	elog " 0.6.2 adds joetoo's resolv.conf.head"
 	elog " 0.6.3 updates cloudsync.conf, distcc/hosts"
 	elog " 0.6.4 shifts dependency from gentoo-sources to gentoo-kernel"
+	elog " 0.6.5 provides refinements and bugfixes"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
