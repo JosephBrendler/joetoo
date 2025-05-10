@@ -484,6 +484,7 @@ pkg_postinst() {
 	elog " 0.6.3 updates cloudsync.conf, distcc/hosts"
 	elog " 0.6.4 shifts dependency from gentoo-sources to gentoo-kernel"
 	elog " 0.6.5 provides refinements and bugfixes"
+	elog " 0.6.6 makes optional dependencies on gentoo-kernel -sources and grub"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
