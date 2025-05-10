@@ -40,7 +40,7 @@ IUSE="
 	+gentoo-kernel -gentoo-sources
 	+grub
 	"
-
+# ?? = zero or one of, but not multiple ( gentoo-sources gentoo-kernel )
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )
@@ -72,7 +72,7 @@ REQUIRED_USE="
 	cloudsync ( script_header_brendlefly )
 	!sbc? (
 		grub
-		|| ( gentoo-sources gentoo-kernel )
+		?? ( gentoo-sources gentoo-kernel )
 	)
 	"
 
