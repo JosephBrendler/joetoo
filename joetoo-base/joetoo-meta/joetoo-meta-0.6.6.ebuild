@@ -37,8 +37,8 @@ IUSE="
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
 	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5 -rk3588s-rock-5c
-	gentoo-kernel gentoo-sources
-	grub
+	+gentoo-kernel -gentoo-sources
+	+grub
 	"
 
 REQUIRED_USE="
@@ -71,8 +71,8 @@ REQUIRED_USE="
 	jus ( script_header_brendlefly )
 	cloudsync ( script_header_brendlefly )
 	!sbc? (
-		grub(+)
-		|| ( gentoo-sources(-) gentoo-kernel(+) )
+		grub
+		|| ( gentoo-sources gentoo-kernel )
 	)
 	"
 
@@ -114,12 +114,17 @@ RDEPEND="
 		>=sys-fs/lvm2-2.02.187[-udev(-)]
 		sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
 		gentoo-kernel? (
-			sys-kernel/gentoo-kernel
+			sys-kernel/gentoo-kernel[-initramfs(-)]
+			sys-kernel/installkernel[-dracut(-)]
 		)
 		gentoo-sources? (
-			sys-kernel/gentoo-sources
+			sys-kernel/gentoo-sources[symlink(+)]
+			sys-kernel/installkernel[-dracut(-)]
 		)
-		grub? ( >=sys-boot/grub-2.06-r )
+		grub? (
+			>=sys-boot/grub-2.06
+			sys-kernel/installkernel[-dracut(-)]
+		)
 		>=sys-kernel/installkernel-48-r1
 		>=sys-kernel/linux-firmware-20200619
 		>=sys-kernel/linux-headers-5.4
