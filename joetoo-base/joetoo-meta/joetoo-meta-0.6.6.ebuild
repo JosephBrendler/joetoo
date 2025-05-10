@@ -71,7 +71,7 @@ REQUIRED_USE="
 	jus ( script_header_brendlefly )
 	cloudsync ( script_header_brendlefly )
 	!sbc? (
-		grub
+		?? ( grub )
 		?? ( gentoo-sources gentoo-kernel )
 	)
 	"
