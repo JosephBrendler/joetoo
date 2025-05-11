@@ -10,4 +10,4 @@ REQUIRED_USE=^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-
 RESTRICT=mirror binchecks strip
 SLOT=0
 SRC_URI=https://github.com/raspberrypi/firmware/archive/1.20250430.tar.gz -> raspi-boot-firmware-1.20250430.tar.gz
-_md5_=faa2230341d342c9eae2ee8b3eef04b1
+_md5_=d6a33b814447205069d76a89cc607dc3

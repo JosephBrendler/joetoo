@@ -141,7 +141,7 @@ src_install() {
 		einfo "version_string=${version_string}"
 		cd ../modules
 		einfo "Now installing (ins) modules for ${kernel_name} into /lib/modules/"
-		insinto /lib/moddules/
+		insinto /lib/modules/
 		doins -r ${version_string}
 	fi
 }
