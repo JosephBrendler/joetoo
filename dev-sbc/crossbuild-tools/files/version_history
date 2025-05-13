@@ -1,1 +1,22 @@
 Version 0.0.1 is the initial package for crossbuild-tools
+0.0.2 adds root/.bash[rc|_profile] and alias emerge-chroot
+0.0.3 adds buildtarget-qemu script
+0.0.4 adds finalize-chroot to run on first login from .bashrc
+0.0.5 adds repos.conf and mkcrossbuildenv script
+0.0.6 adds install_my_local_ca_certificates
+0.0.7 adds keywords for chroot
+0.0.8 adds dependent keywords and bugfix for finalize-chroot
+0.0.9 refines mkcrossbuildenv script and adds BUILD
+0.0.10-12 provide bugfixes and refinements
+0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns
+0.0.14 fixes permissions on files populating /etc/${PN}/files/
+0.0.15 tweaks package.use/joetoo and files for crossdev repo
+0.0.16-17 provide bugfixes and refinements
+0.0.18 offers to unmount TARGET resources if already mounted
+0.0.19/20 provide bugfixes and refinements
+0.0.21 fixes chroot PKGDIR etc and consolidated common files
+0.0.22/23 provide bugfixes and refinements
+0.0.24 adds TARGET-emerge-world and cloudsync.conf
+0.0.25 corrects CBUILD and HOSTCC in emerge-chroot alias
+0.0.26 enables media mount for image build
+
