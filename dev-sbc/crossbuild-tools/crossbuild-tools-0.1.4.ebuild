@@ -80,6 +80,8 @@ pkg_postinst() {
 	elog " 0.1.0 generalizes to spt any sbc w BOARD image file framework"
 	elog " 0.1 1 adds creation of boot mountpoint to cb-mktemplateimage"
 	elog " 0.1.2 improves go/logo logic in some of the crossbuild tools"
+	elog " 0.1.3 selects generic board when only target is specified"
+	elog " 0.1.4 consolidates more functions in cb-common-functions"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
