@@ -19,7 +19,6 @@ S="${WORKDIR}"
 
 BDEPEND=""
 
-# as of 20250201 stable qemu does not have a raspi4b model, so use ~arm64 version of qemu for that board
 RDEPEND="
 	${BDEPEND}
 	sys-devel/crossdev
@@ -58,11 +57,10 @@ src_install() {
 	# Install scripts
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	newexe "${S}/${PN}/chroot-target" "chroot-target" || die "Install failed!"
-	newexe "${S}/${PN}/populate-target" "populate-target" || die "Install failed!"
-	newexe "${S}/${PN}/quickpkg-toolchain" "quickpkg-toolchain" || die "Install failed!"
-	newexe "${S}/${PN}/buildtarget-qemu" "buildtarget-qemu" || die "Install failed!"
-	newexe "${S}/${PN}/mkcrossbuildenv" "mkcrossbuildenv" || die "Install failed!"
+	for x in $(find ${S}/${PN}/ -type f -iname 'cb-*'); do
+		z=$(basename $x)
+		newexe "${x}" "${z}" || die "Install ${z} failed!"
+	done
 	elog "Done installing scripts"
 }
 
@@ -78,26 +76,10 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
-	elog " 0.0.2 adds root/.bash[rc|_profile] and alias emerge-chroot"
-	elog " 0.0.3 adds buildtarget-qemu script"
-	elog " 0.0.4 adds finalize-chroot to run on first login from .bashrc"
-	elog " 0.0.5 adds repos.conf and mkcrossbuildenv script"
-	elog " 0.0.6 adds install_my_local_ca_certificates"
-	elog " 0.0.7 adds keywords for chroot"
-	elog " 0.0.8 adds dependent keywords and bugfix for finalize-chroot"
-	elog " 0.0.9 refines mkcrossbuildenv script and adds BUILD"
-	elog " 0.0.10-12 provide bugfixes and refinements"
-	elog " 0.0.13 clarifies ARCH arm64 vs aarch64 in validate_target() fns"
-	elog " 0.0.14 fixes permissions on files populating /etc/${PN}/files/"
-	elog " 0.0.15 tweaks package.use/joetoo and files for crossdev repo"
-	elog " 0.0.16-17 provide bugfixes and refinements"
-	elog " 0.0.18 offers to unmount TARGET resources if already mounted"
-	elog " 0.0.19/20 provide bugfixes and refinements"
-	elog " 0.0.21 fixes chroot PKGDIR etc and consolidated common files"
-	elog " 0.0.22/23 provide bugfixes and refinements"
-	elog " 0.0.24 adds TARGET-emerge-world and cloudsync.conf"
-	elog " 0.0.25 corrects CBUILD and HOSTCC in emerge-chroot alias"
 	elog " 0.0.26 enables media mount for image build"
+	elog " 0.1.0 generalizes to spt any sbc w BOARD image file framework"
+	elog " 0.1 1 adds creation of boot mountpoint to cb-mktemplateimage"
+	elog " 0.1.2 improves go/logo logic in some of the crossbuild tools"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
