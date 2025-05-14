@@ -37,15 +37,22 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install config files, scripts, README, and BUILD
+	# Install mkenv-files, scripts, README, and BUILD
 	elog "Installing (cp) into /etc/${PN}/"
-	for x in $(find ${S}/${PN}/files/ -type f) ; do
+	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
-	elog "Done installing config files and scripts"
+	elog "Done installing mkenv-files config files and scripts"
+	for x in $(find ${S}/${PN}/mkimg-files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing mkimg-files config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
@@ -91,6 +98,13 @@ pkg_postinst() {
 	ewarn "  e.g. dispatch-conf to complete their installation."
 	ewarn "  To override this behavior, add /etc/${PN}/ to"
 	ewarn "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
+	elog ""
+	ewarn "Note: the mkimg-files structure is provided as an"
+	ewarn "  instructional guide.  You can populate the structure"
+	ewarn "  at /etc/${PN}/mkimg-files/ with your personal,"
+	ewarn "  possibly sensitive, content and update the script at"
+	ewarn "etc/${PN}/mkimg-files/common/usr/local/sbin/finalize-chroot"
+	ewarn "to tailor system crossbuild template(s) to your needs"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
