@@ -92,6 +92,8 @@ pkg_postinst() {
 	elog " 0.1.5 auto-answers workflow questions per $INTERACTIVE bool"
 	elog " 0.1.6 fixes bugs, bumps img size, and 1st cb-complete-image"
 	elog " 0.1.7 bugfix INTERACTIVE and prep for populate bootable image"
+	elog " 0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts"
+	elog " 0.2.1 provides refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
