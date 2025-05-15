@@ -21,7 +21,20 @@ BDEPEND=""
 
 RDEPEND="
 	${BDEPEND}
-	sys-devel/crossdev
+	app-admin/eselect
+	app-arch/tar
+	dev-lang/python-exec
+	dev-libs/openssl
+	dev-util/script_header_brendlefly
+	net-misc/curl
+	net-misc/wget
+	sys-apps/coreutils
+	sys-apps/util-linux
+	sys-block/parted
+	sys-fs/dosfstools
+	sys-fs/e2fsprogs
+	sys-apps/grep
+	sys-apps/portage
 "
 
 
