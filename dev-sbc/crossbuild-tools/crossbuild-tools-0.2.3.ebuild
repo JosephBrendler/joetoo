@@ -37,7 +37,7 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install mkenv-files, scripts, README, and BUILD
+	# Install mkenv-files, mkimg-files, admin-files, README, and create-install BUILD
 	elog "Installing (cp) into /etc/${PN}/"
 	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
@@ -53,6 +53,13 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkimg-files config files and scripts"
+	for x in $(find ${S}/${PN}/admin-files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing admin-files config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
@@ -61,7 +68,7 @@ src_install() {
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
 
-	# Install scripts
+	# Install cb- scripts
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	for x in $(find ${S}/${PN}/ -type f -iname 'cb-*'); do
