@@ -151,6 +151,8 @@ pkg_postinst() {
 	elog " 0.4.23 updates binhost_cleanup tool"
 	elog " 0,4,24 updates and adds tools incl chroot- and mount-the-rest.new"
 	elog " 0.4.25 adds quickpkg-toolchain cross-build tool"
+	elog " 0.4.26 updates chroot-armv6j and chroot-armv7a tools"
+	elog " 0.4.27 fixes PATH; equery b \$(which -a <tgt>) works in merged-usr"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
