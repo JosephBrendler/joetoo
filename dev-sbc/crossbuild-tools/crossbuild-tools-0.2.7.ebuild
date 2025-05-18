@@ -114,6 +114,8 @@ pkg_postinst() {
 	elog " 0.1.7 bugfix INTERACTIVE and prep for populate bootable image"
 	elog " 0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts"
 	elog " 0.2.1-5 provide refinements and bugfixes"
+	elog " 0.2.6 adds QEMU_ARCH to build right binary qemu for aarch64"
+	elog " 0.2.7 adds /root/.cb-config to image files"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
