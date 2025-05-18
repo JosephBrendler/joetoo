@@ -116,7 +116,7 @@ pkg_postinst() {
 	elog " 0.2.1-5 provide refinements and bugfixes"
 	elog " 0.2.6 adds QEMU_ARCH to build right binary qemu for aarch64"
 	elog " 0.2.7/8 add /root/.cb-config to image files"
-	elog " 0.2.9 provides refinements and bugfixes"
+	elog " 0.2.9-12 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
