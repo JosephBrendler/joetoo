@@ -19,4 +19,17 @@ Version 0.0.1 is the initial package for crossbuild-tools
 0.0.24 adds TARGET-emerge-world and cloudsync.conf
 0.0.25 corrects CBUILD and HOSTCC in emerge-chroot alias
 0.0.26 enables media mount for image build
+0.1.0 generalizes to spt any sbc w BOARD image file framework"
+0.1 1 adds creation of boot mountpoint to cb-mktemplateimage
+0.1.2 improves go/logo logic in some of the crossbuild tools
+0.1.3 selects generic board when only target is specified
+0.1.4 consolidates more functions in cb-common-functions
+0.1.5 auto-answers workflow questions per $INTERACTIVE bool
+0.1.6 fixes bugs, bumps img size, and 1st cb-complete-image
+0.1.7 bugfix INTERACTIVE and prep for populate bootable image
+0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts
+0.2.1-5 provide refinements and bugfixes
+0.2.6 adds QEMU_ARCH to build right binary qemu for aarch64
+0.2.7/8 add /root/.cb-config to image files
+0.2.9-12 provide refinements and bugfixes
 
