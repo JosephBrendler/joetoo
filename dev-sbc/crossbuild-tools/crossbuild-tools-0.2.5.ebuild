@@ -21,7 +21,20 @@ BDEPEND=""
 
 RDEPEND="
 	${BDEPEND}
-	sys-devel/crossdev
+	app-admin/eselect
+	app-arch/tar
+	dev-lang/python-exec
+	dev-libs/openssl
+	dev-util/script_header_brendlefly
+	net-misc/curl
+	net-misc/wget
+	sys-apps/coreutils
+	sys-apps/util-linux
+	sys-block/parted
+	sys-fs/dosfstools
+	sys-fs/e2fsprogs
+	sys-apps/grep
+	sys-apps/portage
 "
 
 
@@ -37,7 +50,7 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install mkenv-files, scripts, README, and BUILD
+	# Install mkenv-files, mkimg-files, admin_files, README, and create-install BUILD
 	elog "Installing (cp) into /etc/${PN}/"
 	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
@@ -53,6 +66,13 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkimg-files config files and scripts"
+	for x in $(find ${S}/${PN}/admin_files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing admin_files config files and scripts"
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
@@ -61,7 +81,7 @@ src_install() {
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
 
-	# Install scripts
+	# Install cb- scripts
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	for x in $(find ${S}/${PN}/ -type f -iname 'cb-*'); do
@@ -93,7 +113,7 @@ pkg_postinst() {
 	elog " 0.1.6 fixes bugs, bumps img size, and 1st cb-complete-image"
 	elog " 0.1.7 bugfix INTERACTIVE and prep for populate bootable image"
 	elog " 0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts"
-	elog " 0.2.1/2 provide refinements and bugfixes"
+	elog " 0.2.1-5 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
