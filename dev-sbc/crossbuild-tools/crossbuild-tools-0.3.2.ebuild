@@ -107,6 +107,8 @@ pkg_postinst() {
 	elog " 0.1.0 generalizes to spt any sbc w BOARD image file framework"
 	elog " 0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts"
 	elog " 0.3.0 culminates refinements prerequisite to running cb-mkimg"
+	elog " 0.3.1 consolidates some files in mkimg-files/common"
+	elog " 0.3.2 provides refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
