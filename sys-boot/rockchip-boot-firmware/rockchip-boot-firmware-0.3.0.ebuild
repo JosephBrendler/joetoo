@@ -17,14 +17,14 @@ KEYWORDS="~arm ~arm64"
 
 IUSE="
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	+armbian_kernel +dtbo
 "
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
         ^^ ( rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588s-orangepi-5 rk3588s-rock-5c )
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
 "
 
 RESTRICT="mirror binchecks strip"
@@ -44,6 +44,7 @@ BDEPEND="
 		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image[dtbo=] )
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image[dtbo=] )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] )
+		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image[dtbo=] )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
 	)
@@ -74,11 +75,13 @@ pkg_setup() {
 		export board="rk3399-rock-pi-4c-plus"
 	else if use rk3399-tinker-2; then
 		export board="rk3399-tinker-2"
+	else if use rk3588-rock-5b; then
+		export board="rk3588-rock-5b"
 	else if use rk3588s-orangepi-5; then
 		export board="rk3588s-orangepi-5"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
-	fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
 	einfo "S and D are used; here they are ..."
@@ -116,7 +119,8 @@ pkg_postinst() {
 	elog " 0.0.2 provides actual armbian-build u-boot reflash resources for each board"
 	elog " 0.1.0 delivers armbian-build kernel, dtbs, overlays, if selected by use flag"
 	elog " 0.2.0 installs only u-boot; moves kernel/dtbo to versioned sys-kernel package"
-	elog " 0.2.1 adds support for Rock 5c (rk3588s-rock-5c)"
+	elog " 0.2.1/2 adds/updates support for Rock 5c (rk3588s-rock-5c)"
+	elog " 0.3.0 is a version bump/bugfix that adds support for Rock 5b (rk3588-rock-5b)"
 	elog ""
 	elog "****************************************************************************"
 	elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"
