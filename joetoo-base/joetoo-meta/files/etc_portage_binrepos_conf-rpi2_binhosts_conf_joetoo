@@ -1,8 +1,0 @@
-[raspi23201]
-priority = 9999
-sync-uri = https://raspi23201.brendler/packages/armv7a-hardfloat-linux-gnueabi-rpi2-packages/
-
-[raspi23202]
-priority = 9999
-sync-uri = https://raspi23202.brendler/packages/armv7a-hardfloat-linux-gnueabi-rpi2-packages/
-
