@@ -109,6 +109,8 @@ pkg_postinst() {
 	elog " 0.3.0 culminates refinements prerequisite to running cb-mkimg"
 	elog " 0.3.1 consolidates some files in mkimg-files/common"
 	elog " 0.3.2-9 provide refinements and bugfixes"
+	elog " 0.4.0 integrates cb-mount cb-umount and supports rk3588-rock-5b"
+	elog " 0.4.1 corrects package.use/joetoo for rk3588-rock-5b & others"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
