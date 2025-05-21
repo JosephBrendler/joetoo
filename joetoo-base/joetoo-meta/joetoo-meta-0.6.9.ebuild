@@ -36,7 +36,7 @@ IUSE="
 	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
-	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588s-orangepi-5 -rk3588s-rock-5c
+	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
 	+gentoo-kernel -gentoo-sources
 	+grub
 	"
@@ -59,6 +59,7 @@ REQUIRED_USE="
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus
 		rk3399-tinker-2
+		rk3588-rock-5b
 		rk3588s-orangepi-5
 		rk3588s-rock-5c
 		)
@@ -205,11 +206,13 @@ pkg_setup() {
 			export board="rk3399-rock-pi-4c-plus"
 		else if use rk3399-tinker-2 ; then
 			export board="rk3399-tinker-2"
+		else if use rk3588-rock-5b ; then
+			export board="rk3588-rock-5b"
 		else if use rk3588s-orangepi-5 ; then
 			export board="rk3588s-orangepi-5"
 		else if use rk3588s-rock-5c ; then
 			export board="rk3588s-rock-5c"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
@@ -361,9 +364,9 @@ src_install() {
 		insinto "${target}"
 		newins "${FILESDIR}/etc_portage_package.use_joetoo" "joetoo"
 		if use sbc ; then
-			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_${board}" "00cpu_flags"
+			newins "${FILESDIR}/etc_portage_package.use_00cpu-flags_${board}" "00cpu-flags"
 		else
-			newins "${FILESDIR}/etc_portage_package.use_00cpu_flags_amd64" "00cpu_flags"
+			newins "${FILESDIR}/etc_portage_package.use_00cpu-flags_amd64" "00cpu-flags"
 		fi
 		if use plasma ; then
 			newins "${FILESDIR}/etc_portage_package.use_plasma" "plasma"
@@ -374,7 +377,7 @@ src_install() {
 		insinto "${target}"
 		if use sbc ; then
 			case $board in
-				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
 				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -388,7 +391,7 @@ src_install() {
 		if use plasma ; then
 			if use sbc ; then
 				case $board in
-					"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+					"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 						# arch=arm64
 						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm64" "plasma" ;;
 					"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -412,10 +415,16 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi4_binhosts_conf_joetoo" "joetoo_rpi4_binhosts.conf" ;;
 				"bcm2710-rpi-3-b-plus")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi3_binhosts_conf_joetoo" "joetoo_rpi3_binhosts.conf" ;;
-				"bcm2709-rpi-2-b")
-					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi2_binhosts_conf_joetoo" "joetoo_rpi2_binhosts.conf" ;;
-				"bcm2710-rpi-3-b"|"bcm2708-rpi-b"|"rk3399-rock-pi-4c-plus"|"rk3288-tinker-s"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
-					# nothing, yet - I only have one of each of these
+				"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi23A_binhosts_conf_joetoo" "joetoo_rpi23A_binhosts.conf" ;;
+				"bcm2708-rpi-b")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi1_binhosts_conf_joetoo" "joetoo_rpi1_binhosts.conf" ;;
+				"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3399_binhosts_conf_joetoo" "joetoo_rk3399_binhosts.conf" ;;
+				"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3588_binhosts_conf_joetoo" "joetoo_rk3588_binhosts.conf" ;;
+				"rk3288-tinker-s")
+					# nothing, yet - I only have one of these (retired)
 					;;
 			esac
 		else
@@ -485,6 +494,8 @@ pkg_postinst() {
 	elog " 0.6.4 shifts dependency from gentoo-sources to gentoo-kernel"
 	elog " 0.6.5 provides refinements and bugfixes"
 	elog " 0.6.6 makes optional dependencies on gentoo-kernel -sources and grub"
+	elog " 0.6.7/8 update package.use/joetoo and add support for rk3588-rock-5b"
+	elog " 0.6.9 adds crossbuild accept_keywords for all sbc packages"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
