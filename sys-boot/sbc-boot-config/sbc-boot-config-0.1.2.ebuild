@@ -94,15 +94,16 @@ src_install() {
 	insinto "/boot/"
 	case ${board} in
 		"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
-			einfo "Installing (ins) raspberry board config files into /boot" ;
+			einfo "Installing (ins) raspberry board .txt config files into /boot" ;
 			# install cmdline.txt, config.txt and any other (e.g. README.txt) .txt files
 			newins_all "*.txt" ;
 			newenvd "${FILESDIR}/config_protect-raspi" "99${PN}" ;;
-		"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
-			einfo "Copying rockchip board config files to /boot" ;
+		"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
 			# install boot.cmd, boot.scr, and any other boot.* files
+			einfo "Installing (ins) rockchip board boot. config files to /boot" ;
 			newins_all "boot.*" ;
 			# install joetooEnv.txt and any other (e.g. README.txt) .txt files
+			einfo "Installing (ins) rockchip board .txt config files to /boot" ;
 			newins_all "*.txt" ;
 			newenvd "${FILESDIR}/config_protect-rockchip" "99${PN}" ;;
 	esac
@@ -111,6 +112,9 @@ src_install() {
 pkg_postinst() {
 	if [[ -z ${REPLACING_VERSIONS} ]]; then
 		elog "${P} Installed boot config files in /boot/ --"
+		elog ""
+		elog " ver 0.1.2 adds support for rk3588-rock-5b"
+		elog ""
 		case ${board} in
 			"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2712-rpi-5-b" )
 				elog "  cmdline.txt -- kernel command line parameters" ;
