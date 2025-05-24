@@ -1,4 +1,4 @@
-# Armbian u-boot install script for linux-u-boot-rock-5b-current 2017.09-S575d-P187d-H7896-Vc393-Bb703-R448a
+# Armbian u-boot install script for linux-u-boot-rock-5b-current 2017.09-S530d-P187d-H7896-Vc393-Bb703-R448a
 # This file provides functions for deploying u-boot to a block device.
 DIR=/usr/lib/linux-u-boot-current-rock-5b
 write_uboot_platform () 
