@@ -8,16 +8,15 @@ inherit linux-info
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/mkinitramfs-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 
-#KEYWORDS="~amd64 ~arm64"
 KEYWORDS="amd64 ~amd64 arm64 ~arm64"
-IUSE=""
+IUSE="+grub"
 RESTRICT="mirror"
 
 RDEPEND=">=dev-util/script_header_brendlefly-0.4.4
@@ -26,10 +25,10 @@ RDEPEND=">=dev-util/script_header_brendlefly-0.4.4
 	>=sys-libs/glibc-2.23
 	>=sys-apps/file-5.29
 	>=app-arch/cpio-2.12-r1
-	>=sys-boot/grub-2.06-r1[device-mapper(+)]
 	>=sys-fs/lvm2-2.02.188-r2[-udev(-)]
 	>=sys-fs/cryptsetup-2.3.6-r2[urandom(+),openssl(+)]
 	>=sys-apps/busybox-1.34.1[-static(-)]
+	grub? ( >=sys-boot/grub-2.06-r1[device-mapper(+)] )
 "
 DEPEND="${RDEPEND}"
 
@@ -118,30 +117,11 @@ src_install() {
 pkg_postinst() {
 	elog "${P} installation complete."
 	elog ""
-	elog "mkinitramfs-5.4 was a significant rewrite of the package."
-	elog "ver 5.9 corrects issues with lvm early availability."
-	elog "Ensure you do not have USE=udev set for lvm2"
-	elog "ver 6.1 corrects grub-related bugs"
-	elog " 6.2 patches for a rare issuxe with cryptsetup failure for missing file"
-	elog "  (libgcc_s.so.1) needed for cancel_pthreads"
-	elog " 6.3 preserves init.conf by moving both config files to /etc/mkinitramfs/"
-	elog " 6.4 puts ckinitramfs in /usr/bin instead of /usr/local/bin"
-	elog " 6.5 drops lvmconf from dynexecutables and adds some lvm linked files"
-	elog " 6.6 adds find to dynexecutables and fixes an associated bug"
-	elog " 6.7 generalizes init to unlock nvmeXnXpZ, mmcblkXpX devices as well as sdXX"
-	elog " 7.0 generalizes mkinitramfs to support raspberry pi 5 and other SBCs"
-	elog " 7.1/2 fix bugs in dependent content copy and in output rotation"
-	elog " 7.3 adds kernel config checks with the help of linux-info eclass"
-	elog " 8.0 migrated to a merged-usr-like layout and moves scripts to FILESDIR"
-	elog " 8.0.1 added verbosity to .conf and updates handling deps of executables"
-	elog " 8.1.0 is a major rewrite of make_sources.sh (workedonly for merged-usr)"
-	elog " 8.2.0 updates the init script and moves sources back to myUtilities repo"
-	elog " 8.2.1 fixes bugs"
-	elog " 8.2.2 stable for arm64, header dep >=0.4.2 for d_echo() isnumber() for ash"
-	elog " 8.3.0-2 provide automatic dev/fs scan, simplicity, stability, resilience"
-	elog " 9.0.0 is a renewed major rewrite of make_sources.sh"
+	elog "ver 9.0.0 is a renewed major rewrite of make_sources.sh"
 	elog " 9.0.1 fixes ckinitramfs and consolidates a common_functions_header"
 	elog " 9.0.2/3 fix bugs and add debug in validate_passdevice()"
+	elog " 9.0.4/5 fix bugs in ckinitramfs for merged- and split-usr systems"
+	elog " 9.0.6 moves sources to dev-util and makes grub a USE option"
 	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
