@@ -9,12 +9,10 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="NA">
-			This package has no USE flags at this time
-		</flag>
+		<flag name="grub">(default) Optionally pull in sys-boot/grub</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
 	</upstream>
 </pkgmetadata>
 
