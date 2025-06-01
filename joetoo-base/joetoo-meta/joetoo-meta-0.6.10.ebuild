@@ -296,10 +296,10 @@ src_install() {
 		newenvd "${FILESDIR}/etc_env.d_joetoo" 99${PN}
 		elog "Done installing (envd) files into ${target} ..."
 	target="/etc/grub.d/"
-		einfo "Installing (ins) files into ${target} ..."
+		einfo "Installing (exe) files into ${target} ..."
 		insinto "${target}"
-		newins "${FILESDIR}/etc_grub-d_10_linux_joetoo" "10_linux"
-		newins "${FILESDIR}/etc_grub-d_20_linux_xen_joetoo" "20_linux_xen"
+		newexe "${FILESDIR}/etc_grub-d_10_linux_joetoo" "10_linux"
+		newexe "${FILESDIR}/etc_grub-d_20_linux_xen_joetoo" "20_linux_xen"
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/init.d/"
 		einfo "Installing (sym) files into ${target} ..."
@@ -348,6 +348,12 @@ src_install() {
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-local-ovpn_joetoo" "brendler-local.ovpn"
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-remote-ovpn_joetoo" "brendler-remote.ovpn"
 		elog "Done installing (ins) files into ${target} ..."
+	target="/etc/openvpn/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-local.ovpn /etc/openvpn/local.conf
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-remote.ovpn /etc/openvpn/remote.conf
+		elog "Done installing (sym) files into ${target} ..."
 	target="/etc/portage/"
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
@@ -494,6 +500,9 @@ pkg_postinst() {
 	elog " 0.6.4 shifts dependency from gentoo-sources to gentoo-kernel"
 	elog " 0.6.5 provides refinements and bugfixes"
 	elog " 0.6.6 makes optional dependencies on gentoo-kernel -sources and grub"
+	elog " 0.6.7/8 update package.use/joetoo and add support for rk3588-rock-5b"
+	elog " 0.6.9 adds crossbuild accept_keywords for all sbc packages"
+	elog " 0.6.10 refines standard and crossbuild use and keywords"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
