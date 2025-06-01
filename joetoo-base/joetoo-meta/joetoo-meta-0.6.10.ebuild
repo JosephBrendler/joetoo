@@ -297,7 +297,7 @@ src_install() {
 		elog "Done installing (envd) files into ${target} ..."
 	target="/etc/grub.d/"
 		einfo "Installing (exe) files into ${target} ..."
-		insinto "${target}"
+		exeinto "${target}"
 		newexe "${FILESDIR}/etc_grub-d_10_linux_joetoo" "10_linux"
 		newexe "${FILESDIR}/etc_grub-d_20_linux_xen_joetoo" "20_linux_xen"
 		elog "Done installing (ins) files into ${target} ..."
