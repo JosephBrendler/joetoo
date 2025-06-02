@@ -153,7 +153,7 @@ pkg_postinst() {
 	elog " 0.4.25 adds quickpkg-toolchain cross-build tool"
 	elog " 0.4.26 updates chroot-armv6j and chroot-armv7a tools"
 	elog " 0.4.27 fixes PATH; equery b \$(which -a <tgt>) works in merged-usr"
-	elog " 0.4.29 adds grub_install_both_ways"
+	elog " 0.4.29 adds grub_install_both_ways to joetoolkit"
 	elog ""
 	elog "To Do:"
 	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
