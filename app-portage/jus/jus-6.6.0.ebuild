@@ -8,13 +8,12 @@ EAPI=8
 
 DESCRIPTION="A simple joetoo update sequence (jus)"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR%/}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-#KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64 amd64 x86 arm arm64"
 
 # automatically also pull in dev-util/script-header-brendlefly-extended
@@ -24,13 +23,14 @@ RESTRICT="mirror"
 RDEPEND=">=sys-apps/portage-2.3.3
 	>=app-portage/portage-utils-0.62
 	>=app-portage/gentoolkit-0.3.2
-	>=app-portage/eix-0.32.4
-	eix? ( >=app-shells/push-2.0 )
+	eix? (
+		>=app-portage/eix-0.32.4
+		>=app-shells/push-2.0
+	)
 	distcc? ( >=sys-devel/distcc-3.1 )
 	>=dev-util/script_header_brendlefly-0.2.11[extended]
 	>=dev-util/joetoolkit-0.4.21
 "
-# app-portage/show-elogs  --- is in joetoolkit
 BDEPEND="${RDEPEND}"
 
 src_install() {
@@ -41,6 +41,7 @@ src_install() {
 	einfo "ED=${ED}"
 	einfo "T=${T}"
 	einfo "P=${P}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
@@ -106,6 +107,8 @@ pkg_postinst() {
 	elog "Version 6.0.1.9999 was the initial version of jus, adapted from gus-5.3.1.9999"
 	elog " 6.5.0 moves ${PN} bak to myUtilities repo for better version control; updates code"
 	elog " 6.5.1 fixes bug in verbosity of bs sort of updateables"
+	elog " 6.5.2 makes update-check quieter"
+	elog " 6.6.0 moves sources to app-portage; adds distcc and new/changeduse cmdline control"
 	elog ""
 	elog "Thank you for using ${PN}"
 
