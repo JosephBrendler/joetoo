@@ -7,7 +7,7 @@ EAPI=6
 
 DESCRIPTION="c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/Terminal-0.1.0.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR}/${PN}"
 
@@ -85,7 +85,7 @@ src_install() {
 	elog "(2) Gentoo QA issue: now installs executables to /usr/bin rather than /usr/local/sbin"
 	elog "    (if USE examplesis set)."
 	elog "(3) Mirror download issue: now includes RESTRICT='mirror'"
-	elog " 0.1.1.9999 moves sources to dev-util category in myUtilities reop"
+	elog " 0.1.1 moves sources to dev-util category in myUtilities reop"
 	elog "Thank you for using ${PN}"
 	elog ""
 }
