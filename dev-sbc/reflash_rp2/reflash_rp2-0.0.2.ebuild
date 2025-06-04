@@ -8,7 +8,7 @@ inherit linux-info
 
 DESCRIPTION="flash a program to the RP2040 microcontroller on a Radxa X4 SBC"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${P}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
 
 LICENSE="MIT"
 SLOT="0"
@@ -44,6 +44,7 @@ src_install() {
 	einfo "D=${D}"
 	einfo "A=${A}"
 	einfo "T=${T}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -88,6 +89,7 @@ src_install() {
 pkg_postinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -114,6 +116,7 @@ pkg_postinst() {
         elog " https://wiki.gentoo.org/wiki/ARM"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
+	elog " 0.0.2 moves sources to dev-sbc category in myUtilities repo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

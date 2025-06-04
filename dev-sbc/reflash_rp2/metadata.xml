@@ -4,7 +4,7 @@
 	<longdescription>
 		program and configuration files for reflash_rp2
 		with eselect module to select config file
-		(works on with the Radxa X4 SBC, to reflash its RP2040)
+		(works on the Radxa X4 SBC, to reflash its RP2040)
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -18,4 +18,3 @@
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
 	</upstream>
 </pkgmetadata>
-
