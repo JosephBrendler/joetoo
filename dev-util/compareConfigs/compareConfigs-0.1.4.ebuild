@@ -9,7 +9,7 @@ EAPI=8
 
 DESCRIPTION="Color side-by-side compare of all parameters in two kernel configuration files"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR}/${PN}"
 
@@ -124,13 +124,16 @@ src_install() {
 		elog ""
 	fi
 
+	elog "${P} installed"
         elog "Version 0.1.0.9999 includes a number of bugfixes --"
         elog "(1) multilib-strict issue: now installs libKernelConfig.so to /usr/lib64 rather than /usr/lib"
         elog "(2) Gentoo QA issue: now installs executables to /usr/bin rather than /usr/local/sbin"
         elog "(3) Mirror download issue: now includes RESTRICT='mirror'"
         elog " 0.1.1 evolves to EAPI 8 and drops inherit eutils"
         elog " 0.1.2 updates Makefile from /usr/lib/ to /usr/lib64/ and /usr/local/sbin to /usr/bin"
+        elog " 0.1.3 traps error for null input filename in kernelConfigLibTest.cpp"
+        elog " 0.1.4 moves sources to dev-util category in myUtilities repo"
         elog ""
-	elog "Thank you for using compareConfigs and the KernelConfig library"
+	elog "Thank you for using ${PN} and the KernelConfig library"
 	elog ""
 }
