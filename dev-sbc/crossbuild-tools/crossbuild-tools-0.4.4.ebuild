@@ -112,6 +112,8 @@ pkg_postinst() {
 	elog " 0.4.0 integrates cb-mount cb-umount and supports rk3588-rock-5b"
 	elog " 0.4.1 corrects package.use/joetoo for rk3588-rock-5b & others"
 	elog " 0.4.2 corrects .accept_keywords/joetoo for rk3588-rock-5b (+)"
+	elog " 0.4.3 provides refinements and bugfixes"
+	elog " 0.4.4 supports bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
