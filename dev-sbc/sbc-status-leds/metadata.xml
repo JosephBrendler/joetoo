@@ -16,7 +16,9 @@
                 <flag name="bcm2710-rpi-3-b">Configure for Raspberry Pi 3 B v1.2 (armv7/32)</flag>
                 <flag name="bcm2710-rpi-3-b-plus">Configure for Raspberry Pi 3 B Plus (armv8/64)</flag>
                 <flag name="bcm2711-rpi-4-b">Configure for Raspberry Pi 4 B (armv8/64)</flag>
+                <flag name="bcm2711-rpi-cm4-io">Configure for Raspberry Pi Compute Module 4 with its IO board (armv8/64)</flag>
                 <flag name="bcm2712-rpi-5-b">Configure for Raspberry Pi 5 B (armv8/64)</flag>
+                <flag name="bcm2712-rpi-cm5-cm5io">Configure for Raspberry Pi Compute Module 5 with its IO board (armv8/64)</flag>
                 <flag name="rk3288-tinker-s">Configure for Tinkerboard S (armv7/32)</flag>
                 <flag name="rk3399-rock-pi-4c-plus">Configure for Rock Pi 4c Plus (armv8/64)</flag>
                 <flag name="rk3399-tinker-2">Configure for Tinkerboard 2/2S (armv8/64)</flag>

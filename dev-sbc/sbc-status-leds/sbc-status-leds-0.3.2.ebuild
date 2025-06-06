@@ -12,7 +12,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
 IUSE="
-	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
@@ -21,7 +21,7 @@ IUSE="
 # required: one and only one of --
 REQUIRED_USE="
 	^^ (
-		bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
@@ -41,6 +41,7 @@ RDEPEND="
 	x4-n100? (
 		>=sys-devel/bc-1.08.1
 		>=dev-util/serialtalk-1.2-r1
+		dev-sbc/reflash_rp2
 		)
 "
 # serialtalk now, not setserial
@@ -49,8 +50,12 @@ RDEPEND="
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	einfo "Assigning board..."
+	if use bcm2712-rpi-cm5-cm5io ; then
+		export board="bcm2712-rpi-cm5-cm5io"
 	if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
+	if use bcm2711-rpi-cm4-io ; then
+		export board="bcm2711-rpi-cm4-io"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 	else if use bcm2710-rpi-3-b-plus; then
@@ -77,7 +82,7 @@ pkg_setup() {
 		export board="x4-n100"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "board: ${board}"
 }
 
@@ -136,6 +141,7 @@ src_install() {
 pkg_postinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -155,7 +161,8 @@ pkg_postinst() {
 	elog " 0.2.6 makes the number of blinks configurable"
 	elog " 0.2.7 moves serialtalk reset to /etc/local.d/serial_port_kick.start"
 	elog " 0.3.0 moves sources to myUtilities and adds spt for rk3588-rock-5b"
-	elog ""
+	elog " 0.3.1 fixes missing .start files for x4"
+	elog " 0.3.2 adds spt for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
