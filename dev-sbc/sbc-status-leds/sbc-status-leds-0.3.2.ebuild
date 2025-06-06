@@ -52,9 +52,9 @@ pkg_setup() {
 	einfo "Assigning board..."
 	if use bcm2712-rpi-cm5-cm5io ; then
 		export board="bcm2712-rpi-cm5-cm5io"
-	if use bcm2712-rpi-5-b ; then
+	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
-	if use bcm2711-rpi-cm4-io ; then
+	else if use bcm2711-rpi-cm4-io ; then
 		export board="bcm2711-rpi-cm4-io"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
