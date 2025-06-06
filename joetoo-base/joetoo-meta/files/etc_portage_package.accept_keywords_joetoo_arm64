@@ -117,7 +117,9 @@ sys-kernel/linux-bcm2709-rpi-2-b_joetoo_kernelimage **
 sys-kernel/linux-bcm2710-rpi-3-b-plus_joetoo_kernelimage **
 sys-kernel/linux-bcm2710-rpi-3-b_joetoo_kernelimage **
 sys-kernel/linux-bcm2711-rpi-4-b_joetoo_kernelimage **
+sys-kernel/linux-bcm2711-rpi-cm4-io_joetoo_kernelimage **
 sys-kernel/linux-bcm2712-rpi-5-b_joetoo_kernelimage **
+sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage **
 sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image **
 sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image **
 sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage **

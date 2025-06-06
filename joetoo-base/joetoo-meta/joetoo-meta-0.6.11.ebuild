@@ -33,7 +33,7 @@ IUSE="
 	-domU
 	-samba
 	-sbc
-	-bcm2712-rpi-5-b -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
+	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
 	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
@@ -50,7 +50,9 @@ REQUIRED_USE="
 		!gentoo-kernel
 		!grub
 		^^ (
+		bcm2712-rpi-cm5-cm5io
 		bcm2712-rpi-5-b
+		bcm2711-rpi-cm4-io
 		bcm2711-rpi-4-b
 		bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b
@@ -188,8 +190,12 @@ pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	if use sbc ; then
 		einfo "USE sbc is selected. Assigning board ..." ;
-		if use bcm2712-rpi-5-b ; then
+		if use bcm2712-rpi-cm5-cm5io ; then
+			export board="bcm2712-rpi-cm5-cm5io"
+		else if use bcm2712-rpi-5-b ; then
 			export board="bcm2712-rpi-5-b"
+		else if use bcm2711-rpi-cm4-io ; then
+			export board="bcm2711-rpi-cm4-io"
 		else if use bcm2711-rpi-4-b ; then
 			export board="bcm2711-rpi-4-b"
 		else if use bcm2710-rpi-3-b-plus ; then
@@ -212,7 +218,7 @@ pkg_setup() {
 			export board="rk3588s-orangepi-5"
 		else if use rk3588s-rock-5c ; then
 			export board="rk3588s-rock-5c"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
@@ -296,10 +302,10 @@ src_install() {
 		newenvd "${FILESDIR}/etc_env.d_joetoo" 99${PN}
 		elog "Done installing (envd) files into ${target} ..."
 	target="/etc/grub.d/"
-		einfo "Installing (ins) files into ${target} ..."
-		insinto "${target}"
-		newins "${FILESDIR}/etc_grub-d_10_linux_joetoo" "10_linux"
-		newins "${FILESDIR}/etc_grub-d_20_linux_xen_joetoo" "20_linux_xen"
+		einfo "Installing (exe) files into ${target} ..."
+		exeinto "${target}"
+		newexe "${FILESDIR}/etc_grub-d_10_linux_joetoo" "10_linux"
+		newexe "${FILESDIR}/etc_grub-d_20_linux_xen_joetoo" "20_linux_xen"
 		elog "Done installing (ins) files into ${target} ..."
 	target="/etc/init.d/"
 		einfo "Installing (sym) files into ${target} ..."
@@ -348,6 +354,12 @@ src_install() {
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-local-ovpn_joetoo" "brendler-local.ovpn"
 		newins "${FILESDIR}/etc_openvpn_openvpnkeys_brendler-remote-ovpn_joetoo" "brendler-remote.ovpn"
 		elog "Done installing (ins) files into ${target} ..."
+	target="/etc/openvpn/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-local.ovpn /etc/openvpn/local.conf
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-remote.ovpn /etc/openvpn/remote.conf
+		elog "Done installing (sym) files into ${target} ..."
 	target="/etc/portage/"
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
@@ -377,7 +389,7 @@ src_install() {
 		insinto "${target}"
 		if use sbc ; then
 			case $board in
-				"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+				"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
 				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -391,7 +403,7 @@ src_install() {
 		if use plasma ; then
 			if use sbc ; then
 				case $board in
-					"bcm2712-rpi-5-b"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+					"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 						# arch=arm64
 						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm64" "plasma" ;;
 					"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -409,9 +421,9 @@ src_install() {
 		insinto "${target}"
 		if use sbc; then
 			case $board in
-				"bcm2712-rpi-5-b")
+				"bcm2712-rpi-5-b"|"bcm2712-rpi-cm5-cm5io")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi5_binhosts_conf_joetoo" "joetoo_rpi5_binhosts.conf" ;;
-				"bcm2711-rpi-4-b")
+				"bcm2711-rpi-4-b"|"bcm2711-rpi-cm4-io")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi4_binhosts_conf_joetoo" "joetoo_rpi4_binhosts.conf" ;;
 				"bcm2710-rpi-3-b-plus")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rpi3_binhosts_conf_joetoo" "joetoo_rpi3_binhosts.conf" ;;
@@ -496,6 +508,8 @@ pkg_postinst() {
 	elog " 0.6.6 makes optional dependencies on gentoo-kernel -sources and grub"
 	elog " 0.6.7/8 update package.use/joetoo and add support for rk3588-rock-5b"
 	elog " 0.6.9 adds crossbuild accept_keywords for all sbc packages"
+	elog " 0.6.10 refines standard and crossbuild use and keywords"
+	elog " 0.6.1 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
