@@ -35,7 +35,7 @@ RESTRICT=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-# keyword for arm or arm64 according to board selection (and amd/amd64 for crossbuild)
+# keyword for arm or arm64 according to board selection (amd/64 for crossbuilding)
 KEYWORDS="amd64 ~amd64 ~arm ~arm64"
 
 BDEPEND="
@@ -154,8 +154,8 @@ RDEPEND="
 	joetoo? (
 		>=dev-util/joetoolkit-0.3.3
 		bcm2712-rpi-cm5-cm5io? (
-			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-cm5-cm5io?(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-cm5-cm5io?(+)]
+			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-cm5-cm5io(+)]
 		)
 		bcm2712-rpi-5-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-5-b(+)]
