@@ -1,0 +1,13 @@
+BDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
+DEFINED_PHASES=install postinst preinst setup
+DESCRIPTION=kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=-raspi-sources -rockchip-sources +dtb +dtbo -symlink
+KEYWORDS=arm arm64 amd64 ~arm ~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =sys-kernel/rockchip-sources-0.0.0 )
+RESTRICT=mirror
+SLOT=0.0.0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage-0.0.0.tar.bz2
+_md5_=fbb878ca24aae48d98b44b3d03ed0c13
