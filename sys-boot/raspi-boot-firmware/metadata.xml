@@ -14,7 +14,9 @@
 		<flag name="bcm2710-rpi-3-b">Install boot firmware for RPi 3 b v1.2 (armv7/32)</flag>
 		<flag name="bcm2710-rpi-3-b-plus">Install boot firmware for RPi 3 b plus (armv8/64)</flag>
 		<flag name="bcm2711-rpi-4-b">Install boot firmware for RPi 4 b (armv8/64)</flag>
+		<flag name="bcm2711-rpi-cm4-io">Install boot firmware for RPi CM4 and its IO board (armv8/64)</flag>
 		<flag name="bcm2712-rpi-5-b">Install boot firmware for RPi 5 b (armv8/64)</flag>
+		<flag name="bcm2712-rpi-cm5-cm5io">Install boot firmware for RPi CM5 and its IO board (armv8/64)</flag>
 		<flag name="dtbo">Supply device tree blob overlays (/boot/overlays).</flag>
 		<flag name="kernel">Install a kernel and its modules for this board</flag>
 	</use>

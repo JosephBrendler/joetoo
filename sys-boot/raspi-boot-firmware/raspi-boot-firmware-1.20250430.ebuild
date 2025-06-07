@@ -14,22 +14,24 @@ KEYWORDS="~arm ~arm64"
 
 IUSE="
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
-	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	+kernel +dtbo"
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
 	^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
-	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b )
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io )
 "
 
 MY_ARCH="
-	bcm2708-rpi-b?        ( arm )
-	bcm2709-rpi-2-b?      ( arm )
-	bcm2710-rpi-3-b?      ( arm )
-	bcm2710-rpi-3-b-plus? ( arm64 )
-	bcm2711-rpi-4-b?      ( arm64 )
-	bcm2712-rpi-5-b?      ( arm64 )
+	bcm2708-rpi-b?         ( arm )
+	bcm2709-rpi-2-b?       ( arm )
+	bcm2710-rpi-3-b?       ( arm )
+	bcm2710-rpi-3-b-plus?  ( arm64 )
+	bcm2711-rpi-4-b?       ( arm64 )
+	bcm2711-rpi-cm4-io?    ( arm64 )
+	bcm2712-rpi-5-b?       ( arm64 )
+	bcm2712-rpi-cm5-cm5io? ( arm64 )
 "
 
 # not sure this does anything, anymore - but it used to be necessary
@@ -64,10 +66,18 @@ pkg_setup() {
         fi
 
         # for sbc systems we need to know which board we are using
-	if use bcm2712-rpi-5-b ; then
+	if use bcm2712-rpi-cm5-cm5io ; then
+		export board="bcm2712-rpi-cm5-cm5io"
+		export kernel_name="kernel_2712.img"
+		export uname_string="uname_string_2712"
+	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
 		export kernel_name="kernel_2712.img"
 		export uname_string="uname_string_2712"
+	else if use bcm2711-rpi-cm4-io ; then
+		export board="bcm2711-rpi-cm4-io"
+		export kernel_name="kernel8.img"
+		export uname_string="uname_string8"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 		export kernel_name="kernel8.img"
@@ -88,7 +98,7 @@ pkg_setup() {
 		export board="bcm2708-rpi-b"
 		export kernel_name="kernel.img"
 		export uname_string="uname_string"
-	fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 
         einfo "S=${S}"
@@ -157,7 +167,7 @@ pkg_postinst() {
         elog ""
         elog "version number ${PV} is drawn from upstream. 1.20240424 was the first in joetoo"
         elog " 20240611 - update to add support for rpi 3 B v1.2 32 bit (bcm2710-rpi-3-b)"
-	elog " 20250430 - routine update"
+	elog " 20250430 - routine update; subsequent added support for CM4, CM5 with IO boards"
 	elog ""
 	elog "NOTE: /boot/cmdline.txt and /boot/config.txt are provided by sbc-boot-config"
 	elog "NOTE: kernel, dtbs, and overlays may also be provided by e.g. sys-kernel/linux-${board}_kernel_image package"
