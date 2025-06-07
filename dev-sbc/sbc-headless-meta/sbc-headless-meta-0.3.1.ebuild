@@ -35,8 +35,8 @@ RESTRICT=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-# keyword for arm or arm64 according to board selection
-KEYWORDS="~arm ~arm64"
+# keyword for arm or arm64 according to board selection (and amd/amd64 for crossbuild)
+KEYWORDS="amd64 ~amd64 ~arm ~arm64"
 
 BDEPEND="
 	>=sys-apps/openrc-0.42.1
