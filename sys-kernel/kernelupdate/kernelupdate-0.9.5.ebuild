@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~arm ~arm64"
 IUSE="
 	domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
-	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
 	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 "
@@ -23,7 +23,7 @@ IUSE="
 BOARDLIST="
 	domU
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
-	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2712-rpi-5-b
+	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
 	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 "
@@ -151,6 +151,9 @@ pkg_postinst() {
 	elog " 0.9.0 sources from myUtilities, drops dom0, adds KERNEL_DIR, KBUILD_OUTPUT"
 	elog " 0.9.1 fixes bug in git cmd sequence, to add new template's hash file"
 	elog " 0.9.2 fixes bugs in git cmd sequence, incl location for new metadata file"
+	elog " 0.9.3 adds support for rk3588-rock-5b"
+	elog " 0.9.4 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.9.5 fixes a bug in providing README instructions"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
