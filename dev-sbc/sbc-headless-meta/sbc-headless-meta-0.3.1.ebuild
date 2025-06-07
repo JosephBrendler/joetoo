@@ -162,8 +162,8 @@ RDEPEND="
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-5-b(+)]
 		)
 		bcm2711-rpi-cm4-io? (
-			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-cm4-io?(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-cm4-io?(+)]
+			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-cm4-io(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-cm4-io(+)]
 		)
 		bcm2711-rpi-4-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-4-b(+)]
