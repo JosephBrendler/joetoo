@@ -59,7 +59,6 @@ src_install() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "FILESDIR=${FILESDIR}"
 	einfo "BOARDLIST: [ ${BOARDLIST} ]"
 
 	# install the kernelupdate script
@@ -139,7 +138,6 @@ pkg_postinst() {
 	elog "PN=${PN}"
 	elog "PV=${PV}"
 	elog "PVR=${PVR}"
-	elog "FILESDIR=${FILESDIR}"
 	elog "BOARDLIST=${BOARDLIST}"
 	elog ""
 	elog "${P} installed"
@@ -153,6 +151,7 @@ pkg_postinst() {
 	elog " 0.9.2 fixes bugs in git cmd sequence, incl location for new metadata file"
 	elog " 0.9.3 adds support for rk3588-rock-5b"
 	elog " 0.9.4 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.9.5/6 fix bugs in providing README instructions for new projects"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
