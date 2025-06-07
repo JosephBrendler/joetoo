@@ -52,7 +52,7 @@ RDEPEND="
 		>=sys-apps/sbc-gpio-0.0.1
 		>=sys-apps/sbc-spi-0.0.1
 		bcm2712-rpi-cm5-cm5io?  (
-			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)]
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
@@ -70,7 +70,7 @@ RDEPEND="
 			>=sys-apps/rpi-video-1.0.0-r1
 		)
 		bcm2711-rpi-cm4-io?   (
-			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-4-b(+)]
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-cm4-io(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
