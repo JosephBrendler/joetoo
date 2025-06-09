@@ -50,8 +50,8 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# Install mkenv-files, mkimg-files, admin_files, README, and create-install BUILD
 	elog "Installing (cp) into /etc/${PN}/"
+	# Install mkenv-files
 	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -59,6 +59,7 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkenv-files config files and scripts"
+	# install mkimg-files
 	for x in $(find ${S}/${PN}/mkimg-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -66,6 +67,7 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkimg-files config files and scripts"
+	# install admin-files
 	for x in $(find ${S}/${PN}/admin_files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -73,6 +75,12 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing admin_files config files and scripts"
+	# install config files
+	for x in $(find ${S}/${PN}/configs/ -maxdepth 1 -type f) ; do
+		cp -p ${x} ${D}/etc/${PN}/
+	done
+	elog "Done installing admin_files config files and scripts"
+        # install README, BUILD files
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
@@ -113,6 +121,8 @@ pkg_postinst() {
 	elog " 0.4.1 corrects package.use/joetoo for rk3588-rock-5b & others"
 	elog " 0.4.2 corrects .accept_keywords/joetoo for rk3588-rock-5b (+)"
 	elog " 0.4.3 provides refinements and bugfixes"
+	elog " 0.4.4 supports bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.5.0 provides initial draft of cb-layout-device and cb-mkdev"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
