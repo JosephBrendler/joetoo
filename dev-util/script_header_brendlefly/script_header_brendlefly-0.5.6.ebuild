@@ -8,7 +8,7 @@ EAPI=8
 
 DESCRIPTION="A script header with easy-to-use formatting colors and misc functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR}"
 
@@ -72,6 +72,8 @@ src_install() {
 	elog " 0.5.1 fixes bugs in display_ and initialize_vars"
 	elog " 0.5.2 makes (extended) bs() quieter"
 	elog " 0.5.3 fixes a typo in initialize_vars()"
+	elog " 0.5.4 bugfixes initialize_vars() and moves package to dev-util in src repo"
+	elog " 0.5.5/6 refine display_ and initialize_vars"
 	elog ""
 	elog "Thank you for using ${PN}"
 

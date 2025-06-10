@@ -73,6 +73,7 @@ src_install() {
 	elog " 0.5.2 makes (extended) bs() quieter"
 	elog " 0.5.3 fixes a typo in initialize_vars()"
 	elog " 0.5.4 bugfixes initialize_vars() and moves package to dev-util in src repo"
+	elog " 0.5.5 refines display_ and initialize_vars"
 	elog ""
 	elog "Thank you for using ${PN}"
 
