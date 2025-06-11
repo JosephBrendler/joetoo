@@ -312,10 +312,13 @@ src_install() {
 		elog "  Installed (newexe) tempfreq_mon_${board}"
 		# for raspberry boards, install joetoo's layout README file
 		if [ "${board:0:3}" == "bcm" ] ; then
-			einfo "Installing (ins) README-joetoo-raspberry-layout in /boot"
+#			einfo "Installing (ins) README-joetoo-raspberry-layout in /boot"
+			einfo "Installing (cp) README-joetoo-raspberry-layout in /boot"
 			insinto "/boot/"
-			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
-			elog "  Installed (newins) README-joetoo-raspberry-layout"
+#			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
+			cp -v "${S}/${PN}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
+#			elog "  Installed (newins) README-joetoo-raspberry-layout"
+			elog "  Installed (cp) README-joetoo-raspberry-layout"
 		fi
 	else
 		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
@@ -345,7 +348,7 @@ pkg_postinst() {
 	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog " 0.3.0 adds rk3588-rock-5b"
 	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
-	elog " 0.3.2 fixes a typo in package.accept_keywords naming"
+	elog " 0.3.2 provides a couple bugfixes"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
