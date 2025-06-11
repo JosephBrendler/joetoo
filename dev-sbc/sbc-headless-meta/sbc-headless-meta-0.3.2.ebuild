@@ -16,7 +16,7 @@ LICENSE="metapackage"
 SLOT="0"
 IUSE="
 	+innercore +gpio +joetoo +boot-fw -kernelimage
-	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
@@ -24,7 +24,7 @@ IUSE="
 
 REQUIRED_USE="
 	innercore
-	^^ ( bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
@@ -35,8 +35,8 @@ RESTRICT=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-# keyword for arm or arm64 according to board selection
-KEYWORDS="~arm ~arm64"
+# keyword for arm or arm64 according to board selection (amd/64 for crossbuilding)
+KEYWORDS="amd64 ~amd64 ~arm ~arm64"
 
 BDEPEND="
 	>=sys-apps/openrc-0.42.1
@@ -51,8 +51,26 @@ RDEPEND="
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/sbc-gpio-0.0.1
 		>=sys-apps/sbc-spi-0.0.1
+		bcm2712-rpi-cm5-cm5io?  (
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
+			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
+			media-libs/raspberrypi-userland
+			>=sys-apps/rpi-i2c-1.0.1
+			>=net-wireless/rpi3-wifi-regdom-1.1-r1
+			>=sys-apps/rpi-serial-1.0.0-r1
+			>=sys-apps/rpi-video-1.0.0-r1
+		)
 		bcm2712-rpi-5-b?  (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)]
+			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
+			media-libs/raspberrypi-userland
+			>=sys-apps/rpi-i2c-1.0.1
+			>=net-wireless/rpi3-wifi-regdom-1.1-r1
+			>=sys-apps/rpi-serial-1.0.0-r1
+			>=sys-apps/rpi-video-1.0.0-r1
+		)
+		bcm2711-rpi-cm4-io?   (
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-cm4-io(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
@@ -135,9 +153,17 @@ RDEPEND="
 	)
 	joetoo? (
 		>=dev-util/joetoolkit-0.3.3
+		bcm2712-rpi-cm5-cm5io? (
+			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-cm5-cm5io(+)]
+		)
 		bcm2712-rpi-5-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-5-b(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-5-b(+)]
+		)
+		bcm2711-rpi-cm4-io? (
+			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-cm4-io(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-cm4-io(+)]
 		)
 		bcm2711-rpi-4-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-4-b(+)]
@@ -185,7 +211,9 @@ RDEPEND="
 		)
 	)
 	boot-fw? (
+		bcm2712-rpi-cm5-cm5io?  ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2712-rpi-cm5-cm5io(+)] )
 		bcm2712-rpi-5-b?        ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2712-rpi-5-b(+)] )
+		bcm2711-rpi-cm4-io?     ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2711-rpi-cm4-io(+)] )
 		bcm2711-rpi-4-b?        ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2711-rpi-4-b(+)] )
 		bcm2710-rpi-3-b-plus?   ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2710-rpi-3-b-plus(+)] )
 		bcm2710-rpi-3-b?        ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2710-rpi-3-b(+)] )
@@ -199,7 +227,9 @@ RDEPEND="
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
 	)
 	kernelimage? (
+		bcm2712-rpi-cm5-cm5io?  ( sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage )
 		bcm2712-rpi-5-b?        ( sys-kernel/linux-bcm2712-rpi-5-b_joetoo_kernelimage )
+		bcm2711-rpi-cm4-io?     ( sys-kernel/linux-bcm2711-rpi-cm4-io_joetoo_kernelimage )
 		bcm2711-rpi-4-b?        ( sys-kernel/linux-bcm2711-rpi-4-b_joetoo_kernelimage )
 		bcm2710-rpi-3-b-plus?   ( sys-kernel/linux-bcm2710-rpi-3-b-plus_joetoo_kernelimage )
 		bcm2710-rpi-3-b?        ( sys-kernel/linux-bcm2710-rpi-3-b_joetoo_kernelimage )
@@ -216,8 +246,12 @@ RDEPEND="
 
 pkg_setup() {
 # for sbc systems we need to know which board we are using
-	if use bcm2712-rpi-5-b ; then
+	if use bcm2712-rpi-cm5-cm5io ; then
+		export board="bcm2712-rpi-cm5-cm5io"
+	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
+	else if use bcm2711-rpi-cm4-io ; then
+		export board="bcm2711-rpi-cm4-io"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 	else if use bcm2710-rpi-3-b-plus; then
@@ -242,7 +276,7 @@ pkg_setup() {
 		export board="rk3588s-rock-5c"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 }
 
@@ -251,6 +285,10 @@ src_install() {
 	insinto "/etc/portage/package.use/"
 	newins "${S}/${PN}/package.use_${board}-headless-meta" "package.use_${board}-headless-meta"
 	elog "Installed (newins) package.use_${board}-headless-meta"
+
+	insinto "/etc/portage/package.accept_keywords/"
+	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "package.accept_keywords_${board}-headless-meta"
+	elog "Installed (newins) package.accept_keywords_${board}-headless-meta"
 
 	insinto "/etc/portage/package.unmask/"
 	newins "${S}/${PN}/package.unmask_${board}-headless-meta" "package.unmask_${board}-headless-meta"
@@ -279,7 +317,6 @@ src_install() {
 			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
 			elog "  Installed (newins) README-joetoo-raspberry-layout"
 		fi
-		# note: use=joetoo now pulls dependency dev-sbc/sbc-status-leds (above)
 	else
 		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
 	fi
@@ -288,12 +325,11 @@ src_install() {
 pkg_postinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
 	elog ""
 	elog "${P} installed for ${board}"
 	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
@@ -308,6 +344,8 @@ pkg_postinst() {
 	elog " 0.2.1 add support for rock 5c (rk3588s-rock-5c)"
 	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog " 0.3.0 adds rk3588-rock-5b"
+	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.3.2 fixes a typo in package.accept_keywords naming"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
