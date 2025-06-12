@@ -86,13 +86,15 @@ src_install() {
 	for x in $(find ${S}/boot/ -type f -maxdepth 1); do
 		z="$(basename ${x})"
 		einfo "Installing $x as $z ..."
-		newins "${x}" "${z}"
+#		newins "${x}" "${z}"
+		cp "${x}" "${D}/boot/${z}"
 		elog "Installed kernel file ${z}"
 	done
 	# Install modules
 	einfo "Installing (ins) modules into /lib/"
 	insinto "/lib/"
-	doins -r "${S}/lib/modules"
+#	doins -r "${S}/lib/modules"
+	cp -r "${S}/lib/modules" "${D}/lib/"
 	elog "Installed modules"
 	if [[ ! "${model}" == "domU" ]] ; then
 		# note: joetoo's kernelupdate tarball upstream sources put dtb files in
@@ -121,7 +123,8 @@ src_install() {
 				# doins -r didn't work right ...
 				for x in $(find ${S}/boot/dts/${dtb_folder}/ -maxdepth 1 -type f) ; do
 					z=$(basename $x)
-					newins ${x} "${z}"
+#					newins ${x} "${z}"
+					cp ${x} "${D}/boot/dts/${dtb_folder}/${z}"
 				done
 				elog "Installed ${dtb_folder} dtb files"
 			else
@@ -132,7 +135,8 @@ src_install() {
 			# pull just the right file up to /boot
 			if [[ -f ${S}/boot/dts/${dtb_folder}/${model}.dtb ]] ; then
 				einfo "Installing ${model}.dtb into /boot/"
-				newins ${S}/boot/dts/${dtb_folder}/${model}.dtb "${model}.dtb"
+#				newins ${S}/boot/dts/${dtb_folder}/${model}.dtb "${model}.dtb"
+				cp ${S}/boot/dts/${dtb_folder}/${model}.dtb "${D}/boot/${model}.dtb"
 				elog "Installed ${model}.dtb into /boot/"
 			else
 				ewarn "Warning: ${S}/boot/dts/${dtb_folder}/${model}.dtb not found"
@@ -156,7 +160,8 @@ src_install() {
 				# cp -rv ${S}${src_overlay_path} ${D}${dest_overlay_path}
 				for x in $(find ${S}${src_overlay_path} -maxdepth 1 -type f) ; do
 					z=$(basename $x)
-					newins ${x} "${z}"
+#					newins ${x} "${z}"
+					cp ${x} "${D}${dest_overlay_path%/}/${z}"
 				done
 				elog "Installed dtbo files into ${dest_overlay_path}"
 			else
