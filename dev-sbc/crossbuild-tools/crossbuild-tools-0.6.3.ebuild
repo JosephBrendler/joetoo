@@ -51,7 +51,7 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 
 	elog "Installing (cp) into /etc/${PN}/"
-	# Install mkenv-files
+	# Install mkenv-files into /etc/${PN}/"
 	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -59,7 +59,8 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkenv-files config files and scripts"
-	# install mkimg-files
+
+	# install mkimg-files into /etc/${PN}/
 	for x in $(find ${S}/${PN}/mkimg-files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -67,7 +68,8 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing mkimg-files config files and scripts"
-	# install admin-files
+
+	# install admin-files into /etc/${PN}/
 	for x in $(find ${S}/${PN}/admin_files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/${PN}/||")
 		DN=$(dirname $z)
@@ -75,12 +77,14 @@ src_install() {
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
 	elog "Done installing admin_files config files and scripts"
-	# install config files
+
+	# install config files into /etc/${PN}/
 	for x in $(find ${S}/${PN}/configs/ -maxdepth 1 -type f) ; do
 		cp -p ${x} ${D}/etc/${PN}/
 	done
 	elog "Done installing admin_files config files and scripts"
-        # install README, BUILD files
+
+	# install README, BUILD files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
 	newins "${S}/${PN}/README" "README"  || die "Install failed!"
@@ -89,7 +93,7 @@ src_install() {
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
 
-	# Install cb- scripts
+	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	for x in $(find ${S}/${PN}/ -type f -iname 'cb-*'); do
@@ -97,6 +101,13 @@ src_install() {
 		newexe "${x}" "${z}" || die "Install ${z} failed!"
 	done
 	elog "Done installing scripts"
+
+	# Install eselect module
+	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
+	insinto "/usr/share/eselect/modules/"
+	z="cb-layout-device.eselect"
+	newins "${S}/${PN}/${z}" "${z}"
+	elog "Installed cb-layout-device.conf eselect module."
 }
 
 pkg_postinst() {
@@ -125,6 +136,8 @@ pkg_postinst() {
 	elog " 0.5.0 provides initial draft of cb-layout-device and cb-mkdev"
 	elog " 0.6.0 reworks common fns, cb-layout-device, and cb-flash-device"
 	elog " 0.6.1 refines common-functions, layout-device flash-device"
+	elog " 0.6.2 bugfix source cb-common-functions and add eselect"
+	elog " 0.6.3 add list_unused_disks, non-stty separator, right_status"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
