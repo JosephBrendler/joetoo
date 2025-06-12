@@ -103,11 +103,11 @@ src_install() {
 	elog "Done installing scripts"
 
 	# Install eselect module
-	einfo "Installing (ins) the ${PN}.conf eselect module into /usr/share/eselect/modules/ ..."
+	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
-	z="${PN}.eselect"
+	z="cb-layout-device.eselect"
 	newins "${S}/${PN}/${z}" "${z}"
-	elog "Installed ${PN}.conf eselect module."
+	elog "Installed cb-layout-device.conf eselect module."
 }
 
 pkg_postinst() {
