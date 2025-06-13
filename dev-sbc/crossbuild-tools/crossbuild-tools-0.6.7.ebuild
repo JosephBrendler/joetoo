@@ -139,7 +139,7 @@ pkg_postinst() {
 	elog " 0.6.2 bugfix source cb-common-functions and add eselect"
 	elog " 0.6.3 add list_unused_disks, non-stty separator, right_status"
 	elog " 0.6.4/5 refines cb-collect- scripts (to generalize)"
-	elog " 0.6.6/7 are first runs of cb-mkdev; fix sanity check"
+	elog " 0.6.6/7 build and bugfix cb-mkdev; fix sanity check"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
