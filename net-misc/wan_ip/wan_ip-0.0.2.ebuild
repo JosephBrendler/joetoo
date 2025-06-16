@@ -75,7 +75,7 @@ pkg_postinst() {
 	elog ""
 	elog "version_history will be located in the ebuild's $FILESDIR"
 	elog " 0.0.1 is the initial draft package and ebuild"
-	elog ""
+	elog " 0.0.2 provides refinements and bugfixes"
 	elog ""
 	elog ""
 	elog "Thank you for using ${PN}"
