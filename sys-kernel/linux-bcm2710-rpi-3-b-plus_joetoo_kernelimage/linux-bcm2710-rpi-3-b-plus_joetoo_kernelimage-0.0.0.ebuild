@@ -30,7 +30,8 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${P}.tar.bz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tar.bz2"
+
 # fix S
 S=${WORKDIR}
 
@@ -49,6 +50,7 @@ pkg_setup() {
 	einfo "ED=${ED}"
 	einfo "A=${A}"
 	einfo "T=${T}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"

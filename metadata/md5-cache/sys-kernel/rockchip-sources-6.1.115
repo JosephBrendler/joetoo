@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=kernel sources for rockchip SOC based single board computers (SBCs)
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=symlink config
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=6.1.115
+SRC_URI=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.115.tar.xz
+_md5_=98cb6feedaff4401bfdff49dee63af5d

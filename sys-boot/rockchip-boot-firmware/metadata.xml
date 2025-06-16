@@ -11,6 +11,7 @@
                 <flag name="rk3288-tinker-s">Install boot firmware for tinkerboard s</flag>
                 <flag name="rk3399-rock-pi-4c-plus">Install boot firmware for rock4cplus</flag>
                 <flag name="rk3399-tinker-2">Install boot firmware for tinkerboard 2/2s</flag>
+                <flag name="rk3588-rock-5b">Install boot firmware for Rock 5b</flag>
                 <flag name="rk3588s-orangepi-5">Install boot firmware for OrangePi 5/5b</flag>
                 <flag name="rk3588s-rock-5c">Install boot firmware for Rock 5c</flag>
                 <flag name="armbian_kernel">Pull in sys-kernel package to install armbian kernel for this board</flag>

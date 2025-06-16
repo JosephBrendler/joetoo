@@ -47,7 +47,7 @@ source /usr/local/sbin/script_header_brendlefly
 source /usr/local/sbin/script_header_brendlefly_extended
 
 #-----[ my PATH ]-----------------------------------------------------------------------
-export PATH=/usr/lib/distcc/bin:/usr/lib/ccache/bin:/root/bin:/usr/local/sbin:/usr/local/bin:${PATH}:/opt/bin:/home/joe/script
+export PATH=/usr/lib/distcc/bin:/usr/lib/ccache/bin:/bin:/sbin:/usr/sbin:/root/bin:/usr/local/sbin:/usr/local/bin:${PATH}:/opt/bin:/home/joe/script
 
 #/usr/x86_64-pc-linux-gnu/gcc-bin/7.3.0:/usr/x86_64-pc-linux-gnu/armv7a-hardfloat-linux-gnueabi/gcc-bin/6.4.0:
 #/usr/lib/llvm/6/bin:
@@ -59,6 +59,9 @@ alias nodist_path='source /usr/local/sbin/setnodistpath'
 
 which()         # return full path of executable "$1"
 { (alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@ ; } ; export -f which
+
+mequery_b()     # identify the package that installed file $1
+{ (alias; declare -f) | grep -l -r -e $(echo "bin/"$(basename $(which ${1?} ))) /var/db/pkg/ --include=CONTENTS | awk -F'/' '{print $5"/"$6}' ; }
 
 #-----[ PORTDIR, PKGDIR, DISTDIR ]-----------------------------------------------------
 eval $( grep ^PORTDIR /etc/portage/make.conf )

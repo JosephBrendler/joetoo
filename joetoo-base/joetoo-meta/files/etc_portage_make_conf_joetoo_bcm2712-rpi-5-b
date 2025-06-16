@@ -30,7 +30,8 @@ MAKEOPTS="-j4 -l4"
 # caution! many parallel threads and / or emerge jobs may cause your
 # RPi to run out of memory during large builds, or genup runs
 
-ACCEPT_KEYWORDS="arm64 ~arm64"
+#ACCEPT_KEYWORDS="arm64 ~arm64"
+ACCEPT_KEYWORDS="arm64"
 
 ACCEPT_LICENSE="* -@EULA"
 

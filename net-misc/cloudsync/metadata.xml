@@ -4,7 +4,7 @@
 	<longdescription>
 		Provides an rsync-wrapper to facilitate synchronization of three categories
 		of local user files -- (1) content such as music, documents, or project
-		folders, (2) scripts, (3) binary software packages built by emerge
+		folders, (2) scripts, (3) binary packages
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
@@ -13,7 +13,7 @@
 	<use>
 	</use>
 	<upstream>
-		<remote-id type="github">tbd</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
 	</upstream>
 </pkgmetadata>
 

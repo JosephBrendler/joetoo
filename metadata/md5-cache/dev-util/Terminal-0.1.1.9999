@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile install
+DEPEND=>=sys-devel/gcc-10.2.0
+DESCRIPTION=c++ shared obj lib for ANSI & UNICODE terminal control, w/ optional examples
+EAPI=6
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=examples
+KEYWORDS=~amd64 ~arm ~arm64
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/Terminal-0.1.1.9999.tbz2
+_md5_=15158716713fe889d80077a2dc940fd6

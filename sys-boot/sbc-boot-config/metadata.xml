@@ -18,10 +18,13 @@
                 <flag name="bcm2710-rpi-3-b">Tailor for Raspberry Pi 3 B v1.2 (armv7/32)</flag>
                 <flag name="bcm2710-rpi-3-b-plus">Tailor for Raspberry Pi 3 B Plus (armv8/64)</flag>
                 <flag name="bcm2711-rpi-4-b">Tailor for Raspberry Pi 4 B (armv8/64)</flag>
+                <flag name="bcm2711-rpi-cm4-io">Tailor for Raspberry Pi CM4 with IO board (armv8/64)</flag>
                 <flag name="bcm2712-rpi-5-b">Tailor for Raspberry Pi 5 B (armv8/64)</flag>
+                <flag name="bcm2712-rpi-cm5-cm5io">Tailor for Raspberry Pi CM5 with IO board (armv8/64)</flag>
                 <flag name="rk3288-tinker-s">Tailor for Tinkerboard S (armv7/32)</flag>
                 <flag name="rk3399-rock-pi-4c-plus">Tailor for Rock Pi 4c Plus (armv8/64)</flag>
                 <flag name="rk3399-tinker-2">Tailor for Tinkerboard 2/2S (armv8/64)</flag>
+                <flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
         </use>

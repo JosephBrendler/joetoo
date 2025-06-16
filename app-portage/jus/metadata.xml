@@ -15,7 +15,8 @@
 		<flag name="eix">facilitate package indexing support (speedier update)</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">https://serverfault.com/questions/9936/optimal-procedure-to-upgrade-gentoo-linux</remote-id>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+		<remote-id type="website">https://serverfault.com/questions/9936/optimal-procedure-to-upgrade-gentoo-linux</remote-id>
 	</upstream>
 </pkgmetadata>
 

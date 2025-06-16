@@ -24,6 +24,7 @@
 		<flag name="rk3288-tinker-s">Install default tinker-s build-config file</flag>
 		<flag name="rk3399-rock-pi-4c-plus">Install default rk3399-rock-pi-4c-plus build-config file</flag>
 		<flag name="rk3399-tinker2-s">Install default tinker2-s build-config file</flag>
+		<flag name="rk3588-rock-5b">Install default Rpcl 5b build-config file</flag>
 		<flag name="rk3588s-orangepi-5">Install default OrangePi 5b build-config file</flag>
 		<flag name="rk3588s-rock-5c">Install default Rpcl 5c build-config file</flag>
 		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>
@@ -31,7 +32,9 @@
 		<flag name="bcm2710-rpi-3-b">Install default raspi 3 b v1.2 build-config file</flag>
 		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus build-config file</flag>
 		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b build-config file</flag>
+		<flag name="bcm2711-rpi-cm4-io">Install default raspi CM4 w IO board build-config file</flag>
 		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
+		<flag name="bcm2712-rpi-cm5-cm5io">Install default raspi CM5 w IO board build-config file</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
