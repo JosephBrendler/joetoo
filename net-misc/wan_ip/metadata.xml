@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		retrieve the IP address assigned to our local router by our ISP
+		and post it to Dropbox, so we can use it for (e.g.) vpn connection, etc.		
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+	</upstream>
+</pkgmetadata>
+
