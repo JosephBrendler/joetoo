@@ -9,4 +9,4 @@ REQUIRED_USE=examples? ( extended )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo-0.0.0.tbz2
-_md5_=d8f3fc3195ab6235b61a7102face6f25
+_md5_=daaebf5fc3c92a12c322fda2d96e50bb
