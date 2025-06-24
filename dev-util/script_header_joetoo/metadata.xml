@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		This is a header file suitable for sourcing in scripts to make available useful functions.
+		The basic script header is build to work in an austere [ash] shell environment (like busybox).
+		The extended header provides more robust [bash] functions including support for command line
+		argument processing and command sequence execution; a template/example script and example
+		local cmdline arg/useage extension modules are provided as well.
+		The "niopt" header turns off irritating colorized outputs if the shell is not interactive.
+		Run summarize_me and summarize_my_extension to have the package itself provide more info.
+	</longdescription>
+	<use>
+		<flag name="extended">Generate the header supporting an extended set of (bash) functions</flag>
+		<flag name="niopt">Generate checkshell()/de-colorization header for non-interactive shells</flag>
+		<flag name="examples">Install a template/example script empoloying the extended [bash] header</flag>
+	</use>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
