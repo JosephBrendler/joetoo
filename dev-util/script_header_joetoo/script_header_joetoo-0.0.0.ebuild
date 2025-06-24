@@ -68,7 +68,7 @@ src_install() {
 		target="/etc/template_script.bash/"
 		einfo "Installing (ins) cmdline arg and usage modules into ${target} ..."
 		insinto "${target}"
-		for x in find ${S%/}/ -iname "example*" ; do
+		for x in $(find ${S%/}/ -iname "example*") ; do
 			z=$(echo $(basename $x) | sed 's|example_||')
 			newins "${x}" "${z}"
 			elog "installed ${z} in ${target}"
