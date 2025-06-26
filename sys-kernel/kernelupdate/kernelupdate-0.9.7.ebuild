@@ -33,10 +33,10 @@ REQUIRED_USE="
 	|| ( ${BOARDLIST} )
 	"
 
-S="${WORKDIR}"
+S="${WORKDIR}/${PN}"
 
 RDEPEND="
-	>=dev-util/script_header_brendlefly-0.4.5
+	dev-util/script_header_joetoo[extended]
 	>=sys-devel/crossdev-20230321
 	>=dev-util/joetoolkit-0.1.5
 	>=joetoo-base/joetoo-meta-0.0.4b
@@ -59,18 +59,17 @@ src_install() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "FILESDIR=${FILESDIR}"
 	einfo "BOARDLIST: [ ${BOARDLIST} ]"
 
 	# install the kernelupdate script
 	elog "Installing (exe) script ${PN} into /usr/sbin/ ..."
 	exeinto "/usr/sbin/"
-	newexe "${S}/${PN}/${PN}" "${PN}";
+	newexe "${S}/${PN}" "${PN}";
 	elog "Installed script ${PN} in /usr/sbin/"
 	# install the README-instructions file for getting sources
 	einfo "Installing (ins) README-instructions and ebuild-template files into /etc/${PN}/ ..."
 	insinto "/etc/${PN}/"
-	for z in $(find ${S}/${PN} -type f -iname 'README*' -or -iname 'template*'); do
+	for z in $(find ${S} -type f -iname 'README*' -or -iname 'template*'); do
 		x=$(basename ${z}) ;
 		einfo "Installing (newins) ${x}..."
 		newins "${z}" "${x}" ;
@@ -79,7 +78,7 @@ src_install() {
 	# install the raspi-sources-update-ebuild.sh
 	einfo "Installing (exe) raspi-sources update-ebuild.sh into /etc/${PN}"
 	exeinto "/etc/${PN}"
-	newexe "${S}/${PN}/raspi-sources-update-ebuild.sh" "update-ebuild.sh"
+	newexe "${S}/raspi-sources-update-ebuild.sh" "update-ebuild.sh"
 	elog "Installed update-ebuild.sh script in /etc/${PN}/"
 
 	# install config files only for those boards selected via use flags
@@ -88,11 +87,11 @@ src_install() {
 	for board in ${BOARDLIST}; do
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
-			for x in $(find ${S}/${PN}/${board}/ -maxdepth 1 -type f); do
+			for x in $(find ${S}/${board}/ -maxdepth 1 -type f); do
 				y=$(basename ${x}) ;
-				z=$(echo ${y} | sed "s|${S}/${PN}/${board}/||") ;
+				z=$(echo ${y} | sed "s|${S}/${board}/||") ;
 				einfo "Installing (ins) ${z}" ;
-				newins "${S}/${PN}/${board}/${y}" "${z}" ;
+				newins "${S}/${board}/${y}" "${z}" ;
 				elog "Installed ${z} in /etc/${PN}/"
 			done
 			elog "Done installing config files"
@@ -104,7 +103,7 @@ src_install() {
 	einfo "Installing (ins) the ${PN}.conf eselect module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
 	z="${PN}.eselect"
-	newins "${S}/${PN}/${z}" "${z}"
+	newins "${S}/${z}" "${z}"
 	elog "Installed ${PN}.conf eselect module."
 	# install the current build number reference file
 	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
@@ -115,17 +114,17 @@ src_install() {
 	elog "Installed build number reference file in /etc/${PN}/"
 	# install an exclusion from config_protect-tion for BUILD
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
-	newenvd "${S}/${PN}/config_protect_mask" "99${PN}-BUILD"
+	newenvd "${S}/config_protect_mask" "99${PN}-BUILD"
 	elog "Installed config_protect_mask 99${PN}-BUILD"
 	# install a template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild file
 	einfo "Installing (ins) template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild ..."
 	insinto "/etc/${PN}/"
-	newins "${S}/${PN}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild" "template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
+	newins "${S}/template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild" "template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
 	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.ebuild"
 	# install a template metadata.xml file
 	einfo "Installing (ins) template template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml ..."
 	insinto "/etc/${PN}/"
-	newins "${S}/${PN}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml" "template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
+	newins "${S}/template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml" "template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
 	elog "Installed template_linux-MODEL_joetoo_kernelimage-0.0.0.metadata.xml"
 }
 
@@ -139,7 +138,6 @@ pkg_postinst() {
 	elog "PN=${PN}"
 	elog "PV=${PV}"
 	elog "PVR=${PVR}"
-	elog "FILESDIR=${FILESDIR}"
 	elog "BOARDLIST=${BOARDLIST}"
 	elog ""
 	elog "${P} installed"
@@ -153,7 +151,8 @@ pkg_postinst() {
 	elog " 0.9.2 fixes bugs in git cmd sequence, incl location for new metadata file"
 	elog " 0.9.3 adds support for rk3588-rock-5b"
 	elog " 0.9.4 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
-	elog " 0.9.5 fixes a bug in providing README instructions"
+	elog " 0.9.5/6 fix bugs in providing README instructions for new projects"
+	elog " 0.9.7 changes to use script_header_joetoo"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
