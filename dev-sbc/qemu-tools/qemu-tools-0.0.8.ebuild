@@ -1,4 +1,4 @@
-# Copyright (c) brendlefly  joseph.brendler@gmail.com
+# Copyright (c) joe brendler  joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 
@@ -14,10 +14,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~arm ~arm64 ~amd64"
 IUSE="
-	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3288-tinker-s
 "
 
 # Install for selected board(s) from above different choices, like joetoo-meta does via pkg_setup(),
@@ -25,10 +25,10 @@ IUSE="
 # Therefor, need to do in src_install and use for loop to install selected boards
 REQUIRED_USE="
 	|| (
-		bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+		rk3288-tinker-s
 	)
 "
 
@@ -43,6 +43,15 @@ RDEPEND="
 	${BDEPEND}
 	app-emulation/qemu[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
 	bcm2711-rpi-4-b? (
+		>=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
+		)
+	bcm2711-rpi-cm4-io? (
+		>=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
+		)
+	bcm2712-rpi-5-b? (
+		>=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
+		)
+	bcm2712-rpi-cm5-cm5io? (
 		>=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
 		)
 "
@@ -76,7 +85,9 @@ pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	boards=""
 	einfo "Assigning boards..."
+	if use bcm2712-rpi-cm5-cm5io ; then export boards+=" bcm2712-rpi-cm5-cm5io"; fi
 	if use bcm2712-rpi-5-b ; then export boards+=" bcm2712-rpi-5-b"; fi
+	if use bcm2711-rpi-cm4-io ; then export boards+=" bcm2711-rpi-cm4-io"; fi
 	if use bcm2711-rpi-4-b ; then export boards+=" bcm2711-rpi-4-b"; fi
 	if use bcm2710-rpi-3-b-plus; then export boards+=" bcm2710-rpi-3-b-plus"; fi
 	if use bcm2710-rpi-3-b; then export boards+=" bcm2710-rpi-3-b"; fi
@@ -96,6 +107,7 @@ src_install() {
 	einfo "D=${D}"
 	einfo "A=${A}"
 	einfo "T=${T}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -141,6 +153,7 @@ src_install() {
 pkg_postinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -159,6 +172,8 @@ pkg_postinst() {
 	elog " 0.0.4 generalizes qemu-image-mount & qemu-image-launch"
 	elog " 0.0.5 updates SRC_URI (location of ${CATEGORY}/${PN} sources)"
 	elog " 0.0.6 ebuild incl rk3588-rock-5b (notional support for rockchips)"
+	elog " 0.0.7 adds bcm2711-rpi-cm4-io and (notionally) bcm2712-rpi-cm5-cm5io"
+	elog " 0.0.8 moves to script_header_joetoo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
