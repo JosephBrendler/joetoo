@@ -117,6 +117,7 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 moves sources to dev-sbc category in myUtilities repo"
+	elog " 0.0.3 moves to script_header_joetoo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
