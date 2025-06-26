@@ -4,13 +4,13 @@
 	<longdescription>
 		automatic generation of an initramfs for a joetoo system with lvm on luks-encrypted storage
 	</longdescription>
+	<use>
+		<flag name="grub">(default) Optionally pull in sys-boot/grub</flag>
+	</use>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
-	<use>
-		<flag name="grub">(default) Optionally pull in sys-boot/grub</flag>
-	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
 	</upstream>

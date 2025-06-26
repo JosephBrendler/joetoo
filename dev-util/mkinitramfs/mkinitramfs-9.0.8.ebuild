@@ -19,7 +19,7 @@ KEYWORDS="amd64 ~amd64 arm64 ~arm64"
 IUSE="+grub"
 RESTRICT="mirror"
 
-RDEPEND=">=dev-util/script_header_brendlefly-0.4.4
+RDEPEND="dev-util/script_header_joetoo
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7[python(+)]
 	>=sys-libs/glibc-2.23
@@ -122,6 +122,8 @@ pkg_postinst() {
 	elog " 9.0.2/3 fix bugs and add debug in validate_passdevice()"
 	elog " 9.0.4/5 fix bugs in ckinitramfs for merged- and split-usr systems"
 	elog " 9.0.6 moves sources to dev-util and makes grub a USE option"
+	elog " 9.0.7 fixes a bug"
+	elog " 9.0.8 moves to script_header_joetoo"
 	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
