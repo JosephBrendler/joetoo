@@ -9,17 +9,18 @@ DESCRIPTION="A very light wrapper to rsync content, scripts, and binary packages
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
-S="${WORKDIR}"
+# updated to include PN 6/25/2025 for ver 2.2.2
+S="${WORKDIR%/}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64"
+KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
 
 IUSE=""
 RESTRICT="mirror"
 
 RDEPEND="net-misc/rsync
-	>=dev-util/script_header_brendlefly-0.3.0[niopt]"
+	dev-util/script_header_joetoo[niopt]"
 BDEPEND="${RDEPEND}"
 
 src_install() {
@@ -33,12 +34,12 @@ src_install() {
 	einfo "PVR=${PVR}"
 	# install utility in /usr/bin; .conf file in /etc/
 	dodir usr/bin/
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}" "${D}"/usr/bin/"
-	cp -v "${S}/${PN}/${PN}" "${D}/usr/bin/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}" "${D}"/usr/bin/"
+	cp -v "${S}/${PN}" "${D}/usr/bin/" || die "Install failed!"
 	elog "${PN} installed in /usr/bin"
 	dodir /etc/
-	einfo "About to execute command cp -R "${S}/${PN}/${PN}.conf" "${D}"/etc/"
-	cp -v "${S}/${PN}/${PN}.conf" "${D}/etc/" || die "Install failed!"
+	einfo "About to execute command cp -R "${S}/${PN}.conf" "${D}"/etc/"
+	cp -v "${S}/${PN}.conf" "${D}/etc/" || die "Install failed!"
 	elog "${PN}.conf installed in /etc"
 	elog ""
 
@@ -48,6 +49,7 @@ src_install() {
 	elog " 2.1.0 reads the local PKGDIR variable directly from make.conf"
 	elog " 2.2.0 corrects bugs in --exclude and updated cloudsync.conf"
 	elog " 2.2.1 moves sources to net-misc category in myUtilities repo"
+	elog " 2.2.2/3 change to /usr/sbin/script_header_joetoo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
