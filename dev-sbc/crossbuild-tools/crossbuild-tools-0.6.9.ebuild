@@ -1,4 +1,4 @@
-# Copyright (c) brendlefly  joseph.brendler@gmail.com
+# Copyright (c) joe brendler  joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 
@@ -25,7 +25,7 @@ RDEPEND="
 	app-arch/tar
 	dev-lang/python-exec
 	dev-libs/openssl
-	dev-util/script_header_brendlefly
+	dev-util/script_header_joetoo
 	net-misc/curl
 	net-misc/wget
 	sys-apps/coreutils
@@ -140,6 +140,8 @@ pkg_postinst() {
 	elog " 0.6.3 add list_unused_disks, non-stty separator, right_status"
 	elog " 0.6.4/5 refines cb-collect- scripts (to generalize)"
 	elog " 0.6.6/7 build and bugfix cb-mkdev; fix sanity check"
+	elog " 0.6.8 fixes bad CFLAGS in raspi4/cm4 make.conf"
+	elog " 0.6.9 moves to script_header_joetoo"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
