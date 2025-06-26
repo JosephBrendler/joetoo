@@ -88,7 +88,7 @@ src_install() {
 	elog "version_history, in the ebuild's FILESDIR, records version history"
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
-	elog " "
+	elog " 0.0.1/2 provide refinements and bugfixes"
 	elog "Thank you for using ${PN}"
 
 }
