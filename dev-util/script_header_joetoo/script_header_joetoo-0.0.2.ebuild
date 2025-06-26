@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="amd64 ~amd64 x86 ~x86 arm ~arm arm64 ~arm64"
 #KEYWORDS=""
 
-# automatically also pull in dev-util/script-header-brendlefly-extended
+# automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
 REQUIRED_USE="
 	examples? ( extended )
