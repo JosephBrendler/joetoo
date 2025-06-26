@@ -1,4 +1,4 @@
-# Copyright (c) brendlefly  joseph.brendler@gmail.com
+# Copyright (c) joe brendler joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 # as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
@@ -10,7 +10,9 @@ EAPI=7
 
 DESCRIPTION="Baseline packages for a headless single board computer (sbc)"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
+#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+#(allow r1 update of ebuild w/o needing r1 of source repo?)
 
 LICENSE="metapackage"
 SLOT="0"
@@ -283,12 +285,14 @@ pkg_setup() {
 src_install() {
 	elog "Installing (ins) into /etc/portage/"
 	insinto "/etc/portage/package.use/"
-	newins "${S}/${PN}/package.use_${board}-headless-meta" "package.use_${board}-headless-meta"
-	elog "Installed (newins) package.use_${board}-headless-meta"
+#	newins "${S}/${PN}/package.use_${board}-headless-meta" "package.use_${board}-headless-meta"
+	newins "${S}/${PN}/package.use_${board}-headless-meta" "joetoo"
+	elog "Installed (newins) package.use_${board}-headless-meta as joetoo"
 
 	insinto "/etc/portage/package.accept_keywords/"
-	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "package.accept_keywords_${board}-headless-meta"
-	elog "Installed (newins) package.accept_keywords_${board}-headless-meta"
+#	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "package.accept_keywords_${board}-headless-meta"
+	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "joetoo"
+	elog "Installed (newins) package.accept_keywords_${board}-headless-meta as joetoo"
 
 	insinto "/etc/portage/package.unmask/"
 	newins "${S}/${PN}/package.unmask_${board}-headless-meta" "package.unmask_${board}-headless-meta"
@@ -312,10 +316,13 @@ src_install() {
 		elog "  Installed (newexe) tempfreq_mon_${board}"
 		# for raspberry boards, install joetoo's layout README file
 		if [ "${board:0:3}" == "bcm" ] ; then
-			einfo "Installing (ins) README-joetoo-raspberry-layout in /boot"
+#			einfo "Installing (ins) README-joetoo-raspberry-layout in /boot"
+			einfo "Installing (cp) README-joetoo-raspberry-layout in /boot"
 			insinto "/boot/"
-			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
-			elog "  Installed (newins) README-joetoo-raspberry-layout"
+#			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
+			cp -v "${S}/${PN}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
+#			elog "  Installed (newins) README-joetoo-raspberry-layout"
+			elog "  Installed (cp) README-joetoo-raspberry-layout"
 		fi
 	else
 		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
@@ -345,6 +352,8 @@ pkg_postinst() {
 	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog " 0.3.0 adds rk3588-rock-5b"
 	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.3.2/-r1 provide a couple bugfixes"
+	elog " 0.3.3 move to script_header_joetoo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

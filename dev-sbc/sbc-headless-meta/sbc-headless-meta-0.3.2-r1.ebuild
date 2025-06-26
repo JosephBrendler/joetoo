@@ -1,4 +1,4 @@
-# Copyright (c) brendlefly  joseph.brendler@gmail.com
+# Copyright (c) joe brendler  joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 # as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
