@@ -65,12 +65,12 @@ src_install() {
 
 	# server certificates for joetoo servers
 	elog "Installing server_certs ..."
-	dodir "/usr/sbin/server_certs"
+	dodir "/usr/share/${PN}/server_certs"
 	for x in $(find ${S}/joetoolkit/server_certs/ -maxdepth 1 -type f);
 	do
 		z=$(echo ${x} | sed "s|${S}/joetoolkit/server_certs/||");
-		einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/server_certs/"${z}";"
-		cp -v "${x}" "${D}/usr/sbin/server_certs/${z}";
+		einfo "About to execute command cp -v "${x}" "${D}"/usr/share/${PN}/server_certs/"${z}";"
+		cp -v "${x}" "${D}/usr/share/${PN}/server_certs/${z}";
 	done
 	elog "done"
 
@@ -154,7 +154,7 @@ pkg_postinst() {
 	elog " 0.4.26 updates chroot-armv6j and chroot-armv7a tools"
 	elog " 0.4.27 fixes PATH; equery b \$(which -a <tgt>) works in merged-usr"
 	elog " 0.4.29 adds grub_install_both_ways to joetoolkit"
-	elog " 0.5.0 moved to myUtilities, script_header_joetoo, /usr/sbin"
+	elog " 0.5.0/1 move to myUtilities, script_header_joetoo, /usr/share, /usr/sbin"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
