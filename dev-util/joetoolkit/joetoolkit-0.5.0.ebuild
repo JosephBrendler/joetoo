@@ -6,7 +6,7 @@ EAPI=8
 
 DESCRIPTION="Utilities for a joetoo system"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI=""
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 LICENSE="MIT"
 SLOT="0"
@@ -14,12 +14,14 @@ KEYWORDS="amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64"
 
 IUSE="+iptools -xenvmfiles -backup_utilities -utility_archive"
 
+RESTRICT="mirror"
+
 # I will have to come back to this - I'm sure there are dependencies to
 # note; for now, use joetoo
 REQUIRED_USE=""
 
 # required by Portage, as we have no SRC_URI...
-S="${WORKDIR}"
+S="${WORKDIR%/}/${PN}"
 
 BDEPEND="
 "
@@ -41,6 +43,7 @@ src_install() {
 
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -51,23 +54,23 @@ src_install() {
 
 	# basic set of utilities for joetoo
 	elog "Installing joetoolkit..."
-	dodir "/usr/local/sbin/"
-	for x in $(find ${FILESDIR}/joetoolkit/ -maxdepth 1 -type f);
+	dodir "/usr/sbin/"
+	for x in $(find ${S}/joetoolkit/ -maxdepth 1 -type f);
 	do
-		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/||");
-		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
-		cp -v "${x}" "${D}/usr/local/sbin/${z}";
+		z=$(echo ${x} | sed "s|${S}/joetoolkit/||");
+		einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
+		cp -v "${x}" "${D}/usr/sbin/${z}";
 	done
 	elog "done"
 
 	# server certificates for joetoo servers
 	elog "Installing server_certs ..."
-	dodir "/usr/local/sbin/server_certs"
-	for x in $(find ${FILESDIR}/joetoolkit/server_certs/ -maxdepth 1 -type f);
+	dodir "/usr/sbin/server_certs"
+	for x in $(find ${S}/joetoolkit/server_certs/ -maxdepth 1 -type f);
 	do
-		z=$(echo ${x} | sed "s|${FILESDIR}/joetoolkit/server_certs/||");
-		einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/server_certs/"${z}";"
-		cp -v "${x}" "${D}/usr/local/sbin/server_certs/${z}";
+		z=$(echo ${x} | sed "s|${S}/joetoolkit/server_certs/||");
+		einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/server_certs/"${z}";"
+		cp -v "${x}" "${D}/usr/sbin/server_certs/${z}";
 	done
 	elog "done"
 
@@ -75,11 +78,11 @@ src_install() {
 	if use iptools;
 	then
 		elog "USE flag \"iptools\" selected ..."
-		for x in $(find ${FILESDIR}/iptools/ -maxdepth 1 -type f);
+		for x in $(find ${S}/iptools/ -maxdepth 1 -type f);
 		do
-			z=$(echo ${x} | sed "s|${FILESDIR}/iptools/||");
-			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
-			cp -v "${x}" "${D}/usr/local/sbin/${z}";
+			z=$(echo ${x} | sed "s|${S}/iptools/||");
+			einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
+			cp -v "${x}" "${D}/usr/sbin/${z}";
 		done
 		elog "done"
 	else
@@ -89,11 +92,11 @@ src_install() {
 	# xenvmfiles
 	if use xenvmfiles ; then
 		elog "USE flag \"xenvmtools\" selected ..."
-		for x in $(find ${FILESDIR}/xenvmfiles_joetoo/ -maxdepth 1 -type f);
+		for x in $(find ${S}/xenvmfiles_joetoo/ -maxdepth 1 -type f);
 		do
-			z=$(echo ${x} | sed "s|${FILESDIR}/xenvmfiles_joetoo/||");
-			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
-			cp -v "${x}" "${D}/usr/local/sbin/${z}";
+			z=$(echo ${x} | sed "s|${S}/xenvmfiles_joetoo/||");
+			einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
+			cp -v "${x}" "${D}/usr/sbin/${z}";
 		elog "done"
 		done
 	else
@@ -103,11 +106,11 @@ src_install() {
 	# backup_utilities
 	if use backup_utilities ; then
 		elog "USE flag \"backup_utilities\" selected ..."
-		for x in $(find ${FILESDIR}/backup_utilities/ -maxdepth 1 -type f);
+		for x in $(find ${S}/backup_utilities/ -maxdepth 1 -type f);
 		do
-			z=$(echo ${x} | sed "s|${FILESDIR}/backup_utilities/||");
-			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
-			cp -v "${x}" "${D}/usr/local/sbin/${z}";
+			z=$(echo ${x} | sed "s|${S}/backup_utilities/||");
+			einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
+			cp -v "${x}" "${D}/usr/sbin/${z}";
 		done
 		elog "done"
 	else
@@ -117,12 +120,9 @@ src_install() {
 	# utility_archive
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
-		for x in $(find ${FILESDIR}/utility_archive/ -maxdepth 1 -type f);
-		do
-			z=$(echo ${x} | sed "s|${FILESDIR}/utility_archive/||");
-			einfo "About to execute command cp -v "${x}" "${D}"/usr/local/sbin/"${z}";"
-			cp -v "${x}" "${D}/usr/local/sbin/${z}";
-		done
+		dodir "/usr/share/${PN}"
+		einfo "About to execute command cp -v ${S}/utility_archive.tbz2 ${D}/usr/share/${PN}/;"
+		cp -v "${S}/utility_archive.tbz2" "${D}/usr/share/${PN}/";
 		elog "done"
 	else
 		elog "USE flag \"utility_archive\" not selected; utility_archive/ not copied"
@@ -153,10 +153,15 @@ pkg_postinst() {
 	elog " 0.4.25 adds quickpkg-toolchain cross-build tool"
 	elog " 0.4.26 updates chroot-armv6j and chroot-armv7a tools"
 	elog " 0.4.27 fixes PATH; equery b \$(which -a <tgt>) works in merged-usr"
+	elog " 0.4.29 adds grub_install_both_ways to joetoolkit"
+	elog " 0.5.0 moved to myUtilities, script_header_joetoo, /usr/sbin"
 	elog ""
-	elog "To Do:"
-	elog "   install to /usr/bin or sbin vs /usr/local/sbin"
-	elog ""
+	if use utility_archive ; then
+		elog "USE flag \"utility_archive\" selected ..."
+		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
+		elog "un-tar with e.g. # tar -xvjpf /usr/share/${PN}/utility_archive.tbz2 --directory=/home/joe/scratchpad/"
+		elog "to explore the associated ancient (all deprecated) scripts"
+	fi
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
 	elog "Thank you for using ${PN}"
