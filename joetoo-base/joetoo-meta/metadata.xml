@@ -27,7 +27,7 @@
 		<flag name="networkmanager">Pull in networkmanager to manage network</flag>
 		<flag name="mkinitramfs">Pull in joetoo's initramfs builder and required components</flag>
 		<flag name="jus">Pull in the joetoo update sequence script and dependencies</flag>
-		<flag name="script_header_brendlefly">Pull in the joetoo script header</flag>
+		<flag name="script_header_joetoo">Pull in the joetoo script header</flag>
 		<flag name="compareConfigs">Pull in the joetoo's initramfs builder and required components</flag>
 		<flag name="Terminal">Pull in the joetoo Terminal c++ shared obj library and test program</flag>
 		<flag name="cloudsync">Cron scrit to sync content, scripts, binary packages across multiple nodes</flag>
