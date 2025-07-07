@@ -6,26 +6,29 @@ EAPI=7
 
 DESCRIPTION="joetoo program to run and configure sbc status leds"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
+#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2" ## let -r1 get same source
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
 IUSE="
-	bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	x4-n100
+	meson-gxl-s905x-libretech-cc-v2
 "
 # required: one and only one of --
 REQUIRED_USE="
 	^^ (
-		bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 		x4-n100
+		meson-gxl-s905x-libretech-cc-v2
 	)
 "
 
@@ -50,8 +53,12 @@ RDEPEND="
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	einfo "Assigning board..."
-	if use bcm2712-rpi-5-b ; then
+	if use bcm2712-rpi-cm5-cm5io ; then
+		export board="bcm2712-rpi-cm5-cm5io"
+	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
+	else if use bcm2711-rpi-cm4-io ; then
+		export board="bcm2711-rpi-cm4-io"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
 	else if use bcm2710-rpi-3-b-plus; then
@@ -74,11 +81,13 @@ pkg_setup() {
 		export board="rk3588s-orangepi-5"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
+	else if use meson-gxl-s905x-libretech-cc-v2; then
+		export board="rk3588s-rock-5c"
 	else if use x4-n100; then
 		export board="x4-n100"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "board: ${board}"
 }
 
@@ -137,6 +146,7 @@ src_install() {
 pkg_postinst() {
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
@@ -157,6 +167,8 @@ pkg_postinst() {
 	elog " 0.2.7 moves serialtalk reset to /etc/local.d/serial_port_kick.start"
 	elog " 0.3.0 moves sources to myUtilities and adds spt for rk3588-rock-5b"
 	elog " 0.3.1 fixes missing .start files for x4"
+	elog " 0.3.2 adds spt for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.3.3 adds spt for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
