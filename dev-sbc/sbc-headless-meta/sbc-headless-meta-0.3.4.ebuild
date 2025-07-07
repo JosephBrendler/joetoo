@@ -1,4 +1,4 @@
-# Copyright (c) joe brendler  joseph.brendler@gmail.com
+# Copyright (c) joe brendler joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
 # as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
@@ -22,6 +22,7 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2
 "
 
 REQUIRED_USE="
@@ -29,7 +30,8 @@ REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2 )
 "
 
 RESTRICT=""
@@ -149,6 +151,10 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-rock-5c(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		meson-gxl-s905x-libretech-cc-v2?   (
+			>=sys-boot/sbc-boot-config-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
@@ -211,6 +217,10 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
 		)
+		meson-gxl-s905x-libretech-cc-v2? (
+			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
+		)
 	)
 	boot-fw? (
 		bcm2712-rpi-cm5-cm5io?  ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2712-rpi-cm5-cm5io(+)] )
@@ -227,6 +237,7 @@ RDEPEND="
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
+		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
 	)
 	kernelimage? (
 		bcm2712-rpi-cm5-cm5io?  ( sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage )
@@ -243,6 +254,7 @@ RDEPEND="
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
+		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
 	)
 "
 
@@ -276,9 +288,11 @@ pkg_setup() {
 		export board="rk3588s-orangepi-5"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
+	else if use meson-gxl-s905x-libretech-cc-v2; then
+		export board="rk3588s-rock-5c"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 }
 
@@ -351,8 +365,10 @@ pkg_postinst() {
 	elog " 0.2.1 add support for rock 5c (rk3588s-rock-5c)"
 	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog " 0.3.0 adds rk3588-rock-5b"
-	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io (compute modules)"
 	elog " 0.3.2/-r1 provide a couple bugfixes"
+	elog " 0.3.3 move to script_header_joetoo"
+	elog " 0.3.4 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

@@ -29,10 +29,11 @@
                 <flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
+                <flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for Libre Computer Sweet Potato (aml905)(armv8/64)</flag>
 		<flag name="innercore">Install boot config files and baseline packages</flag>
 		<flag name="gpio">Install libgpiod package and dependencies</flag>
 		<flag name="joetoo">Install joetoo-meta package and its dependencies</flag>
-		<flag name="boot-fw">Install sys-boot/(raspi/rockchip)-boot-firmware (bootloader, boot firmware, optional armbian kernel)</flag>
+		<flag name="boot-fw">Install sys-boot/(raspi/rockchip/amlogic)-boot-firmware (bootloader, boot firmware, optional armbian kernel)</flag>
 		<flag name="kernelimage">install sys-kernel/linux-joetoo-kernelimage (kernel, modules, dtbs, dtbos)</flag>
 	</use>
 	<upstream>
