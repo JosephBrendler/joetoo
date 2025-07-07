@@ -1,0 +1,13 @@
+declare -i UBOOT_NUM_TARGETS=1
+declare UBOOT_BIN_DIR="/usr/lib/linux-u-boot-current-sweet-potato"
+declare UBOOT_VERSION="2024.04"
+declare UBOOT_ARTIFACT_VERSION="2024.04-S2504-P8577-H13e4-V0b69-Bb703-R448a"
+declare UBOOT_GIT_REVISION="25049ad560826f7dc1c4740883b0016014a59789"
+declare UBOOT_GIT_SOURCE="https://github.com/u-boot/u-boot"
+declare UBOOT_GIT_BRANCH="tag:v2024.04"
+declare UBOOT_GIT_PATCHDIR="v2024.04"
+declare UBOOT_PARTITION_TYPE="msdos"
+declare UBOOT_KERNEL_DTB="amlogic/meson-gxl-s905x-libretech-cc-v2.dtb"
+declare UBOOT_KERNEL_SERIALCON="ttyAML0"
+declare UBOOT_EXTLINUX_PREFER="no"
+declare UBOOT_EXTLINUX_CMDLINE=""

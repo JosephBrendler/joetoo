@@ -1,0 +1,13 @@
+BDEPEND=armbian_kernel? ( meson-gxl-s905x-libretech-cc-v2? ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image[dtbo=] ) )
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Rockchip bootloader firmware for supported boards
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=meson-gxl-s905x-libretech-cc-v2 +armbian_kernel +dtbo
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2 Rockchip
+RDEPEND=!sys-boot/raspberrypi-firmware armbian_kernel? ( meson-gxl-s905x-libretech-cc-v2? ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image[dtbo=] ) )
+REQUIRED_USE=^^ ( meson-gxl-s905x-libretech-cc-v2 )
+RESTRICT=mirror binchecks strip
+SLOT=0
+_md5_=5ba093cc9d889698e1419e497b8fbe09

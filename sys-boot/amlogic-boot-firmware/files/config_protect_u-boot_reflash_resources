@@ -1,0 +1,3 @@
+CONFIG_PROTECT="
+	/boot/u-boot_reflash_resources
+"

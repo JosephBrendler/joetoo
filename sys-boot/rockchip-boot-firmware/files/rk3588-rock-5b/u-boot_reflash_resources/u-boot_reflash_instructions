@@ -10,16 +10,20 @@ u-boot_reflash_resources/usr/lib/u-boot/  --
     dd if=u-boot.itb of=${target} seek=16384 conv=notrunc status=none;
 
 Notes:
-(0) The above procedure has not yet been verified for rk3588-rock-5b
+(0) The above procedure has been verified for rk3588-rock-5b (May 2025)
 
 (1) The platform_install.sh script does not appear to use the rkspi_loader.img
 that the u-boot build proces provides...
 
-(1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
- 
-(2) You can also re-compile u-boot from scratch...
+(2) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
 
-(3) First partition should start at sector 32768, to leave room for u-boot images written
+(3) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
+when that is a MTD block device as in the case of rock-5b, the boot sd card will be
+/dev/mmcblk1
+ 
+(4) You can also re-compile u-boot from scratch...
+
+(5) First partition should start at sector 32768, to leave room for u-boot images written
     with this method.  For example, see this layout
 
 # fdisk -l /dev/mmcblk1 (on working rk3588-rock-5b)---------------
