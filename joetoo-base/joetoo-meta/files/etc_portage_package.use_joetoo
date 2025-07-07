@@ -44,6 +44,7 @@
 #   rk3588-rock-5b .............: Tailor for Rock 5b (armv8/64)
 #   rk3588s-orangepi-5 .........: Tailor for OrangePi 5/5b (armv8/64)
 #   rk3588s-rock-5c ............: Tailor for Rock 5c (armv8/64)
+#   meson-gxl-s905x-libretech-cc-v2  ...: Tailor for Libre Computer Sweet Potato (aml905)(armv8/64)
 #
 # The default for >=joetoo-base/joetoo-meta-0.0.1::joeto (below) should be good for a new amd64 install
 #   start point with no USE flags specified; add more later.  The default will currently resolve to --
@@ -66,6 +67,7 @@
 #      -bcm2710-rpi-3-b-plus -bcm2709-rpi-2-b bcm2708-rpi-b
 #      -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2
 #      -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
+#      -meson-gxl-s905x-libretech-cc-v2
 #      +gentoo-kernel -gentoo-sources
 #      +grub
 #
@@ -103,7 +105,7 @@ sys-fs/lvm2 lvm readline thin -udev
 #-----[ standardized for additional joetoo setup ]------------------------
 # This section establishes the defaults for joetoo and allows you to configure packages in ways that
 # differ from those default choices that joetoo developers have made
-app-emulation/qemu bzip2 lzo ncurses pin-upstream-blobs seccomp threads usb vhost-net vnc xattr -xen -debug gtk -pulseaudio -test doc keyutils nls plugins sdl-image smartcard ssh vte zstd
+app-emulation/qemu bzip2 lzo ncurses pin-upstream-blobs seccomp threads usb vhost-net vnc xattr -xen -debug gtk -pulseaudio -test doc keyutils nls plugins sdl sdl-image smartcard ssh vte zstd
 app-emulation/xen -custom-cflags -debug -efi -flask
 app-emulation/xen-tools api -custom-cflags -debug -doc -flask hvm ocaml -ovmf pam -pygrub -python qemu qemu-traditional screen -sdl -static-libs -system-qemu -xend
 >=app-eselect/eselect-php-0.9.5 apache2 fpm
@@ -150,4 +152,8 @@ sys-kernel/linux-firmware -initramfs
 
 dev-lang/rust rust-src
 dev-lang/rust-bin rust-src
+
+>=media-libs/gd-2.3.3-r4 truetype xpm
+
+>=media-libs/opencv-4.11.0::gentoo features2d
 
