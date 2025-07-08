@@ -1,0 +1,13 @@
+BDEPEND=>=app-arch/dpkg-1.20.9-r1
+DEFINED_PHASES=install postinst preinst
+DESCRIPTION=kernel image for meson-gxl-s905x-libretech-cc-v2 sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtbo +amlogic-sources
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RDEPEND=>=app-arch/dpkg-1.20.9-r1 amlogic-sources? ( =sys-kernel/amlogic-sources-6.12.36 )
+RESTRICT=mirror
+SLOT=6.12.36
+SRC_URI=https://raspi56406.brendler/amlogic-kernels/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image-6.12.36.tar
+_md5_=bf321fb9f443dd7af78b20f10c967d36
