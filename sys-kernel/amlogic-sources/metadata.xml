@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		Installs kernel sources maintained for its Amlogic SBCs by the Libre Computer project
+			(https://github.com/libre-computer-project/)
+		Packaged as a tarball by the maintainer at 
+			https://raspi56406.brendler/raspi-sources/
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="symlink">Create/update symlink in /usr/src/ directory </flag>
+		<flag name="config">Put a copy of .config in sources directory </flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/libre-computer-project/libretech-linux/tree/linux-rolling-stable</remote-id>
+	</upstream>
+</pkgmetadata>
