@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=joetoo program to run and configure sbc status leds
+EAPI=7
+HOMEPAGE=https://github.com/joetoo
+IUSE=bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c x4-n100 meson-gxl-s905x-libretech-cc-v2
+KEYWORDS=amd64 ~amd64 arm ~arm arm64 ~arm64
+LICENSE=MIT
+RDEPEND=>=dev-libs/libgpiod-1.6 >=app-admin/eselect-1.4.27-r1 x4-n100? ( >=sys-devel/bc-1.08.1 >=dev-util/serialtalk-1.2-r1 dev-sbc/reflash_rp2 )
+REQUIRED_USE=^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c x4-n100 meson-gxl-s905x-libretech-cc-v2 )
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/sbc-status-leds-0.3.3.tbz2
+_md5_=fbe56c723e9e4ba47a1952fb7e544698
