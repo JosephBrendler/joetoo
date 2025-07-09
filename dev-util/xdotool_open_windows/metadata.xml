@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		provides scripts to open and close a set of windows using xdotool
+		IAW /etc/xdotool_open_windows/xdotool_open_windows.conf
+		which is a link set using eselect xdotool_open_windows list/set
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="tbd">no USE flags in this package yet</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
