@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Boot configuration files for single board computers (sbc)s
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c meson-gxl-s905x-libretech-cc-v2
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2
+RDEPEND=
+REQUIRED_USE=^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c meson-gxl-s905x-libretech-cc-v2 )
+RESTRICT=mirror
+SLOT=0
+_md5_=ecad22085b27f6f51e605f1f9a158b72
