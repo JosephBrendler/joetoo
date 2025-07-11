@@ -11,12 +11,8 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 
-#getting dependency error because jus, cloudsync, mkinitramfs don't have these keywords, just **
-# Note: ver 0.6.0 moved per-package-env files to a separate package
-# Note: ver 0.6.1 makes distcc a USE choice (default yes)
-
 # gentoo-kernel and gentoo-sources optional, and only for non-sbc
-# grub optional, and only for non-sbc
+# grub optional
 IUSE="
 	+innercore
 	+joetoolkit
@@ -37,6 +33,7 @@ IUSE="
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
 	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
+	-meson-gxl-s905x-libretech-cc-v2
 	+gentoo-kernel -gentoo-sources
 	+grub
 	"
@@ -48,7 +45,6 @@ REQUIRED_USE="
 	sbc? (
 		!gentoo-sources
 		!gentoo-kernel
-		!grub
 		^^ (
 		bcm2712-rpi-cm5-cm5io
 		bcm2712-rpi-5-b
@@ -64,6 +60,7 @@ REQUIRED_USE="
 		rk3588-rock-5b
 		rk3588s-orangepi-5
 		rk3588s-rock-5c
+		meson-gxl-s905x-libretech-cc-v2
 		)
 	)
 	^^ ( ntp chrony )
@@ -74,7 +71,6 @@ REQUIRED_USE="
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
 	!sbc? (
-		?? ( grub )
 		?? ( gentoo-sources gentoo-kernel )
 	)
 	"
@@ -218,7 +214,9 @@ pkg_setup() {
 			export board="rk3588s-orangepi-5"
 		else if use rk3588s-rock-5c ; then
 			export board="rk3588s-rock-5c"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+		else if use meson-gxl-s905x-libretech-cc-v2 ; then
+			export board="rk3588s-rock-5c"
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
@@ -389,7 +387,7 @@ src_install() {
 		insinto "${target}"
 		if use sbc ; then
 			case $board in
-				"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+				"meson-gxl-s905x-libretech-cc-v2"|"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					# arch=arm64
 					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
 				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -403,7 +401,7 @@ src_install() {
 		if use plasma ; then
 			if use sbc ; then
 				case $board in
-					"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
+					"meson-gxl-s905x-libretech-cc-v2"|"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 						# arch=arm64
 						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm64" "plasma" ;;
 					"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
@@ -435,6 +433,8 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3399_binhosts_conf_joetoo" "joetoo_rk3399_binhosts.conf" ;;
 				"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3588_binhosts_conf_joetoo" "joetoo_rk3588_binhosts.conf" ;;
+				"meson-gxl-s905x-libretech-cc-v2")
+					newins "${FILESDIR}/etc_portage_binrepos_conf-sweetpototo_binhosts_conf_joetoo" "joetoo_sweetpotato_binhosts.conf" ;;
 				"rk3288-tinker-s")
 					# nothing, yet - I only have one of these (retired)
 					;;
@@ -509,7 +509,9 @@ pkg_postinst() {
 	elog " 0.6.7/8 update package.use/joetoo and add support for rk3588-rock-5b"
 	elog " 0.6.9 adds crossbuild accept_keywords for all sbc packages"
 	elog " 0.6.10 refines standard and crossbuild use and keywords"
-	elog " 0.6.1 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.6.11/12 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.6.14 adds support for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
+	elog " 0.6.15 provides refinements and bugfixes"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."

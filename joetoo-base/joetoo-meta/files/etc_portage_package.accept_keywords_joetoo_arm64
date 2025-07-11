@@ -44,6 +44,9 @@ dev-util/joetoolkit ** ~arm64
 #dev-libs/libffi ~arm64
 #dev-lang/perl ~arm64
 
+# no stable nextcloud currently available for arm64
+www-apps/nextcloud ~arm64
+
 #-----[ stabilize kernel ]-------------------------------------
 #>sys-kernel/gentoo-sources-5.16.16 -~arm64
 #<=sys-kernel/gentoo-sources-5.16.16 ~arm64
