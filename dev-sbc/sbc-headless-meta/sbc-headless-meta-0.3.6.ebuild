@@ -1,10 +1,6 @@
 # Copyright (c) joe brendler joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
-# as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
-#  it is a maintenance challenge - all possible kernels must be built (i.e. for 12 boards as of now) before the
-#  consolidated kernel ebuild will work for any of them.  We are moving instead back to an individual joetoo_kernelimage
-#  for each board (model) supported
 
 EAPI=7
 
@@ -273,57 +269,58 @@ pkg_setup() {
 # for sbc systems we need to know which board we are using
 	if use bcm2712-rpi-cm5-cm5io ; then
 		export board="bcm2712-rpi-cm5-cm5io"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2711-rpi-cm4-io ; then
 		export board="bcm2711-rpi-cm4-io"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2710-rpi-3-b-plus; then
 		export board="bcm2710-rpi-3-b-plus"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2710-rpi-3-b; then
 		export board="bcm2710-rpi-3-b"
-		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
-		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use bcm2708-rpi-b; then
 		export board="bcm2708-rpi-b"
-		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use rk3288-tinker-s; then
 		export board="rk3288-tinker-s"
-		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use rk3399-rock-pi-4c-plus; then
 		export board="rk3399-rock-pi-4c-plus"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3399-tinker-2; then
 		export board="rk3399-tinker-2"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588-rock-5b; then
 		export board="rk3588-rock-5b"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588s-orangepi-5; then
 		export board="rk3588s-orangepi-5"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use meson-gxl-s905x-libretech-cc-v2; then
 		export board="meson-gxl-s905x-libretech-cc-v2"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use fsl-imx8mq-phanbell; then
 		export board="fsl-imx8mq-phanbell"
-		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else
 		export board=""
-		export package.accept_keywords_file=""
+		export arch=""
 	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
+	einfo "Assigned arch: ${arch}"
 }
 
 src_install() {
@@ -336,10 +333,10 @@ src_install() {
 
 	# install arm or arm64 package.accept_keywords/joetoo file
 	target="/etc/portage/package.accept_keywords/"
-	einfo "Installing (ins) ${package.accept_keywords_file} into ${target}"
+	einfo "Installing (ins) package.accept_keywords_${arch}-headless-meta into ${target}"
 	insinto "${target}"
-	newins "${S}/${package.accept_keywords_file}" "joetoo"
-	elog "Installed (newins) ${package.accept_keywords_file} as joetoo into ${target}"
+	newins "${S}/package.accept_keywords_${arch}-headless-meta" "joetoo"
+	elog "Installed (newins) package.accept_keywords_${arch}-headless-meta as joetoo into ${target}"
 
 	# install common package.unmask file
 	target="/etc/portage/package.unmask/"
@@ -368,16 +365,20 @@ src_install() {
 		exeinto "${target}"
 		newexe "${S}/tempfreq_mon_sbc" "tempfreq_mon_sbc"
 		elog "  Installed (newexe) tempfreq_mon_sbc into ${target}"
-		# for raspberry boards, install joetoo's layout README file
-		if [ "${board:0:3}" == "bcm" ] ; then
-			target="/boot/"
-			einfo "Installing (cp) README-joetoo-raspberry-layout in ${target}"
-			insinto "${target}"
-			cp -v "${S}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
-			elog "  Installed (cp) README-joetoo-raspberry-layout into ${target}"
-		fi
+		# install joetoo's layout README file
+		target="/boot/"
+		insinto "${target}"
+		case ${board:0:3} in
+			"bcm" ) readme_file="README-joetoo-raspberry-layout" ;;
+			"rk3" ) readme_file="README-joetoo-rockchip-layout" ;;
+			"mes" ) readme_file="README-joetoo-amlogic-layout" ;;
+			"fsl" ) readme_file="README-joetoo-nxp-layout" ;;
+		esac
+		einfo "Installing (cp) ${readme_file} in ${target}"
+		cp -v "${S}/${readme_file}" "${D}/boot/${readme_file}"
+		elog "  Installed (cp) ${readme_file} into ${target}"
 	else
-		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
+		elog "USE joetoo NOT selected; NOT installing README-joetoo-layout file"
 	fi
 }
 
@@ -389,6 +390,8 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
+	einfo "board=${board}"
+	einfo "arch=${arch}"
 	elog ""
 	elog "${P} installed for ${board}"
 	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
@@ -408,6 +411,7 @@ pkg_postinst() {
 	elog " 0.3.3 move to script_header_joetoo"
 	elog " 0.3.4 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.3.5 adds fsl-imx8mq-phanbell and consolidates common files"
+	elog " 0.3.6 provides refinements and bugfixes, README_layout for joetoo sbcs"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
