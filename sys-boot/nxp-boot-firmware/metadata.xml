@@ -5,14 +5,13 @@
                 <name>Joe Brendler</name>
         </maintainer>
         <upstream>
-                <remote-id type="github">tbd</remote-id>
+                <remote-id type="github">https://github.com/TinkerEdgeT</remote-id>
+                <remote-id type="specs">https://tinker-board.asus.com/series/tinker-edge-t.html</remote-id>
         </upstream>
         <use>
-                <flag name="fsl-imx8mq-phanbell">Install boot firmware for ASUS/Google TinkerEdgeT/CoralDev</flag>
-                <flag name="armbian_kernel">(placeholder) Pull in sys-kernel package to install armbian kernel for this board</flag>
-                <flag name="dtbo">(placeholder) Pull in sys-kernel package to supply device tree blob overlay files</flag>
+                <flag name="fsl-imx8mq-phanbell">Install boot firmware for TinkerEdgeT/CoralDev</flag>
         </use>
         <longdescription>
-		u-boot bootloader firmware, with re-flash instructions for the selected rockchip sbc
+		boot firmware for TinkerEdgeT (Mendel boot directory/partition files)
         </longdescription>
 </pkgmetadata>

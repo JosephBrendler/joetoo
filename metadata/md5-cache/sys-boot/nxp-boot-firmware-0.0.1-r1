@@ -1,0 +1,13 @@
+BDEPEND=
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Rockchip bootloader firmware for supported boards
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=fsl-imx8mq-phanbell +kernel +dtbo
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2
+RDEPEND=!sys-boot/raspberrypi-firmware
+REQUIRED_USE=^^ ( fsl-imx8mq-phanbell )
+RESTRICT=mirror binchecks strip
+SLOT=0
+_md5_=6d13afe13142f618dafd866bbee72ce8
