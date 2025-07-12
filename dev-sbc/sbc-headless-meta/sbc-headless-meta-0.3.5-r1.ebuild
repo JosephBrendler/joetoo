@@ -273,55 +273,55 @@ pkg_setup() {
 # for sbc systems we need to know which board we are using
 	if use bcm2712-rpi-cm5-cm5io ; then
 		export board="bcm2712-rpi-cm5-cm5io"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2711-rpi-cm4-io ; then
 		export board="bcm2711-rpi-cm4-io"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2710-rpi-3-b-plus; then
 		export board="bcm2710-rpi-3-b-plus"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use bcm2710-rpi-3-b; then
 		export board="bcm2710-rpi-3-b"
-		export package-accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
-		export package-accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use bcm2708-rpi-b; then
 		export board="bcm2708-rpi-b"
-		export package-accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use rk3288-tinker-s; then
 		export board="rk3288-tinker-s"
-		export package-accept_keywords_file="package.accept_keywords_arm-headless-meta"
+		export arch="arm"
 	else if use rk3399-rock-pi-4c-plus; then
 		export board="rk3399-rock-pi-4c-plus"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3399-tinker-2; then
 		export board="rk3399-tinker-2"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588-rock-5b; then
 		export board="rk3588-rock-5b"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588s-orangepi-5; then
 		export board="rk3588s-orangepi-5"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use meson-gxl-s905x-libretech-cc-v2; then
 		export board="meson-gxl-s905x-libretech-cc-v2"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else if use fsl-imx8mq-phanbell; then
 		export board="fsl-imx8mq-phanbell"
-		export package-accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+		export arch="arm64"
 	else
 		export board=""
-		export package-accept_keywords_file=""
+		export arch=""
 	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 }
@@ -336,10 +336,10 @@ src_install() {
 
 	# install arm or arm64 package.accept_keywords/joetoo file
 	target="/etc/portage/package.accept_keywords/"
-	einfo "Installing (ins) ${package-accept_keywords_file} into ${target}"
+	einfo "Installing (ins) package.accept_keywords_${arch}-headless-meta into ${target}"
 	insinto "${target}"
-	newins "${S}/${package-accept_keywords_file}" "joetoo"
-	elog "Installed (newins) ${package-accept_keywords_file} as joetoo into ${target}"
+	newins "${S}/package.accept_keywords_${arch}-headless-meta" "joetoo"
+	elog "Installed (newins) package.accept_keywords_${arch}-headless-meta as joetoo into ${target}"
 
 	# install common package.unmask file
 	target="/etc/portage/package.unmask/"

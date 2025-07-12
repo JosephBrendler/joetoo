@@ -10,4 +10,4 @@ RDEPEND=>=sys-apps/openrc-0.42.1 >=app-shells/bash-5.0 >=sys-firmware/b43-firmwa
 REQUIRED_USE=innercore ^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell )
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/sbc-headless-meta-0.3.5.tbz2
-_md5_=e13099aa339e118470648369995d2d84
+_md5_=fb4883390748fef58969c53edba14a49
