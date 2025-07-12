@@ -33,7 +33,7 @@ IUSE="
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
 	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
-	-meson-gxl-s905x-libretech-cc-v2
+	-meson-gxl-s905x-libretech-cc-v2 -fsl-imx8mq-phanbell
 	+gentoo-kernel -gentoo-sources
 	+grub
 	"
@@ -61,6 +61,7 @@ REQUIRED_USE="
 		rk3588s-orangepi-5
 		rk3588s-rock-5c
 		meson-gxl-s905x-libretech-cc-v2
+		fsl-imx8mq-phanbell
 		)
 	)
 	^^ ( ntp chrony )
@@ -184,42 +185,62 @@ DEPEND="${RDEPEND}"
 
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
+	# for all motherboards, which arch
 	if use sbc ; then
 		einfo "USE sbc is selected. Assigning board ..." ;
 		if use bcm2712-rpi-cm5-cm5io ; then
 			export board="bcm2712-rpi-cm5-cm5io"
+			export arch="arm65"
 		else if use bcm2712-rpi-5-b ; then
 			export board="bcm2712-rpi-5-b"
+			export arch="arm65"
 		else if use bcm2711-rpi-cm4-io ; then
 			export board="bcm2711-rpi-cm4-io"
+			export arch="arm65"
 		else if use bcm2711-rpi-4-b ; then
 			export board="bcm2711-rpi-4-b"
+			export arch="arm65"
 		else if use bcm2710-rpi-3-b-plus ; then
 			export board="bcm2710-rpi-3-b-plus"
+			export arch="arm65"
 		else if use bcm2710-rpi-3-b ; then
 			export board="bcm2710-rpi-3-b"
+			export arch="arm"
 		else if use bcm2709-rpi-2-b ; then
 			export board="bcm2709-rpi-2-b"
+			export arch="arm"
 		else if use bcm2708-rpi-b ; then
 			export board="bcm2708-rpi-b"
+			export arch="arm"
 		else if use rk3288-tinker-s ; then
 			export board="rk3288-tinker-s"
+			export arch="arm"
 		else if use rk3399-rock-pi-4c-plus ; then
 			export board="rk3399-rock-pi-4c-plus"
+			export arch="arm65"
 		else if use rk3399-tinker-2 ; then
 			export board="rk3399-tinker-2"
+			export arch="arm65"
 		else if use rk3588-rock-5b ; then
 			export board="rk3588-rock-5b"
+			export arch="arm65"
 		else if use rk3588s-orangepi-5 ; then
 			export board="rk3588s-orangepi-5"
+			export arch="arm65"
 		else if use rk3588s-rock-5c ; then
 			export board="rk3588s-rock-5c"
+			export arch="arm65"
+		else if use fsl-imx8mq-phanbell ; then
+			export board="fsl-imx8mq-phanbell"
+			export arch="arm65"
 		else if use meson-gxl-s905x-libretech-cc-v2 ; then
 			export board="rk3588s-rock-5c"
-		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+			export arch="arm65"
+		fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	else
 		einfo "USE sbc is NOT selected"
 		export board=""
+		export arch="amd64"
 	fi
 	elog "pkg_setup complete. board = ${board}"
 }
@@ -386,28 +407,14 @@ src_install() {
 		einfo "Installing (ins) files into ${target} ..."
 		insinto "${target}"
 		if use sbc ; then
-			case $board in
-				"meson-gxl-s905x-libretech-cc-v2"|"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
-					# arch=arm64
-					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm64" "joetoo" ;;
-				"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
-					# arch=arm
-					newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_arm" "joetoo" ;;
-			esac
+			newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo_${arch}" "joetoo"
 		else
 			# arch=amd64
 			newins "${FILESDIR}/etc_portage_package.accept_keywords_joetoo" "joetoo"
 		fi
 		if use plasma ; then
 			if use sbc ; then
-				case $board in
-					"meson-gxl-s905x-libretech-cc-v2"|"bcm2712-rpi-cm5-cm5io"|"bcm2712-rpi-5-b"|"bcm2711-rpi-cm4-io"|"bcm2711-rpi-4-b"|"bcm2710-rpi-3-b-plus"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
-						# arch=arm64
-						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm64" "plasma" ;;
-					"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"rk3288-tinker-s")
-						# arch=arm
-						newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_arm" "plasma" ;;
-				esac
+				newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma_${arch}" "plasma"
 			else
 				# arch=amd64
 				newins "${FILESDIR}/etc_portage_package.accept_keywords_plasma" "plasma"
@@ -433,10 +440,10 @@ src_install() {
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3399_binhosts_conf_joetoo" "joetoo_rk3399_binhosts.conf" ;;
 				"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-rk3588_binhosts_conf_joetoo" "joetoo_rk3588_binhosts.conf" ;;
-				"meson-gxl-s905x-libretech-cc-v2")
+				"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2")
 					newins "${FILESDIR}/etc_portage_binrepos_conf-sweetpototo_binhosts_conf_joetoo" "joetoo_sweetpotato_binhosts.conf" ;;
 				"rk3288-tinker-s")
-					# nothing, yet - I only have one of these (retired)
+					# nothing, yet - I only had one of these (retired)
 					;;
 			esac
 		else
@@ -494,6 +501,7 @@ pkg_postinst() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	einfo "board=${board}"
+	einfo "arch=${arch}"
 	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
@@ -512,6 +520,8 @@ pkg_postinst() {
 	elog " 0.6.11/12 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 	elog " 0.6.14 adds support for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.6.15 provides refinements and bugfixes"
+	elog " 0.6.16 adds support for fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
+	elog " 0.6.17 provides refinements and bugfixes"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
