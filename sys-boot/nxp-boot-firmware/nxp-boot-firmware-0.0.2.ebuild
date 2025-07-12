@@ -87,8 +87,8 @@ src_install() {
 	elog "installed u-boot_reflash_resources"
 	# install config_protect
 	einfo "Installing (newenvd) config_protect_u-boot_reflash_resources..."
-	newenvd "${FILESDIR}/config_protect_u-boot_reflash_resources" "99${PN}"
-	elog "installed config_protect_u-boot_reflash_resources"
+	newenvd "${FILESDIR}/config_protect_nxp" "99${PN}"
+	elog "installed config_protect_nxp"
 }
 
 pkg_postinst() {
