@@ -1,0 +1,37 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "fsl,imx8mq";
+
+	fragment@0 {
+		target-path = "/sound-ext-card";
+		__overlay__ {
+			compatible = "hifiberry,hifiberry-dacplus";
+			model = "snd-rpi-hifiberry-dacplus";
+			audio-cpu = "sai@30010000";
+			hifiberry-dacplus,slave;
+			protocol = <1>;
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target-path = "/sai@30010000";
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target-path = "/i2c@30a30000";
+		__overlay__ {
+			pcm5122: pcm5122@4d {
+				#sound-dai-cells= <0>;
+				compatible = "ti,pcm5122";
+				reg = <0x4d>;
+				status = "okay";
+			};
+		};
+	};
+};

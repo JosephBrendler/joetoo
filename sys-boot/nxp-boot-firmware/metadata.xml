@@ -1,0 +1,18 @@
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+        <maintainer type="person">
+                <email>joseph.brendler@gmail.com</email>
+                <name>Joe Brendler</name>
+        </maintainer>
+        <upstream>
+                <remote-id type="github">tbd</remote-id>
+        </upstream>
+        <use>
+                <flag name="fsl-imx8mq-phanbell">Install boot firmware for ASUS/Google TinkerEdgeT/CoralDev</flag>
+                <flag name="armbian_kernel">(placeholder) Pull in sys-kernel package to install armbian kernel for this board</flag>
+                <flag name="dtbo">(placeholder) Pull in sys-kernel package to supply device tree blob overlay files</flag>
+        </use>
+        <longdescription>
+		u-boot bootloader firmware, with re-flash instructions for the selected rockchip sbc
+        </longdescription>
+</pkgmetadata>

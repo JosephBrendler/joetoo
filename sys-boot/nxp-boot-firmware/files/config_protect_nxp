@@ -1,0 +1,5 @@
+CONFIG_PROTECT="
+	/boot/*.txt
+	/boot/boot.scr
+	/boot/*imx
+"

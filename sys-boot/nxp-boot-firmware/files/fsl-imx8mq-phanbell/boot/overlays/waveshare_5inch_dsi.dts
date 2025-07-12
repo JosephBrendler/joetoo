@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "fsl,imx8mq";
+
+	fragment@0 {
+		target-path = "/mipi_dsi_bridge@30A00000";
+		__overlay__ {
+			panel@0 {
+				waveshare_5_inch;
+			};
+		};
+	};
+};

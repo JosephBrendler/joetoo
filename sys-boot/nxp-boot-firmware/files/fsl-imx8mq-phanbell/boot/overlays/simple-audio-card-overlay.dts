@@ -1,0 +1,31 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "fsl,imx8mq";
+
+	fragment@0 {
+		target-path = "/sound-header";
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target-path = "/sai@30010000";
+		__overlay__ {
+			status = "okay";
+			#sound-dai-cells = <0>;
+			assigned-clocks = <&clk 128>;
+			assigned-clock-parents = <&clk 27>;
+			assigned-clock-rates = <45158400>;
+
+			clocks = <&clk 252>, <&clk 0>,
+				<&clk 210>, <&clk 0>,
+				<&clk 0>, <&clk 27>,
+				<&clk 32>;
+			clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3", "pll8k", "pll11k";
+		};
+	};
+
+};

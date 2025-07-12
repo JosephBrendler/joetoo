@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=kernel sources for libre computer amlogic SOC based single board computers (SBCs)
+EAPI=8
+HOMEPAGE=https://github.com/libre-computer-project/libretech-linux/tree/master https://github.com/JosephBrendler/joetoo
+IUSE=symlink config
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=6.12.20
+SRC_URI=https://raspi56406.brendler/nxp-sources/linux-6.12.20-nxp.tbz2
+_md5_=7308a839176262c9b1e1e042b94d672b

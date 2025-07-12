@@ -1,0 +1,22 @@
+
+##### Hardware Interface Config #####
+
+intf:uart1=on
+#intf:uart3=off
+#intf:uart4=off
+#intf:sai1=off
+#intf:sai5=off
+#intf:spi1=off
+#intf:pwm1=off
+#intf:pwm2=off
+#intf:pwm4=off
+
+##### Driver Config #####
+
+conf:eth_wakeup=on
+
+##### List of device tree overlays to load. Format: overlay=<dtbo name, no extension> <dtbo2> ... #####
+
+## Note: Put dtbo files under the overlays folder. ##
+
+overlay=
