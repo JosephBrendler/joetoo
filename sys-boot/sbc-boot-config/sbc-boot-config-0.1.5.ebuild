@@ -19,15 +19,16 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2
+	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
 "
 
 REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
-	meson-gxl-s905x-libretech-cc-v2
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	)
 "
 
 DEPEND=""
@@ -65,9 +66,10 @@ pkg_setup() {
 	else if use rk3588-rock-5b; then export board="rk3588-rock-5b"
 	else if use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"
 	else if use rk3588s-rock-5c; then export board="rk3588s-rock-5c"
+	else if use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell"
 	else if use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2"
 	else export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 einfo "Assigned board: ${board}"
 }
 
@@ -90,7 +92,7 @@ src_install() {
 			# install cmdline.txt, config.txt and any other (e.g. README.txt) .txt files
 			newins_all "*.txt" ;
 			newenvd "${FILESDIR}/config_protect-raspi" "99${PN}" ;;
-		"meson-gxl-s905x-libretech-cc-v2"|"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
+		"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2"|"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
 			# install boot.cmd, boot.scr, and any other boot.* files
 			einfo "Installing (ins) rockchip board boot. config files to /boot" ;
 			newins_all "boot.*" ;
@@ -108,6 +110,7 @@ pkg_postinst() {
 		elog " ver 0.1.2 adds support for rk3588-rock-5b"
 		elog " 0.1.3 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 		elog " 0.1.4 adds support for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
+		elog " 0.1.5 adds support for fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
 		elog ""
 		case ${board} in
 			"bcm2708-rpi-b"|"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b"|"bcm2710-rpi-3-b-plus"|"bcm2711-rpi-4-b"|"bcm2711-rpi-cm4-io"|"bcm2712-rpi-5-b"|"bcm2712-rpi-cm5-cm5io" )
@@ -115,7 +118,7 @@ pkg_postinst() {
 				elog "  config.txt -- bootloader and overlay configuration options" ;
 				elog "  https://www.raspberrypi.org/documentation/configuration/cmdline-txt.md" ;
 				elog "  https://www.raspberrypi.org/documentation/configuration/config-txt/README.md" ;;
-			"meson-gxl-s905x-libretech-cc-v2"|"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
+			"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2"|"rk3288-tinker-s"|"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2"|"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c" )
 				elog "  boot.scr -- compiled u-boot script (do not modify)." ;
 				elog "  boot.cmd -- code from which boot.scr is compiled (do not modify)" ;
 				elog "  joetooEnv.txt -- user-configurable u-boot environment variables" ;
