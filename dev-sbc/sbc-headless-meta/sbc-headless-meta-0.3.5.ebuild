@@ -17,11 +17,12 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${C
 LICENSE="metapackage"
 SLOT="0"
 IUSE="
-	+innercore +gpio +joetoo +boot-fw -kernelimage
+	+innercore +gpio +joetoo +boot-fw kernelimage
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
 "
 
 REQUIRED_USE="
@@ -29,13 +30,15 @@ REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
+	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	)
 "
 
 RESTRICT=""
 
 # required by Portage, as we have no SRC_URI...
-S="${WORKDIR}"
+S="${WORKDIR}/${PN}"
 
 # keyword for arm or arm64 according to board selection (amd/64 for crossbuilding)
 KEYWORDS="amd64 ~amd64 ~arm ~arm64"
@@ -149,6 +152,14 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-rock-5c(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		meson-gxl-s905x-libretech-cc-v2?   (
+			>=sys-boot/sbc-boot-config-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
+		fsl-imx8mq-phanbell?   (
+			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
@@ -211,6 +222,14 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
 		)
+		meson-gxl-s905x-libretech-cc-v2? (
+			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
+		)
+		fsl-imx8mq-phanbell? (
+			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
+		)
 	)
 	boot-fw? (
 		bcm2712-rpi-cm5-cm5io?  ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2712-rpi-cm5-cm5io(+)] )
@@ -227,6 +246,8 @@ RDEPEND="
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
+		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
+		fsl-imx8mq-phanbell?   ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 	)
 	kernelimage? (
 		bcm2712-rpi-cm5-cm5io?  ( sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage )
@@ -243,6 +264,8 @@ RDEPEND="
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
+		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
+		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
 	)
 "
 
@@ -250,79 +273,108 @@ pkg_setup() {
 # for sbc systems we need to know which board we are using
 	if use bcm2712-rpi-cm5-cm5io ; then
 		export board="bcm2712-rpi-cm5-cm5io"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use bcm2712-rpi-5-b ; then
 		export board="bcm2712-rpi-5-b"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use bcm2711-rpi-cm4-io ; then
 		export board="bcm2711-rpi-cm4-io"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use bcm2711-rpi-4-b ; then
 		export board="bcm2711-rpi-4-b"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use bcm2710-rpi-3-b-plus; then
 		export board="bcm2710-rpi-3-b-plus"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use bcm2710-rpi-3-b; then
 		export board="bcm2710-rpi-3-b"
+		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
 	else if use bcm2709-rpi-2-b; then
 		export board="bcm2709-rpi-2-b"
+		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
 	else if use bcm2708-rpi-b; then
 		export board="bcm2708-rpi-b"
+		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
 	else if use rk3288-tinker-s; then
 		export board="rk3288-tinker-s"
+		export package.accept_keywords_file="package.accept_keywords_arm-headless-meta"
 	else if use rk3399-rock-pi-4c-plus; then
 		export board="rk3399-rock-pi-4c-plus"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use rk3399-tinker-2; then
 		export board="rk3399-tinker-2"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use rk3588-rock-5b; then
 		export board="rk3588-rock-5b"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use rk3588s-orangepi-5; then
 		export board="rk3588s-orangepi-5"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else if use rk3588s-rock-5c; then
 		export board="rk3588s-rock-5c"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+	else if use meson-gxl-s905x-libretech-cc-v2; then
+		export board="meson-gxl-s905x-libretech-cc-v2"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
+	else if use fsl-imx8mq-phanbell; then
+		export board="fsl-imx8mq-phanbell"
+		export package.accept_keywords_file="package.accept_keywords_arm64-headless-meta"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+		export package.accept_keywords_file=""
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 }
 
 src_install() {
-	elog "Installing (ins) into /etc/portage/"
-	insinto "/etc/portage/package.use/"
-#	newins "${S}/${PN}/package.use_${board}-headless-meta" "package.use_${board}-headless-meta"
-	newins "${S}/${PN}/package.use_${board}-headless-meta" "joetoo"
-	elog "Installed (newins) package.use_${board}-headless-meta as joetoo"
+	# install board-unique package.use/joetoo file
+	target="/etc/portage/package.use/"
+	einfo "Installing (ins) package.use_${board}-headless-meta into ${target}"
+	insinto "${target}"
+	newins "${S}/package.use_${board}-headless-meta" "joetoo"
+	elog "Installed (newins) package.use_${board}-headless-meta as joetoo into ${target}"
 
-	insinto "/etc/portage/package.accept_keywords/"
-#	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "package.accept_keywords_${board}-headless-meta"
-	newins "${S}/${PN}/package.accept_keywords_${board}-headless-meta" "joetoo"
-	elog "Installed (newins) package.accept_keywords_${board}-headless-meta as joetoo"
+	# install arm or arm64 package.accept_keywords/joetoo file
+	target="/etc/portage/package.accept_keywords/"
+	einfo "Installing (ins) ${package.accept_keywords_file} into ${target}"
+	insinto "${target}"
+	newins "${S}/${package.accept_keywords_file}" "joetoo"
+	elog "Installed (newins) ${package.accept_keywords_file} as joetoo into ${target}"
 
-	insinto "/etc/portage/package.unmask/"
-	newins "${S}/${PN}/package.unmask_${board}-headless-meta" "package.unmask_${board}-headless-meta"
-	elog "Installed (newins) package.unmask_${board}-headless-meta"
+	# install common package.unmask file
+	target="/etc/portage/package.unmask/"
+	einfo "Installing (ins) package.unmask_sbc-headless-meta into ${target}"
+	insinto "${target}"
+	newins "${S}/package.unmask_sbc-headless-meta" "package.unmask_${board}-headless-meta"
+	elog "Installed (newins) package.unmask_sbc-headless-meta into ${target}"
 
-	elog "Installing (exe) into /etc/local.d/"
-	exeinto "/etc/local.d/"
-	newexe "${S}/${PN}/cpu_gov.start" "cpu_gov.start"
-	elog "Installed (newexe) cpu_gov.start"
+	# install cpu_gove.start file in /etc/local.d
+	target="/etc/local.d/"
+	einfo "Installing (exe) cpu_gov.start into ${target}"
+	exeinto "${target}"
+	newexe "${S}/cpu_gov.start" "cpu_gov.start"
+	elog "Installed (newexe) cpu_gov.start into ${target}"
 
-	# config_protect this and other files in /etc/local.d
-	newenvd "${S}/${PN}/config_protect" "99${PN}"
-
+	# install config_protect for this and other files in /etc/local.d
+	einfo "Installing (envd) config_protect"
+	newenvd "${S}/config_protect" "99${PN}"
+	elog "Installed env.d file config_protect as 99${PN}"
 
 	# for a joetoo installation, include temp/freq monitoring tool
 	if use joetoo ; then
 		elog "USE joetoo selected"
-		einfo "Installing (exe) tempfreq monitoring tool into /usr/sbin/"
-		exeinto "/usr/sbin/"
-		newexe "${S}/${PN}/tempfreq_mon_${board}" "tempfreq_mon_${board}"
-		elog "  Installed (newexe) tempfreq_mon_${board}"
+		target="/usr/sbin/"
+		einfo "Installing (exe) tempfreq monitoring tool into ${target}"
+		exeinto "${target}"
+		newexe "${S}/tempfreq_mon_sbc" "tempfreq_mon_sbc"
+		elog "  Installed (newexe) tempfreq_mon_sbc into ${target}"
 		# for raspberry boards, install joetoo's layout README file
 		if [ "${board:0:3}" == "bcm" ] ; then
-#			einfo "Installing (ins) README-joetoo-raspberry-layout in /boot"
-			einfo "Installing (cp) README-joetoo-raspberry-layout in /boot"
-			insinto "/boot/"
-#			newins "${S}/${PN}/README-joetoo-raspberry-layout" "README-joetoo-raspberry-layout"
-			cp -v "${S}/${PN}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
-#			elog "  Installed (newins) README-joetoo-raspberry-layout"
-			elog "  Installed (cp) README-joetoo-raspberry-layout"
+			target="/boot/"
+			einfo "Installing (cp) README-joetoo-raspberry-layout in ${target}"
+			insinto "${target}"
+			cp -v "${S}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
+			elog "  Installed (cp) README-joetoo-raspberry-layout into ${target}"
 		fi
 	else
 		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
@@ -351,9 +403,11 @@ pkg_postinst() {
 	elog " 0.2.1 add support for rock 5c (rk3588s-rock-5c)"
 	elog " 0.2.2 updates temp, freq monitor and package.use/mask"
 	elog " 0.3.0 adds rk3588-rock-5b"
-	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
+	elog " 0.3.1 adds bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io (compute modules)"
 	elog " 0.3.2/-r1 provide a couple bugfixes"
 	elog " 0.3.3 move to script_header_joetoo"
+	elog " 0.3.4 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
+	elog " 0.3.5 adds fsl-imx8mq-phanbell and consolidates common files"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

@@ -29,6 +29,7 @@
                 <flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
+                <flag name="fsl-imx8mq-phanbell">Tailor for TinkerEdgeT/CoralDev (i.mx8)(armv8/64)</flag>
                 <flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for Libre Computer Sweet Potato (aml905)(armv8/64)</flag>
 		<flag name="innercore">Install boot config files and baseline packages</flag>
 		<flag name="gpio">Install libgpiod package and dependencies</flag>
