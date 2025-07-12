@@ -1,0 +1,42 @@
+To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
+follow these instructions, based on asus' flash.sh which can be found in
+u-boot_reflash_resources/Tinker_Edge_T-Mendel-Eagle-V3.0.7-20210610  --
+
+(1) download Mendel OS image achive by selecting "Tinker Edge T" in the dropdown selector at --
+     https://tinker-board.asus.com/download-list.html
+     then follow README.txt (also provided here in u-boot_reflash_resources/ under 
+     asus_tinker-edge-t_u-boot_reflash_resources/Tinker_Edge_T-Mendel-Eagle-V3.0.7-20210610/
+
+Note: this will require you to use a windows or linux PC to write a new sd card which will
+     have the new u-boot on it (but will also have Mendel linux)
+     replace the contents of the root partition on that SD card with your gentoo system
+
+Note Do this ONLY if your old system's u-boot has been corrupted and won't boot
+
+Note:  to build u-boot from scratch and install it separately, follow --
+    - https://github.com/nxp-imx/uboot-imx (see README.md at bottom of page)
+
+Note:  see also the resource below, which may also be useful --
+    - https://solidrun.atlassian.net/wiki/spaces/developer/pages/287179471/i.MX8M+ATF+U-Boot+and+Linux+Kernel
+
+Other Notes:
+(0) The above procedure has NOT been verified for fsl-imx8mq-phanbell
+
+(2) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
+when that is a MTD block device, the boot sd card may be /dev/mmcblk1
+ 
+(3) First partition should start at sector 16384, to leave room for u-boot images written
+    with this method.  For example, see this layout
+
+# fdisk -l /dev/mmcblk1 (on working fsl-imx8mq-phanbell edget6401 )---------------
+Disk /dev/mmcblk1: 14.88 GiB, 15978201088 bytes, 31207424 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x87a9051f
+
+Device         Boot  Start      End  Sectors  Size Id Type
+/dev/mmcblk1p1       16384   278527   262144  128M 83 Linux
+/dev/mmcblk1p2      278528 31207423 30928896 14.7G 83 Linux
+#-----------------------------------------------------------------
