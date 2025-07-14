@@ -1,8 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Id$
+# Copyright 2024-2054 Joe Brendler
+# Distributed under the terms of the GNU General Public License v3
 # joe brendler 6/8/2024
-# this is a re-design which DOES use SRC_URI again
 
 EAPI=8
 
@@ -88,7 +86,9 @@ src_install() {
 	elog "version_history, in the ebuild's FILESDIR, records version history"
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
-	elog " 0.0.1 provides refinements and bugfixes"
+	elog " 0.0.1/2 provide refinements and bugfixes"
+	elog " 0.0.3 fixes modular_msg and summarize_my_extension"
+	elog ""
 	elog "Thank you for using ${PN}"
 
 }
