@@ -6,7 +6,6 @@ EAPI=8
 
 DESCRIPTION="joetoo program to run and configure sbc emulation instances with qemu"
 HOMEPAGE="https://github.com/joetoo"
-#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2" ## let -r1 get same sources
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 LICENSE="MIT"
@@ -144,6 +143,8 @@ pkg_postinst() {
 	elog " 0.6.8 fixes bad CFLAGS in raspi4/cm4 make.conf"
 	elog " 0.6.9 moves to script_header_joetoo"
 	elog " 0.6.10 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
+	elog " 0.6.11 provides refinements and bugfixes"
+	elog " 0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
