@@ -91,9 +91,10 @@ src_install() {
 	elog "Done installing README"
 	echo "BUILD=${PVR}" > ${T}/BUILD
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
+	elog "Done installing BUILD"
 	echo "BPN=${PN}" > ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "Install failed!"
-	elog "Done installing BUILD"
+	elog "Done installing BPN"
         # also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
 	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
 	elog "Done installing local.cmdline_arguments"
