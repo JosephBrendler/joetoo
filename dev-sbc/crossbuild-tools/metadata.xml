@@ -4,6 +4,7 @@
 	<longdescription>
 		crossbuild-tools: collection of scripts and configuration files
 		(used for creating and using crossbuild environments for sbcs)
+		see README provided by the package
 		(To Do: (?) one or more sbc use flag must be selectd)
 	</longdescription>
 	<maintainer type="person">
