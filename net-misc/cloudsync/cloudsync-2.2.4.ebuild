@@ -49,7 +49,8 @@ src_install() {
 	elog " 2.1.0 reads the local PKGDIR variable directly from make.conf"
 	elog " 2.2.0 corrects bugs in --exclude and updated cloudsync.conf"
 	elog " 2.2.1 moves sources to net-misc category in myUtilities repo"
-	elog " 2.2.2 changes to /usr/sbin/script_header_joetoo"
+	elog " 2.2.2/3 change to /usr/sbin/script_header_joetoo"
 	elog ""
+	elog " 6.6.2 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
 	elog "Thank you for using ${PN}"
 }
