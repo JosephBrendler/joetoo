@@ -156,7 +156,7 @@ pkg_postinst() {
 	elog " 0.6.11 provides refinements and bugfixes"
 	elog " 0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
 	elog " 0.7.0 is a rewrite w header fns, cli processing, fixes, etc."
-	elog " 0.7.1 provides bugfixes and refinements"
+	elog " 0.7.1-5 provides bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
