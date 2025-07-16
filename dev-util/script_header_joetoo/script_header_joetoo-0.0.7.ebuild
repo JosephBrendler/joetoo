@@ -71,6 +71,13 @@ src_install() {
 			newins "${x}" "${z}"
 			elog "installed ${z} in ${target}"
 		done
+
+		# install an example BPN assignment file
+		einfo "Installing (ins) example BPN assignment file in ${target}"
+		echo "BPN=${PN}" > ${T}/BPN || die "failed to create BPN file"
+		insinto "${target}"
+		newins "${T}/BPN" "BPN" || die "failed to install BPN file"
+		elog "installed BPN file in ${target}"
 	fi
 
 	elog "${P} installed"
@@ -90,6 +97,8 @@ src_install() {
 	elog " 0.0.3 fixes modular_msg and summarize_my_extension"
 	elog " 0.0.4 updates local script cli spt and adds functions to _joetoo and _extended"
 	elog " 0.0.5 provide refinements and bugfixes"
+	elog " 0.0.6 provides template script help and example re assigning BPN"
+	elog " 0.0.7 adds template script help and bugfixes"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
