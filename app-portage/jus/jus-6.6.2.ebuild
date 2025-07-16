@@ -1,6 +1,3 @@
-# Copyright 1999-2018 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Id$
 # joe brendler 6/8/2024
 # re-write: moved from filesdir back to src_uri for better version control
 
@@ -16,7 +13,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64 amd64 x86 arm arm64"
 
-# automatically also pull in dev-util/script-header-brendlefly-extended
 IUSE="distcc eix"
 RESTRICT="mirror"
 
@@ -28,7 +24,7 @@ RDEPEND=">=sys-apps/portage-2.3.3
 		>=app-shells/push-2.0
 	)
 	distcc? ( >=sys-devel/distcc-3.1 )
-	>=dev-util/script_header_brendlefly-0.2.11[extended]
+	dev-util/script_header_joetoo[extended]
 	>=dev-util/joetoolkit-0.4.21
 "
 BDEPEND="${RDEPEND}"
@@ -109,6 +105,8 @@ pkg_postinst() {
 	elog " 6.5.1 fixes bug in verbosity of bs sort of updateables"
 	elog " 6.5.2 makes update-check quieter"
 	elog " 6.6.0 moves sources to app-portage; adds distcc and new/changeduse cmdline control"
+	elog " 6.6.1 moves to script_header_joetoo"
+	elog " 6.6.2 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
 	elog ""
 	elog "Thank you for using ${PN}"
 
