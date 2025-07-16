@@ -15,7 +15,7 @@ IUSE=""
 
 RESTRICT="mirror"
 
-S="${WORKDIR}"
+S="${WORKDIR}/${PN}"
 
 BDEPEND=""
 
@@ -52,8 +52,8 @@ src_install() {
 
 	elog "Installing (cp) into /etc/${PN}/"
 	# Install mkenv-files into /etc/${PN}/"
-	for x in $(find ${S}/${PN}/mkenv-files/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+	for x in $(find ${S}/mkenv-files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
 		DN=$(dirname $z)
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
 		cp -p ${x} ${D}/etc/${PN}/${DN}
@@ -61,8 +61,8 @@ src_install() {
 	elog "Done installing mkenv-files config files and scripts"
 
 	# install mkimg-files into /etc/${PN}/
-	for x in $(find ${S}/${PN}/mkimg-files/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+	for x in $(find ${S}/mkimg-files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
 		DN=$(dirname $z)
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
 		cp -p ${x} ${D}/etc/${PN}/${DN}
@@ -70,44 +70,70 @@ src_install() {
 	elog "Done installing mkimg-files config files and scripts"
 
 	# install admin-files into /etc/${PN}/
-	for x in $(find ${S}/${PN}/admin_files/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/${PN}/||")
+	for x in $(find ${S}/admin_files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
 		DN=$(dirname $z)
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
-	elog "Done installing admin_files config files and scripts"
+	elog "Done installing admin_files"
+
+	# install custom_content framework into /etc/${PN}/
+	for x in $(find ${S}/custom_content/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing custom_content framework"
 
 	# install config files into /etc/${PN}/
-	for x in $(find ${S}/${PN}/configs/ -maxdepth 1 -type f) ; do
+	for x in $(find ${S}/configs/ -maxdepth 1 -type f) ; do
 		cp -p ${x} ${D}/etc/${PN}/
 	done
 	elog "Done installing admin_files config files and scripts"
 
-	# install README, BUILD files into /etc/${PN}/
+	# install README, BUILD, BPN files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	newins "${S}/${PN}/README" "README"  || die "Install failed!"
+	newins "${S}/README" "README"  || die "Install failed!"
 	elog "Done installing README"
 	echo "BUILD=${PVR}" > ${T}/BUILD
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
+	echo "BPN=${PN}" > ${T}/BPN
+	newins "${T}/BPN" "BPN" || die "Install failed!"
+	elog "Done installing BPN"
+        # also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
+	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_arguments"
+	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_compound_arguments"
+	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage"
 
 	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	for x in $(find ${S}/${PN}/ -type f -iname 'cb-*'); do
+	for x in $(find ${S}/ -type f -iname 'cb-*'); do
 		z=$(basename $x)
 		newexe "${x}" "${z}" || die "Install ${z} failed!"
 	done
 	elog "Done installing scripts"
 
-	# Install eselect module
+	# Install cb-layout-device.conf eselect module
 	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
 	z="cb-layout-device.eselect"
-	newins "${S}/${PN}/${z}" "${z}"
+	newins "${S}/${z}" "${z}"
 	elog "Installed cb-layout-device.conf eselect module."
+
+	# Install custom_content/mkimg-files eselect module
+	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-image.eselect) module into /usr/share/eselect/modules/ ..."
+	insinto "/usr/share/eselect/modules/"
+	z="cb-populate-image.eselect"
+	newins "${S}/${z}" "${z}"
+	elog "Installed custom_content/mkimg-files (cb-populate-image.eselect) module."
 }
 
 pkg_postinst() {
@@ -145,6 +171,9 @@ pkg_postinst() {
 	elog " 0.6.10 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.6.11 provides refinements and bugfixes"
 	elog " 0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
+	elog " 0.7.0 is a rewrite w header fns, cli processing, fixes, etc."
+	elog " 0.7.1-5 provides bugfixes and refinements"
+	elog " 0.7.6 enables eselect handling of custom image content"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
