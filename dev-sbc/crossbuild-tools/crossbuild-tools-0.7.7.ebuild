@@ -76,7 +76,16 @@ src_install() {
 		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
 		cp -p ${x} ${D}/etc/${PN}/${DN}
 	done
-	elog "Done installing admin_files config files and scripts"
+	elog "Done installing admin_files"
+
+	# install custom_content framework into /etc/${PN}/
+	for x in $(find ${S}/custom_content/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing custom_content framework"
 
 	# install config files into /etc/${PN}/
 	for x in $(find ${S}/configs/ -maxdepth 1 -type f) ; do
@@ -112,12 +121,19 @@ src_install() {
 	done
 	elog "Done installing scripts"
 
-	# Install eselect module
+	# Install cb-layout-device.conf eselect module
 	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
 	z="cb-layout-device.eselect"
 	newins "${S}/${z}" "${z}"
 	elog "Installed cb-layout-device.conf eselect module."
+
+	# Install custom_content/mkimg-files eselect module
+	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-image.eselect) module into /usr/share/eselect/modules/ ..."
+	insinto "/usr/share/eselect/modules/"
+	z="cb-populate-image.eselect"
+	newins "${S}/${z}" "${z}"
+	elog "Installed custom_content/mkimg-files (cb-populate-image.eselect) module."
 }
 
 pkg_postinst() {
@@ -157,6 +173,8 @@ pkg_postinst() {
 	elog " 0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
 	elog " 0.7.0 is a rewrite w header fns, cli processing, fixes, etc."
 	elog " 0.7.1-5 provides bugfixes and refinements"
+	elog " 0.7.6 enables eselect handling of custom image content"
+	elog " 0.7.7 provides bugfixes and refinements"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
