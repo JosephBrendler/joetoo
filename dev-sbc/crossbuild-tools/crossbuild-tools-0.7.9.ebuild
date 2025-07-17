@@ -87,6 +87,24 @@ src_install() {
 	done
 	elog "Done installing custom_content framework"
 
+	# install cb-assemble-make-conf make-conf-parts framework into /etc/${PN}/
+	for x in $(find ${S}/make-conf-parts/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing cb-assemble-make-conf make-conf-parts framework"
+
+	# install cb-assemble-make-conf make-conf-files framework into /etc/${PN}/
+	for x in $(find ${S}/make-conf-parts/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing cb-assemble-make-conf make-conf-files framework"
+
 	# install config files into /etc/${PN}/
 	for x in $(find ${S}/configs/ -maxdepth 1 -type f) ; do
 		cp -p ${x} ${D}/etc/${PN}/
@@ -175,6 +193,8 @@ pkg_postinst() {
 	elog " 0.7.1-5 provides bugfixes and refinements"
 	elog " 0.7.6 enables eselect handling of custom image content"
 	elog " 0.7.7 provides bugfixes and refinements"
+	elog " 0.7.8 adds cb-assemble-make-conf framework"
+	elog " 0.7.9 adds smaller_script_common_usage_message"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
