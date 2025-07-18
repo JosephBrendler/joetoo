@@ -25,6 +25,7 @@ RDEPEND="
 	app-arch/tar
 	dev-lang/python-exec
 	dev-libs/openssl
+	dev-util/joetoolkit
 	dev-util/script_header_joetoo
 	net-misc/curl
 	net-misc/wget
@@ -133,11 +134,20 @@ src_install() {
 	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
-	for x in $(find ${S}/ -type f -iname 'cb-*'); do
+	for x in $(find ${S}/ -type f -iname 'cb-*'  -executable); do
 		z=$(basename $x)
 		newexe "${x}" "${z}" || die "Install ${z} failed!"
 	done
 	elog "Done installing scripts"
+
+	# Install this packages other .conf files in /etc/${PN}
+	# (this is currently only cb-assemble-make-conf.conf)
+	insinto "/etc/${PN}"
+	for x in $(find ${S}/ -maxdepth 1 -type f -iname 'cb-*.conf') ; do
+		z=$(basename $x)
+		newins "${x}" "${z}" || die "Install ${z} failed!"
+	done
+	elog "Done installing .conf file(s)"
 
 	# Install cb-layout-device.conf eselect module
 	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
@@ -195,6 +205,7 @@ pkg_postinst() {
 	elog " 0.7.7 provides bugfixes and refinements"
 	elog " 0.7.8 adds cb-assemble-make-conf framework"
 	elog " 0.7.9 adds smaller_script_common_usage_message"
+	elog " 0.7.10/11 add symlink-repo step to cb-mkenv"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
