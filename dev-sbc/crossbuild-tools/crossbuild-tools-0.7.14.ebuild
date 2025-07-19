@@ -112,6 +112,11 @@ src_install() {
 	done
 	elog "Done installing admin_files config files and scripts"
 
+	# install RUST_CROSS_TARGETS configuration
+	insinto "/etc/portage/env/dev-lang/"
+        newins "${S}/etc_portage_dev-lang_rust" "rust" || die "Install failed!"
+        elog "Done installing RUST_CROSS_TARGETS configuration"
+
 	# install README, BUILD, BPN files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
@@ -206,6 +211,8 @@ pkg_postinst() {
 	elog " 0.7.8 adds cb-assemble-make-conf framework"
 	elog " 0.7.9 adds smaller_script_common_usage_message"
 	elog " 0.7.10/11 add symlink-repo step to cb-mkenv"
+	elog " 0.7.12 updates cb-mkenv, cb-chroot-target, finalize-chroot"
+	elog " 0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
