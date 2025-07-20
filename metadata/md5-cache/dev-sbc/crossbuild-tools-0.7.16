@@ -8,4 +8,4 @@ RDEPEND=app-admin/eselect app-arch/tar dev-lang/python-exec dev-libs/openssl dev
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/crossbuild-tools-0.7.16.tbz2
-_md5_=a08d80ea5797e2f95042ab5b8e56ecf8
+_md5_=85530997e8bf56f41b43012cce56307b

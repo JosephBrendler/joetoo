@@ -117,11 +117,11 @@ src_install() {
         newins "${S}/etc_portage_dev-lang_rust" "rust" || die "Install failed!"
         elog "Done installing RUST_CROSS_TARGETS configuration"
 
-	# install README, BUILD, BPN files into /etc/${PN}/
+	# install README.md, BUILD, BPN files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	newins "${S}/README" "README"  || die "Install failed!"
-	elog "Done installing README"
+	newins "${S}/README.md" "README.md"  || die "Install failed!"
+	elog "Done installing README.md"
 	echo "BUILD=${PVR}" > ${T}/BUILD
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
