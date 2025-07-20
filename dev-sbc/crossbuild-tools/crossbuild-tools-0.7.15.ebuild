@@ -212,6 +212,8 @@ pkg_postinst() {
 	elog " 0.7.9 adds smaller_script_common_usage_message"
 	elog " 0.7.10/11 add symlink-repo step to cb-mkenv"
 	elog " 0.7.12 updates cb-mkenv, cb-chroot-target, finalize-chroot"
+	elog " 0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions"
+	elog " 0.7.15 cb-buildtarget-qemu, -quickpkg-toolchain -> cb-mkenv"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
