@@ -98,6 +98,8 @@ src_install() {
 	elog " 0.0.4 updates local script cli spt and adds functions to _joetoo and _extended"
 	elog " 0.0.5 provide refinements and bugfixes"
 	elog " 0.0.6 provides template script help and example re assigning BPN"
+	elog " 0.0.7 adds template script help and bugfixes"
+	elog " 0.0.8 provide refinements and bugfixes"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
