@@ -117,11 +117,11 @@ src_install() {
         newins "${S}/etc_portage_dev-lang_rust" "rust" || die "Install failed!"
         elog "Done installing RUST_CROSS_TARGETS configuration"
 
-	# install README, BUILD, BPN files into /etc/${PN}/
+	# install README.md, BUILD, BPN files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
 	insinto "/etc/${PN}/"
-	newins "${S}/README" "README"  || die "Install failed!"
-	elog "Done installing README"
+	newins "${S}/README.md" "README.md"  || die "Install failed!"
+	elog "Done installing README.md"
 	echo "BUILD=${PVR}" > ${T}/BUILD
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
 	elog "Done installing BUILD"
@@ -214,6 +214,8 @@ pkg_postinst() {
 	elog " 0.7.12 updates cb-mkenv, cb-chroot-target, finalize-chroot"
 	elog " 0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions"
 	elog " 0.7.15 cb-buildtarget-qemu, -quickpkg-toolchain -> cb-mkenv"
+	elog " 0.7.16 adds bugfixes and saves completed .img as BOARD.env"
+	elog " 0.7.17 final mods to cb-mkenv -mkimg w cb-umount, stockpile"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
