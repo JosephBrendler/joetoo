@@ -99,6 +99,8 @@ src_install() {
 	elog " 0.0.5 provide refinements and bugfixes"
 	elog " 0.0.6 provides template script help and example re assigning BPN"
 	elog " 0.0.7 adds template script help and bugfixes"
+	elog " 0.0.8 provide refinements and bugfixes"
+	elog " 0.0.9 updates checkboot() to return 2 if /boot is not supposed to be a mountpoint"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
