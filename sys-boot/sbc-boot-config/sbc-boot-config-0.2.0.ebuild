@@ -37,14 +37,20 @@ RDEPEND="
 
 S="${WORKDIR}/${PN}"
 
+# borrow checkboot from script_header_joetoo so we don't have to source the whole thing in an ebuild
+checkboot () {
+[[ -z $(grep '[[:space:]]/boot[[:space:]]' /etc/fstab | grep -v '^#') ]] && return 2 ;
+[[ ! -z $(findmnt -nl /boot) ]] && return 0 || return 1 ;
+}
+
 pkg_setup() {
 	# if /boot is on a separate block device, and it is not mounted, try to mount it
 	checkboot
 	case $? in
 		2 )  elog "Per checkboot, /boot is not supposed to be a mountpoint; continuing ..." ;;
-		1 )  ewarn "Per checkboot, /boot is supposed to be mounted; but it is not"
-			einfo "trying to mount it now"
-			mount \boot || die "Failed to mount /boot"
+		1 )  ewarn "Per checkboot, /boot is supposed to be mounted; but it is not" ;
+			einfo "trying to mount it now" ;
+			mount \boot || die "Failed to mount /boot" ;
 			elog "Succeeded in mounting /boot ; continuing ..." ;;
 		0 )  elog "Verified with checkboot, /boot is properly mounted; continuing ..." ;;
 	esac
