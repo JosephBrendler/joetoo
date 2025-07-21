@@ -8,7 +8,7 @@
 	<longdescription>
 		Boot configuration files for single board computers (sbs)s, e.g. -
 		For rpi boards:  config.txt and cmdline.txt
-		For rockchip/amlogic boards: boot.cmd, boot.scr, joetooEnv.txt
+		For rockchip/amlogic/nxp boards: boot.cmd, boot.scr, joetooEnv.txt
 		expected by bootloader, and instructions
 		Also installs config_protect file in env.d
 	</longdescription>
@@ -27,6 +27,7 @@
                 <flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
+                <flag name="fsl-imx8mq-phanbell">Tailor for TinkerEdgeT/CoralDev (imx8mq)(armv8/64)</flag>
                 <flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for Libre Computer Sweet Potato (aml905)(armv8/64)</flag>
         </use>
         <upstream>

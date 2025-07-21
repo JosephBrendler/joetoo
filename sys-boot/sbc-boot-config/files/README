@@ -1,0 +1,4 @@
+begin migration of filesdir content to myUtilities repo with version 0.2.0
+keep these files her in filesdir until active ebuilds no longer need them
+
+then remove all but version_history
