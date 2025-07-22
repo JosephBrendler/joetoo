@@ -50,7 +50,7 @@ pkg_setup() {
 		2 )  elog "Per checkboot, /boot is not supposed to be a mountpoint; continuing ..." ;;
 		1 )  ewarn "Per checkboot, /boot is supposed to be mounted; but it is not" ;
 			einfo "trying to mount it now" ;
-			mount \boot || die "Failed to mount /boot" ;
+			mount /boot || die "Failed to mount /boot" ;
 			elog "Succeeded in mounting /boot ; continuing ..." ;;
 		0 )  elog "Verified with checkboot, /boot is properly mounted; continuing ..." ;;
 	esac
