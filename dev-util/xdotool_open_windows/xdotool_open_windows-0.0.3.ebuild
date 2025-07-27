@@ -4,7 +4,7 @@
 
 EAPI=8
 
-DESCRIPTION="kernel build script, incl support for xen dom0 or domU, or several SBC systems"
+DESCRIPTION="automatically open/close/resize/move windoxs in plasma X11 using xdotool, as configured by user"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
@@ -95,6 +95,8 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial alpha draft"
+	elog " 0.0.2 adds config_protect_mask for BUILD"
+	elog " 0.0.3 provides bugfixes and refinements for all components"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
