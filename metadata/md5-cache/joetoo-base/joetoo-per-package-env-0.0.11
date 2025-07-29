@@ -1,0 +1,9 @@
+DEFINED_PHASES=install postinst
+DESCRIPTION=Baseline per-package environment configurations for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=-TBD
+KEYWORDS=arm ~arm amd64 ~amd64 arm64 ~arm64
+LICENSE=metapackage
+SLOT=0
+_md5_=9fc2c02a0db8756d1ab7fe361568354a

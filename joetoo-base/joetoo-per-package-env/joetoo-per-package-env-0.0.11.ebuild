@@ -65,7 +65,8 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.0.1 is the initial ebuild"
-	elog " 0.0.2->9 update package.env with additional nodistmerge package"
+	elog " 0.0.2->10 update package.env with additional nodistmerge package"
+	elog " 0.0.11 removes some j1_makeopts and changes most to j4"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
