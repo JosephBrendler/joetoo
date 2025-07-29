@@ -18,7 +18,7 @@ IUSE="
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	x4-n100
-	meson-gxl-s905x-libretech-cc-v2
+	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
 "
 # required: one and only one of --
 REQUIRED_USE="
@@ -28,7 +28,7 @@ REQUIRED_USE="
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 		x4-n100
-		meson-gxl-s905x-libretech-cc-v2
+		meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
 	)
 "
 
@@ -83,11 +83,15 @@ pkg_setup() {
 		export board="rk3588s-rock-5c"
 	else if use meson-gxl-s905x-libretech-cc-v2; then
 		export board="meson-gxl-s905x-libretech-cc-v2"
+	else if use meson-g12b-a311d-libretech-cc; then
+		export board="meson-g12b-a311d-libretech-cc"
+	else if use fsl-imx8mq-phanbell; then
+		export board="fsl-imx8mq-phanbell"
 	else if use x4-n100; then
 		export board="x4-n100"
 	else
 		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "board: ${board}"
 }
 
@@ -169,6 +173,8 @@ pkg_postinst() {
 	elog " 0.3.1 fixes missing .start files for x4"
 	elog " 0.3.2 adds spt for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
 	elog " 0.3.3 adds spt for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
+	elog " 0.3.4 adds spt for fsl-imx8mq-phanbell (tinker edge t)"
+	elog " 0.4.0 adds spt for meson-g12b-a311d-libretech-cc (alta)"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
