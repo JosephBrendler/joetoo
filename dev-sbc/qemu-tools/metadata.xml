@@ -25,8 +25,9 @@
                 <flag name="rk3588-rock-5b">Configure for Rock 5b (armv8/64)</flag>
                 <flag name="rk3588s-orangepi-5">Configure for OrangePi 5/5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Configure for Rock 5c (armv8/64)</flag>
-		<flag name="fsl-imx8mq-phanbell">Configure for TinkerEdgeT/CoralDev (i.mx8)(armv8/64)</flag>
                 <flag name="meson-gxl-s905x-libretech-cc-v2">Configure for Libre Computer Sweet Potato (aml905)(armv8/64)</flag>
+                <flag name="meson-g12b-a311d-libretech-cc">Configure for Libre Computer Alta (aml a311d)(armv8/64)</flag>
+		<flag name="fsl-imx8mq-phanbell">Configure for TinkerEdgeT/CoralDev (i.mx8)(armv8/64)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
