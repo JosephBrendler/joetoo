@@ -215,6 +215,8 @@ pkg_postinst() {
 	elog " 0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions"
 	elog " 0.7.15 cb-buildtarget-qemu, -quickpkg-toolchain -> cb-mkenv"
 	elog " 0.7.16 adds bugfixes and saves completed .img as BOARD.env"
+	elog " 0.7.17 final mods to cb-mkenv -mkimg w cb-umount, stockpile"
+	elog " 0.8.0 introduced cb-mount/umount-binhost"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
