@@ -1,10 +1,6 @@
 # Copyright (c) joe brendler joseph.brendler@gmail.com
 # License: GPL v3+
 # NO WARRANTY
-# as of Jan 2025, we're deprecating the consolidated kernel image sys-kernel/linux-joetoo-kernelimage because
-#  it is a maintenance challenge - all possible kernels must be built (i.e. for 12 boards as of now) before the
-#  consolidated kernel ebuild will work for any of them.  We are moving instead back to an individual joetoo_kernelimage
-#  for each board (model) supported
 
 EAPI=7
 
@@ -22,7 +18,7 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
 "
 
 REQUIRED_USE="
@@ -31,7 +27,7 @@ REQUIRED_USE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
 	)
 "
 
@@ -156,6 +152,10 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		meson-g12b-a311d-libretech-cc?   (
+			>=sys-boot/sbc-boot-config-0.0.1[meson-g12b-a311d-libretech-cc(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 		fsl-imx8mq-phanbell?   (
 			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
 			>=sys-apps/sbc-i2c-0.0.1
@@ -226,6 +226,10 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
 		)
+		meson-g12b-a311d-libretech-cc? (
+			>=dev-sbc/sbc-status-leds-0.0.1[meson-g12b-a311d-libretech-cc(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-g12b-a311d-libretech-cc(+)]
+		)
 		fsl-imx8mq-phanbell? (
 			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
@@ -247,6 +251,7 @@ RDEPEND="
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
 		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
+		meson-g12b-a311d-libretech-cc?    ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-g12b-a311d-libretech-cc(+)] )
 		fsl-imx8mq-phanbell?   ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 	)
 	kernelimage? (
@@ -265,6 +270,7 @@ RDEPEND="
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
 		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
+		meson-g12b-a311d-libretech-cc?    ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_joetoo_-kernelimage )
 		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
 	)
 "
@@ -316,14 +322,18 @@ pkg_setup() {
 	else if use meson-gxl-s905x-libretech-cc-v2; then
 		export board="meson-gxl-s905x-libretech-cc-v2"
 		export arch="arm64"
+	else if use meson-g12b-a311d-libretech-cc; then
+		export board="meson-g12b-a311d-libretech-cc"
+		export arch="arm64"
 	else if use fsl-imx8mq-phanbell; then
 		export board="fsl-imx8mq-phanbell"
 		export arch="arm64"
 	else
 		export board=""
 		export arch=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
+	einfo "Assigned arch: ${arch}"
 }
 
 src_install() {
@@ -368,16 +378,20 @@ src_install() {
 		exeinto "${target}"
 		newexe "${S}/tempfreq_mon_sbc" "tempfreq_mon_sbc"
 		elog "  Installed (newexe) tempfreq_mon_sbc into ${target}"
-		# for raspberry boards, install joetoo's layout README file
-		if [ "${board:0:3}" == "bcm" ] ; then
-			target="/boot/"
-			einfo "Installing (cp) README-joetoo-raspberry-layout in ${target}"
-			insinto "${target}"
-			cp -v "${S}/README-joetoo-raspberry-layout" "${D}/boot/README-joetoo-raspberry-layout"
-			elog "  Installed (cp) README-joetoo-raspberry-layout into ${target}"
-		fi
+		# install joetoo's layout README file
+		target="/boot/"
+		insinto "${target}"
+		case ${board:0:3} in
+			"bcm" ) readme_file="README-joetoo-raspberry-layout" ;;
+			"rk3" ) readme_file="README-joetoo-rockchip-layout" ;;
+			"mes" ) readme_file="README-joetoo-amlogic-layout" ;;
+			"fsl" ) readme_file="README-joetoo-nxp-layout" ;;
+		esac
+		einfo "Installing (cp) ${readme_file} in ${target}"
+		cp -v "${S}/${readme_file}" "${D}/boot/${readme_file}"
+		elog "  Installed (cp) ${readme_file} into ${target}"
 	else
-		elog "USE joetoo NOT selected; NOT installing temp/freq monitoring tool"
+		elog "USE joetoo NOT selected; NOT installing README-joetoo-layout file"
 	fi
 }
 
@@ -389,6 +403,8 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
+	einfo "board=${board}"
+	einfo "arch=${arch}"
 	elog ""
 	elog "${P} installed for ${board}"
 	elog "Depends on joetoo-meta by default (see joetoo USE flag) "
@@ -408,6 +424,8 @@ pkg_postinst() {
 	elog " 0.3.3 move to script_header_joetoo"
 	elog " 0.3.4 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.3.5 adds fsl-imx8mq-phanbell and consolidates common files"
+	elog " 0.3.6 provides refinements and bugfixes, README_layout for joetoo sbcs"
+	elog " 0.4.0 adds meson-g12b-a311d-libretech-cc"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
