@@ -426,6 +426,7 @@ pkg_postinst() {
 	elog " 0.3.5 adds fsl-imx8mq-phanbell and consolidates common files"
 	elog " 0.3.6 provides refinements and bugfixes, README_layout for joetoo sbcs"
 	elog " 0.4.0 adds meson-g12b-a311d-libretech-cc"
+	elog " 0.4.1 provides refinements and bugfixes"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
