@@ -31,7 +31,7 @@ REQUIRED_USE="
 	)
 "
 
-RESTRICT=""
+RESTRICT="mirror"
 
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}/${PN}"
