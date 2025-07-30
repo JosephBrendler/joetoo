@@ -1,0 +1,53 @@
+
+
+  -------------------- TBD -----------------------
+
+You should not need to reflash u-boot for meson-g12b-a311d-libretech-cc, since the bootloader
+is installed in SPI NOR on this board and uses efi to start grub to launch the kernel and initrd
+on this system... (updating grub should normally suffice)
+
+  -------------------- TBD -----------------------
+     (the rest of this is from sweet potato)
+
+To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
+follow these instructions, based on armbian's platform_install.sh which can be found in
+u-boot_reflash_resources/usr/lib/u-boot/  --
+
+    # (as root)
+    cd /path/to/linux-u-boot-current-rock-5b/
+    target=<devicename>
+
+    dd if=u-boot.bin of=${target} bs=1 count=442 conv=fsync 2>&1;
+    dd if=u-boot.bin of=${target} bs=512 skip=1 seek=1 conv=fsync 2>&1
+
+Notes:
+(0) The above procedure has not yet been verified for meson-gxl-s905x-libretech-cc-v2
+
+(1) The platform_install.sh script seems to use only the u-boot.bin file that is provided here
+
+(2) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
+ 
+(3) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
+when that is a MTD block device as in the case of rock-5b, the boot sd card will be
+/dev/mmcblk1
+
+(4) You can also re-compile u-boot from scratch...
+
+(5) First partition should start at sector 8192, to leave room for u-boot images written
+    with this method.  For example, see this layout
+
+(6) note that the armbian layout for meson-gxl-s905x-libretech-cc-v2 mounts 
+the vfat (EFI System) partition as /boot/efi
+
+# fdisk -l /dev/mmcblk1 (on working rk3588-rock-5b)---------------
+Disk /dev/mmcblk1: 58 GiB, 62277025792 bytes, 121634816 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 72A62D59-8E1A-460D-8CD4-6ABA5721B25B
+
+Device          Start       End   Sectors  Size Type
+/dev/mmcblk1p1   8192    532479    524288  256M EFI System
+/dev/mmcblk1p2 532480 121634782 121102303 57.7G Linux root (ARM-64)
+#-----------------------------------------------------------------
