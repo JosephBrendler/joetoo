@@ -142,6 +142,8 @@ pkg_postinst() {
 	elog " 0.5.3 removes xdotool_open_windows to its own package"
 	elog " 0.5.4 adds joetoo-sbc-list script and completes repo migration"
 	elog " 0.5.5 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
+	elog " 0.5.6 updates the joetoo-sbc-list script"
+	elog " 0.5.7 provides a new (replacement) binhost_cleanup script"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
