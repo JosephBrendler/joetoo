@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=kernel sources for libre computer amlogic SOC based single board computers (SBCs)
+EAPI=8
+HOMEPAGE=https://github.com/libre-computer-project/libretech-linux/tree/master https://github.com/JosephBrendler/joetoo
+IUSE=symlink config
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RESTRICT=mirror
+SLOT=6.12.40
+SRC_URI=https://raspi56406.brendler/amlogic-sources/linux-6.12.40-amlogic.tbz2
+_md5_=c42956b65f2bf2656bb55f67523c2040
