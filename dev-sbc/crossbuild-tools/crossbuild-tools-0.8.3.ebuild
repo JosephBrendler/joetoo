@@ -218,6 +218,8 @@ pkg_postinst() {
 	elog " 0.7.17 final mods to cb-mkenv -mkimg w cb-umount, stockpile"
 	elog " 0.8.0 introduced cb-mount/umount-binhost"
 	elog " 0.8.1 adds meson-g12b-a311d-libretech-cc (alta)"
+	elog " 0.8.2 adds refinements and bugfixes"
+	elog " 0.8.3 adds meson-sm1-s905d3-libretech-cc (solitude)"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
