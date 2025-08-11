@@ -16,8 +16,8 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
 REQUIRED_USE="
@@ -26,8 +26,8 @@ REQUIRED_USE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	)
 "
 
@@ -148,6 +148,10 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-rock-5c(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		fsl-imx8mq-phanbell?   (
+			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 		meson-gxl-s905x-libretech-cc-v2?   (
 			>=sys-boot/sbc-boot-config-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=sys-apps/sbc-i2c-0.0.1
@@ -158,10 +162,6 @@ RDEPEND="
 		)
 		meson-g12b-a311d-libretech-cc?   (
 			>=sys-boot/sbc-boot-config-0.0.1[meson-g12b-a311d-libretech-cc(+)]
-			>=sys-apps/sbc-i2c-0.0.1
-		)
-		fsl-imx8mq-phanbell?   (
-			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 	)
@@ -226,6 +226,10 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
 		)
+		fsl-imx8mq-phanbell? (
+			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
+		)
 		meson-gxl-s905x-libretech-cc-v2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
@@ -237,10 +241,6 @@ RDEPEND="
 		meson-g12b-a311d-libretech-cc? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-g12b-a311d-libretech-cc(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-g12b-a311d-libretech-cc(+)]
-		)
-		fsl-imx8mq-phanbell? (
-			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
 		)
 	)
 	boot-fw? (
@@ -258,10 +258,10 @@ RDEPEND="
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
+		fsl-imx8mq-phanbell?    ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
 		meson-sm1-s905d3-libretech-cc?    ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-sm1-s905d3-libretech-cc(+)] )
 		meson-g12b-a311d-libretech-cc?    ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-g12b-a311d-libretech-cc(+)] )
-		fsl-imx8mq-phanbell?   ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 	)
 	kernelimage? (
 		bcm2712-rpi-cm5-cm5io?  ( sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage )
@@ -278,10 +278,10 @@ RDEPEND="
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
+		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
 		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
 		meson-sm1-s905d3-libretech-cc?    ( sys-kernel/linux-meson-sm1-s905d3-libretech-cc_joetoo_-kernelimage )
 		meson-g12b-a311d-libretech-cc?    ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_joetoo_-kernelimage )
-		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
 	)
 "
 
@@ -301,10 +301,10 @@ pkg_setup() {
 	elif use rk3588-rock-5b; then export board="rk3588-rock-5b" ; export arch="arm64"
 	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5" ; export arch="arm64"
 	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c" ; export arch="arm64"
+	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell" ; export arch="arm64"
 	elif use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2" ; export arch="arm64"
 	elif use meson-sm1-s905d3-libretech-cc; then export board="meson-sm1-s905d3-libretech-cc" ; export arch="arm64"
 	elif use meson-g12b-a311d-libretech-cc; then export board="meson-g12b-a311d-libretech-cc" ; export arch="arm64"
-	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell" ; export arch="arm64"
 	else export board="" ; export arch=""
 	fi
 #	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
