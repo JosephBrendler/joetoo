@@ -1,53 +1,76 @@
-
-
-  -------------------- TBD -----------------------
-
 You should not need to reflash u-boot for meson-g12b-a311d-libretech-cc, since the bootloader
 is installed in SPI NOR on this board and uses efi to start grub to launch the kernel and initrd
 on this system... (updating grub should normally suffice)
 
-  -------------------- TBD -----------------------
-     (the rest of this is from sweet potato)
+According to advice from Libre Computer at
+  https://hub.libre.computer/t/2025-07-03-libre-computer-aml-s905d3-cc-solitude-aml-a311d-alta-aml-s905x-cc-v2-sweet-potato-aml-s805x-ac-la-frite-aml-s905x-cc-le-potato-firmware-update/4825
+The latest firmware update (at link below) includes the following features:
+  gzip compressed boot.bmp bootup images
+  intelligent boot device detection for boot logo and ini load
+  Wake-on-LAN via sudo ethtool -s end0 wol g
+  u-boot to version v2025.07
+  firmware self-update function
+Download it here - https://boot.libre.computer/release/aml-a311d-cc/aml-a311d-cc-spiflash.img
 
-To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
-follow these instructions, based on armbian's platform_install.sh which can be found in
-u-boot_reflash_resources/usr/lib/u-boot/  --
+(1) Burn this image to a microSD card (*) see quality caveat below at (2), using dd or a program like
+balena etcher.  Note that balena etcher will now let you flash the SD card using the URL as a source
+    wget -O - 'URL' | xz -dc | sudo dd of=/dev/DEVICE bs=1M status=progress
+    # replace URL with the link to the image, do not remove quote
+    # replace DEVICE with the target drive such as sdX or mmcblkX, this will be different on macOS
 
-    # (as root)
-    cd /path/to/linux-u-boot-current-rock-5b/
-    target=<devicename>
+(2) Boot - (this will boot to a black/white boot menu)
+(3) Select "Firmware update" (this will install updated u-boot described above, including efi-scanner)
+(4) When it returns "Firmware update successful" power down and remove the SD card
+(5) Insert a microSD card with a bootable EFI image (including grub menu) and boot again
+(for example, use the "arm64-uefi" image built by armbian/build for all uefi enabled arm64 boards)
 
-    dd if=u-boot.bin of=${target} bs=1 count=442 conv=fsync 2>&1;
-    dd if=u-boot.bin of=${target} bs=512 skip=1 seek=1 conv=fsync 2>&1
+Debugging with u-boot uart serial console --
+See - https://hub.libre.computer/t/libre-computer-board-debug-serial-uart-connection-and-setup-guide/2692
 
 Notes:
-(0) The above procedure has not yet been verified for meson-gxl-s905x-libretech-cc-v2
+(0) The above procedure has been NOT verified for meson-g12b-a311d-libretech-cc (8/10/2025)
 
-(1) The platform_install.sh script seems to use only the u-boot.bin file that is provided here
+(1) See my posted question about SD card that boots from a USB card reader but not from SD card slot --
+    https://hub.libre.computer/t/2025-07-03-libre-computer-aml-s905d3-cc-solitude-aml-a311d-alta-aml-s905x-cc-v2-sweet-potato-aml-s805x-ac-la-frite-aml-s905x-cc-le-potato-firmware-update/4825/3?u=joeb
+    response:  "Solitude is more picky about MicroSD card than Alta and Sweet Potato ...
+    Stick to legit Tier 1 and it should work"
+    Also saw elsewhere: "We recommend SanDisk and Samsung MicroSD because those brands have a history
+     of making reliability (sic.) products. There are knockoffs that appear on Amazon.
+     Kingston, PNY, and other brands have put out unreliable products in the past
+     so we do [NOT] recommend them...
+     To test read speed, run
+       sudo dd if=$(findmnt -nvo SOURCE /) of=/dev/null bs=1M iflag=direct status=progress
+     Press Control+C to end. If this drops below 20MB/s, we recommend another card.
+     To test write speed, run 
+       openssl enc -aes-128-ctr -pass pass:"$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | \
+         base64)" -nosalt < /dev/zero | \
+         dd of=test.file iflag=fullblock oflag=direct bs=1M status=progress
+     Press Control+C to end. If this drops below 15MB/s, we recommend another card."
 
-(2) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
+(2) Be sure to replace DEVICE with the correct device, e.g. /dev/sdb or /dev/mmcblk1
  
 (3) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
-when that is a MTD block device as in the case of rock-5b, the boot sd card will be
+when that is a MTD block device (e.g. SPI NOR) as in the case of meson-g12b-a311d-libretech-cc, the boot sd card will be
 /dev/mmcblk1
 
-(4) You can also re-compile u-boot from scratch...
+(4) You can also re-compile u-boot from scratch... and boot using the boot.scr script and joetooEnv.txt example
+    provided by sys-boot/sbc-boot-config, which are basically unused otherwise
 
 (5) First partition should start at sector 8192, to leave room for u-boot images written
     with this method.  For example, see this layout
 
-(6) note that the armbian layout for meson-gxl-s905x-libretech-cc-v2 mounts 
+(6) note that the armbian layout for meson-g12b-a311d-libretech-cc mounts 
 the vfat (EFI System) partition as /boot/efi
 
-# fdisk -l /dev/mmcblk1 (on working rk3588-rock-5b)---------------
-Disk /dev/mmcblk1: 58 GiB, 62277025792 bytes, 121634816 sectors
+# fdisk -l /dev/mmcblk1 ( on working alta meson-g12b-a311d-libretech-cc )---------------
+Disk /dev/mmcblk1: 28.87 GiB, 31002198016 bytes, 60551168 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: gpt
-Disk identifier: 72A62D59-8E1A-460D-8CD4-6ABA5721B25B
+Disk identifier: 2F763CC4-8E05-4444-8953-94FF3804F527
 
-Device          Start       End   Sectors  Size Type
-/dev/mmcblk1p1   8192    532479    524288  256M EFI System
-/dev/mmcblk1p2 532480 121634782 121102303 57.7G Linux root (ARM-64)
+Device           Start      End  Sectors  Size Type
+/dev/mmcblk1p1    8192  1056767  1048576  512M EFI System
+/dev/mmcblk1p2 1056768 60549119 59492352 28.4G Linux filesystem
 #-----------------------------------------------------------------

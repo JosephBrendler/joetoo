@@ -8,18 +8,16 @@
                 <remote-id type="github">https://github.com/armbian/build</remote-id>
         </upstream>
         <use>
-                <flag name="meson-gxl-s905x-libretech-cc-v2">Install boot firmware for Libre Computer Sweet Potato</flag>
-                <flag name="meson-g12b-a311d-libretech-cc">Install boot firmware for Libre Computer Alta</flag>
+                <flag name="meson-gxl-s905x-libretech-cc-v2">Boot firmware for Libre Computer Sweet Potato</flag>
+                <flag name="meson-sm1-s905d3-libretech-cc">Boot firmware for Libre Computer Solitude</flag>
+                <flag name="meson-g12b-a311d-libretech-cc">Boot firmware for Libre Computer Alta</flag>
                 <flag name="armbian_kernel">Pull in sys-kernel package to install armbian kernel for this board</flag>
                 <flag name="dtbo">Pull in sys-kernel package to supply device tree blob overlay files</flag>
         </use>
         <longdescription>
-		u-boot bootloader firmware, with re-flash instructions for the selected rockchip sbc
-		These were built with armbian/build --
-			./compile.sh u-boot-config BOARD=xxxx etc.
-			./compile.sh u-boot BOARD=xxxx etc.
+		Libre Computer u-boot bootloader firmware, with re-flash instructions for the selected sbc
 		Optionally pull in sys-kernel package to install armbian kernel and overlays
-		for the selected rockchip sbc
+		for the selected sbc
 		These were built with armbian/build --
 			./compile.sh kernel-config BOARD=xxxx etc.
 			./compile.sh kernel BOARD=xxxx etc.	
