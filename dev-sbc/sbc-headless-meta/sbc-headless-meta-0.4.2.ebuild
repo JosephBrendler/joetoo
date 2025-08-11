@@ -306,7 +306,7 @@ pkg_setup() {
 	elif use meson-g12b-a311d-libretech-cc; then export board="meson-g12b-a311d-libretech-cc" ; export arch="arm64" ;
 	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell" ; export arch="arm64" ;
 	else export board="" ; export arch="" ;
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 	einfo "Assigned arch: ${arch}"
 }
