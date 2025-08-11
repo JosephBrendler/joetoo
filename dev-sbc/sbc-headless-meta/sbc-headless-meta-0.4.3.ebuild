@@ -6,9 +6,7 @@ EAPI=7
 
 DESCRIPTION="Baseline packages for a headless single board computer (sbc)"
 HOMEPAGE="https://github.com/joetoo"
-#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
-#(allow r1 update of ebuild w/o needing r1 of source repo?)
 
 LICENSE="metapackage"
 SLOT="0"
@@ -18,7 +16,8 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
+	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
 REQUIRED_USE="
@@ -27,7 +26,8 @@ REQUIRED_USE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
+	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	)
 "
 
@@ -148,16 +148,20 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-rock-5c(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		fsl-imx8mq-phanbell?   (
+			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 		meson-gxl-s905x-libretech-cc-v2?   (
 			>=sys-boot/sbc-boot-config-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
-		meson-g12b-a311d-libretech-cc?   (
-			>=sys-boot/sbc-boot-config-0.0.1[meson-g12b-a311d-libretech-cc(+)]
+		meson-sm1-s905d3-libretech-cc?   (
+			>=sys-boot/sbc-boot-config-0.0.1[meson-sm1-s905d3-libretech-cc(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
-		fsl-imx8mq-phanbell?   (
-			>=sys-boot/sbc-boot-config-0.0.1[fsl-imx8mq-phanbell(+)]
+		meson-g12b-a311d-libretech-cc?   (
+			>=sys-boot/sbc-boot-config-0.0.1[meson-g12b-a311d-libretech-cc(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 	)
@@ -222,17 +226,21 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
 		)
+		fsl-imx8mq-phanbell? (
+			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
+		)
 		meson-gxl-s905x-libretech-cc-v2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
 		)
+		meson-sm1-s905d3-libretech-cc? (
+			>=dev-sbc/sbc-status-leds-0.0.1[meson-sm1-s905d3-libretech-cc(+)]
+			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-sm1-s905d3-libretech-cc(+)]
+		)
 		meson-g12b-a311d-libretech-cc? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-g12b-a311d-libretech-cc(+)]
 			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-g12b-a311d-libretech-cc(+)]
-		)
-		fsl-imx8mq-phanbell? (
-			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
 		)
 	)
 	boot-fw? (
@@ -250,9 +258,10 @@ RDEPEND="
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
+		fsl-imx8mq-phanbell?    ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
+		meson-sm1-s905d3-libretech-cc?    ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-sm1-s905d3-libretech-cc(+)] )
 		meson-g12b-a311d-libretech-cc?    ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-g12b-a311d-libretech-cc(+)] )
-		fsl-imx8mq-phanbell?   ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 	)
 	kernelimage? (
 		bcm2712-rpi-cm5-cm5io?  ( sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage )
@@ -269,69 +278,35 @@ RDEPEND="
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
-		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
-		meson-g12b-a311d-libretech-cc?    ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_joetoo_-kernelimage )
 		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
+		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
+		meson-sm1-s905d3-libretech-cc?    ( sys-kernel/linux-meson-sm1-s905d3-libretech-cc_joetoo_-kernelimage )
+		meson-g12b-a311d-libretech-cc?    ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_joetoo_-kernelimage )
 	)
 "
 
 pkg_setup() {
-# for sbc systems we need to know which board we are using
-	if use bcm2712-rpi-cm5-cm5io ; then
-		export board="bcm2712-rpi-cm5-cm5io"
-		export arch="arm64"
-	else if use bcm2712-rpi-5-b ; then
-		export board="bcm2712-rpi-5-b"
-		export arch="arm64"
-	else if use bcm2711-rpi-cm4-io ; then
-		export board="bcm2711-rpi-cm4-io"
-		export arch="arm64"
-	else if use bcm2711-rpi-4-b ; then
-		export board="bcm2711-rpi-4-b"
-		export arch="arm64"
-	else if use bcm2710-rpi-3-b-plus; then
-		export board="bcm2710-rpi-3-b-plus"
-		export arch="arm64"
-	else if use bcm2710-rpi-3-b; then
-		export board="bcm2710-rpi-3-b"
-		export arch="arm"
-	else if use bcm2709-rpi-2-b; then
-		export board="bcm2709-rpi-2-b"
-		export arch="arm"
-	else if use bcm2708-rpi-b; then
-		export board="bcm2708-rpi-b"
-		export arch="arm"
-	else if use rk3288-tinker-s; then
-		export board="rk3288-tinker-s"
-		export arch="arm"
-	else if use rk3399-rock-pi-4c-plus; then
-		export board="rk3399-rock-pi-4c-plus"
-		export arch="arm64"
-	else if use rk3399-tinker-2; then
-		export board="rk3399-tinker-2"
-		export arch="arm64"
-	else if use rk3588-rock-5b; then
-		export board="rk3588-rock-5b"
-		export arch="arm64"
-	else if use rk3588s-orangepi-5; then
-		export board="rk3588s-orangepi-5"
-		export arch="arm64"
-	else if use rk3588s-rock-5c; then
-		export board="rk3588s-rock-5c"
-		export arch="arm64"
-	else if use meson-gxl-s905x-libretech-cc-v2; then
-		export board="meson-gxl-s905x-libretech-cc-v2"
-		export arch="arm64"
-	else if use meson-g12b-a311d-libretech-cc; then
-		export board="meson-g12b-a311d-libretech-cc"
-		export arch="arm64"
-	else if use fsl-imx8mq-phanbell; then
-		export board="fsl-imx8mq-phanbell"
-		export arch="arm64"
-	else
-		export board=""
-		export arch=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	# for sbc systems we need to know which board we are using
+	if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io" ; export arch="arm64"
+	elif use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b" ; export arch="arm64"
+	elif use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io" ; export arch="arm64"
+	elif use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b" ; export arch="arm64"
+	elif use bcm2710-rpi-3-b-plus; then export board="bcm2710-rpi-3-b-plus" ; export arch="arm64"
+	elif use bcm2710-rpi-3-b; then export board="bcm2710-rpi-3-b" ; export arch="arm"
+	elif use bcm2709-rpi-2-b; then export board="bcm2709-rpi-2-b" ; export arch="arm"
+	elif use bcm2708-rpi-b; then export board="bcm2708-rpi-b" ; export arch="arm"
+	elif use rk3288-tinker-s; then export board="rk3288-tinker-s" ; export arch="arm"
+	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus" ; export arch="arm64"
+	elif use rk3399-tinker-2; then export board="rk3399-tinker-2" ; export arch="arm64"
+	elif use rk3588-rock-5b; then export board="rk3588-rock-5b" ; export arch="arm64"
+	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5" ; export arch="arm64"
+	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c" ; export arch="arm64"
+	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell" ; export arch="arm64"
+	elif use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2" ; export arch="arm64"
+	elif use meson-sm1-s905d3-libretech-cc; then export board="meson-sm1-s905d3-libretech-cc" ; export arch="arm64"
+	elif use meson-g12b-a311d-libretech-cc; then export board="meson-g12b-a311d-libretech-cc" ; export arch="arm64"
+	else export board="" ; export arch=""
+	fi
 	einfo "Assigned board: ${board}"
 	einfo "Assigned arch: ${arch}"
 }
@@ -425,8 +400,10 @@ pkg_postinst() {
 	elog " 0.3.4 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.3.5 adds fsl-imx8mq-phanbell and consolidates common files"
 	elog " 0.3.6 provides refinements and bugfixes, README_layout for joetoo sbcs"
-	elog " 0.4.0 adds meson-g12b-a311d-libretech-cc"
+	elog " 0.4.0 adds meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.4.1 provides refinements and bugfixes"
+	elog " 0.4.2 adds meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.4.3 provides refinements and bugfixes"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
