@@ -139,6 +139,8 @@ sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image ~arm64
 sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image ~arm64
 sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image ~arm64
 sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image ~arm64
+sys-kernel/linux-meson-g12b-a311d-libretech-cc-v2_armbian_kernel_image ~arm64
+sys-kernel/linux-meson-sm1-s905d3-libretech-cc-v2_armbian_kernel_image ~arm64
 sys-kernel/raspi-sources ~arm64
 sys-kernel/rockchip-sources ~arm64
 sys-kernel/amlogic-sources ~arm64

@@ -17,7 +17,11 @@ dev-util/compareConfigs ** ~arm
 dev-util/mkinitramfs ~arm
 dev-util/script_header_brendlefly ~arm
 dev-util/Terminal ** ~arm
+joetoo-base/joetoo-meta ** ~arm
 net-misc/cloudsync ** ~arm
+
+sys-firmware/b43-firmware ** ~arm
+dev-util/joetoolkit ** ~arm
 
 #-----[ bleeding edge ]--------------------------------------
 #media-libs/raspberrypi-userland **
@@ -30,6 +34,8 @@ net-misc/cloudsync ** ~arm
 
 #-----[ unstable OK ]----------------------------------------
 # uncomment and/or modify as desired
+#>sys-kernel/gentoo-sources-5.16.16 -~arm
+#<=sys-kernel/gentoo-sources-5.16.16 ~arm
 #dev-libs/icu ~arm
 #sys-libs/gdbm ~arm
 #dev-libs/libical ~arm
@@ -38,9 +44,14 @@ net-misc/cloudsync ** ~arm
 #dev-libs/libffi ~arm
 #dev-lang/perl ~arm
 
+# no stable nextcloud currently available for arm
+www-apps/nextcloud ~arm
+
 #-----[ stabilize kernel ]-------------------------------------
 #>sys-kernel/gentoo-sources-5.16.16 -~arm
 #<=sys-kernel/gentoo-sources-5.16.16 ~arm
+sys-kernel/raspi-sources ** ~arm
+sys-kernel/rockchip-sources ** ~arm
 
 #-----[ stabilize toolchain(s) ]-------------------------------
 >sys-libs/glibc-2.34-r8  -~arm
@@ -49,7 +60,9 @@ net-misc/cloudsync ** ~arm
 <=sys-devel/binutils-2.37_p1-r2 ~arm
 >sys-devel/binutils-config-5.4 -~arm
 <=sys-devel/binutils-config-5.4 ~arm
+# move sys-devel/libtool dev-build/libtool
 >dev-build/libtool-2.4.6-r6 -~arm
+#<=sys-devel/libtool-2.4.6-r6 ~arm
 <=dev-build/libtool-2.4.6-r6 ~arm
 >sys-devel/gcc-11.2.1_p20220115 -~arm
 <=sys-devel/gcc-11.2.1_p20220115 ~arm
@@ -57,10 +70,9 @@ net-misc/cloudsync ** ~arm
 <=sys-kernel/linux-headers-5.16 ~arm
 >sys-devel/gcc-config-2.5-r1 -~arm
 <=sys-devel/gcc-config-2.5-r1 ~arm
-dev-lang/rust -~arm
-dev-lang/rust-bin -~arm
 
-#-----[ stable llvm ]-------------------------------------------
+
+#-----[ stable llvm ]---------------------------------------
 llvm-core/* -~arm
 llvm-runtimes/* -~arm
 
@@ -90,48 +102,48 @@ net-fs/samba -~arm
 dev-db/mysql -~arm
 dev-libs/protobuf -~arm
 
-#-----[ to cross-build for chroot and/or deployable image ]-------         
-acct-group/gpio **
-acct-group/i2c **
-acct-group/spi **
-app-portage/jus **
-dev-sbc/sbc-headless-meta **
-dev-sbc/sbc-status-leds **
-net-wireless/rpi3-wifi-regdom **
-sys-apps/rpi-i2c **
-sys-apps/rpi-onetime-startup **
-sys-apps/rpi-serial **
-sys-apps/rpi-video **
-sys-apps/rpi3-init-scripts **
-sys-apps/rpi3-ondemand-cpufreq **
-sys-apps/sbc-gpio **
-sys-apps/sbc-i2c **
-sys-apps/sbc-spi **
-sys-boot/raspi-boot-firmware **
-sys-boot/rockchip-boot-firmware **
-sys-boot/amlogic-boot-firmware **
-sys-firmware/brcm43430-firmware **
-sys-kernel/linux-bcm2708-rpi-b_joetoo_kernelimage **
-sys-kernel/linux-bcm2709-rpi-2-b_joetoo_kernelimage **
-sys-kernel/linux-bcm2710-rpi-3-b-plus_joetoo_kernelimage **
-sys-kernel/linux-bcm2710-rpi-3-b_joetoo_kernelimage **
-sys-kernel/linux-bcm2711-rpi-4-b_joetoo_kernelimage **
-sys-kernel/linux-bcm2711-rpi-cm4-io_joetoo_kernelimage **
-sys-kernel/linux-bcm2712-rpi-5-b_joetoo_kernelimage **
-sys-kernel/linux-bcm2712-rpi-cm5-cm5io_joetoo_kernelimage **
-sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image **
-sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image **
-sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage **
-sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image **
-sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image **
-sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image **
-sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image **
-sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image **
-sys-kernel/raspi-sources **
-sys-kernel/rockchip-sources **
-sys-kernel/amlogic-sources **
-dev-libs/libgpiod **
-net-wireless/b43-fwcutter **
->=sys-firmware/b43-firmware-5.100.138::gentoo **
-sys-boot/sbc-boot-config **
+>=dev-lang/python-3.12.3-r1 -~arm
 
+# for chroot and/or deployable image
+acct-group/gpio ~arm
+acct-group/i2c ~arm
+acct-group/spi ~arm
+app-portage/jus ~arm
+dev-sbc/sbc-headless-meta ~arm
+dev-sbc/sbc-status-leds ~arm
+net-wireless/rpi3-wifi-regdom ~arm
+sys-apps/rpi-i2c ~arm
+sys-apps/rpi-onetime-startup ~arm
+sys-apps/rpi-serial ~arm
+sys-apps/rpi-video ~arm
+sys-apps/rpi3-init-scripts ~arm
+sys-apps/rpi3-ondemand-cpufreq ~arm
+sys-apps/sbc-gpio ~arm
+sys-apps/sbc-i2c ~arm
+sys-apps/sbc-spi ~arm
+sys-boot/raspi-boot-firmware ~arm
+sys-boot/rockchip-boot-firmware ~arm
+sys-boot/amlogic-boot-firmware ~arm
+sys-boot/sbc-boot-config ~arm
+sys-firmware/brcm43430-firmware ~arm
+sys-kernel/linux-bcm2708-rpi-b_joetoo_kernelimage ~arm
+sys-kernel/linux-bcm2709-rpi-2-b_joetoo_kernelimage ~arm
+sys-kernel/linux-bcm2710-rpi-3-b-plus_joetoo_kernelimage ~arm
+sys-kernel/linux-bcm2710-rpi-3-b_joetoo_kernelimage ~arm
+sys-kernel/linux-bcm2711-rpi-4-b_joetoo_kernelimage ~arm
+sys-kernel/linux-bcm2712-rpi-5-b_joetoo_kernelimage ~arm
+sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image ~arm
+sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image ~arm
+sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage ~arm
+sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image ~arm
+sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image ~arm
+sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image ~arm
+sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image ~arm
+sys-kernel/linux-meson-g12b-a311d-libretech-cc-v2_armbian_kernel_image ~arm
+sys-kernel/linux-meson-sm1-s905d3-libretech-cc-v2_armbian_kernel_image ~arm
+sys-kernel/raspi-sources ~arm
+sys-kernel/rockchip-sources ~arm
+sys-kernel/amlogic-sources ~arm
+dev-libs/libgpiod ~arm
+net-wireless/b43-fwcutter ~arm
+>=sys-firmware/b43-firmware-5.100.138::gentoo ~arm
