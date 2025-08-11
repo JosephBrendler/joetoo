@@ -18,7 +18,8 @@ IUSE="
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
 	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
 BOARDLIST="
@@ -27,7 +28,8 @@ BOARDLIST="
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
 	rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
 # "at least one of" the BOARDLIST options
@@ -157,7 +159,9 @@ pkg_postinst() {
 	elog " 0.9.7 changes to use script_header_joetoo"
 	elog " 0.9.8 fixes rpi configs choice of image, zImage, Image.gz IAW upstream instr."
 	elog " 0.9.9 adds meson-gxl-s905x-libretech-cc-v2 and fsl-imx8mq-phanbell"
-	elog " 6.9.10 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
+	elog " 0.9.10 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
+	elog " 0.9.11 adds meson-g12b-a311d-libretech-cc (alta)"
+	elog " 0.9.12 adds meson-sm1-s905d3-libretech-cc (solitude)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

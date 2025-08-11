@@ -35,9 +35,10 @@
 		<flag name="bcm2711-rpi-cm4-io">Install default raspi CM4 w IO board build-config file</flag>
 		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
 		<flag name="bcm2712-rpi-cm5-cm5io">Install default raspi CM5 w IO board build-config file</flag>
-		<flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for SweetPotato (aml905)(armv8/64)</flag>
-		<flag name="meson-g12b-a311d-libretech-cc">Tailor for Alta (aml a311d)(armv8/64)</flag>
 		<flag name="fsl-imx8mq-phanbell">Tailor for TinkerEdgeT/CoralDev (i.mx8)(armv8/64)</flag>
+		<flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for SweetPotato (aml s905x a53)(armv8/64)</flag>
+		<flag name="meson-sm1-s905d3-libretech-cc">Tailor for Alta (aml s905d3 a55)(armv8/64)</flag>
+		<flag name="meson-g12b-a311d-libretech-cc">Tailor for Alta (aml a311d a73/53)(armv8/64)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
