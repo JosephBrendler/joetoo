@@ -19,7 +19,8 @@ IUSE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	fsl-imx8mq-phanbell
 "
 
 REQUIRED_USE="
@@ -27,7 +28,8 @@ REQUIRED_USE="
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	fsl-imx8mq-phanbell
 	)
 "
 
@@ -71,11 +73,12 @@ pkg_setup() {
 	else if use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"; export maker="rockchip"
 	else if use rk3588s-rock-5c; then export board="rk3588s-rock-5c"; export maker="rockchip"
 	else if use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell"; export maker="nxp"
-	else if use meson-gxl-s905x-libretech-cc-v2 ; then
-		export board="meson-gxl-s905x-libretech-cc-v2"; export maker="amlogic"
+	else if use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2"; export maker="amlogic"
+	else if use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc"; export maker="amlogic"
+	else if use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc"; export maker="amlogic"
 	else export board=""; export maker=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
-einfo "Assigned board: ${board}   maker: ${maker}"
+	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	einfo "Assigned board: ${board}   maker: ${maker}"
 }
 
 newins_all() {
@@ -114,6 +117,8 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 was the initial ebuild; see FILESDIR/version_history"
 	elog " 0.2.0 updates checkboot; starts migration of FILESDIR to myUtilities repo"
+	elog " 0.2.1 adds support for meson-g12b-a311d-libretech-cc (alta)"
+	elog " 0.2.2 adds support for meson-sm1-s905d3-libretech-cc (solitude)"
 	elog ""
 	case ${maker} in
 		"raspi" )
