@@ -1,0 +1,3 @@
+keep source files here until complete with migration to myUtilities repository
+which started with version 0.1.0 (0.0.11 still uses FILESDIR)
+then remove all files except version_history
