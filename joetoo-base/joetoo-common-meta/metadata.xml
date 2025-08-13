@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		This is the meta-package ebuild for joetoo
+		More to follow...
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="headless">Configure joetoo for use as a headless server</flag>
+		<flag name="plasma">(to do) Configure joetoo for use with a plasma desktop</flag>
+		<flag name="gnome">(to do) Configure joetoo for use with a gnome desktop</flag>
+		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
+		<flag name="lamp">Pull in packages required for a LAMP server</flag>
+		<flag name="mysql">Pull in the mysql database and required components</flag>
+		<flag name="mariadb">Pull in the mariadb database and required components</flag>
+		<flag name="nextcloud">Pull in the nextcloud package and its dependencies</flag>
+		<flag name="ntp">Pull in ntp to sync with time source</flag>
+		<flag name="samba">Pull in samba for wins, file service, etc.</flag>
+		<flag name="chrony">Pull in chrony to sync with time source</flag>
+		<flag name="sysklogd">Pull in sysklogd as system logger</flag>
+		<flag name="syslog-ng">Pull in syslog-ng as system logger</flag>
+		<flag name="netifrc">Pull in netifrc to manage network</flag>
+		<flag name="networkmanager">Pull in networkmanager to manage network</flag>
+		<flag name="mkinitramfs">Pull in joetoo's initramfs builder and required components</flag>
+		<flag name="jus">Pull in the joetoo update sequence script and dependencies</flag>
+		<flag name="script_header_joetoo">Pull in the joetoo script header</flag>
+		<flag name="compareConfigs">Pull in the joetoo's initramfs builder and required components</flag>
+		<flag name="Terminal">Pull in the joetoo Terminal c++ shared obj library and test program</flag>
+		<flag name="cloudsync">Cron scrit to sync content, scripts, binary packages across multiple nodes</flag>
+		<flag name="domU">Pull in joetoo's sys-kernel/linux-domU_joetoo_kernelimage</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+	</upstream>
+</pkgmetadata>

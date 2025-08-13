@@ -1,4 +1,0 @@
-dev-util/clinfo ~arm64
-x11-apps/igt-gpu-tools ~arm64
-
->=lxde-base/lxterminal-0.4.0_p20230917::gentoo ~arm64

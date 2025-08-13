@@ -1,9 +1,0 @@
-/var/log/admin_daily* {
-	compress
-	maxage 365
-	rotate 7
-	size 1M
-	notifempty
-	missingok
-	copytruncate
-}
