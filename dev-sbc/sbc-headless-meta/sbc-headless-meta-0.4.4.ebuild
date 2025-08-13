@@ -18,16 +18,21 @@ IUSE="
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	generic-armv6j generic-armv7a generic-aarch64
+	generic-amd64
 "
 
 REQUIRED_USE="
 	innercore
+	joetoo
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
 	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	generic-armv6j generic-armv7a generic-aarch64
+	generic-amd64
 	)
 "
 
@@ -44,6 +49,9 @@ BDEPEND="
 	>=app-shells/bash-5.0
 "
 
+# note: for USE joetoo, the joetoo-platform-meta[sbc,<board>] dependency should confirm the
+#    package should have already been installed with those use (and in the process installed
+#    make.conf, package.use, package.accept_keywords files that will affect this installation
 RDEPEND="
 	${BDEPEND}
 	>=sys-firmware/b43-firmware-5.100.138
@@ -164,83 +172,124 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[meson-g12b-a311d-libretech-cc(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		generic-aarch64?  (
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)]
+			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
+			media-libs/raspberrypi-userland
+			>=sys-apps/rpi-i2c-1.0.1
+			>=net-wireless/rpi3-wifi-regdom-1.1-r1
+			>=sys-apps/rpi-serial-1.0.0-r1
+			>=sys-apps/rpi-video-1.0.0-r1
+		)
+
+		generic-armv7a?   (
+			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2709-rpi-2-b(+)]
+			media-libs/raspberrypi-userland
+			>=sys-apps/rpi-i2c-1.0.1
+			>=net-wireless/rpi3-wifi-regdom-1.1-r1
+			>=sys-apps/rpi-serial-1.0.0-r1
+			>=sys-apps/rpi-video-1.0.0-r1
+		)
+		generic-armv6j?   (
+			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
+			>=sys-boot/sbc-boot-config-0.0.1[bcm2708-rpi-b(+)]
+			media-libs/raspberrypi-userland
+			>=sys-apps/rpi-i2c-1.0.1
+			>=net-wireless/rpi3-wifi-regdom-1.1-r1
+			>=sys-apps/rpi-serial-1.0.0-r1
+			>=sys-apps/rpi-video-1.0.0-r1
+		)
 	)
 	gpio? (
 		>=dev-libs/libgpiod-2.1
 	)
 	joetoo? (
 		>=dev-util/joetoolkit-0.3.3
+		>=joetoo-base/joetoo-common-meta-0.0.1
 		bcm2712-rpi-cm5-cm5io? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-cm5-cm5io(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2712-rpi-cm5-cm5io(+)]
 		)
 		bcm2712-rpi-5-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2712-rpi-5-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2712-rpi-5-b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2712-rpi-5-b(+)]
 		)
 		bcm2711-rpi-cm4-io? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-cm4-io(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-cm4-io(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2711-rpi-cm4-io(+)]
 		)
 		bcm2711-rpi-4-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2711-rpi-4-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2711-rpi-4-b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2711-rpi-4-b(+)]
 		)
 		bcm2710-rpi-3-b-plus? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2710-rpi-3-b-plus(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2710-rpi-3-b-plus(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2710-rpi-3-b-plus(+)]
 		)
 		bcm2710-rpi-3-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2710-rpi-3-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2710-rpi-3-b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2710-rpi-3-b(+)]
 		)
 		bcm2709-rpi-2-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2709-rpi-2-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2709-rpi-2-b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2709-rpi-2-b(+)]
 		)
 		bcm2708-rpi-b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[bcm2708-rpi-b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),bcm2708-rpi-b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),bcm2708-rpi-b(+)]
 		)
 		rk3288-tinker-s? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3288-tinker-s(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3288-tinker-s(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3288-tinker-s(+)]
 		)
 		rk3399-rock-pi-4c-plus? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-rock-pi-4c-plus(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3399-rock-pi-4c-plus(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3399-rock-pi-4c-plus(+)]
 		)
 		rk3399-tinker-2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-tinker-2(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3399-tinker-2(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3399-tinker-2(+)]
 		)
 		rk3588-rock-5b? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588-rock-5b(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588-rock-5b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588-rock-5b(+)]
 		)
 		rk3588s-orangepi-5? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-orangepi-5(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588s-orangepi-5(+)]
 		)
 		rk3588s-rock-5c? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),rk3588s-rock-5c(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588s-rock-5c(+)]
 		)
 		fsl-imx8mq-phanbell? (
 			>=dev-sbc/sbc-status-leds-0.0.1[fsl-imx8mq-phanbell(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),fsl-imx8mq-phanbell(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),fsl-imx8mq-phanbell(+)]
 		)
 		meson-gxl-s905x-libretech-cc-v2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),meson-gxl-s905x-libretech-cc-v2(+)]
 		)
 		meson-sm1-s905d3-libretech-cc? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-sm1-s905d3-libretech-cc(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-sm1-s905d3-libretech-cc(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),meson-sm1-s905d3-libretech-cc(+)]
 		)
 		meson-g12b-a311d-libretech-cc? (
 			>=dev-sbc/sbc-status-leds-0.0.1[meson-g12b-a311d-libretech-cc(+)]
-			>=joetoo-base/joetoo-meta-0.2.0[sbc(+),meson-g12b-a311d-libretech-cc(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),meson-g12b-a311d-libretech-cc(+)]
+		)
+		generic-aarch64?  (
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),generic-aarch64(+)]
+		)
+		generic-armv7a?   (
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),generic-armv7a(+)]
+		)
+		generic-armv6j?   (
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),generic-armv6j(+)]
+		)
+		generic-amd64?   (
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),generic-amd64(+)]
 		)
 	)
 	boot-fw? (
@@ -305,27 +354,18 @@ pkg_setup() {
 	elif use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2" ; export arch="arm64"
 	elif use meson-sm1-s905d3-libretech-cc; then export board="meson-sm1-s905d3-libretech-cc" ; export arch="arm64"
 	elif use meson-g12b-a311d-libretech-cc; then export board="meson-g12b-a311d-libretech-cc" ; export arch="arm64"
+	elif use generic-armv6j; then export board="generic-armv6j" ; export arch="arm"
+	elif use generic-armv7a; then export board="generic-armv7a" ; export arch="arm"
+	elif use generic-aarch64; then export board="generic-aarch64" ; export arch="arm64"
+	elif use generic-amd64; then export board="generic-amd64" ; export arch="amd64"
 	else export board="" ; export arch=""
 	fi
-#	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
 	einfo "Assigned board: ${board}"
 	einfo "Assigned arch: ${arch}"
 }
 
 src_install() {
-	# install board-unique package.use/joetoo file
-	target="/etc/portage/package.use/"
-	einfo "Installing (ins) package.use_${board}-headless-meta into ${target}"
-	insinto "${target}"
-	newins "${S}/package.use_${board}-headless-meta" "joetoo"
-	elog "Installed (newins) package.use_${board}-headless-meta as joetoo into ${target}"
-
-	# install arm or arm64 package.accept_keywords/joetoo file
-	target="/etc/portage/package.accept_keywords/"
-	einfo "Installing (ins) package.accept_keywords_${arch}-headless-meta into ${target}"
-	insinto "${target}"
-	newins "${S}/package.accept_keywords_${arch}-headless-meta" "joetoo"
-	elog "Installed (newins) package.accept_keywords_${arch}-headless-meta as joetoo into ${target}"
+	# Note: USE joetoo is now required; so pakcage.use, accept_keywords, make.conf come from joetoo-platform-meta now
 
 	# install common package.unmask file
 	target="/etc/portage/package.unmask/"
@@ -346,29 +386,24 @@ src_install() {
 	newenvd "${S}/config_protect" "99${PN}"
 	elog "Installed env.d file config_protect as 99${PN}"
 
-	# for a joetoo installation, include temp/freq monitoring tool
-	if use joetoo ; then
-		elog "USE joetoo selected"
-		target="/usr/sbin/"
-		einfo "Installing (exe) tempfreq monitoring tool into ${target}"
-		exeinto "${target}"
-		newexe "${S}/tempfreq_mon_sbc" "tempfreq_mon_sbc"
-		elog "  Installed (newexe) tempfreq_mon_sbc into ${target}"
-		# install joetoo's layout README file
-		target="/boot/"
-		insinto "${target}"
-		case ${board:0:3} in
-			"bcm" ) readme_file="README-joetoo-raspberry-layout" ;;
-			"rk3" ) readme_file="README-joetoo-rockchip-layout" ;;
-			"mes" ) readme_file="README-joetoo-amlogic-layout" ;;
-			"fsl" ) readme_file="README-joetoo-nxp-layout" ;;
-		esac
-		einfo "Installing (cp) ${readme_file} in ${target}"
-		cp -v "${S}/${readme_file}" "${D}/boot/${readme_file}"
-		elog "  Installed (cp) ${readme_file} into ${target}"
-	else
-		elog "USE joetoo NOT selected; NOT installing README-joetoo-layout file"
-	fi
+	# USE joetoo is now required; so this is no longer an "if use" block -- include temp/freq monitoring tool
+	target="/usr/sbin/"
+	einfo "Installing (exe) tempfreq monitoring tool into ${target}"
+	exeinto "${target}"
+	newexe "${S}/tempfreq_mon_sbc" "tempfreq_mon_sbc"
+	elog "  Installed (newexe) tempfreq_mon_sbc into ${target}"
+	# install joetoo's layout README file
+	target="/boot/"
+	insinto "${target}"
+	case ${board:0:3} in
+		"bcm" ) readme_file="README-joetoo-raspberry-layout" ;;
+		"rk3" ) readme_file="README-joetoo-rockchip-layout" ;;
+		"mes" ) readme_file="README-joetoo-amlogic-layout" ;;
+		"fsl" ) readme_file="README-joetoo-nxp-layout" ;;
+	esac
+	einfo "Installing (cp) ${readme_file} in ${target}"
+	cp -v "${S}/${readme_file}" "${D}/boot/${readme_file}"
+	elog "  Installed (cp) ${readme_file} into ${target}"
 }
 
 pkg_postinst() {
@@ -404,6 +439,8 @@ pkg_postinst() {
 	elog " 0.4.0 adds meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.4.1 provides refinements and bugfixes"
 	elog " 0.4.2 adds meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.4.3 provides refinements and bugfixes"
+	elog " 0.4.4 depends on joetoo-platform-meta and pull in joetoo-common-meta"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

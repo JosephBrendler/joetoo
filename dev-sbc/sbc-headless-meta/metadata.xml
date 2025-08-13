@@ -3,18 +3,18 @@
 <pkgmetadata>
 	<longdescription>
 		Meta package for standard joetoo setup on a single board computer (sbc)
-		Optionally uses dev-embedded/joetoo-meta::joetoo
-		Boot firmware installation (via boot-fw) and kernel (via kernel_image)
-		is functional for Rasberry Pi boards, but it is still evolving for rockchip
-		boards (as of June 2024).  
-		That may also be moved in the future, to a package that installs the kernel
-		kernel, modules, firmware, device tree, bootloader, etc. 
+		Optionally uses joetoo-base/joetoo-[common|platform]-meta::joetoo
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
+		<flag name="innercore">Install boot config files and baseline packages</flag>
+		<flag name="gpio">Install libgpiod package and dependencies</flag>
+		<flag name="joetoo">depend on joetoo-base/joetoo-platform-meta and pull in joetoo-common-meta and dependencies</flag>
+		<flag name="boot-fw">Install sys-boot/(raspi/rockchip/nxp/amlogic)-boot-firmware (bootloader, boot firmware, optional raspi/armbian kernel)</flag>
+		<flag name="kernelimage">install sys-kernel/linux-joetoo-kernelimage::joetoo (kernel, modules, dtbs, dtbos)</flag>
                 <flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
                 <flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
                 <flag name="bcm2710-rpi-3-b">Tailor for Raspberry Pi 3 B v1.2 (armv7/32)</flag>
@@ -33,11 +33,10 @@
                 <flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for Libre Computer Sweet Potato (aml s905x a53)(armv8/64)</flag>
                 <flag name="meson-sm1-s905d3-libretech-cc">Tailor for Libre Computer Solitude (aml a311d a55)(armv8/64)</flag>
                 <flag name="meson-g12b-a311d-libretech-cc">Tailor for Libre Computer Alta (aml a311d a73/53)(armv8/64)</flag>
-		<flag name="innercore">Install boot config files and baseline packages</flag>
-		<flag name="gpio">Install libgpiod package and dependencies</flag>
-		<flag name="joetoo">Install joetoo-meta package and its dependencies</flag>
-		<flag name="boot-fw">Install sys-boot/(raspi/rockchip/amlogic)-boot-firmware (bootloader, boot firmware, optional armbian kernel)</flag>
-		<flag name="kernelimage">install sys-kernel/linux-joetoo-kernelimage (kernel, modules, dtbs, dtbos)</flag>
+                <flag name="generic-armv6j">Tailor for generic-armv6j (armv6/32)</flag>
+                <flag name="generic-armv7a">Tailor for generic-armv7a (armv7/32)</flag>
+                <flag name="generic-aarch64">Tailor for generic-aarch64 (armv8/64)</flag>
+                <flag name="generic-amd64">Tailor for generic-amd64 (amd64/x86_64)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
