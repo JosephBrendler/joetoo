@@ -13,7 +13,7 @@ KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 RESTRICT="mirror"
 
 IUSE="
-	+headless -plasma -gnome
+	+headless plasma gnome
 	+grub
 	-sbc
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -71,7 +71,7 @@ S="${WORKDIR}/${PN}"
 # (3) just install platform-specific config files
 
 RDEPEND="
-	>=joetoo-base/per-package-env-0.0.3
+	>=joetoo-base/joetoo-per-package-env-0.1.0
 	sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
 "
 
@@ -292,6 +292,7 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.0.1 is the first separate ebuild for ${PN}"
+	elog " 0.0.2 tries to fix USE headless/plasma/gnome selection"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
