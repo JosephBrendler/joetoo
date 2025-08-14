@@ -179,7 +179,8 @@ src_install() {
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
 	# install the joetoo common USE flag file
-	newins "${S}/package_use/package.use.joetoo.common" "joetoo_common"
+	newins "${S}/package_use/package.use.joetoo.common" "80joetoo_common" || \
+		die "failed to install ${target}/80joetoo_common"
 	# prepare and install the cpu-flags and joetoo platform-specific USE flag file for this platform
 	if use sbc ; then
 		# install the joetoo 00cpu-flags USE flag file for this platform
@@ -203,30 +204,30 @@ src_install() {
 		if use grub ; then
 			einfo "editing platform_template for grub ..."
 			sed -i "s|<GRUB>|grub|g" ${T}/package.use.joetoo.platform_template || \
-				die "failed to edit maker"
+				die "failed to edit grub"
 		else
 			einfo "editing platform_template for -grub ..."
 			sed -i "s|<GRUB>|-grub|g" ${T}/package.use.joetoo.platform_template || \
-				die "failed to edit maker"
+				die "failed to edit -grub"
 		fi
 		einfo "Installing platform-specific (${maker} ${board}) package.use file"
-		newins "${T}/package.use.joetoo.platform_template" "joetoo_${board}" || \
-			die "failed to install package.use.joetoo.amd64"
-		elog "Installed ${target}/joetoo_${board}"
+		newins "${T}/package.use.joetoo.platform_template" "90joetoo_${board}" || \
+			die "failed to install ${target}/90joetoo_${board}"
+		elog "Installed ${target}/90joetoo_${board}"
 	else
 		# install the joetoo 00cpu-flags USE flag file for this platform
 		newins "${S}/package_use/package.use.00cpu-flags.amd64" "00cpu-flags"
 		# install the amd64 platform package.use file
-		einfo "Installing amd64 platform package.use file"
-		newins "${S}/package_use/package.use.joetoo.amd64" "joetoo_amd64" || \
-			die "failed to install package.use.joetoo.amd64"
-		elog "Installed ${target}/joetoo_amd64"
+		einfo "Installing amd64 platform 00cpu-flags package.use file"
+		newins "${S}/package_use/package.use.joetoo.amd64" "91joetoo_amd64" || \
+			die "failed to install ${target}/91joetoo_amd64"
+		elog "Installed ${target}/91joetoo_amd64"
 	fi
 	# install the joetoo plasma USE flag file if needed
 	if use plasma ; then
-		newins "${S}/package_use/package.use.joetoo.plasma" "plasma" || \
-			die "failed to install package.use.joetoo.plasma"
-		elog "Installed ${target}/plasma"
+		newins "${S}/package_use/package.use.joetoo.plasma" "99plasma" || \
+			die "failed to install ${target}/99plasma"
+		elog "Installed ${target}/99plasma"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
 
@@ -234,9 +235,9 @@ src_install() {
 	target="/etc/portage/package.accept_keywords/"
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
-	newins "${S}/package_accept_keywords/package.accept_keywords.joetoo" "joetoo"
+	newins "${S}/package_accept_keywords/package.accept_keywords.joetoo" "90joetoo"
 	if use plasma ; then
-		newins "${S}/package_accept_keywords/package.accept_keywords.plasma" "plasma"
+		newins "${S}/package_accept_keywords/package.accept_keywords.plasma" "99plasma"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
 
@@ -295,7 +296,7 @@ pkg_postinst() {
 	elog " 0.0.1 is the first separate ebuild for ${PN}"
 	elog " 0.0.2 tries to fix USE headless/plasma/gnome selection"
 	elog " 0.0.3/4 refine USE settings in joetoo_common"
-	elog ""
+	elog " 0.0.4-r1 adds package.use file numbering for precedence"
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
 		elog "USE = gnome was specified, but is not implemented yet..."
