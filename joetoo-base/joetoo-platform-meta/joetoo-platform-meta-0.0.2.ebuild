@@ -13,7 +13,7 @@ KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 RESTRICT="mirror"
 
 IUSE="
-	+headless plasma gnome
+	headless plasma gnome
 	+grub
 	-sbc
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
