@@ -46,7 +46,7 @@ REQUIRED_USE="
 	"
 
 # required by Portage, as we have no SRC_URI...
-S="${WORKDIR}"
+S="${WORKDIR}/${PN}"
 
 # depend on joetoo-base/joetoo-platform-meta, which will have set up
 #   make.conf, package.use, and package.accept_keywords settings
