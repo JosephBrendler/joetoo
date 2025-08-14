@@ -13,7 +13,7 @@ KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 RESTRICT="mirror"
 
 IUSE="
-	+headless -plasma -gnome
+	headless plasma gnome
 	+grub
 	-sbc
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -33,6 +33,7 @@ IUSE="
 #    i9-12900HK
 #    N100
 #    N97
+#    etc
 #--------------------------------------------------------------------------------------
 
 REQUIRED_USE="
@@ -292,6 +293,8 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 0.0.1 is the first separate ebuild for ${PN}"
+	elog " 0.0.2 tries to fix USE headless/plasma/gnome selection"
+	elog " 0.0.3/4 refine USE settings in joetoo_common"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified, but is not implemented yet..."
