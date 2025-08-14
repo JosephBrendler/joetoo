@@ -222,6 +222,8 @@ pkg_postinst() {
 	elog " 0.8.3 adds meson-sm1-s905d3-libretech-cc (solitude)"
 	elog " 0.8.4/5 update make-conf-files, fix cb-populate-image.eselect"
 	elog " 0.8.6 uses joetoo-platform-meta's board-specific configs"
+	elog " 0.8.7 adds steps to change and edit configs before use"
+	elog " 0.8.8 fixes TARGET-emerge joetoo-platform-meta"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
