@@ -67,9 +67,10 @@ REQUIRED_USE="
 
 S="${WORKDIR}/${PN}"
 
-# (1) do not depend on joetoo-platform-meta (would be circular)
+# (1) do not depend on joetoo-platform-meta (circular)
 # (2) leave kernel-sources dependency to sbc-headless-meta
-# (3) just install platform-specific config files
+# (3) leave plasma/gnome dependencies to joetoo-common-meta
+# (4) just install platform-specific config files
 
 RDEPEND="
 	>=joetoo-base/joetoo-per-package-env-0.1.0
@@ -79,7 +80,7 @@ RDEPEND="
 BDEPEND="${RDEPEND}"
 
 pkg_setup() {
-# for sbc systems we need to know which board we are using
+	# for sbc systems we need to know which board we are using
 	if use sbc ; then
 		einfo "USE sbc is selected. Assigning board ..."
 		if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io" ; export maker="raspi"
@@ -179,55 +180,100 @@ src_install() {
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
 	# install the joetoo common USE flag file
-	newins "${S}/package_use/package.use.joetoo.common" "80joetoo_common" || \
+	newins "${S}/package_use/package.use.joetoo.80joetoo_common" "80joetoo_common" || \
 		die "failed to install ${target}/80joetoo_common"
 	# prepare and install the cpu-flags and joetoo platform-specific USE flag file for this platform
 	if use sbc ; then
 		# install the joetoo 00cpu-flags USE flag file for this platform
 		newins "${S}/package_use/package.use.00cpu-flags.${board}" "00cpu-flags" || \
-			die "failed to install 00cpu-flags"
-		elog "Installed ${target}/00cpu-flags"
+			die "failed to install 00cpu-flags for ${board}"
+		elog "Installed ${target}/00cpu-flags for ${board}"
 		# prepare and install the board-specific platform package.use file
-		einfo "copying platform_template to temporary scratch work space T: ${T} ..."
-		cp ${S}/package_use/package.use.joetoo.platform_template ${T}/ || \
-			die "failed to copy platform_template to $T"
-		einfo "editing platform_template for board: ${board} ..."
-		sed -i "s|<BOARD>|${board}|g" ${T}/package.use.joetoo.platform_template || \
+		einfo "copying 90platform_template to temporary scratch work space T: ${T} ..."
+		cp ${S}/package_use/package.use.joetoo.90platform_template ${T}/ || \
+			die "failed to copy 90platform_template to $T"
+		# edit <BOARD> USE flag settings
+		einfo "editing 90platform_template for board: ${board} ..."
+		sed -i "s|<BOARD>|${board}|g" ${T}/package.use.joetoo.90platform_template || \
 			die "failed to edit board"
-		einfo "editing platform_template for maker: ${maker} ..."
-		sed -i "s|<MAKER>|${maker}|g" ${T}/package.use.joetoo.platform_template || \
+		# edit <MAKER> USE flag settings
+		einfo "editing 90platform_template for maker: ${maker} ..."
+		sed -i "s|<MAKER>|${maker}|g" ${T}/package.use.joetoo.90platform_template || \
 			die "failed to edit maker"
 		if [[ "${maker}" == "raspi" ]] ; then
-			sed -i "s|armbian_kernel|kernel|g" ${T}/package.use.joetoo.platform_template || \
+			sed -i "s|armbian_kernel|kernel|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit kernel for maker: ${maker}"
 		fi
+		# edit <GRUB> USE flag settings
 		if use grub ; then
-			einfo "editing platform_template for grub ..."
-			sed -i "s|<GRUB>|grub|g" ${T}/package.use.joetoo.platform_template || \
+			einfo "editing 90platform_template for grub ..."
+			sed -i "s|<GRUB>|grub|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit grub"
 		else
-			einfo "editing platform_template for -grub ..."
-			sed -i "s|<GRUB>|-grub|g" ${T}/package.use.joetoo.platform_template || \
+			einfo "editing 90platform_template for -grub ..."
+			sed -i "s|<GRUB>|-grub|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit -grub"
 		fi
+		# edit <HEADLESS> USE flag settings
+		if use headless ; then
+			einfo "editing 90platform_template for headless ..."
+			sed -i "s|<HEADLESS>|headless|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit headless"
+		else
+			einfo "editing 90platform_template for -headless ..."
+			sed -i "s|<HEADLESS>|-headless|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -headless"
+		fi
+		# edit <PLASMA> USE flag settings
+		if use plasma ; then
+			einfo "editing 90platform_template for plasma ..."
+			sed -i "s|<PLASMA>|plasma|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit plasma"
+		else
+			einfo "editing 90platform_template for -plasma ..."
+			sed -i "s|<PLASMA>|-plasma|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -plasma"
+		fi
+		# edit <GNOME> USE flag settings
+		if use gnome ; then
+			einfo "editing 90platform_template for gnome ..."
+			sed -i "s|<GNOME>|gnome|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit gnome"
+		else
+			einfo "editing 90platform_template for -gnome ..."
+			sed -i "s|<GNOME>|-gnome|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -gnome"
+		fi
+		# now install the platform-specific package.use file
 		einfo "Installing platform-specific (${maker} ${board}) package.use file"
-		newins "${T}/package.use.joetoo.platform_template" "90joetoo_${board}" || \
+		newins "${T}/package.use.joetoo.90platform_template" "90joetoo_${board}" || \
 			die "failed to install ${target}/90joetoo_${board}"
 		elog "Installed ${target}/90joetoo_${board}"
 	else
-		# install the joetoo 00cpu-flags USE flag file for this platform
-		newins "${S}/package_use/package.use.00cpu-flags.amd64" "00cpu-flags"
-		# install the amd64 platform package.use file
+		# install the joetoo 00cpu-flags USE flag file for this non-sbc platform
 		einfo "Installing amd64 platform 00cpu-flags package.use file"
-		newins "${S}/package_use/package.use.joetoo.amd64" "91joetoo_amd64" || \
-			die "failed to install ${target}/91joetoo_amd64"
-		elog "Installed ${target}/91joetoo_amd64"
+		newins "${S}/package_use/package.use.00cpu-flags.amd64" "00cpu-flags" || \
+			die "failed to install 00cpu-flags for amd64"
+		elog "Installed 00cpu-flags for amd64"
+		# install the amd64 platform package.use file for this non-sbc platform
+		einfo "Installing amd64 platform  package.use file"
+		newins "${S}/package_use/package.use.joetoo.91amd64" "91amd64" || \
+			die "failed to install ${target}/91amd64"
+		elog "Installed ${target}/91amd64"
 	fi
 	# install the joetoo plasma USE flag file if needed
 	if use plasma ; then
-		newins "${S}/package_use/package.use.joetoo.plasma" "99plasma" || \
+		newins "${S}/package_use/package.use.joetoo.99plasma" "99plasma" || \
 			die "failed to install ${target}/99plasma"
-		elog "Installed ${target}/99plasma"
+		elog "USE plasma set; Installed ${target}/99plasma"
+	elif use gnome ; then
+		newins "${S}/package_use/package.use.joetoo.99gnome" "99gnome" || \
+			die "failed to install ${target}/99gnome"
+		elog "USE gnome set; Installed ${target}/99gnome"
+	elif use headless ; then
+		elog "USE headless set; no ${target}/99xxx use flag file required; nothing installed"
+	else
+		eerror "invalid USE flags; must specify exactly one of headless, plasma, or gnome"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
 
@@ -237,7 +283,17 @@ src_install() {
 	insinto "${target}"
 	newins "${S}/package_accept_keywords/package.accept_keywords.joetoo" "90joetoo"
 	if use plasma ; then
-		newins "${S}/package_accept_keywords/package.accept_keywords.plasma" "99plasma"
+		newins "${S}/package_accept_keywords/package.accept_keywords.plasma" "99plasma" || \
+			die "failed to install ${target}/99plasma"
+		elog "USE plasma set; Installed ${target}/99plasma"
+	elif use gnome ; then
+		newins "${S}/package_accept_keywords/package.accept_keywords.gnome" "99gnome" || \
+			die "failed to install ${target}/99gnome"
+		elog "USE gnome set; Installed ${target}/99gnome"
+	elif use headless ; then
+		elog "USE headless set; no ${target}/99xxx accept_keywords file required; nothing installed"
+	else
+		eerror "invalid USE flags; must specify exactly one of headless, plasma, or gnome"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
 
@@ -298,12 +354,8 @@ pkg_postinst() {
 	elog " 0.0.3/4 refine USE settings in joetoo_common"
 	elog " 0.0.4-r1 adds package.use file numbering for precedence"
 	elog " 0.0.5 refines package.use package.accept_keywords"
-	elog ""
-	if use gnome; then
-		ewarn "USE = gnome was specified, but is not implemented yet..."
-		elog "USE = gnome was specified, but is not implemented yet..."
-		elog ""
-	fi
+	elog " 0.0.6 adds auto-editing for <HEADLESS> <PLASMA> <GNOME>"
+	elog " 0.0.7 fixes package.accpept_keywords"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
