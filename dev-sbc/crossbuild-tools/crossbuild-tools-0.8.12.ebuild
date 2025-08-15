@@ -224,6 +224,8 @@ pkg_postinst() {
 	elog " 0.8.6 uses joetoo-platform-meta's board-specific configs"
 	elog " 0.8.7 adds steps to change and edit configs before use"
 	elog " 0.8.8-10 fix TARGET-emerge joetoo-platform-meta and USEs"
+	elog " 0.8.11 ads a dispatch-conf step to cb-mkenv"
+	elog " 0.8.12 provides refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
