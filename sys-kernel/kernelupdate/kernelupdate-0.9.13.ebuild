@@ -6,7 +6,7 @@ EAPI=8
 
 DESCRIPTION="kernel build script, incl support for xen dom0 or domU, or several SBC systems"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 LICENSE="MIT"
 SLOT="0"
@@ -43,15 +43,16 @@ RDEPEND="
 	dev-util/script_header_joetoo[extended]
 	>=sys-devel/crossdev-20230321
 	>=dev-util/joetoolkit-0.1.5
-	>=joetoo-base/joetoo-meta-0.0.4b
+	>=joetoo-base/joetoo-platform-meta-0.0.1
+	>=joetoo-base/joetoo-common-meta-0.0.1
 	>=app-admin/eselect-1.4.27-r1
 	>=dev-util/pkgdev-0.2.11
 "
 
 DEPEND="${RDEPEND}"
 
-# Install for selected board(s) from above different choices, like joetoo-meta does via pkg_setup(),
-# but note that where joetoo-meta is "exactly-one-of" board, this is "at-least-one-of"...
+# Install for selected board(s) from above different choices, like joetoo-platform-meta does via pkg_setup(),
+# but note that where joetoo-platform-meta is "exactly-one-of" board, this is "at-least-one-of"...
 # Therefor, need to do in src_install and use for loop to install selected boards
 src_install() {
 	einfo "S=${S}"
@@ -162,6 +163,7 @@ pkg_postinst() {
 	elog " 0.9.10 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
 	elog " 0.9.11 adds meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.9.12 adds meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.9.13 updates instructions to get amlogic-sources (like armbian/build uses)"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"

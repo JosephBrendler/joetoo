@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		armbian system kernel Image, Initramfs, device tree blob files, and modules
+		kernel built for meson-sm1-s905d3-libretech-cc (solitude)
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="dtbo">Optionally deploy .dtbo files generated during kernel build</flag>
+		<flag name="symlink">(to do)(wont work on vfat) Create/update symlink in /boot directory </flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/armbian/build</remote-id>
+	</upstream>
+</pkgmetadata>
