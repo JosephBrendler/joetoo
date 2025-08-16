@@ -8,4 +8,4 @@ LICENSE=MIT
 RESTRICT=mirror
 SLOT=6.12.42
 SRC_URI=https://raspi56406.brendler/amlogic-sources/linux-6.12.42-amlogic.tar.gz
-_md5_=b3b7f5416abeb35677b2cba74fc90e74
+_md5_=b884215f416d78e22da91bf211f2b696

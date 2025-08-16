@@ -34,7 +34,8 @@ pkg_setup() {
 	ewarn "the ebuilds. Thank you."
 	ewarn ""
 
-	My_P="linux-${PV}-amlogic"
+#	My_P="linux-${PV}-amlogic"
+	My_P="linux-${PV}"
 
 	einfo "S=${S}"
 	einfo "D=${D}"
