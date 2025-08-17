@@ -66,7 +66,8 @@ src_install() {
 	target="/"
 	insinto "${target}"
 #	doins -r "${S}/*" || die "failed to install via doins"
-	cp -a "${S}/*" "${D}/" || die "failed to install via cp -a"
+	einfo "about to run cp -a ${S%/}/* ${D%/}/"
+	cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
 	elog "done installing"
 }
 

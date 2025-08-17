@@ -10,4 +10,4 @@ RDEPEND=amlogic-sources? ( =sys-kernel/amlogic-sources-6.12.42 )
 RESTRICT=mirror
 SLOT=6.12.42
 SRC_URI=https://raspi56406.brendler/amlogic-kernels/linux-arm64-uefi_armbian_kernel_image-6.12.42.tbz2
-_md5_=fed87f16ec13b49911290b0891203eb2
+_md5_=ebb565632af1c265a2fd20b2531e20bd
