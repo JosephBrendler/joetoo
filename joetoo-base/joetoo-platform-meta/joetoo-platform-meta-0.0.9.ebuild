@@ -355,6 +355,8 @@ pkg_postinst() {
 	elog " 0.0.4-r1 adds package.use file numbering for precedence"
 	elog " 0.0.5 refines package.use package.accept_keywords"
 	elog " 0.0.6 adds auto-editing for <HEADLESS> <PLASMA> <GNOME>"
+	elog " 0.0.7/8 fixes package.accpept_keywords"
+	elog " 0.0.9 refines instructions provided in package.use files"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
