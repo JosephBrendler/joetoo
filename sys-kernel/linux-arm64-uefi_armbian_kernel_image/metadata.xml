@@ -3,7 +3,7 @@
 <pkgmetadata>
 	<longdescription>
 		armbian system kernel Image, Initramfs, device tree blob files, and modules
-		kernel built for meson-sm1-s905d3-libretech-cc (solitude)
+		kernel built for all uefi enabled arm64 boards
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
