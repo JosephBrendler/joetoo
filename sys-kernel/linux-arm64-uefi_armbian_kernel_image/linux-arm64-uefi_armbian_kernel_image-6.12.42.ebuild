@@ -67,13 +67,20 @@ src_install() {
 	insinto "${target}"
 #	doins -r "${S}/*" || die "failed to install via doins"
 #	cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
-	for x in $(find ${S} -maxdepth 1 -mindepth 1); do
+	for x in $(find ${S} -maxdepth 1 -mindepth 1 -type f -or -type d); do
 		z=$(basename $x)
 		einfo "copying $z ..."
 		cp -a "${x}" "${D%/}/"  || die "failed to copy $z"
 		elog "done copying $z"
 	done
 	elog "done installing"
+	# now create links from / to /boot/
+	kernel=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'vmlinuz*') )
+	dosym -r boot/${kernel} vmlinuz || die "failed to create symlink for vmlinuz"
+	elog "created symlink for vmlinuz"
+	initramfs=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'initrd*') )
+	dosym -r boot/${initramfs} initrd || die "failed to create symlink for initrd"
+	elog "created symlink for initrd"
 }
 
 pkg_postinst() {
