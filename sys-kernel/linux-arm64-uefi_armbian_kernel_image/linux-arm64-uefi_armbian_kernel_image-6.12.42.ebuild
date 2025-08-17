@@ -66,8 +66,13 @@ src_install() {
 	target="/"
 	insinto "${target}"
 #	doins -r "${S}/*" || die "failed to install via doins"
-	einfo "about to run cp -a ${S%/}/* ${D%/}/"
-	cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
+#	cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
+	for x in $(find ${S} -maxdepth 1 -mindepth 1); do
+		z=$(basename $x)
+		einfo "copying $z ..."
+		cp -a "${x}" "${D%/}/"  || die "failed to copy $z"
+		elog "done copying $z"
+	done
 	elog "done installing"
 }
 
