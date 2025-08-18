@@ -356,7 +356,9 @@ pkg_postinst() {
 	elog " 0.0.5 refines package.use package.accept_keywords"
 	elog " 0.0.6 adds auto-editing for <HEADLESS> <PLASMA> <GNOME>"
 	elog " 0.0.7/8 fixes package.accpept_keywords"
-	elog " 0.0.9 refines instructions provided in package.use files"
+	elog " 0.0.9/10 refine instructions provided in package.use files"
+	elog " 0.0.11 adds USE caps back to all 4 x make.conf"
+	elog " 0.0.12 fixes ROOT=/ in make.conf for generic-amd64"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
