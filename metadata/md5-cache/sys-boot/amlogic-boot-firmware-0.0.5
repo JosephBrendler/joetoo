@@ -1,0 +1,13 @@
+BDEPEND=armbian_kernel? ( meson-gxl-s905x-libretech-cc-v2? ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image[dtbo=] ) meson-sm1-s905d3-libretech-cc? ( sys-kernel/linux-arm64-uefi_armbian_kernel_image[dtbo=] ) meson-g12b-a311d-libretech-cc? ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_armbian_kernel_image[dtbo=] ) )
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Rockchip bootloader firmware for supported boards
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc +armbian_kernel +dtbo joetoo-fw
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2 Rockchip
+RDEPEND=!sys-boot/raspberrypi-firmware armbian_kernel? ( meson-gxl-s905x-libretech-cc-v2? ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_armbian_kernel_image[dtbo=] ) meson-sm1-s905d3-libretech-cc? ( sys-kernel/linux-arm64-uefi_armbian_kernel_image[dtbo=] ) meson-g12b-a311d-libretech-cc? ( sys-kernel/linux-meson-g12b-a311d-libretech-cc_armbian_kernel_image[dtbo=] ) )
+REQUIRED_USE=^^ ( meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc )
+RESTRICT=mirror binchecks strip
+SLOT=0
+_md5_=275bb50fffb76717555f4648c631542c
