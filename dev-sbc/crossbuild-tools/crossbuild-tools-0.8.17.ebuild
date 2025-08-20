@@ -227,6 +227,8 @@ pkg_postinst() {
 	elog " 0.8.11 ads a dispatch-conf step to cb-mkenv"
 	elog " 0.8.12-14 provide refinements and bugfixes"
 	elog " 0.8.15 adds USE caps back to all 4 x make.conf"
+	elog " 0.8.16 fixes ROOT=/ in make.conf for generic-amd64"
+	elog " 0.8.17 adds bcm2708-rpi-b to validate-source, cb-common-functions"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
