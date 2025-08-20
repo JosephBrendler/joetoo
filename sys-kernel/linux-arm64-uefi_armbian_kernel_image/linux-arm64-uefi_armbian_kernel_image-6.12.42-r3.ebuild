@@ -3,12 +3,10 @@
 
 EAPI=8
 
-BOARD="${PN/linux-/}"
-BOARD="${BOARD/_armbian_kernel_image/}"
-
 DESCRIPTION="kernel image for ${BOARD} sbc"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raspi56406.brendler/amlogic-kernels/linux-${BOARD}_armbian_kernel_image-${PV}.tbz2"
+#SRC_URI="https://raspi56406.brendler/amlogic-kernels/linux-${BOARD}_armbian_kernel_image-${PV}.tbz2"
+SRC_URI="https://raspi56406.brendler/arm64-uefi-kernels/${PN}/${PN}-${PV}.tbz2"
 
 
 S="${WORKDIR}/"
@@ -87,6 +85,8 @@ src_install() {
 
 pkg_postinst() {
 	elog "Installed ${P}"
+	elog " version 6.12.42 was the initial ebuild for this package"
+	elog " 6.12.42-r1-3 are bugfixes"
 	elog ""
 	elog "Note: this package supports all uefi enabled arm64 boards"
 	elog "  If you change the kernel or initramfs, you must run -"
