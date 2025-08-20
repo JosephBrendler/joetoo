@@ -1,0 +1,13 @@
+BDEPEND=
+DEFINED_PHASES=install postinst preinst
+DESCRIPTION=kernel image for arm64-uefi sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtbo +amlogic-sources
+KEYWORDS=~arm ~arm64
+LICENSE=MIT
+RDEPEND=amlogic-sources? ( =sys-kernel/amlogic-sources-6.12.42 )
+RESTRICT=mirror
+SLOT=6.12.42
+SRC_URI=https://raspi56406.brendler/amlogic-kernels/linux-arm64-uefi_armbian_kernel_image-6.12.42.tbz2
+_md5_=f4c87f6c30de36270ec05374cc2ebd3a

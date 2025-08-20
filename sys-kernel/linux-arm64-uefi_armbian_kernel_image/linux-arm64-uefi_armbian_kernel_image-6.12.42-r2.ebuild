@@ -65,8 +65,10 @@ src_install() {
 
 	target="/"
 	insinto "${target}"
-#	doins -r "${S}/*" || die "failed to install via doins"
-#	cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
+	# doins -r and cp -a  "${S%/}/*" "${D%/}/" both don't work, so instead -
+	# (don't) doins -r "${S}/*" || die "failed to install via doins"
+	# (don't) cp -a "${S%/}/*" "${D%/}/" || die "failed to install via cp -a"
+	# do recursive copy of everything found at top level of tarball
 	for x in $(find ${S} -maxdepth 1 -mindepth 1 -type f -or -type d); do
 		z=$(basename $x)
 		einfo "copying $z ..."
@@ -74,13 +76,13 @@ src_install() {
 		elog "done copying $z"
 	done
 	elog "done installing"
-	# now create links from / to /boot/
-	kernel=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'vmlinuz*') )
-	dosym -r boot/${kernel} vmlinuz || die "failed to create symlink for vmlinuz"
-	elog "created symlink for vmlinuz"
-	initramfs=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'initrd*') )
-	dosym -r boot/${initramfs} initrd || die "failed to create symlink for initrd"
-	elog "created symlink for initrd"
+	# now create links from / to /boot/ ***(not needed on uefi system)***
+#	kernel=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'vmlinuz*') )
+#	dosym -r /boot/${kernel} ../vmlinuz || die "failed to create symlink for vmlinuz"
+#	elog "created symlink for vmlinuz"
+#	initramfs=$(basename $(find ${D}/boot/ -maxdepth 1 -iname 'initrd*') )
+#	dosym -r /boot/${initramfs} ../initrd || die "failed to create symlink for initrd"
+#	elog "created symlink for initrd"
 }
 
 pkg_postinst() {
