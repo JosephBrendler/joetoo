@@ -7,7 +7,7 @@
 
 EAPI=8
 
-DESCRIPTION="Rockchip bootloader firmware for supported boards"
+DESCRIPTION="amlogic (uefi) bootloader firmware for supported boards"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 #SRC_URI=""
 
@@ -47,16 +47,17 @@ RDEPEND="
 "
 
 pkg_setup() {
-	# if /boot is on a separate block device, and it is not mounted, try to mount it
+	# (/boot/efi for amlogic uefi boards)
+	# if /boot/efi is on a separate block device, and it is not mounted, try to mount it
 	if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  && \
-		! grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1
+		! grep "${ROOT%/}/boot/efi" /proc/mounts >/dev/null 2>&1
 	then
-		elog "${ROOT%/}/boot is not mounted, trying to mount it now..."
-		! $(mount /boot) && \
-			die "Failed to mount /boot" || \
-		elog "Succeeded in mounting /boot ; continuing..."
+		elog "${ROOT%/}/boot/efi is not mounted, trying to mount it now..."
+		! $(mount /boot/efi) && \
+			die "Failed to mount /boot/efi" || \
+		elog "Succeeded in mounting /boot/efi ; continuing..."
 	else
-		elog "Verified /boot is mounted ; continuing..."
+		elog "Verified /boot/efi is mounted ; continuing..."
 	fi
 
 	# for sbc systems we need to know which board we are using
@@ -89,7 +90,7 @@ src_install() {
 		newenvd "${FILESDIR}/config_protect_u-boot_reflash_resources" "99${PN}"
 		elog "installed config_protect_u-boot_reflash_resources"
 	else
-		elog "USE joetoo-fw not set; not installing"
+		elog "USE joetoo-fw not set; not installing except by dependencies"
 	fi
 }
 
@@ -102,24 +103,32 @@ pkg_postinst() {
 	elog " 0.0.3 adds support for meson-sm1-s905d3-libretech-cc (solitude)"
 	elog " 0.0.4 introduces the armbian uefi-arm64 kernel for solitude"
 	elog " 0.0.4 also adds USE joetoo-fw (and makes it optional)"
+	elog " 0.0.5 checks /boot/efi rather than /boot"
 	elog ""
-	elog "****************************************************************************"
-	elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"
-	elog "***    new boot media for a NEW system                                   ***"
-	elog "***    Exercise caution - improper use could render system inoperable    ***"
-	elog "****************************************************************************"
+	if use joetoo-fw ; then
+		elog "****************************************************************************"
+		elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"
+		elog "***    new boot media for a NEW system                                   ***"
+		elog "***    Exercise caution - improper use could render system inoperable    ***"
+		elog "****************************************************************************"
+		elog ""
+		elog "Please inspect your /boot setup and inspect in particular--"
+		elog "  /boot/joetooEnv.txt -- "
+	        elog "      dtb_prefix       (path to .dtb file, rel. to /boot/ [or link to it])"
+        	elog "      fdtfile          (name of .dtb file)"
+	        elog "      overlay_prefix   (string that begins relevant overlay filenames)"
+	        elog "      overlays         (list of overlay filenames to load [minus prefix])"
+	        elog "      imagefile        (name of kernel image file to load [or link to it])"
+	        elog "      initrdfile       (name of initramfs file to load [or link to it])"
+	        elog "      rootdev          (path, UUID, or PARTUUID identifying root device)"
+	        elog "      rootfstype       (normally ext4)"
+		elog "Verify that these settings match the /boot file structure and vice versa ..."
+	fi
 	elog ""
-	elog "Please inspect your /boot setup and inspect in particular--"
-	elog "  /boot/joetooEnv.txt -- "
-        elog "      dtb_prefix       (path to .dtb file, rel. to /boot/ [or link to it])"
-        elog "      fdtfile          (name of .dtb file)"
-        elog "      overlay_prefix   (string that begins relevant overlay filenames)"
-        elog "      overlays         (list of overlay filenames to load [minus prefix])"
-        elog "      imagefile        (name of kernel image file to load [or link to it])"
-        elog "      initrdfile       (name of initramfs file to load [or link to it])"
-        elog "      rootdev          (path, UUID, or PARTUUID identifying root device)"
-        elog "      rootfstype       (normally ext4)"
-	elog "Verify that these settings match the /boot file structure and vice versa ..."
+	elog "NOTE: ${PN} is for uefi-enabled SBCs;"
+	elog "  you may need to update your grub.cfg"
+	elog "  with e.g. grub-mkconfig -o /boot/grub/grub.cfg"
+	elog "  if you have updated the kernel and/or initramfs"
 	elog ""
 	elog "Thanks for using ${PN}"
 }

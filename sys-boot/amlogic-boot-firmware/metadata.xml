@@ -13,7 +13,7 @@
                 <flag name="meson-g12b-a311d-libretech-cc">Boot firmware for Libre Computer Alta</flag>
                 <flag name="armbian_kernel">Pull in sys-kernel package to install armbian kernel for this board</flag>
                 <flag name="dtbo">Pull in sys-kernel package to supply device tree blob overlay files</flag>
-                <flag name="joetoo-fw">Pull in joetoo boot firmware for this board (optional)</flag>
+                <flag name="joetoo-fw">Pull in joetoo u-boot-reflash firmware for this board (optional)</flag>
         </use>
         <longdescription>
 		Libre Computer u-boot bootloader firmware, with re-flash instructions for the selected sbc
