@@ -10,10 +10,9 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${C
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="arm ~arm amd64 ~amd64 arm64 ~arm64"
+RESTRICT="mirror"
 
-IUSE="
-	-TBD
-	"
+IUSE=" -TBD"
 
 REQUIRED_USE=""
 
@@ -59,6 +58,8 @@ pkg_postinst() {
 	elog " 0.0.2->10 update package.env with additional nodistmerge package"
 	elog " 0.0.11 removes some j1_makeopts and changes most to j4"
 	elog " 0.1.0 moves source to myUtilities repo"
-	elog " 0.1.0-r1 fixes manifest"
+	elog " 0.1.0-r2 fixes manifest, bugs"
+	elog " 0.1.1 adds no_collision_protection to kernel packages"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
