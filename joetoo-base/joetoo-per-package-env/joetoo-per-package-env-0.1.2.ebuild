@@ -48,7 +48,6 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "board=${board}"
 	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
@@ -58,6 +57,9 @@ pkg_postinst() {
 	elog " 0.0.2->10 update package.env with additional nodistmerge package"
 	elog " 0.0.11 removes some j1_makeopts and changes most to j4"
 	elog " 0.1.0 moves source to myUtilities repo"
-	elog " 0.1.0-r1 fixes manifest"
+	elog " 0.1.0-r2 fixes manifest, bugs"
+	elog " 0.1.1 adds no_collision_protection to kernel packages"
+	elog " 0.1.2 updates package.env and it .confs"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
