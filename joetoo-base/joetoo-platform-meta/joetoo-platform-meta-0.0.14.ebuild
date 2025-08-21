@@ -359,6 +359,8 @@ pkg_postinst() {
 	elog " 0.0.9/10 refine instructions provided in package.use files"
 	elog " 0.0.11 adds USE caps back to all 4 x make.conf"
 	elog " 0.0.12 fixes ROOT=/ in make.conf for generic-amd64"
+	elog " 0.0.13 updates package.use/80joetoo_common and all make.conf"
+	elog " 0.0.14 adds USE openmp to commented enhanced gcc 80joetoo_common"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
