@@ -60,6 +60,8 @@ pkg_postinst() {
 	elog " 0.1.0-r2 fixes manifest, bugs"
 	elog " 0.1.1 adds no_collision_protection to kernel packages"
 	elog " 0.1.2 updates package.env and it .confs"
+	elog " 0.0.3 moves cmake to dev-build category in package.env"
+	elog " 0.0.4 moves app-doc/doxygen to app-text/doxygen"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
