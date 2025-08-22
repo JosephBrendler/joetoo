@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		collect-sensitive is a configurable script used to
+		collect sensitive information from user files on a
+		system so that the dev-sbc/crossbuild-tools cb-mkimg
+		tool can populate a newly built system with specific
+		sensitive content such as user ssh and vpn keys
+		(To Do: (?) one or more sbc use flag must be selectd)
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+                <flag name="TBD">No USE flags implemented yet</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
+
