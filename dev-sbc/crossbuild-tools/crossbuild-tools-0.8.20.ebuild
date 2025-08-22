@@ -230,6 +230,8 @@ pkg_postinst() {
 	elog " 0.8.16 fixes ROOT=/ in make.conf for generic-amd64"
 	elog " 0.8.17 adds bcm2708-rpi-b to validate-source, cb-common-functions"
 	elog " 0.8.18 updates use of joetoo-sbc-list w model description"
+	elog " 0.8.19 adds cb-assemble-make-conf-all and 5 x configs"
+	elog " 0.8.20 removes cb-collect-basic/sensitive & moves stuff => content"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
