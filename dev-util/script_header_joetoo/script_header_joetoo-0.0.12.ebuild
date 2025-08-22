@@ -101,6 +101,8 @@ src_install() {
 	elog " 0.0.8 provide refinements and bugfixes"
 	elog " 0.0.9 updates checkboot() to return 2 if /boot is not supposed to be a mountpoint"
 	elog " 0.0.10 provides bugfix for run_sequence separator output"
+	elog " 0.0.11 fixes usage handling - was in subshell ( ) in process_compount_argument"
+	elog " 0.0.12 fixes status report for starting_step = 0 "
 	elog ""
 	elog "Thank you for using ${PN}"
 }
