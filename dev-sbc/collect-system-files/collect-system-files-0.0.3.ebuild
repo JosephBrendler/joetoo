@@ -53,8 +53,8 @@ src_install() {
 #	elog "Done installing local.cmdline_arguments"
 #	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
 #	elog "Done installing local.cmdline_compound_arguments"
-#	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-#	elog "Done installing local.usage"
+	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage"
 
 	# Install script into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
@@ -94,7 +94,8 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
-	elog " 0.0.26 enables media mount for image build"
+	elog " 0.0.2 adds local.usage info about eselect module"
+	elog " 0.0.3 provides refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
