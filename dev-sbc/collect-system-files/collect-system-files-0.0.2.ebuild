@@ -48,13 +48,13 @@ src_install() {
 	echo "BPN=${PN}" > ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "Install failed!"
 	elog "Done installing BPN"
-#        # also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
+#	# also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
 #	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
 #	elog "Done installing local.cmdline_arguments"
 #	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
 #	elog "Done installing local.cmdline_compound_arguments"
-#	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-#	elog "Done installing local.usage"
+	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage"
 
 	# Install script into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
@@ -63,9 +63,23 @@ src_install() {
 	elog "Done installing script ${PN}"
 
 	# Install this package's .conf files in /etc/${PN}
-	insinto "/etc/${PN}"
-	newins "${S}/${PN}.conf" "${PN}.conf"  || die "failed to install ${PN}.conf"
+	target="/etc/${PN}"
+	insinto "${target}"
+	for x in $(find ${S} -name "${PN}_*.conf") ; do
+		z=$(basename $x)
+		einfo "installing ${z} into ${target}"
+		newins "${x}" "${z}"  || die "failed to install ${z} into ${target}"
+	done
 	elog "Done installing .conf file(s)"
+
+	# Install ${PN}.conf eselect module
+	target="/usr/share/eselect/modules/"
+	einfo "Installing (ins) the ${PN}.conf eselect module into ${target} ..."
+	insinto "${target}"
+	z="${PN}.eselect"
+	newins "${S}/${z}" "${z}"
+	elog "Installed ${PN}.conf eselect module."
+
 }
 
 pkg_postinst() {
@@ -80,7 +94,7 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
-	elog " 0.0.26 enables media mount for image build"
+	elog " 0.0.2 adds local.usage info about eselect module"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
