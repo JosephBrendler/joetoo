@@ -13,7 +13,6 @@ S="${WORKDIR}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~amd64 x86 ~x86 arm ~arm arm64 ~arm64"
-#KEYWORDS=""
 
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
@@ -101,6 +100,8 @@ src_install() {
 	elog " 0.0.7 adds template script help and bugfixes"
 	elog " 0.0.8 provide refinements and bugfixes"
 	elog " 0.0.9 updates checkboot() to return 2 if /boot is not supposed to be a mountpoint"
+	elog " 0.0.10 provides bugfix for run_sequence separator output"
+	elog " 0.0.11 fixes usage handling - was in subshell ( ) in process_compount_argument"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
