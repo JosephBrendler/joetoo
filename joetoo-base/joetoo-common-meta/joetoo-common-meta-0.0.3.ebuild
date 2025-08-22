@@ -161,7 +161,7 @@ pkg_setup() {
 }
 
 src_install() {
-	# install the basic set of configuration files for joetoo
+	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
 	for x in $(find ${S} -type f); do
 		z=$(echo $x | sed "s|${S}||")
 		dn=$(dirname $z)
@@ -170,7 +170,7 @@ src_install() {
 		newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
 		elog "Installed ${bn} in ${dn}"
 	done
-
+	# install symlinks for basic configs for joetoo
 	target="/etc/openvpn/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
@@ -197,9 +197,13 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog "ver 0.0.1 splits joetoo-meta into ${PN} and joetoo-platform-meta"
+	elog " 0.0.1-r1/2 provide refinements and bugfixes"
+	elog " 0.0.2 updates /root/.bashrc and /etc/env.d/99joetoo-common-meta"
+	elog " 0.0.3 updates cloudsync.conf"
 	elog ""
 	if use gnome; then
-		eerror "USE = gnome was specified, but is not implemented yet..."
+		eerror "USE = gnome was specified, and this package would pull in dependencies"
+		eerror "for that, but that functionality is not implemented yet..."
 	fi
 	elog ""
 	elog "Thank you for using ${PN}"

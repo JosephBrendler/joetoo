@@ -48,7 +48,6 @@ pkg_postinst() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
-	einfo "board=${board}"
 	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
@@ -60,6 +59,8 @@ pkg_postinst() {
 	elog " 0.1.0 moves source to myUtilities repo"
 	elog " 0.1.0-r2 fixes manifest, bugs"
 	elog " 0.1.1 adds no_collision_protection to kernel packages"
+	elog " 0.1.2 updates package.env and it .confs"
+	elog " 0.0.3 moves cmake to dev-build category in package.env"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
