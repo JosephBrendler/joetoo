@@ -121,6 +121,7 @@ pkg_postinst() {
 	elog " 0.2.0 installs only u-boot; moves kernel/dtbo to versioned sys-kernel package"
 	elog " 0.2.1/2 adds/updates support for Rock 5c (rk3588s-rock-5c)"
 	elog " 0.3.0 is a version bump/bugfix that adds support for Rock 5b (rk3588-rock-5b)"
+	elog " 0.4.0 adds resources and a script for flashing rock-5b spi_loader images"
 	elog ""
 	elog "****************************************************************************"
 	elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"
