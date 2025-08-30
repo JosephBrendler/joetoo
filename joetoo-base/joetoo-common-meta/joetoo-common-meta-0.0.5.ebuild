@@ -164,6 +164,7 @@ pkg_setup() {
 
 src_install() {
 	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
+	einfo "Installing (ins) files into file system tree ..."
 	for x in $(find ${S} -type f); do
 		z=$(echo $x | sed "s|${S}||")
 		dn=$(dirname $z)
@@ -172,26 +173,32 @@ src_install() {
 		newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
 		elog "Installed ${bn} in ${dn}"
 	done
+	elog "Done installing (ins) files into file system tree"
 	# install symlinks for basic openvpn configs for joetoo
 	target="/etc/openvpn/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /etc/openvpn/openvpnkeys_2024/brendler-local.ovpn /etc/openvpn/local.conf
-		dosym /etc/openvpn/openvpnkeys_2024/brendler-remote.ovpn /etc/openvpn/remote.conf
-		elog "Done installing (sym) files into ${target} ..."
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-local.ovpn /etc/openvpn/local.conf  || die "failed to symlink local.conf"
+		elog "Installed symlink ${target%/}/local.conf"
+		dosym /etc/openvpn/openvpnkeys_2024/brendler-remote.ovpn /etc/openvpn/remote.conf  || die "failed to symlink remote.conf"
+		elog "Installed symlink ${target%/}/remote.conf"
+		elog "Done installing (sym) links into ${target}"
 	# install symlinks in init.d for openvpn services
 	target="/etc/init.d/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym ${target%/}/openvpn ${target%/}/openvpn.local
-		dosym ${target%/}/openvpn ${target%/}/openvpn.remote
-		elog "Done installing (sym) files into ${target} ..."
+		dosym ${target%/}/openvpn ${target%/}/openvpn.local || die "failed to symlink openvpn.local"
+		elog "Installed symlink ${target%/}/openvpn.local"
+		dosym ${target%/}/openvpn ${target%/}/openvpn.remote || die "failed to symlink openvpn.remote"
+		elog "Installed symlink ${target%/}/openvpn.remote"
+		elog "Done installing (sym) links into ${target} ..."
 	# install symlinks for basic chrony config for joetoo
 	target="/etc/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /etc/chrony/chrony.conf /etc/chrony.conf
-		elog "Done installing (sym) files into ${target} ..."
+		dosym /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
+		elog "Installed symlink /etc/chrony.conf"
+		elog "Done installing (sym) links into ${target} ..."
 }
 
 pkg_postinst() {
@@ -211,6 +218,8 @@ pkg_postinst() {
 	elog " 0.0.2 updates /root/.bashrc and /etc/env.d/99joetoo-common-meta"
 	elog " 0.0.3 updates cloudsync.conf; -r1 adds openvpn.remote/local symlinks"
 	elog " 0.0.3-r2 adds RESTRICT=\"mirror\""
+	elog " 0.0.4 moves README to /etc/portage/package.use/ and updates ebuild"
+	elog " 0.0.5 provides refinements and bugfixes"
 	elog ""
 	if use gnome; then
 		eerror "USE = gnome was specified, and this package would pull in dependencies"
