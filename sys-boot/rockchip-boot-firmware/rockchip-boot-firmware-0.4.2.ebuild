@@ -39,6 +39,7 @@ RESTRICT="mirror binchecks strip"
 
 
 # armbian kernel and dtbos, if requested, will be installed by sys-kernel package
+# start incorporating new kernel-build from .img files 8/30/25 - w rock 5c
 BDEPEND="
 	armbian_kernel? (
 		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image[dtbo=] )
@@ -46,9 +47,10 @@ BDEPEND="
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] )
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image[dtbo=] )
-		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
+		rk3588s-rock-5c?        ( sys-kernel/linux_arm64_rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
 	)
 "
+# (old)		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
 
 RDEPEND="
 	!sys-boot/raspberrypi-firmware
