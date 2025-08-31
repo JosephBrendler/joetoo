@@ -362,6 +362,8 @@ pkg_postinst() {
 	elog " 0.0.13 updates package.use/80joetoo_common and all make.conf"
 	elog " 0.0.14 adds USE openmp to commented enhanced gcc 80joetoo_common"
 	elog " 0.0.15 fixes rk3399 and rk3588 binhost.conf files"
+	elog " 0.0.16 adds collect-sensitive to package.accept_keywords"
+	elog " 0.0.17 adds 1st new-img method armbian kernel to package.accept_keywords"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
