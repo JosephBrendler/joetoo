@@ -1,0 +1,13 @@
+BDEPEND=
+DEFINED_PHASES=install postinst preinst
+DESCRIPTION=kernel image for rk3588s-rock-5c sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtbo +rockchip-sources
+KEYWORDS=~arm64
+LICENSE=MIT
+RDEPEND=rockchip-sources? ( =sys-kernel/rockchip-sources-6.12.43 )
+RESTRICT=mirror
+SLOT=6.12.43
+SRC_URI=https://raspi56406.brendler/rockchip-kernels/linux_arm64_rk3588s-rock-5c_armbian_kernel_image-6.12.43.tbz2
+_md5_=bdbd2f31b59eb21501f6581f99e3530c
