@@ -321,7 +321,7 @@ src_install() {
 		esac
 		if [ -z "${binhostconfigfile}" ] ; then
 			elog "binhostconfigfile is an empty string [${binhostconfigfile}] (nothing installed)"
-		elif [ -e "${S}/binrepos/${binhostconfigfile}"] ; then
+		elif [ -e "${S}/binrepos/${binhostconfigfile}" ] ; then
 			newins "${S}/binrepos/${binhostconfigfile}" "${binhostconfigfile}" || \
 				die "failed to install ${binhostconfigfile}"
 			elog "Installed ${target}/${binhostconfigfile}"
@@ -343,7 +343,7 @@ pkg_postinst() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	einfo "board=${board}"
-	einfo "arch=${arch}"
+	einfo "maker=${maker}"
 	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
@@ -364,6 +364,7 @@ pkg_postinst() {
 	elog " 0.0.15 fixes rk3399 and rk3588 binhost.conf files"
 	elog " 0.0.16 adds collect-sensitive to package.accept_keywords"
 	elog " 0.0.17 adds 1st new-img method armbian kernel to package.accept_keywords"
+	elog " 0.0.17-r1 fixes a bug in the binrepos section of the ebuild"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
