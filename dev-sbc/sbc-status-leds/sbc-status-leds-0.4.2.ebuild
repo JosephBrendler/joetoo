@@ -16,9 +16,11 @@ IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	x4-n100
-	meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	fsl-imx8mq-phanbell
 "
 # required: one and only one of --
 REQUIRED_USE="
@@ -26,9 +28,11 @@ REQUIRED_USE="
 		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 		rk3288-tinker-s
-		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+		rk3399-rock-pi-4c-plus rk3399-tinker-2
+		rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 		x4-n100
-		meson-gxl-s905x-libretech-cc-v2 meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell
+		meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+		fsl-imx8mq-phanbell
 	)
 "
 
@@ -53,45 +57,29 @@ RDEPEND="
 pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	einfo "Assigning board..."
-	if use bcm2712-rpi-cm5-cm5io ; then
-		export board="bcm2712-rpi-cm5-cm5io"
-	else if use bcm2712-rpi-5-b ; then
-		export board="bcm2712-rpi-5-b"
-	else if use bcm2711-rpi-cm4-io ; then
-		export board="bcm2711-rpi-cm4-io"
-	else if use bcm2711-rpi-4-b ; then
-		export board="bcm2711-rpi-4-b"
-	else if use bcm2710-rpi-3-b-plus; then
-		export board="bcm2710-rpi-3-b-plus"
-	else if use bcm2710-rpi-3-b; then
-		export board="bcm2710-rpi-3-b"
-	else if use bcm2709-rpi-2-b; then
-		export board="bcm2709-rpi-2-b"
-	else if use bcm2708-rpi-b; then
-		export board="bcm2708-rpi-b"
-	else if use rk3288-tinker-s; then
-		export board="rk3288-tinker-s"
-	else if use rk3399-rock-pi-4c-plus; then
-		export board="rk3399-rock-pi-4c-plus"
-	else if use rk3399-tinker-2; then
-		export board="rk3399-tinker-2"
-	else if use rk3588-rock-5b; then
-		export board="rk3588-rock-5b"
-	else if use rk3588s-orangepi-5; then
-		export board="rk3588s-orangepi-5"
-	else if use rk3588s-rock-5c; then
-		export board="rk3588s-rock-5c"
-	else if use meson-gxl-s905x-libretech-cc-v2; then
-		export board="meson-gxl-s905x-libretech-cc-v2"
-	else if use meson-g12b-a311d-libretech-cc; then
-		export board="meson-g12b-a311d-libretech-cc"
-	else if use fsl-imx8mq-phanbell; then
-		export board="fsl-imx8mq-phanbell"
-	else if use x4-n100; then
-		export board="x4-n100"
-	else
-		export board=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io"
+	elif use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b"
+	elif use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io"
+	elif use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b"
+	elif use bcm2710-rpi-3-b-plus; then export board="bcm2710-rpi-3-b-plus"
+	elif use bcm2710-rpi-3-b; then export board="bcm2710-rpi-3-b"
+	elif use bcm2709-rpi-2-b; then export board="bcm2709-rpi-2-b"
+	elif use bcm2708-rpi-b; then export board="bcm2708-rpi-b"
+	elif use rk3288-tinker-s; then export board="rk3288-tinker-s"
+	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus"
+	elif use rk3399-tinker-2; then export board="rk3399-tinker-2"
+	elif use rk3588-rock-5b; then export board="rk3588-rock-5b"
+	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+"
+	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"
+	elif use rk3588s-orangepi-5b; then export board="rk3588s-orangepi-5b"
+	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c"
+	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell"
+	elif use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2"
+	elif use meson-sm1-s905d3-libretech-cc; then export board="meson-sm1-s905d3-libretech-cc"
+	elif use meson-g12b-a311d-libretech-cc; then export board="meson-g12b-a311d-libretech-cc"
+	elif use x4-n100; then export board="x4-n100"
+	else export board=""
+	fi
 	einfo "board: ${board}"
 }
 
@@ -175,6 +163,8 @@ pkg_postinst() {
 	elog " 0.3.3 adds spt for meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
 	elog " 0.3.4 adds spt for fsl-imx8mq-phanbell (tinker edge t)"
 	elog " 0.4.0 adds spt for meson-g12b-a311d-libretech-cc (alta)"
+	elog " 0.4.1 adds spt for meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.4.2 adds spt for rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"
