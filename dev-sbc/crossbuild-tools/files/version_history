@@ -33,3 +33,38 @@ Version 0.0.1 is the initial package for crossbuild-tools
 0.2.7/8 add /root/.cb-config to image files
 0.2.9-12 provide refinements and bugfixes
 
+0.0.26 enables media mount for image build
+0.1.0 generalizes to spt any sbc w BOARD image file framework
+0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts
+0.3.0 culminates refinements prerequisite to running cb-mkimg
+0.3.1 consolidates some files in mkimg-files/common
+0.3.2-9 provide refinements and bugfixes
+0.4.0 integrates cb-mount cb-umount and supports rk3588-rock-5b
+0.4.1 corrects package.use/joetoo for rk3588-rock-5b & others
+0.4.2 corrects .accept_keywords/joetoo for rk3588-rock-5b (+)
+0.4.3 provides refinements and bugfixes
+0.4.4 supports bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io
+0.5.0 provides initial draft of cb-layout-device and cb-mkdev
+0.6.0 reworks common fns, cb-layout-device, and cb-flash-device
+0.6.1 refines common-functions, layout-device flash-device
+0.6.2 bugfix source cb-common-functions and add eselect
+0.6.3 add list_unused_disks, non-stty separator, right_status
+0.6.4/5 refines cb-collect- scripts (to generalize)
+0.6.6/7 build and bugfix cb-mkdev; fix sanity check
+0.6.8 fixes bad CFLAGS in raspi4/cm4 make.conf
+0.6.9 moves to script_header_joetoo
+0.6.10 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)
+0.6.11 provides refinements and bugfixes
+0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)
+0.7.0 is a rewrite w header fns, cli processing, fixes, etc.
+0.7.1-5 provides bugfixes and refinements
+0.7.6 enables eselect handling of custom image content
+0.7.7 provides bugfixes and refinements
+0.7.8 adds cb-assemble-make-conf framework
+0.7.9 adds smaller_script_common_usage_message
+0.7.10/11 add symlink-repo step to cb-mkenv
+0.7.12 updates cb-mkenv, cb-chroot-target, finalize-chroot
+0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions
+0.7.15 cb-buildtarget-qemu, -quickpkg-toolchain -> cb-mkenv
+0.7.16 adds bugfixes and saves completed .img as BOARD.env
+0.7.17 final mods to cb-mkenv -mkimg w cb-umount, stockpile
