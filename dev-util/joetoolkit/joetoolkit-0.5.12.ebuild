@@ -146,6 +146,8 @@ pkg_postinst() {
 	elog " 0.5.7 provides a new (replacement) binhost_cleanup script"
 	elog " 0.5.8/9 updates the joetoo-sbc-list script w model description"
 	elog " 0.5.10 fixes tarup for case of no prior matching tarballs"
+	elog " 0.5.11 updates bashrc_aliases_include_joe_brendler"
+	elog " 0.5.12 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
