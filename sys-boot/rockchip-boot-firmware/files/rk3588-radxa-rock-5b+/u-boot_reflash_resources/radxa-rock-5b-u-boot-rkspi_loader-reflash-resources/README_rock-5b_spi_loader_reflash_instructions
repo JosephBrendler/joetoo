@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# run these commands from the directory containing these img files
+# based on Armbian platform_install.sh script 
+# provides a menu dialog to choose one of several spi_loader options
+# "zero.img.gz" downloaded from https://docs.radxa.com/en/rock5/lowlevel-development/bootloader_spi_flash 6/2/25
+# (decompressed with gzip and verified with hexedit that it is all zero data)
+# "rkspi_loader.img" downloaded from https://github.com/huazi-yg/rock5b 6/2/25
+# "release" and "debug" versions downloaded from https://dl.radxa.com/rock5/sw/images/loader/ 6/2/25
+#     "release" version has u-boot serial console disabled
+#     "debug" version has u-boot serial console enabled
+#     "rkspi_loader.img" -- radxa says "Use it when you need to install the armbian Image to M.2 NVME SSD"
+#     (copied here as rkspi_loader_radxa.img)
+#     Note: Armbian build also produced a rkspi_loader.img file of size 16777216
+#     (precisely same size as /dev/mtdblock0 [16MiB] as are the other img files)
+#     (copied here as rkspi_loader_armbian.img)
+#ZERO=zero.img
+#IMAGE=debug/rock-5b-spi-image-gd1cf491-20240523-debug.img   ### pick your choice
+#TARGET=/dev/mtdblock
+
+#dd if=${ZERO} of=${TARGET} conv=notrunc status=progress; sync ;
+#md5sum ${ZERO} ${TARGET} ;
+#echo; echo;
+
+#dd if=${IMAGE} of=${TARGET} conv=notrunc status=progress; sync ;
+#md5sum ${IMAGE} ${TARGET
+
+# alternatively, run the acompanying script from the directory containing these img files
+# (based on write_uboot_platform_mtd() function in Armbian platform_install.sh script
+rock-5b_spi_loader_reflash.sh --help

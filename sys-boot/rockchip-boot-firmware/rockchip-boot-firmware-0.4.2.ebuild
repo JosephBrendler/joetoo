@@ -17,25 +17,22 @@ KEYWORDS="~arm ~arm64"
 
 IUSE="
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	+armbian_kernel +dtbo
 "
 
 # require exactly one kind of board to be selected
 REQUIRED_USE="
         ^^ ( rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c )
+	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
+	)
 "
 
 RESTRICT="mirror binchecks strip"
 
-#UPSTREAM_PV="6.x"
-#MY_PATH="${PN}-${UPSTREAM_PV}"
-#SRC_URI="https://raspi56406.brendler/${MY_PATH}/${MY_PATH}.tbz2"
-
-# no longer using SRC-URI nor custom path, so must set S
-#	S="${WORKDIR}/${MY_PATH}"
-	S="${WORKDIR}/"
+S="${WORKDIR}/"
 
 
 # armbian kernel and dtbos, if requested, will be installed by sys-kernel package
@@ -46,7 +43,9 @@ BDEPEND="
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image[dtbo=] )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] )
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] )
+		rk3588-radxa-rock-5b+?  ( sys-kernel/linux_arm64_rk3588-radxa-rock-5b+_armbian_kernel_image[dtbo=] )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image[dtbo=] )
+		rk3588s-orangepi-5b?    ( sys-kernel/linux_arm64_rk3588s-orangepi-5b_armbian_kernel_image[dtbo=] )
 		rk3588s-rock-5c?        ( sys-kernel/linux_arm64_rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
 	)
 "
@@ -71,19 +70,16 @@ pkg_setup() {
 	fi
 
 	# for sbc systems we need to know which board we are using
-	if use rk3288-tinker-s ; then
-		export board="rk3288-tinker-s"
-	else if use rk3399-rock-pi-4c-plus ; then
-		export board="rk3399-rock-pi-4c-plus"
-	else if use rk3399-tinker-2; then
-		export board="rk3399-tinker-2"
-	else if use rk3588-rock-5b; then
-		export board="rk3588-rock-5b"
-	else if use rk3588s-orangepi-5; then
-		export board="rk3588s-orangepi-5"
-	else if use rk3588s-rock-5c; then
-		export board="rk3588s-rock-5c"
-	fi; fi; fi; fi; fi; fi
+	if use rk3288-tinker-s ; then export board="rk3288-tinker-s"
+	elif use rk3399-rock-pi-4c-plus ; then export board="rk3399-rock-pi-4c-plus"
+	elif use rk3399-tinker-2; then export board="rk3399-tinker-2"
+	elif use rk3588-rock-5b; then export board="rk3588-rock-5b"
+	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+"
+	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"
+	elif use rk3588s-orangepi-5b; then export board="rk3588s-orangepi-5b"
+	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c"
+	else export board=""
+	fi
 	einfo "Assigned board: ${board}"
 
 	einfo "S and D are used; here they are ..."
@@ -95,8 +91,6 @@ pkg_setup() {
 	einfo "  PVR=${PVR}"
 	einfo "BDEPEND=${BDEPEND}"
 	einfo "RDEPEND=${RDEPEND}"
-	einfo "MY_PATH=${MY_PATH}"
-	einfo "SRC_URI=${SRC_URI}"
 	einfo "board=${board}"
 }
 
@@ -124,6 +118,8 @@ pkg_postinst() {
 	elog " 0.2.1/2 adds/updates support for Rock 5c (rk3588s-rock-5c)"
 	elog " 0.3.0 is a version bump/bugfix that adds support for Rock 5b (rk3588-rock-5b)"
 	elog " 0.4.0 adds resources and a script for flashing rock-5b spi_loader images"
+	elog " 0.4.1 provide refinements and bugfixes"
+	elog " 0.4.2 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog ""
 	elog "****************************************************************************"
 	elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"

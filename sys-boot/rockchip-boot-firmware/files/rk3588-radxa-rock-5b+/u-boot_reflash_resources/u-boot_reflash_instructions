@@ -1,0 +1,39 @@
+
+To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
+follow these instructions, based on armbian's platform_install.sh which can be found in
+u-boot_reflash_resources/usr/lib/u-boot/  --
+
+    # (as root)
+    cd /path/to/linux-u-boot-current-rock-5b/
+    target=<devicename>
+    dd if=idbloader.img of=${target} seek=64 conv=notrunc status=none;
+    dd if=u-boot.itb of=${target} seek=16384 conv=notrunc status=none;
+
+Notes:
+(0) The above procedure has been verified for rk3588-rock-5b (May 2025)
+
+(1) The platform_install.sh script does not appear to use the rkspi_loader.img
+that the u-boot build proces provides...
+
+(2) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
+
+(3) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
+when that is a MTD block device as in the case of rock-5b, the boot sd card will be
+/dev/mmcblk1
+ 
+(4) You can also re-compile u-boot from scratch...
+
+(5) First partition should start at sector 32768, to leave room for u-boot images written
+    with this method.  For example, see this layout
+
+# fdisk -l /dev/mmcblk1 (on working rk3588-rock-5b)---------------
+Disk /dev/mmcblk1: 58.94 GiB, 63281561600 bytes, 123596800 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 5E365B21-0997-0E45-B561-BEAB641105B5
+
+Device         Start       End   Sectors  Size Type
+/dev/mmcblk1p1 32768 122355711 122322944 58.3G Linux filesystem
+#-----------------------------------------------------------------
