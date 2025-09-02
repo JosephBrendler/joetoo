@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst
+DESCRIPTION=joetoo program to run and configure sbc emulation instances with qemu
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+KEYWORDS=~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=>=dev-util/script_header_joetoo-0.0.13[extended]
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/collect-layout-data-0.0.3.tbz2
+_md5_=2b88676e23d9450dd9e04523a3877881
