@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		collect-layout-data is a non-configurable script used to
+		collect partition layout and format data from a user's
+		system so that the dev-sbc/crossbuild-tools cb-mkdev
+		tool can properly create and format needed devices for
+		joetoo systems
+		(To Do: (?) one or more board name use flag must be selectd)
+	</longdescription>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joseph Brendler</name>
+	</maintainer>
+	<use>
+                <flag name="TBD">No USE flags implemented yet</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities</remote-id>
+	</upstream>
+</pkgmetadata>
+
