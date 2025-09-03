@@ -88,29 +88,11 @@ src_install() {
 	done
 	elog "Done installing custom_content framework"
 
-	# install cb-assemble-make-conf make-conf-parts framework into /etc/${PN}/
-	for x in $(find ${S}/make-conf-parts/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/||")
-		DN=$(dirname $z)
-		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
-		cp -p ${x} ${D}/etc/${PN}/${DN}
+	# install cb-layout-device config files into /etc/${PN}/
+	for x in $(find ${S}/cb-layout-device-configs/ -maxdepth 1 -type f) ; do
+		cp -p ${x} ${D}/etc/${PN}/cb-layout-device-configs/
 	done
-	elog "Done installing cb-assemble-make-conf make-conf-parts framework"
-
-	# install cb-assemble-make-conf make-conf-files framework into /etc/${PN}/
-	for x in $(find ${S}/make-conf-parts/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/||")
-		DN=$(dirname $z)
-		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
-		cp -p ${x} ${D}/etc/${PN}/${DN}
-	done
-	elog "Done installing cb-assemble-make-conf make-conf-files framework"
-
-	# install config files into /etc/${PN}/
-	for x in $(find ${S}/configs/ -maxdepth 1 -type f) ; do
-		cp -p ${x} ${D}/etc/${PN}/
-	done
-	elog "Done installing admin_files config files and scripts"
+	elog "Done installing cb-layout-device config files"
 
 	# install RUST_CROSS_TARGETS configuration
 	insinto "/etc/portage/env/dev-lang/"
@@ -146,13 +128,13 @@ src_install() {
 	elog "Done installing scripts"
 
 	# Install this packages other .conf files in /etc/${PN}
-	# (this is currently only cb-assemble-make-conf.conf)
-	insinto "/etc/${PN}"
-	for x in $(find ${S}/ -maxdepth 1 -type f -iname 'cb-*.conf') ; do
-		z=$(basename $x)
-		newins "${x}" "${z}" || die "Install ${z} failed!"
-	done
-	elog "Done installing .conf file(s)"
+	# (currently N/A)
+#	insinto "/etc/${PN}"
+#	for x in $(find ${S}/ -maxdepth 1 -type f -iname 'cb-*.conf') ; do
+#		z=$(basename $x)
+#		newins "${x}" "${z}" || die "Install ${z} failed!"
+#	done
+#	elog "Done installing .conf file(s)"
 
 	# Install cb-layout-device.conf eselect module
 	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
@@ -181,41 +163,6 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
-	elog " 0.0.26 enables media mount for image build"
-	elog " 0.1.0 generalizes to spt any sbc w BOARD image file framework"
-	elog " 0.2.0 adds cb-mkimg and finalize-chroot-for-image scripts"
-	elog " 0.3.0 culminates refinements prerequisite to running cb-mkimg"
-	elog " 0.3.1 consolidates some files in mkimg-files/common"
-	elog " 0.3.2-9 provide refinements and bugfixes"
-	elog " 0.4.0 integrates cb-mount cb-umount and supports rk3588-rock-5b"
-	elog " 0.4.1 corrects package.use/joetoo for rk3588-rock-5b & others"
-	elog " 0.4.2 corrects .accept_keywords/joetoo for rk3588-rock-5b (+)"
-	elog " 0.4.3 provides refinements and bugfixes"
-	elog " 0.4.4 supports bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
-	elog " 0.5.0 provides initial draft of cb-layout-device and cb-mkdev"
-	elog " 0.6.0 reworks common fns, cb-layout-device, and cb-flash-device"
-	elog " 0.6.1 refines common-functions, layout-device flash-device"
-	elog " 0.6.2 bugfix source cb-common-functions and add eselect"
-	elog " 0.6.3 add list_unused_disks, non-stty separator, right_status"
-	elog " 0.6.4/5 refines cb-collect- scripts (to generalize)"
-	elog " 0.6.6/7 build and bugfix cb-mkdev; fix sanity check"
-	elog " 0.6.8 fixes bad CFLAGS in raspi4/cm4 make.conf"
-	elog " 0.6.9 moves to script_header_joetoo"
-	elog " 0.6.10 adds meson-gxl-s905x-libretech-cc-v2 (sweet potato)"
-	elog " 0.6.11 provides refinements and bugfixes"
-	elog " 0.6.12 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
-	elog " 0.7.0 is a rewrite w header fns, cli processing, fixes, etc."
-	elog " 0.7.1-5 provides bugfixes and refinements"
-	elog " 0.7.6 enables eselect handling of custom image content"
-	elog " 0.7.7 provides bugfixes and refinements"
-	elog " 0.7.8 adds cb-assemble-make-conf framework"
-	elog " 0.7.9 adds smaller_script_common_usage_message"
-	elog " 0.7.10/11 add symlink-repo step to cb-mkenv"
-	elog " 0.7.12 updates cb-mkenv, cb-chroot-target, finalize-chroot"
-	elog " 0.7.14 updates cb-buildtarget-qemu, mkenv, common-functions"
-	elog " 0.7.15 cb-buildtarget-qemu, -quickpkg-toolchain -> cb-mkenv"
-	elog " 0.7.16 adds bugfixes and saves completed .img as BOARD.env"
-	elog " 0.7.17 final mods to cb-mkenv -mkimg w cb-umount, stockpile"
 	elog " 0.8.0 introduced cb-mount/umount-binhost"
 	elog " 0.8.1 adds meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.8.2 adds refinements and bugfixes"
@@ -232,6 +179,8 @@ pkg_postinst() {
 	elog " 0.8.18 updates use of joetoo-sbc-list w model description"
 	elog " 0.8.19 adds cb-assemble-make-conf-all and 5 x configs"
 	elog " 0.8.20 removes cb-collect-basic/sensitive & moves stuff => content"
+	elog " 0.8.21 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.9.0 (-)make-conf tools (+)cb-layout-device tools"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
