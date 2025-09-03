@@ -19,7 +19,8 @@ IUSE="
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
-	-rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588s-orangepi-5 -rk3588s-rock-5c
+	-rk3399-rock-pi-4c-plus -rk3399-tinker-2
+	-rk3588-rock-5b -rk3588-radxa-rock-5b+ -rk3588s-orangepi-5 -rk3588s-orangepi-5b -rk3588s-rock-5c
 	-meson-gxl-s905x-libretech-cc-v2 -meson-sm1-s905d3-libretech-cc -meson-g12b-a311d-libretech-cc
 	-fsl-imx8mq-phanbell
 	-generic-armv6j -generic-armv7a -generic-aarch64
@@ -51,7 +52,9 @@ REQUIRED_USE="
 		rk3399-rock-pi-4c-plus
 		rk3399-tinker-2
 		rk3588-rock-5b
+		rk3588-radxa-rock-5b+
 		rk3588s-orangepi-5
+		rk3588s-orangepi-5b
 		rk3588s-rock-5c
 		meson-gxl-s905x-libretech-cc-v2
 		meson-sm1-s905d3-libretech-cc
@@ -95,7 +98,9 @@ pkg_setup() {
 		elif use rk3399-rock-pi-4c-plus ; then export board="rk3399-rock-pi-4c-plus" ; export maker="rockchip"
 		elif use rk3399-tinker-2 ; then export board="rk3399-tinker-2" ; export maker="rockchip"
 		elif use rk3588-rock-5b ; then export board="rk3588-rock-5b" ; export maker="rockchip"
+		elif use rk3588-radxa-rock-5b+ ; then export board="rk3588-radxa-rock-5b+" ; export maker="rockchip"
 		elif use rk3588s-orangepi-5 ; then export board="rk3588s-orangepi-5" ; export maker="rockchip"
+		elif use rk3588s-orangepi-5b ; then export board="rk3588s-orangepi-5b" ; export maker="rockchip"
 		elif use rk3588s-rock-5c ; then export board="rk3588s-rock-5c" ; export maker="rockchip"
 		elif use fsl-imx8mq-phanbell ; then export board="fsl-imx8mq-phanbell" ; export maker="nxp"
 		elif use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2" ; export maker="amlogic"
@@ -309,7 +314,7 @@ src_install() {
 			"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b") binhostconfigfile="joetoo_rpi23A_binhosts.conf" ;;
 			"bcm2708-rpi-b") binhostconfigfile="joetoo_rpi1_binhosts.conf" ;;
 			"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2") binhostconfigfile="joetoo_rk3399_binhosts.conf" ;;
-			"rk3588-rock-5b"|"rk3588s-orangepi-5"|"rk3588s-rock-5c") binhostconfigfile="joetoo_rk3588_binhosts.conf" ;;
+			"rk3588-rock-5b"|"rk3588-radxa-rock-5b+"|"rk3588s-orangepi-5"|"rk3588s-orangepi-5b"|"rk3588s-rock-5c") binhostconfigfile="joetoo_rk3588_binhosts.conf" ;;
 			# TinkerEdgeT, CoralDev are NXP i.MX8M ; SweetPotato is aml-s905x-cc (both SoCs have cortex-A53; same cpu-flags)
 			"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2") binhostconfigfile="joetoo_sweetpotato_binhosts.conf" ;;
 			"meson-sm1-s905d3-libretech-cc") binhostconfigfile="joetoo_solitude_binhosts.conf" ;;
@@ -364,7 +369,9 @@ pkg_postinst() {
 	elog " 0.0.15 fixes rk3399 and rk3588 binhost.conf files"
 	elog " 0.0.16 adds collect-sensitive to package.accept_keywords"
 	elog " 0.0.17 adds 1st new-img method armbian kernel to package.accept_keywords"
-	elog " 0.0.17-r1 fixes a bug in the binrepos section of the ebuild"
+	elog " 0.0.17-r1/2 fixes a bug in the binrepos section of the ebuild"
+	elog " 0.0.18 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.1.0 moves assemble-make-conf tool to ${PN}"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
