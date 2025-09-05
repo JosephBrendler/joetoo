@@ -83,6 +83,7 @@ RDEPEND="
 		>=sys-apps/mlocate-0.26-r2
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
+		>=sys-auth/elogind-255.17
 		>=sys-devel/bc-1.07.1
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		>=sys-fs/dosfstools-4.1
@@ -192,6 +193,19 @@ src_install() {
 		dosym ${target%/}/openvpn ${target%/}/openvpn.remote || die "failed to symlink openvpn.remote"
 		elog "Installed symlink ${target%/}/openvpn.remote"
 		elog "Done installing (sym) vpn links into ${target} ..."
+	# install symlink in init.d for user services (assume valid users have shell programs named *sh)
+	target="/etc/init.d/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		# look for entries in /etc/passwd, the last field of which is the user's shell
+		# (most entries end "nologin" or "false"
+		#  users will end in an actual shell program path name)
+		for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
+			dosym ${target%/}/user ${target%/}/user.${username} || \
+				die "failed to symlink user.${username}"
+			elog "Installed symlink ${target%/}/user.${username}"
+		done
+		elog "Done installing (sym) user service links into ${target} ..."
 	# install symlinks for basic chrony config for joetoo
 	target="/etc/"
 		einfo "Installing (sym) files into ${target} ..."
@@ -199,6 +213,15 @@ src_install() {
 		dosym /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
 		elog "Installed symlink /etc/chrony.conf"
 		elog "Done installing (sym) links into ${target} ..."
+	# install elogind service in boot runlevel if install symlinks for basic chrony config for joetoo
+	if [ -z "$( find /etc/runlevels/boot/ -iname 'elogind' )" ] ; then
+		target="/etc/runlevels/boot/"
+			einfo "Installing (sym) files into ${target} ..."
+			insinto "${target}"
+			dosym /etc/init.d/elogind ${target%/}/elogind || die "failed to symlink ${target%/}/elogind"
+			elog "Installed symlink ${target%/}/elogind"
+			elog "Done installing (sym) elogind link into ${target} ..."
+	fi
 }
 
 pkg_postinst() {
@@ -220,6 +243,7 @@ pkg_postinst() {
 	elog " 0.0.3-r2 adds RESTRICT=\"mirror\""
 	elog " 0.0.4 moves README to /etc/portage/package.use/ and updates ebuild"
 	elog " 0.0.5 provides refinements and bugfixes"
+	elog " 0.0.5-r1 adds support for openrc user services stabled in Gentoo 9/5/25"
 	elog ""
 	if use gnome; then
 		eerror "USE = gnome was specified, and this package would pull in dependencies"
