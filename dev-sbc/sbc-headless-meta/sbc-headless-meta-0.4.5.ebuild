@@ -15,7 +15,8 @@ IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	generic-armv6j generic-armv7a generic-aarch64
@@ -28,7 +29,8 @@ REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	generic-armv6j generic-armv7a generic-aarch64
@@ -49,9 +51,16 @@ BDEPEND="
 	>=app-shells/bash-5.0
 "
 
-# note: for USE joetoo, the joetoo-platform-meta[sbc,<board>] dependency should confirm the
-#    package should have already been installed with those use (and in the process installed
-#    make.conf, package.use, package.accept_keywords files that will affect this installation
+# notes:
+# (1) for USE joetoo, the joetoo-platform-meta[sbc,<board>] dependency should
+#     confirm the package should have already been installed with those use
+#     (and in the process installed make.conf, package.use, package.accept_keywords
+#      files that will affect this installation)
+# (2) starting with 0.0.4-r1 (for solitude, board=meson-sm1-s905d3-libretech-cc)
+#I'm migrating uefi supported boards AWAY from sbc-boot-config
+# i.e. for each such deployment, ** delete ** dependency on --
+# >=sys-boot/sbc-boot-config-0.0.1[${board}(+)]
+#
 RDEPEND="
 	${BDEPEND}
 	>=sys-firmware/b43-firmware-5.100.138
@@ -148,8 +157,16 @@ RDEPEND="
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588-rock-5b(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
+		rk3588-radxa-rock-5b+?       (
+			>=sys-boot/sbc-boot-config-0.0.1[rk3588-radxa-rock-5b+(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
 		rk3588s-orangepi-5?    (
 			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-orangepi-5(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
+		rk3588s-orangepi-5b?    (
+			>=sys-boot/sbc-boot-config-0.0.1[rk3588s-orangepi-5b(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 		rk3588s-rock-5c?       (
@@ -165,7 +182,6 @@ RDEPEND="
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 		meson-sm1-s905d3-libretech-cc?   (
-			>=sys-boot/sbc-boot-config-0.0.1[meson-sm1-s905d3-libretech-cc(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 		meson-g12b-a311d-libretech-cc?   (
@@ -255,9 +271,17 @@ RDEPEND="
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588-rock-5b(+)]
 			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588-rock-5b(+)]
 		)
+		rk3588-radxa-rock-5b+? (
+			>=dev-sbc/sbc-status-leds-0.0.1[rk3588-radxa-rock-5b+(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588-radxa-rock-5b+(+)]
+		)
 		rk3588s-orangepi-5? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5(+)]
 			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588s-orangepi-5(+)]
+		)
+		rk3588s-orangepi-5b? (
+			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-orangepi-5b(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3588s-orangepi-5b(+)]
 		)
 		rk3588s-rock-5c? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3588s-rock-5c(+)]
@@ -305,7 +329,9 @@ RDEPEND="
 		rk3399-rock-pi-4c-plus? ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-rock-pi-4c-plus(+)] )
 		rk3399-tinker-2?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-tinker-2(+)] )
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
+		rk3588-radxa-rock-5b+?  ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-radxa-rock-5b+(+)] )
 		rk3588s-orangepi-5?     ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5(+)] )
+		rk3588s-orangepi-5b?    ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-orangepi-5b(+)] )
 		rk3588s-rock-5c?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588s-rock-5c(+)] )
 		fsl-imx8mq-phanbell?    ( >=sys-boot/nxp-boot-firmware-0.0.1[fsl-imx8mq-phanbell(+)] )
 		meson-gxl-s905x-libretech-cc-v2?  ( >=sys-boot/amlogic-boot-firmware-0.0.1[meson-gxl-s905x-libretech-cc-v2(+)] )
@@ -325,7 +351,9 @@ RDEPEND="
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_joetoo_kernelimage )
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
+		rk3588-radxa-rock-5b+?  ( sys-kernel/linux-rk3588-radxa-rock-5b+_joetoo_-kernelimage )
 		rk3588s-orangepi-5?     ( sys-kernel/linux-rk3588s-orangepi-5_joetoo_kernelimage )
+		rk3588s-orangepi-5b?    ( sys-kernel/linux-rk3588s-orangepi-5b_joetoo_kernelimage )
 		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_joetoo_-kernelimage )
 		fsl-imx8mq-phanbell?    ( sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_-kernelimage )
 		meson-gxl-s905x-libretech-cc-v2?  ( sys-kernel/linux-meson-gxl-s905x-libretech-cc-v2_joetoo_-kernelimage )
@@ -348,7 +376,9 @@ pkg_setup() {
 	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus" ; export arch="arm64"
 	elif use rk3399-tinker-2; then export board="rk3399-tinker-2" ; export arch="arm64"
 	elif use rk3588-rock-5b; then export board="rk3588-rock-5b" ; export arch="arm64"
+	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+" ; export arch="arm64"
 	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5" ; export arch="arm64"
+	elif use rk3588s-orangepi-5b; then export board="rk3588s-orangepi-5b" ; export arch="arm64"
 	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c" ; export arch="arm64"
 	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell" ; export arch="arm64"
 	elif use meson-gxl-s905x-libretech-cc-v2; then export board="meson-gxl-s905x-libretech-cc-v2" ; export arch="arm64"
@@ -441,6 +471,9 @@ pkg_postinst() {
 	elog " 0.4.2 adds meson-sm1-s905d3-libretech-cc (solitude)"
 	elog " 0.4.3 provides refinements and bugfixes"
 	elog " 0.4.4 depends on joetoo-platform-meta and pull in joetoo-common-meta"
+	elog " 0.4.4-r1 uefi board (solitude), drops sys-boot/sbc-boot-config dependency"
+	elog " -r2 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.4.5 is just a version bump to clarify latest"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
