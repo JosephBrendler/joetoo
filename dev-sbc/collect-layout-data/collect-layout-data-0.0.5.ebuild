@@ -49,43 +49,12 @@ src_install() {
 	echo "BPN=${PN}" > ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "Install failed!"
 	elog "Done installing BPN"
-#	# also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
-#	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_arguments"
-#	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_compound_arguments"
-#	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-#	elog "Done installing local.usage"
 
 	# Install script into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	newexe "${S}/${PN}" "${PN}" || die "failed to install script ${PN}"
 	elog "Done installing script ${PN}"
-
-	# Install cb-common-functions (dependency) into /usr/sbin/
-	elog "Installing (exe) into /usr/sbin/"
-	exeinto "/usr/sbin/"
-	newexe "${S}/cb-common-functions" "cb-common-functions" || die "failed to install cb-common-functions"
-	elog "Done installing cb-common-functions"
-
-#	# Install this package's .conf files in /etc/${PN}
-#	target="/etc/${PN}"
-#	insinto "${target}"
-#	for x in $(find ${S} -name "${PN}_*.conf") ; do
-#		z=$(basename $x)
-#		einfo "installing ${z} into ${target}"
-#		newins "${x}" "${z}"  || die "failed to install ${z} into ${target}"
-#	done
-#	elog "Done installing .conf file(s)"
-
-#	# Install ${PN}.conf eselect module
-#	target="/usr/share/eselect/modules/"
-#	einfo "Installing (ins) the ${PN}.conf eselect module into ${target} ..."
-#	insinto "${target}"
-#	z="${PN}.eselect"
-#	newins "${S}/${z}" "${z}"
-#	elog "Installed ${PN}.conf eselect module."
 
 }
 
@@ -103,12 +72,8 @@ pkg_postinst() {
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2/3 provide enhancements and bugfixes"
 	elog " -r1/2 update the ebuild's RDEPEND dependencies"
+	elog " 0.0.4 auto-detects root_dev, _disk, _part, _crypt, and sets DEVTYPE, ENC"
+	elog " 0.0.5 auto-determines BOARD"
 	elog ""
-#	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
-#	ewarn "  these will be config-protect'd and you will need to use"
-#	ewarn "  e.g. dispatch-conf to complete their installation."
-#	ewarn "  To override this behavior, add /etc/${PN}/ to"
-#	ewarn "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
-#	elog ""
 	elog "Thank you for using ${PN}"
 }
