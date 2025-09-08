@@ -88,29 +88,11 @@ src_install() {
 	done
 	elog "Done installing custom_content framework"
 
-	# install cb-assemble-make-conf make-conf-parts framework into /etc/${PN}/
-	for x in $(find ${S}/make-conf-parts/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/||")
-		DN=$(dirname $z)
-		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
-		cp -p ${x} ${D}/etc/${PN}/${DN}
-	done
-	elog "Done installing cb-assemble-make-conf make-conf-parts framework"
-
-	# install cb-assemble-make-conf make-conf-files framework into /etc/${PN}/
-	for x in $(find ${S}/make-conf-parts/ -type f) ; do
-		z=$(echo ${x} | sed "s|${S}/||")
-		DN=$(dirname $z)
-		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
-		cp -p ${x} ${D}/etc/${PN}/${DN}
-	done
-	elog "Done installing cb-assemble-make-conf make-conf-files framework"
-
 	# install cb-layout-device config files into /etc/${PN}/
 	for x in $(find ${S}/cb-layout-device-configs/ -maxdepth 1 -type f) ; do
-		cp -p ${x} ${D}/etc/${PN}/
+		cp -p ${x} ${D}/etc/${PN}/cb-layout-device-configs/
 	done
-	elog "Done installing admin_files config files and scripts"
+	elog "Done installing cb-layout-device config files"
 
 	# install RUST_CROSS_TARGETS configuration
 	insinto "/etc/portage/env/dev-lang/"
@@ -146,13 +128,13 @@ src_install() {
 	elog "Done installing scripts"
 
 	# Install this packages other .conf files in /etc/${PN}
-	# (this is currently only cb-assemble-make-conf.conf)
-	insinto "/etc/${PN}"
-	for x in $(find ${S}/ -maxdepth 1 -type f -iname 'cb-*.conf') ; do
-		z=$(basename $x)
-		newins "${x}" "${z}" || die "Install ${z} failed!"
-	done
-	elog "Done installing .conf file(s)"
+	# (currently N/A)
+#	insinto "/etc/${PN}"
+#	for x in $(find ${S}/ -maxdepth 1 -type f -iname 'cb-*.conf') ; do
+#		z=$(basename $x)
+#		newins "${x}" "${z}" || die "Install ${z} failed!"
+#	done
+#	elog "Done installing .conf file(s)"
 
 	# Install cb-layout-device.conf eselect module
 	einfo "Installing (ins) the cb-layout-device.conf eselect module into /usr/share/eselect/modules/ ..."
@@ -198,6 +180,8 @@ pkg_postinst() {
 	elog " 0.8.19 adds cb-assemble-make-conf-all and 5 x configs"
 	elog " 0.8.20 removes cb-collect-basic/sensitive & moves stuff => content"
 	elog " 0.8.21 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.9.0 (-)make-conf tools (+)cb-layout-device tools"
+	elog " 0.9.1 is an initial rewrite of cb-layout-device"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
