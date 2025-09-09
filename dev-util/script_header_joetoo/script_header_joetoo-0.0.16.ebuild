@@ -105,6 +105,8 @@ src_install() {
 	elog " 0.0.12 fixes status report for starting_step = 0 "
 	elog " 0.0.13 adds non-stty-right_status() to script_header_joetoo_extended"
 	elog " 0.0.14 adds right_most()"
+	elog " 0.0.15 updates get_luks_edev_name()"
+	elog " 0.0.16 adds isfloat() and map()"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
