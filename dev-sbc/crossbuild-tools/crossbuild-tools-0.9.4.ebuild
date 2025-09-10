@@ -182,7 +182,7 @@ pkg_postinst() {
 	elog " 0.8.21 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.9.0 (-)make-conf tools (+)cb-layout-device tools"
 	elog " 0.9.1 is an initial rewrite of cb-layout-device"
-	elog " 0.9.2 saves work in progress on cb-layout-device"
+	elog " 0.9.2-4 save work in progress on cb-layout-device"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
