@@ -1,0 +1,12 @@
+DEFINED_PHASES=install
+DESCRIPTION=A script header with easy-to-use formatting colors and misc functions
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=+extended +niopt +examples
+KEYWORDS=amd64 ~amd64 x86 ~x86 arm ~arm arm64 ~arm64
+LICENSE=MIT
+REQUIRED_USE=examples? ( extended )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo-0.0.18.tbz2
+_md5_=ffae2f992fcabc4c4e3d6fd8c6a40cb6

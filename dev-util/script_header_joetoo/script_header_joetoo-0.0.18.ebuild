@@ -107,6 +107,9 @@ src_install() {
 	elog " 0.0.14 adds right_most()"
 	elog " 0.0.15 updates get_luks_edev_name()"
 	elog " 0.0.16 adds isfloat() and map()"
+	elog " 0.0.17 adds d_do() and tweaks some other stuff"
+	elog " 0.0.18 moves ash-incompatible functions to _extended: CPR(), isfloat(), map()"
+	elog ""
 	elog ""
 	elog "Thank you for using ${PN}"
 }
