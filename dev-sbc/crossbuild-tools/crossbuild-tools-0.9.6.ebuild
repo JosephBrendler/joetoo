@@ -70,6 +70,15 @@ src_install() {
 	done
 	elog "Done installing mkimg-files config files and scripts"
 
+	# install mkdev-files into /etc/${PN}/
+	for x in $(find ${S}/mkdev-files/ -type f) ; do
+		z=$(echo ${x} | sed "s|${S}/||")
+		DN=$(dirname $z)
+		[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+		cp -p ${x} ${D}/etc/${PN}/${DN}
+	done
+	elog "Done installing mkdev-files config files and scripts"
+
 	# install admin-files into /etc/${PN}/
 	for x in $(find ${S}/admin_files/ -type f) ; do
 		z=$(echo ${x} | sed "s|${S}/||")
@@ -182,7 +191,8 @@ pkg_postinst() {
 	elog " 0.8.21 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.9.0 (-)make-conf tools (+)cb-layout-device tools"
 	elog " 0.9.1 is an initial rewrite of cb-layout-device"
-	elog " 0.9.2-4 save work in progress on cb-layout-device"
+	elog " 0.9.2-5 save work in progress on cb-layout-device"
+	elog " 0.9.6 updates mkenv-files/common for ca_certs and script headers"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
