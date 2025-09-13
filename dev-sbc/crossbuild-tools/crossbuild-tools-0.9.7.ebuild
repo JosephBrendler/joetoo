@@ -24,7 +24,9 @@ RDEPEND="
 	app-admin/eselect
 	app-arch/tar
 	dev-lang/python-exec
+	dev-lang/rust-bin
 	dev-libs/openssl
+	dev-python/pkgconfig
 	dev-util/joetoolkit
 	dev-util/script_header_joetoo
 	net-misc/curl
@@ -192,6 +194,8 @@ pkg_postinst() {
 	elog " 0.9.0 (-)make-conf tools (+)cb-layout-device tools"
 	elog " 0.9.1 is an initial rewrite of cb-layout-device"
 	elog " 0.9.2-5 save work in progress on cb-layout-device"
+	elog " 0.9.6 updates mkenv-files/common for ca_certs and script headers"
+	elog " 0.9.7 updates cb-mkdev for new cb-layout-device"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
