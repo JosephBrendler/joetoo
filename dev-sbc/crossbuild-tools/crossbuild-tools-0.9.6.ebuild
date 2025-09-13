@@ -24,7 +24,9 @@ RDEPEND="
 	app-admin/eselect
 	app-arch/tar
 	dev-lang/python-exec
+	dev-lang/rust-bin
 	dev-libs/openssl
+	dev-python/pkgconfig
 	dev-util/joetoolkit
 	dev-util/script_header_joetoo
 	net-misc/curl
