@@ -152,6 +152,8 @@ pkg_postinst() {
 	elog " 0.5.14 updates alias gcsm to cache passphrase"
 	elog " 0.5.15 updates joetoo-sbc-list for rock5b+ and tinker boards"
 	elog " 0.5.16 fixes libre computer sbc model names"
+	elog " 0.5.17 updates install_my_local_ca_certificates"
+	elog " 0.5.18 adds alias ebt (echo BOARD TARGET)"
 	elog " "
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
