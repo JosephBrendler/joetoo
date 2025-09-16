@@ -34,6 +34,7 @@ RDEPEND="
 	sys-apps/coreutils
 	sys-apps/util-linux
 	sys-block/parted
+	sys-devel/crossdev
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
 	sys-apps/grep
@@ -115,7 +116,8 @@ src_install() {
 
 	# install README.md, BUILD, BPN files into /etc/${PN}/
 	elog "Installing (ins) into /etc/${PN}/"
-	insinto "/etc/${PN}/"
+	target="/etc/${PN}/"
+	insinto "${target}"
 	newins "${S}/README.md" "README.md"  || die "Install failed!"
 	elog "Done installing README.md"
 	echo "BUILD=${PVR}" > ${T}/BUILD
@@ -131,6 +133,16 @@ src_install() {
 	elog "Done installing local.cmdline_compound_arguments"
 	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
 	elog "Done installing local.usage"
+
+        # also install cb-layout-device.local and its local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
+	target="/etc/${PN}/cb-layout-device.local/"
+	insinto "${target}"
+	newins "${S}/cb-layout-device.local/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_arguments for cb-layout-device.local"
+	newins "${S}/cb-layout-device.local/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_compound_arguments for cb-layout-device.local"
+	newins "${S}/cb-layout-device.local/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage for cb-layout-device.local"
 
 	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
@@ -178,6 +190,8 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.10.0 updates to cb-mkenv, cb-mkimg, andcb-mkdev"
+	elog " 0.10.1 makes cb-layout-device resumable via cli; plus tweaks"
+	elog " 0.10.2 incl bugfixes and moves some chroot fns to cb-common-"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
@@ -185,16 +199,19 @@ pkg_postinst() {
 	ewarn "  To override this behavior, add /etc/${PN}/ to"
 	ewarn "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
 	elog ""
-	ewarn "Use the cb-populate-image eselect module to populate"
+	ewarn "Notes:"
+	ewarn "(1) Use the cb-populate-image eselect module to populate"
 	ewarn "/etc/${PN}/custom-content/mkimg-files/"
 	ewarn "by linking your own content, granting you privacy and control."
-	ewarn "You can also edit the finalize-chroot and finalize-chroot-for-image"
-	ewarn "scripts at /etc/${PN}/mkimg-files/common/usr/local/sbin/"
+	ewarn "(2) Though not recommended, you can also edit the finalize-chroot"
+	ewarn "and/or finalize-chroot-for-image scripts at"
+	ewarn "/etc/${PN}/mkimg-files/common/usr/local/sbin/"
 	ewarn "to tailor system crossbuild template(s) to your needs"
-	ewarn "Use the cb-layout-device eselect module to choose a device-"
+	ewarn "(3) Use the cb-layout-device eselect module to choose a device-"
 	ewarn "layout template to be used by cb-mkdev to make an actual"
-	ewarn "bootable media device for your board.  (Note that you may still"
-	ewarn "need to install a bootloader like u-boot, separately)"
+	ewarn "bootable media device for your board"
+	ewarn "(4) You may still need to install a bootloader like u-boot"
+	ewarn "cb-mkdev does not automate that yet (you do it, separately)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
