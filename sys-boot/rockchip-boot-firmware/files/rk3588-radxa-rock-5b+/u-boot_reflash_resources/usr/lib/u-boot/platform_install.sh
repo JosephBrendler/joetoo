@@ -1,6 +1,6 @@
-# Armbian u-boot install script for linux-u-boot-rock-5b-current 2017.09-S530d-P187d-H7896-Vc393-Bb703-R448a
+# Armbian u-boot install script for linux-u-boot-rock-5b-plus-vendor 2017.09-Sa317-Pa56c-Hd66a-V4ac1-Bb703-R448a
 # This file provides functions for deploying u-boot to a block device.
-DIR=/usr/lib/linux-u-boot-current-rock-5b
+DIR=/usr/lib/linux-u-boot-vendor-rock-5b-plus
 write_uboot_platform () 
 { 
     local logging_prelude="";
@@ -47,7 +47,7 @@ write_uboot_platform_mtd ()
     fi;
     [[ -f /etc/armbian-release ]] && source /etc/armbian-release;
     backtitle="Armbian for $BOARD_NAME install script, https://www.armbian.com";
-    CHOICE=$(dialog --no-collapse   		--title "armbian-install"   		--backtitle $backtitle   		--radiolist "Choose SPI image:" 0 56 4   		"${MENU_ITEMS[@]}"   		3>&1 1>&2 2>&3);
+    CHOICE=$(dialog --no-collapse --title "armbian-install" --backtitle $backtitle --radiolist "Choose SPI image:" 0 56 4 "${MENU_ITEMS[@]}" 3>&1 1>&2 2>&3);
     if [ $? -eq 0 ]; then
         dd if=$1/${MENU_ITEMS[($CHOICE*3)-2]} of=$2 conv=notrunc status=none > /dev/null 2>&1;
     else

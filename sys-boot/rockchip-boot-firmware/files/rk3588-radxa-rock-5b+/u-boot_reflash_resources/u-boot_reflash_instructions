@@ -4,36 +4,76 @@ follow these instructions, based on armbian's platform_install.sh which can be f
 u-boot_reflash_resources/usr/lib/u-boot/  --
 
     # (as root)
-    cd /path/to/linux-u-boot-current-rock-5b/
+    cd /path/to/linux-u-boot-current-rock-5b-plus/
     target=<devicename>
     dd if=idbloader.img of=${target} seek=64 conv=notrunc status=none;
     dd if=u-boot.itb of=${target} seek=16384 conv=notrunc status=none;
 
+Alternatively, to (re)flash u-boot to the SPI-NOR flash device (MTD) on your board, follow
+these instructions, also based on armbian's platform_install.sh which can be found in
+u-boot_reflash_resources/usr/lib/u-boot/  --
+
+    cd /path/to/linux-u-boot-current-rock-5b-plus/
+    target=<devicename>
+    # list available images for spi_loader
+    find ./ -maxdepth 1 -type f -name "rkspi_loader*.img"
+    CHOICE=<your_coice.img>
+    dd if=${CHOICE} of=${target} conv=notrunc status=none
+
+A further alternative is to boot from the Armbian image on an SD card and run
+# armbian-install, thus using platform_install.sh and its write_uboot_platform_mtd() function
+# (choose the option to boot from SD or SPI, etc.)
+# To boot from SPI and run a system on NVMe, choose "Boot from SPI" and then select 
+# the NVMe device /dev/nvme0n1p1 as the destination for the rootfs
+
 Notes:
-(0) The above procedure has been verified for rk3588-rock-5b (May 2025)
+(0) The above procedure has not yet been verified for rk3588-radxa-rock-5b+ (Sep 2025)
 
-(1) The platform_install.sh script does not appear to use the rkspi_loader.img
-that the u-boot build proces provides...
+(1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
 
-(2) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
-
-(3) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
+(2) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from.  So,
 when that is a MTD block device as in the case of rock-5b, the boot sd card will be
 /dev/mmcblk1
  
-(4) You can also re-compile u-boot from scratch...
+(3) You can also re-compile u-boot from scratch, or you can (re)configure it during
+armbian/build with  ./compile.sh uboot-config and then ./compile.sh uboot
 
-(5) First partition should start at sector 32768, to leave room for u-boot images written
+(4) First partition should start at sector 32768, to leave room for u-boot images written
     with this method.  For example, see this layout
 
-# fdisk -l /dev/mmcblk1 (on working rk3588-rock-5b)---------------
-Disk /dev/mmcblk1: 58.94 GiB, 63281561600 bytes, 123596800 sectors
+# rock5bplus6401 / # lsblk   ## as of (16 Sep 2025)
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+mtdblock0    31:0    0    16M  0 disk        # SPI-NOR Flash device (not yet in use)
+mmcblk1     179:0    0    58G  0 disk        # SD card  
+`-mmcblk1p1 179:1    0  57.4G  0 part /
+nvme0n1     259:0    0 931.5G  0 disk        # NVMe stick (not yet in use)
+`-nvme0n1p1 259:1    0   1.9G  0 part 
+# rock5bplus6401 / # fdisk -l /dev/mtdblock0 # SPI-NOR Flash device (not yet in use)    
+Disk /dev/mtdblock0: 16 MiB, 16777216 bytes, 32768 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+# rock5bplus6401 / # fdisk -l /dev/mmcblk1   # SD card
+Disk /dev/mmcblk1: 58 GiB, 62277025792 bytes, 121634816 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: gpt
-Disk identifier: 5E365B21-0997-0E45-B561-BEAB641105B5
+Disk identifier: 6D17FD78-0352-45B2-8E1F-5E4856399B8E
 
 Device         Start       End   Sectors  Size Type
-/dev/mmcblk1p1 32768 122355711 122322944 58.3G Linux filesystem
+/dev/mmcblk1p1 32768 120389631 120356864 57.4G Linux filesystem
+# rock5bplus6401 / # fdisk -l /dev/nvme0n1   # NVMe stick (not yet in use)
+GPT PMBR size mismatch (3956735 != 1953525167) will be corrected by write.
+The backup GPT table is not on the end of the device.
+Disk /dev/nvme0n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: CT1000P3PSSD8                           
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 6D17FD78-0352-45B2-8E1F-5E4856399B8E
+
+Device         Start     End Sectors  Size Type
+/dev/nvme0n1p1 32768 3954687 3921920  1.9G Linux root (ARM-64)
 #-----------------------------------------------------------------
