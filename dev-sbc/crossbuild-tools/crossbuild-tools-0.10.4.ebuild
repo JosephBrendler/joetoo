@@ -192,6 +192,8 @@ pkg_postinst() {
 	elog " 0.10.0 updates to cb-mkenv, cb-mkimg, andcb-mkdev"
 	elog " 0.10.1 makes cb-layout-device resumable via cli; plus tweaks"
 	elog " 0.10.2 incl bugfixes and moves some chroot fns to cb-common-"
+	elog " 0.10.3 fixes path in umount-chroot-prep() in cb-common-functions"
+	elog " 0.10.4 adds cleanup for cb-mkdev, plus enhancements, bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
