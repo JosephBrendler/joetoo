@@ -34,6 +34,7 @@ RDEPEND="
 	sys-apps/coreutils
 	sys-apps/util-linux
 	sys-block/parted
+	sys-devel/crossdev
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
 	sys-apps/grep
@@ -190,6 +191,8 @@ pkg_postinst() {
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.10.0 updates to cb-mkenv, cb-mkimg, andcb-mkdev"
 	elog " 0.10.1 makes cb-layout-device resumable via cli; plus tweaks"
+	elog " 0.10.2 incl bugfixes and moves some chroot fns to cb-common-"
+	elog " 0.10.3 fixes path in umount-chroot-prep() in cb-common-functions"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
@@ -197,16 +200,19 @@ pkg_postinst() {
 	ewarn "  To override this behavior, add /etc/${PN}/ to"
 	ewarn "  CONFIG_PROTECT_MASK in /etc/portage/make.conf"
 	elog ""
-	ewarn "Use the cb-populate-image eselect module to populate"
+	ewarn "Notes:"
+	ewarn "(1) Use the cb-populate-image eselect module to populate"
 	ewarn "/etc/${PN}/custom-content/mkimg-files/"
 	ewarn "by linking your own content, granting you privacy and control."
-	ewarn "You can also edit the finalize-chroot and finalize-chroot-for-image"
-	ewarn "scripts at /etc/${PN}/mkimg-files/common/usr/local/sbin/"
+	ewarn "(2) Though not recommended, you can also edit the finalize-chroot"
+	ewarn "and/or finalize-chroot-for-image scripts at"
+	ewarn "/etc/${PN}/mkimg-files/common/usr/local/sbin/"
 	ewarn "to tailor system crossbuild template(s) to your needs"
-	ewarn "Use the cb-layout-device eselect module to choose a device-"
+	ewarn "(3) Use the cb-layout-device eselect module to choose a device-"
 	ewarn "layout template to be used by cb-mkdev to make an actual"
-	ewarn "bootable media device for your board.  (Note that you may still"
-	ewarn "need to install a bootloader like u-boot, separately)"
+	ewarn "bootable media device for your board"
+	ewarn "(4) You may still need to install a bootloader like u-boot"
+	ewarn "cb-mkdev does not automate that yet (you do it, separately)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
