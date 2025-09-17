@@ -4,7 +4,7 @@
 
 EAPI=8
 
-DESCRIPTION="joetoo program to run and configure sbc emulation instances with qemu"
+DESCRIPTION="collects specified system files from client as custom content for use by crossbuild-tools cb-mkimg"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 

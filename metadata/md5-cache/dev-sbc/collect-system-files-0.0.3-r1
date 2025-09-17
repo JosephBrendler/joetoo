@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst
+DESCRIPTION=collects specified system files from client as custom content for use by crossbuild-tools cb-mkimg
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+KEYWORDS=~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=dev-util/script_header_joetoo
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/collect-system-files-0.0.3.tbz2
+_md5_=f354a92c06594cba887c09cfd94852d5
