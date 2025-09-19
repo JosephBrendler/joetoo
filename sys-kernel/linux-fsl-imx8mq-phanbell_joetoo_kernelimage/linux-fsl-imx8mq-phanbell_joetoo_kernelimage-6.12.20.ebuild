@@ -107,6 +107,7 @@ src_install() {
 		case ${model:0:2} in
 			"bc" )  dtb_folder="broadcom"; src_overlay_path="/boot/dts/overlays/"; dest_overlay_path="/boot/overlays/";;
 			"rk" )  dtb_folder="rockchip"; src_overlay_path="/boot/dts/rockchip/overlay/"; dest_overlay_path="/boot/dts/rockchip/overlay/";;
+			"fs"|"im" )  dtb_folder="nxp/freescale"; src_overlay_path="/boot/dts/nxp/overlay/"; dest_overlay_path="/boot/dts/nxp/overlay/";;
 			*    )  die "Error: invalid model asignment [ ${model} ]. Exiting ..." ;;
 		esac
 		dodir /boot/dts && einfo "Created /boot/dts with dodir"
