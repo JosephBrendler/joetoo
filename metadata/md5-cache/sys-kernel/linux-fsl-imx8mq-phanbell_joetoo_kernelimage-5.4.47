@@ -1,0 +1,13 @@
+BDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-5.4.47 ) rockchip-sources? ( =sys-kernel/rockchip-sources-5.4.47 )
+DEFINED_PHASES=install postinst preinst setup
+DESCRIPTION=kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=-raspi-sources -rockchip-sources +dtb +dtbo -symlink
+KEYWORDS=arm arm64 amd64 ~arm ~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-5.4.47 ) rockchip-sources? ( =sys-kernel/rockchip-sources-5.4.47 )
+RESTRICT=mirror
+SLOT=5.4.47
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/sys-kernel/linux-fsl-imx8mq-phanbell_joetoo_kernelimage-5.4.47.tar.bz2
+_md5_=f5e96bf5ab4e41be35306b60d1a457c8
