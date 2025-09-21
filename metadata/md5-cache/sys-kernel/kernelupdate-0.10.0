@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst
+DEPEND=dev-util/script_header_joetoo[extended] >=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-platform-meta-0.0.1 >=joetoo-base/joetoo-common-meta-0.0.1 >=app-admin/eselect-1.4.27-r1 >=dev-util/pkgdev-0.2.11
+DESCRIPTION=kernel build script, incl support for xen dom0 or domU, or several SBC systems
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=domU bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-rock-5c fsl-imx8mq-phanbell meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+KEYWORDS=~amd64 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=dev-util/script_header_joetoo[extended] >=sys-devel/crossdev-20230321 >=dev-util/joetoolkit-0.1.5 >=joetoo-base/joetoo-platform-meta-0.0.1 >=joetoo-base/joetoo-common-meta-0.0.1 >=app-admin/eselect-1.4.27-r1 >=dev-util/pkgdev-0.2.11
+REQUIRED_USE=|| ( domU bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io rk3288-tinker-s rk3399-tinker-2 rk3399-rock-pi-4c-plus rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-rock-5c fsl-imx8mq-phanbell meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc )
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/sys-kernel/kernelupdate-0.10.0.tbz2
+_md5_=5bf261402ea025a37c494805cd57501c
