@@ -64,6 +64,8 @@ pkg_postinst() {
 	elog " 0.1.4 moves app-doc/doxygen to app-text/doxygen"
 	elog " 0.1.5 updates packages in package.env"
 	elog " 0.1.6 adds sys-kernel/gentoo-kernel with nodist_features.conf"
+	elog " 0.1.7 updates package.env for llvm-runtimes/*"
+	elog " 0.1.8 updates packages in package.env"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
