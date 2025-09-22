@@ -372,6 +372,8 @@ pkg_postinst() {
 	elog " 0.0.17-r1/2 fixes a bug in the binrepos section of the ebuild"
 	elog " 0.0.18 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.1.0 moves assemble-make-conf tool to ${PN}"
+	elog " 0.1.1 updates the USE part of make.conf to add pam"
+	elog " 0.1.2 updates make.conf, accept_keywords, package.use, binhosts"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
