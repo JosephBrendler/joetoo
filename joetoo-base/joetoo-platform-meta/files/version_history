@@ -1,6 +1,23 @@
 History - joetoo-meta until version 0.6.19; then reset to 0.0.1 as
 joetoo-common-meta and joetoo-platform-meta
 version 0.0.1 is preliminary. Please report bugs to the maintainer.
+0.0.1 is the first separate ebuild for ${PN}
+0.0.2 tries to fix USE headless/plasma/gnome selection
+0.0.3/4 refine USE settings in joetoo_common
+0.0.4-r1 adds package.use file numbering for precedence
+0.0.5 refines package.use package.accept_keywords
+0.0.6 adds auto-editing for <HEADLESS> <PLASMA> <GNOME>
+0.0.7/8 fixes package.accpept_keywords
+0.0.9/10 refine instructions provided in package.use files
+0.0.11 adds USE caps back to all 4 x make.conf
+0.0.12 fixes ROOT=/ in make.conf for generic-amd64
+0.0.13 updates package.use/80joetoo_common and all make.conf"    
+0.0.14 adds USE openmp to commented enhanced gcc 80joetoo_common
+0.0.15 fixes rk3399 and rk3588 binhost.conf files
+0.0.16 adds collect-sensitive to package.accept_keywords
+0.0.17 adds 1st new-img method armbian kernel to package.accept_keywords
+0.0.17-r1/2 fixes a bug in the binrepos section of the ebuild
+0.0.18 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b
 
 
 #-----[ archived joetoo-meta version history ]--------------------------------------------

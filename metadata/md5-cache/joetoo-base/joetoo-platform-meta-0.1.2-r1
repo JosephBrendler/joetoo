@@ -1,0 +1,14 @@
+BDEPEND=>=joetoo-base/joetoo-per-package-env-0.1.0 sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Baseline platform-specific config files for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=headless plasma gnome +grub -sbc -bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus -bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b -rk3288-tinker-s -rk3399-rock-pi-4c-plus -rk3399-tinker-2 -rk3588-rock-5b -rk3588-radxa-rock-5b+ -rk3588s-orangepi-5 -rk3588s-orangepi-5b -rk3588s-rock-5c -meson-gxl-s905x-libretech-cc-v2 -meson-sm1-s905d3-libretech-cc -meson-g12b-a311d-libretech-cc -fsl-imx8mq-phanbell -generic-armv6j -generic-armv7a -generic-aarch64 -generic-amd64
+KEYWORDS=~arm ~amd64 ~arm64 arm amd64 arm64
+LICENSE=metapackage
+RDEPEND=>=joetoo-base/joetoo-per-package-env-0.1.0 sbc? ( >=dev-lang/rust-bin-1.66.1-r1 )
+REQUIRED_USE=^^ ( headless plasma gnome ) sbc? ( ^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc fsl-imx8mq-phanbell generic-armv6j generic-armv7a generic-aarch64 generic-amd64 ) )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/joetoo-base/joetoo-platform-meta-0.1.2.tbz2
+_md5_=24b60d71fd0dbb5ef968518e86a4904a
