@@ -194,6 +194,8 @@ pkg_postinst() {
 	elog " 0.10.2 incl bugfixes and moves some chroot fns to cb-common-"
 	elog " 0.10.3 fixes path in umount-chroot-prep() in cb-common-functions"
 	elog " 0.10.4 adds cleanup for cb-mkdev, plus enhancements, bugfixes"
+	elog " 0.10.5 updates cb-dashboard"
+	elog " 0.10.6 cb-mkenv uses make.conf.crossbuild; also update cb-dashboard"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
