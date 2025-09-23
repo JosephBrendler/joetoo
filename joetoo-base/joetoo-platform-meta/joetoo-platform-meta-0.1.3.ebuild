@@ -126,8 +126,9 @@ src_install() {
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
 	if use sbc ; then
-		# install both crossbuild and chroot versions of headless/desktop make.conf
-		# (and use crossbuild version as initial make.conf for sbcs [assume crossbuilding])
+		# Install both crossbuild and chroot versions of headless/desktop make.conf,
+		# and use chroot version as initial make.conf for all platforms
+		# Expect dev-sbc/crossbuild-tools to deliberately use the crossbuild version for crossbuilding
 		if use headless ; then
 			# install headless versions
 			newins "${S}/make_conf/make.conf.headless.crossbuild.${board}" "make.conf.crossbuild" || \
@@ -136,7 +137,7 @@ src_install() {
 			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf.chroot" || \
 				die "failed to install make.conf.chroot for headless sbc"
 			elog "Installed make.conf.chroot for headless sbc"
-			newins "${S}/make_conf/make.conf.headless.crossbuild.${board}" "make.conf" || \
+			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf" || \
 				die "failed to install make.conf for headless sbc"
 			elog "Installed make.conf for headless sbc"
 		else
@@ -147,13 +148,14 @@ src_install() {
 			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.chroot" || \
 				die "failed to install make.conf.chroot for desktop sbc"
 			elog "Installed make.conf.chroot for desktop sbc"
-			newins "${S}/make_conf/make.conf.desktop.crossbuild.${board}" "make.conf.crossbuild" || \
+			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf" || \
 				die "failed to install make.conf for desktop sbc"
 			elog "Installed make.conf for desktop sbc"
 		fi
 	else
-		# install both crossbuild and chroot versions of headless/desktop make.conf
-		# (and use chroot version as initial make.conf for non-sbcs [assume not crossbuilding])
+		# Install both crossbuild and chroot versions of headless/desktop make.conf,
+		# and use chroot version as initial make.conf for all platforms
+		# Expect dev-sbc/crossbuild-tools to deliberately use the crossbuild version for crossbuilding
 		if use headless ; then
 			# install headless versions
 			newins "${S}/make_conf/make.conf.headless.crossbuild.${board}" "make.conf.crossbuild" || \
@@ -173,7 +175,7 @@ src_install() {
 			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.chroot" || \
 				die "failed to install make.conf.chroot for desktop non-sbc"
 			elog "Installed make.conf.chroot for desktop non-sbc"
-			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.crossbuild" || \
+			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf" || \
 				die "failed to install make.conf.crossbuild for desktop non-sbc"
 			elog "Installed make.conf for desktop non-sbc"
 		fi
@@ -354,25 +356,11 @@ pkg_postinst() {
 	elog "Please report bugs to the maintainer."
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
-	elog " 0.0.1 is the first separate ebuild for ${PN}"
-	elog " 0.0.2 tries to fix USE headless/plasma/gnome selection"
-	elog " 0.0.3/4 refine USE settings in joetoo_common"
-	elog " 0.0.4-r1 adds package.use file numbering for precedence"
-	elog " 0.0.5 refines package.use package.accept_keywords"
-	elog " 0.0.6 adds auto-editing for <HEADLESS> <PLASMA> <GNOME>"
-	elog " 0.0.7/8 fixes package.accpept_keywords"
-	elog " 0.0.9/10 refine instructions provided in package.use files"
-	elog " 0.0.11 adds USE caps back to all 4 x make.conf"
-	elog " 0.0.12 fixes ROOT=/ in make.conf for generic-amd64"
-	elog " 0.0.13 updates package.use/80joetoo_common and all make.conf"
-	elog " 0.0.14 adds USE openmp to commented enhanced gcc 80joetoo_common"
-	elog " 0.0.15 fixes rk3399 and rk3588 binhost.conf files"
-	elog " 0.0.16 adds collect-sensitive to package.accept_keywords"
-	elog " 0.0.17 adds 1st new-img method armbian kernel to package.accept_keywords"
-	elog " 0.0.17-r1/2 fixes a bug in the binrepos section of the ebuild"
-	elog " 0.0.18 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.1.0 moves assemble-make-conf tool to ${PN}"
 	elog " 0.1.1 updates the USE part of make.conf to add pam"
+	elog " 0.1.2 updates make.conf, accept_keywords, package.use, binhosts"
+	elog " 0.1.2-r1 installs chroot(live) version of make.conf by default"
+	elog " 0.1.3 adds USE nls for some packages, to get gentoo binpkgs"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
