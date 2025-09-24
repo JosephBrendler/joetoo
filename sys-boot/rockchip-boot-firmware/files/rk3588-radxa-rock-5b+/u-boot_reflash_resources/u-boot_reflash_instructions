@@ -27,7 +27,9 @@ A further alternative is to boot from the Armbian image on an SD card and run
 # the NVMe device /dev/nvme0n1p1 as the destination for the rootfs
 
 Notes:
-(0) The above procedure has not yet been verified for rk3588-radxa-rock-5b+ (Sep 2025)
+(0) The primary procedure above has been verified for rk3588-radxa-rock-5b+ 
+on 22 Sep 2025, with u-boot images in rockchip-boot-firmware-0.4.3.  The alternative
+the SPI-NOR procedure has not been verified (as of 23 Sep 2025)
 
 (1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
 
