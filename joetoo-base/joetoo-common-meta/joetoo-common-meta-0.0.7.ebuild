@@ -62,10 +62,11 @@ RDEPEND="
 		>=app-admin/eselect-1.4.26
 		>=app-admin/logrotate-3.15.1
 		>=app-admin/sudo-1.8.29-r2
-		>=app-eselect/eselect-python-20200719
-		>=app-eselect/eselect-repository-8
 		>=app-crypt/gnupg-2.2.19
 		>=app-editors/nano-4.6
+		>=app-eselect/eselect-python-20200719
+		>=app-eselect/eselect-repository-8
+		>=app-misc/neofetch-7.1.0
 		>=app-misc/screen-4.7.0
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
@@ -74,7 +75,6 @@ RDEPEND="
 		>=app-text/wgetpaste-2.33-r3[ssl(+)]
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
-		>=sys-apps/util-linux-2.34-r3
 		>=net-analyzer/nmap-7.80
 		>=net-vpn/openvpn-2.4.7-r1
 		>=net-wireless/wpa_supplicant-2.8
@@ -83,6 +83,7 @@ RDEPEND="
 		>=sys-apps/mlocate-0.26-r2
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
+		>=sys-apps/util-linux-2.34-r3
 		>=sys-auth/elogind-255.17
 		>=sys-devel/bc-1.07.1
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
@@ -121,9 +122,7 @@ RDEPEND="
 		dev-lang/php
 	)
 	joetoolkit? ( >=dev-util/joetoolkit-0.4.13 )
-	nextcloud? (
-		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
-	)
+	nextcloud? ( >=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)] )
 	distcc? ( >=sys-devel/distcc-3.3.3 )
 	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
 	jus? ( >=app-portage/jus-6.2.5 )
@@ -133,19 +132,18 @@ RDEPEND="
 	domU? ( sys-kernel/linux-domU_joetoo_kernelimage )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
-	plasma? (
+	gnome? (
 		app-misc/wayland-utils
-		kde-apps/kde-apps-meta
-		kde-apps/kwalletmanager
-		kde-plasma/kwallet-pam
-		kde-plasma/plasma-meta
 		lxde-base/lxterminal
 		media-fonts/corefonts
 		media-fonts/croscorefonts
 		media-fonts/liberation-fonts
+		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
+		www-client/google-chrome
+		www-plugins/chrome-binary-plugins
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
@@ -153,6 +151,32 @@ RDEPEND="
 		x11-base/xorg-server
 		x11-libs/libxcb
 		x11-misc/xdotool
+		x11-themes/oxygen-gtk
+	)
+	plasma? (
+		app-misc/wayland-utils
+		kde-apps/kde-apps-meta
+		kde-apps/kwalletmanager
+		kde-plasma/kwallet-pam
+		kde-plasma/plasma-meta[oxygen-theme(+)]
+		lxde-base/lxterminal
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/liberation-fonts
+		media-fonts/oxygen-fonts
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		www-client/google-chrome
+		www-plugins/chrome-binary-plugins
+		x11-apps/mesa-progs
+		x11-apps/xdpyinfo
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-misc/xdotool
+		x11-themes/oxygen-gtk
 	)
 "
 
@@ -225,11 +249,20 @@ src_install() {
 	# if XDG_RUNTIME_DIR is not set in user(s) .bashrc, then append that
 	for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
 		if [ -z "$(grep XDG_RUNTIME_DIR /home/${username}/.bashrc 2>/dev/null)" ] ; then
-			# append to .bashrc
-			einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc already; fixing ..."
-			einfo "appending to .bashrc in temp scratch space"
-			cat /home/${username}/.bashrc ${FILESDIR}/XDG_RUNTIME_DIR-setting > ${T}/.bashrc || \
-				die "failed to assemble new .bashrc in scratch space"
+			# if this user's .bashrc doesn't exist, create one; otherwise append to it
+			if [ ! -f /home/${username}/.bashrc ] ; then
+				einfo "user ${username} does not appear to have a .bashrc file in /home/${username}/; fixing ..."
+				einfo "creating template .bashrc in temp scratch space"
+				insinto "/home/${username}/"
+				newins "${S}/etc/skel/.bashrc" ".bashrc" || \
+					die "failed to copy backup .bashrc for user"
+			else
+				# append to .bashrc
+				einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc ; fixing ..."
+				einfo "appending to .bashrc in temp scratch space"
+				cat /home/${username}/.bashrc ${FILESDIR}/XDG_RUNTIME_DIR-setting > ${T}/.bashrc || \
+					die "failed to assemble new .bashrc in scratch space"
+			fi
 			target="/home/${username}/"
 			einfo "Installing (ins) updated .bashrc into ${target}"
 			insinto "${target}"
@@ -265,10 +298,12 @@ pkg_postinst() {
 	elog " 0.0.4 moves README to /etc/portage/package.use/ and updates ebuild"
 	elog " 0.0.5 provides refinements and bugfixes"
 	elog " 0.0.5-r1 adds support for openrc user services stabled in Gentoo 9/5/25"
+	elog " 0.0.6 updates /root/.bashrc"
+	elog " 0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies"
+	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
 	elog ""
 	if use gnome; then
-		eerror "USE = gnome was specified, and this package would pull in dependencies"
-		eerror "for that, but that functionality is not implemented yet..."
+		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
 	elog ""
 	elog "Thank you for using ${PN}"
