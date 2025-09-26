@@ -22,18 +22,20 @@ IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
 REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	)
 "
 
@@ -63,25 +65,28 @@ pkg_setup() {
 
 	# for sbc systems we need to know which board we are using
 	if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io"; export maker="raspi"
-	else if use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b"; export maker="raspi"
-	else if use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io"; export maker="raspi"
-	else if use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b"; export maker="raspi"
-	else if use bcm2710-rpi-3-b-plus; then export board="bcm2710-rpi-3-b-plus"; export maker="raspi"
-	else if use bcm2710-rpi-3-b; then export board="bcm2710-rpi-3-b"; export maker="raspi"
-	else if use bcm2709-rpi-2-b; then export board="bcm2709-rpi-2-b"; export maker="raspi"
-	else if use bcm2708-rpi-b; then export board="bcm2708-rpi-b"; export maker="raspi"
-	else if use rk3288-tinker-s; then export board="rk3288-tinker-s"; export maker="rockchip"
-	else if use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus"; export maker="rockchip"
-	else if use rk3399-tinker-2; then export board="rk3399-tinker-2"; export maker="rockchip"
-	else if use rk3588-rock-5b; then export board="rk3588-rock-5b"; export maker="rockchip"
-	else if use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"; export maker="rockchip"
-	else if use rk3588s-rock-5c; then export board="rk3588s-rock-5c"; export maker="rockchip"
-	else if use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell"; export maker="nxp"
-	else if use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2"; export maker="amlogic"
-	else if use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc"; export maker="amlogic"
-	else if use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc"; export maker="amlogic"
+	elif use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b"; export maker="raspi"
+	elif use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io"; export maker="raspi"
+	elif use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b"; export maker="raspi"
+	elif use bcm2710-rpi-3-b-plus; then export board="bcm2710-rpi-3-b-plus"; export maker="raspi"
+	elif use bcm2710-rpi-3-b; then export board="bcm2710-rpi-3-b"; export maker="raspi"
+	elif use bcm2709-rpi-2-b; then export board="bcm2709-rpi-2-b"; export maker="raspi"
+	elif use bcm2708-rpi-b; then export board="bcm2708-rpi-b"; export maker="raspi"
+	elif use rk3288-tinker-s; then export board="rk3288-tinker-s"; export maker="rockchip"
+	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus"; export maker="rockchip"
+	elif use rk3399-rock-4se; then export board="rk3399-rock-4se"; export maker="rockchip"
+	elif use rk3399-tinker-2; then export board="rk3399-tinker-2"; export maker="rockchip"
+	elif use rk3588-rock-5b; then export board="rk3588-rock-5b"; export maker="rockchip"
+	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+"; export maker="rockchip"
+	elif use rk3588s-orangepi-5; then export board="rk3588s-orangepi-5"; export maker="rockchip"
+	elif use rk3588s-orangepi-5b; then export board="rk3588s-orangepi-5b"; export maker="rockchip"
+	elif use rk3588s-rock-5c; then export board="rk3588s-rock-5c"; export maker="rockchip"
+	elif use fsl-imx8mq-phanbell; then export board="fsl-imx8mq-phanbell"; export maker="nxp"
+	elif use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2"; export maker="amlogic"
+	elif use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc"; export maker="amlogic"
+	elif use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc"; export maker="amlogic"
 	else export board=""; export maker=""
-	fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi; fi
+	fi
 	einfo "Assigned board: ${board}   maker: ${maker}"
 }
 
@@ -123,6 +128,9 @@ pkg_postinst() {
 	elog " 0.2.0 updates checkboot; starts migration of FILESDIR to myUtilities repo"
 	elog " 0.2.1 adds support for meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.2.2 adds support for meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.2.3 provides refinements and bugfixes"
+	elog " 0.2.4 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.2.5 adds rk3399-rock-4se"
 	elog ""
 	case ${maker} in
 		"raspi" )
