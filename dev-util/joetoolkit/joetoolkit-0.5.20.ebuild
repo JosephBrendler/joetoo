@@ -61,6 +61,14 @@ src_install() {
 	done
 	elog "done"
 
+	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN
+	elog "Installing BUILD, BPN and local.usage placeholder into /etc/${PN}/check_resilient_services/ ..."
+	dodir "/etc/${PN}/check_resilient_services/"
+	echo "BUILD=${PV}" > ${D}/etc/${PN}/check_resilient_services/BUILD || die "failed to install BUILD"
+	echo "BPN=${PN}/check_resilient_services" > ${D}/etc/${PN}/check_resilient_services/BPN || die "failed to install BPN"
+	echo "Placeholder for potential local.usage, local.cmdline_arguments, etc" > ${D}/etc/${PN}/check_resilient_services/README_placeholder_for_local.usage || die "failed to install placeholder"
+	elog "done installing BUILD, BPN and placeholder"
+
 	# server certificates for joetoo servers
 	elog "Installing server_certs ..."
 	dodir "/usr/share/${PN}/server_certs"
@@ -154,6 +162,8 @@ pkg_postinst() {
 	elog " 0.5.16 fixes libre computer sbc model names"
 	elog " 0.5.17 updates install_my_local_ca_certificates"
 	elog " 0.5.18 adds alias ebt (echo BOARD TARGET)"
+	elog " 0.5.19 adds cron-suitable check_resilient_services tool"
+	elog " 0.5.20 adds support for rk3399-rock-4se"
 	elog " "
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
