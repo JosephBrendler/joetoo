@@ -51,7 +51,7 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 
 	# basic set of utilities for joetoo - handle insert_into_file stuff separately
-	elog "Installing joetoolkit..."
+	elog "Installing joetoolkit ..."
 	dodir "/usr/sbin/"
 	for x in $(find ${S}/joetoolkit/ -maxdepth 1 -type f | grep -v insert_into_file);
 	do
@@ -65,7 +65,7 @@ src_install() {
 	target="/usr/sbin/"
 	einfo "Installing (exe) insert_into_file into ${target}"
 	exeinto "${target}"
-	newexe "${S}/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
+	newexe "${S}/joetoolkit/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
 	elog "Installed insert_into_file into ${target}"
 	# install BUILD, BPN, and config template for insert_into_file
 	target="/etc/insert_into_file/"
@@ -84,7 +84,7 @@ src_install() {
 	einfo "Installing (ins) local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file"
 	z="insert_into_file"
 	for x in local.usage local.cmdline_arguments local.cmdline_compound_arguments ; do
-		newins "${S}/${z}_${x}" "${x}" || die "failed to newins ${x}"
+		newins "${S}/joetoolkit/${z}_${x}" "${x}" || die "failed to newins ${x}"
 		elog "Installed ${x} into ${target}"
 	done
 	# install eselect module for insert_into_file
@@ -92,7 +92,7 @@ src_install() {
 	target="/usr/share/eselect/modules/"
 	insinto "${target}"
 	z="insert_into_file.eselect"
-	newins "${S}/${z}" "${z}"
+	newins "${S}/joetoolkit/${z}" "${z}"
 	elog "Installed insert_into_file.conf eselect module."
 
 	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN
