@@ -16,11 +16,11 @@ IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
 	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
-	x4-n100
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	x4-n100
 "
 # required: one and only one of --
 REQUIRED_USE="
@@ -28,11 +28,11 @@ REQUIRED_USE="
 		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 		rk3288-tinker-s
-		rk3399-rock-pi-4c-plus rk3399-tinker-2
+		rk3399-rock-pi-4c-plus rk3399-rock-se rk3399-tinker-2
 		rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
-		x4-n100
-		meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 		fsl-imx8mq-phanbell
+		meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+		x4-n100
 	)
 "
 
@@ -67,6 +67,7 @@ pkg_setup() {
 	elif use bcm2708-rpi-b; then export board="bcm2708-rpi-b"
 	elif use rk3288-tinker-s; then export board="rk3288-tinker-s"
 	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus"
+	elif use rk3399-rock-4se; then export board="rk3399-rock-4se"
 	elif use rk3399-tinker-2; then export board="rk3399-tinker-2"
 	elif use rk3588-rock-5b; then export board="rk3588-rock-5b"
 	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+"
@@ -165,6 +166,8 @@ pkg_postinst() {
 	elog " 0.4.0 adds spt for meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.4.1 adds spt for meson-sm1-s905d3-libretech-cc (solitude)"
 	elog " 0.4.2 adds spt for rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
+	elog " 0.4.3 updates gpioset syntax"
+	elog " 0.4.4 adds spt for rk3399-rock-se"
 	elog ""
 	if use x4-n100 ; then
 		elog "USE x4-n100 selected.  Note that x4-n100-sbc-status-leds writes"

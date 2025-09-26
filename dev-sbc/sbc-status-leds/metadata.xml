@@ -21,10 +21,14 @@
                 <flag name="bcm2712-rpi-cm5-cm5io">Configure for Raspberry Pi Compute Module 5 with its IO board (armv8/64)</flag>
                 <flag name="rk3288-tinker-s">Configure for Tinkerboard S (armv7/32)</flag>
                 <flag name="rk3399-rock-pi-4c-plus">Configure for Rock Pi 4c Plus (armv8/64)</flag>
+                <flag name="rk3399-rock-4se">Configure for Rock 4se (armv8/64)</flag>
                 <flag name="rk3399-tinker-2">Configure for Tinkerboard 2/2S (armv8/64)</flag>
                 <flag name="rk3588-rock-5b">Configure for Rock 5b (armv8/64)</flag>
-                <flag name="rk3588s-orangepi-5">Configure for OrangePi 5/5b (armv8/64)</flag>
+                <flag name="rk3588-radxz-rock-5b+">Configure for Rock 5b+ (armv8/64)</flag>
+                <flag name="rk3588s-orangepi-5">Configure for OrangePi 5 (armv8/64)</flag>
+                <flag name="rk3588s-orangepi-5b">Configure for OrangePi 5b (armv8/64)</flag>
                 <flag name="rk3588s-rock-5c">Configure for Rock 5c (armv8/64)</flag>
+                <flag name="fsl-imx8mq-phanbell">Configure for TinkerEdgeT/CoralDev (armv8/64)</flag>
                 <flag name="meson-gxl-s905x-libretech-cc-v2">Configure for Libre Computer Sweet Potato (aml s905x a53)(armv8/64)</flag>
                 <flag name="meson-sm1-s905d3-libretech-cc">Configure for Libre Computer Solitude (aml a311d a55)(armv8/64)</flag>
                 <flag name="meson-g12b-a311d-libretech-cc">Configure for Libre Computer Alta (aml a311d a73/53)(armv8/64)</flag>
