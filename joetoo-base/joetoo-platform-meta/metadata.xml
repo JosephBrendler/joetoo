@@ -25,6 +25,7 @@
 		<flag name="bcm2712-rpi-cm5-cm5io">Tailor for Raspberry Pi Compute Module 5 and its IO board (armv8/64)</flag>
 		<flag name="rk3288-tinker-s">Tailor for Tinkerboard S (armv7/32)</flag>
 		<flag name="rk3399-rock-pi-4c-plus">Tailor for Rock Pi 4c Plus (armv8/64)</flag>
+		<flag name="rk3399-rock-4se">Tailor for Rock 4se (armv8/64)</flag>
 		<flag name="rk3399-tinker-2">Tailor for Tinkerboard 2/2S (armv8/64)</flag>
 		<flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
 		<flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
