@@ -16,23 +16,25 @@ KEYWORDS="~arm ~arm64 ~amd64"
 IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-	rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 	rk3288-tinker-s
-	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
 
-# Install for selected board(s) from above different choices, like joetoo-meta does via pkg_setup(),
-# but note that where joetoo-meta is "exactly-one-of" board, this is "at-least-one-of"...
+# Install for selected board(s) from above different choices, like joetoo-platform-meta does via pkg_setup(),
+# but note that where joetoo-platform-meta is "exactly-one-of" board, this is "at-least-one-of"...
 # Therefor, need to do in src_install and use for loop to install selected boards
 REQUIRED_USE="
 	|| (
 		bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2710-rpi-3-b-plus
 		bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
-		rk3399-rock-pi-4c-plus rk3399-tinker-2 rk3588-rock-5b rk3588s-orangepi-5 rk3588s-rock-5c
 		rk3288-tinker-s
-		meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+		rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
+		rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 		fsl-imx8mq-phanbell
+		meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 	)
 "
 
@@ -42,15 +44,13 @@ BDEPEND="
 	>=app-admin/eselect-1.4.27-r1
 "
 
-# as of 20250201 stable qemu does not have a raspi4b model, so use ~arm64 version of qemu for that board
-# use virt for nxp and amlogic boards
+# as of 20250813 stable qemu has raspi4b model but no version raspi5 model, so use ~arm64 version of qemu for that board
+# use virt for rockchip, amlogic boards, maybe imx8mp-evk (~amd64 version 10.0.3) for nxp TinkerEdgeT/CoralDev
+# nogo	bcm2712-rpi-5-b?       ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
+# nogo	bcm2712-rpi-cm5-cm5io? ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
 RDEPEND="
 	${BDEPEND}
 	app-emulation/qemu[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)]
-	bcm2711-rpi-4-b?       ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
-	bcm2711-rpi-cm4-io?    ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
-	bcm2712-rpi-5-b?       ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
-	bcm2712-rpi-cm5-cm5io? ( >=app-emulation/qemu-9.1.0[bzip2(+),lzo(+),ncurses(+),usb(+),sdl(+),xattr(+),gtk(+)] )
 "
 
 pkg_pretend() {
@@ -92,9 +92,12 @@ pkg_setup() {
 	if use bcm2708-rpi-b; then export boards+=" bcm2708-rpi-b"; fi
 	if use rk3288-tinker-s; then export boards+=" rk3288-tinker-s"; fi
 	if use rk3399-rock-pi-4c-plus; then export boards+=" rk3399-rock-pi-4c-plus"; fi
+	if use rk3399-rock-4se; then export boards+=" rk3399-rock-4se"; fi
 	if use rk3399-tinker-2; then export boards+=" rk3399-tinker-2"; fi
-	if use rk3588-rock-5b; then export boards+=" rk3588s-rock-5c"; fi
+	if use rk3588-rock-5b; then export boards+=" rk3588-rock-5b"; fi
+	if use rk3588-radxa-rock-5b+; then export boards+=" rk3588-radxa-rock-5b+"; fi
 	if use rk3588s-orangepi-5; then export boards+=" rk3588s-orangepi-5"; fi
+	if use rk3588s-orangepi-5b; then export boards+=" rk3588s-orangepi-5b"; fi
 	if use rk3588s-rock-5c; then export boards+=" rk3588s-rock-5c"; fi
 	if use fsl-imx8mq-phanbell; then export boards+=" fsl-imx8mq-phanbell"; fi
 	if use meson-gxl-s905x-libretech-cc-v2; then export boards+=" meson-gxl-s905x-libretech-cc-v2"; fi
@@ -166,7 +169,6 @@ pkg_postinst() {
 	elog "You can create additional configurations in /etc/${PN}"
 	elog "Use eselect ${PN} to pick one of them"
 	elog ""
-	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 adds qemu-virt-launch and config template"
 	elog " 0.0.3 updates qemu-raspi-launch"
@@ -179,6 +181,10 @@ pkg_postinst() {
 	elog " 0.0.10 adds fsl-imx8mq-phanbell (TinkerEdgeT/CoralDev)"
 	elog " 0.0.11 adds meson-g12b-a311d-libretech-cc (alta)"
 	elog " 0.0.12 adds meson-sm1-s905d3-libretech-cc (solitude)"
+	elog " 0.0.13 adds rk3588-radxa-rock-5b+ rk3588s-orangepi-5b rk3399-rock-4se"
+	elog ""
+	ewarn "config files not validated for rockchip, fsl/nxp, or aml/meson boards"
+	ewarn "if you build them, please submit to mainainer for inclusion as template"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
