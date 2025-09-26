@@ -109,6 +109,17 @@ src_install() {
 	done
 	elog "Done installing cb-layout-device config files"
 
+	# install cb-layout-device templates into /etc/${PN}/
+	for template_dir in cb-layout-device-sfdisk-templates cb-layout-device-blkid-templates cb-layout-device-lsblk-templates ; do
+		for x in $(find ${S}/${template_dir}/ -type f) ; do
+			z=$(echo ${x} | sed "s|${S}/||")
+			DN=$(dirname $z)
+			[ ! -d ${D}/etc/${PN}/${DN} ] && mkdir -p ${D}/etc/${PN}/${DN}
+			cp -p ${x} ${D}/etc/${PN}/${DN}
+		done
+		elog "Done installing mkimg-files config files and scripts"
+	done
+
 	# install RUST_CROSS_TARGETS configuration
 	insinto "/etc/portage/env/dev-lang/"
         newins "${S}/etc_portage_dev-lang_rust" "rust" || die "Install failed!"
@@ -196,6 +207,7 @@ pkg_postinst() {
 	elog " 0.10.4 adds cleanup for cb-mkdev, plus enhancements, bugfixes"
 	elog " 0.10.5 updates cb-dashboard"
 	elog " 0.10.6 cb-mkenv uses make.conf.crossbuild; also update cb-dashboard"
+	elog " 0.10.7 adds spt for rk3399-rock-4se"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
