@@ -99,6 +99,8 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog ""
 	elog "ver 0.0.1 is the initial build"
+	elog " 0.0.2 fixes sourcing of BUILD, BPN"
+	elog " 0.0.3 fixes validation of ROOT in make.conf"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
