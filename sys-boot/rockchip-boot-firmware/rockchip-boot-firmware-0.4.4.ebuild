@@ -17,7 +17,7 @@ KEYWORDS="~arm ~arm64"
 
 IUSE="
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
 	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	+armbian_kernel +dtbo
 "
@@ -25,7 +25,7 @@ IUSE="
 # require exactly one kind of board to be selected
 REQUIRED_USE="
         ^^ ( rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
 	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	)
 "
@@ -41,6 +41,7 @@ BDEPEND="
 	armbian_kernel? (
 		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image[dtbo=] )
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image[dtbo=] )
+		rk3399-rock-4se?        ( sys-kernel/linux_arm64_rk3399-rock-4se_armbian_kernel_image[dtbo=] )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] )
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] )
 		rk3588-radxa-rock-5b+?  ( sys-kernel/linux_arm64_rk3588-radxa-rock-5b+_armbian_kernel_image[dtbo=] )
@@ -50,6 +51,7 @@ BDEPEND="
 	)
 "
 # (old)		rk3588s-rock-5c?        ( sys-kernel/linux-rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
+# (new)		rk3588s-rock-5c?        ( sys-kernel/linux_arm64_rk3588s-rock-5c_armbian_kernel_image[dtbo=] )
 
 RDEPEND="
 	!sys-boot/raspberrypi-firmware
@@ -72,6 +74,7 @@ pkg_setup() {
 	# for sbc systems we need to know which board we are using
 	if use rk3288-tinker-s ; then export board="rk3288-tinker-s"
 	elif use rk3399-rock-pi-4c-plus ; then export board="rk3399-rock-pi-4c-plus"
+	elif use rk3399-rock-4se ; then export board="rk3399-rock-4se"
 	elif use rk3399-tinker-2; then export board="rk3399-tinker-2"
 	elif use rk3588-rock-5b; then export board="rk3588-rock-5b"
 	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+"
@@ -121,6 +124,8 @@ pkg_postinst() {
 	elog " 0.4.1 provide refinements and bugfixes"
 	elog " 0.4.2 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.4.3 adds u-boot reflash resources for rk3588-radxa-rock-5b+"
+	elog " -r1 documents verification of u-boot reflash procedure for rk3588-radxa-rock-5b+"
+	elog " 0.4.4 adds rk3399-rock-4se"
 	elog ""
 	elog "****************************************************************************"
 	elog "*** CAUTION: only use u-boot-reflash toosl if really needed, or to make  ***"
