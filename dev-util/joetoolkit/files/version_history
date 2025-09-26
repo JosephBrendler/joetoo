@@ -43,3 +43,20 @@ up to 0.1.14 tweak tools and move some tools to/from other packages
 0.4.27 fixes PATH; equery b \$(which -a <tgt>) works in merged-usr
 0.4.29 adds grub_install_both_ways to joetoolkit
 0.5.0-2 move to myUtilities, script_header_joetoo, /usr/share, /usr/sbin
+0.5.0-2 move to myUtilities, script_header_joetoo, /usr/share, /usr/sbin
+0.5.3 removes xdotool_open_windows to its own package
+0.5.4 adds joetoo-sbc-list script and completes repo migration
+0.5.5 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/...
+0.5.6 updates the joetoo-sbc-list script
+0.5.7 provides a new (replacement) binhost_cleanup script
+0.5.8/9 updates the joetoo-sbc-list script w model description
+0.5.10 fixes tarup for case of no prior matching tarballs
+0.5.11 updates bashrc_aliases_include_joe_brendler
+0.5.12 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b
+0.5.13 adds gcsm and gpom aliases to ${PN}
+0.5.14 updates alias gcsm to cache passphrase
+0.5.15 updates joetoo-sbc-list for rock5b+ and tinker boards
+0.5.16 fixes libre computer sbc model names
+0.5.17 updates install_my_local_ca_certificates
+0.5.18 adds alias ebt (echo BOARD TARGET)
+0.5.19 adds cron-suitable check_resilient_services tool
