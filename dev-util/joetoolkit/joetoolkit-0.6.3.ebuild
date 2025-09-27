@@ -23,11 +23,9 @@ REQUIRED_USE=""
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR%/}/${PN}"
 
-BDEPEND="
-"
-
 RDEPEND="
-	${BDEPEND}
+	dev-util/script_header_joetoo[extended]
+	app-admin/eselect
 	iptools? (
 		>=net-analyzer/nmap-7.92
 		>=net-dns/bind-tools-9.16
@@ -36,13 +34,16 @@ RDEPEND="
 		>=net-misc/rsync-3.2.4
 	)
 "
-# To Do: add to above different choices
+
+BDEPEND="${RDEPEND}
+"
 
 src_install() {
 	# install utilities into /usr/local/sbin (for now)
 
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "T=${T}"
 	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
@@ -50,16 +51,52 @@ src_install() {
 	einfo "PVR=${PVR}"
 	einfo "FILESDIR=${FILESDIR}"
 
-	# basic set of utilities for joetoo
-	elog "Installing joetoolkit..."
+	# basic set of utilities for joetoo - handle insert_into_file stuff separately
+	elog "Installing joetoolkit ..."
 	dodir "/usr/sbin/"
-	for x in $(find ${S}/joetoolkit/ -maxdepth 1 -type f);
+	for x in $(find ${S}/joetoolkit/ -maxdepth 1 -type f | grep -v insert_into_file);
 	do
 		z=$(echo ${x} | sed "s|${S}/joetoolkit/||");
-		einfo "About to execute command cp -v "${x}" "${D}"/usr/sbin/"${z}";"
-		cp -v "${x}" "${D}/usr/sbin/${z}";
+		einfo "Installing (cp) ${z} into /usr/sbin/"
+		cp "${x}" "${D}/usr/sbin/${z}" || die "install (copy) failed"
 	done
 	elog "done"
+
+	# install insert_into_file tool and associated components
+	target="/usr/sbin/"
+	einfo "Installing (exe) insert_into_file into ${target}"
+	exeinto "${target}"
+	newexe "${S}/joetoolkit/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
+	elog "Installed insert_into_file into ${target}"
+	# install BUILD, BPN, and config template for insert_into_file
+	target="/etc/insert_into_file/"
+	einfo "Installing (ins) BUILD, BPN, and config template into ${target}"
+	insinto "${target}"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BUILD
+	echo "BUILD=${PV}" >> ${T}/BUILD
+	newins "${T}/BUILD" "BUILD" || die "failed to newins BUILD"
+	elog "Installed BUILD into ${target}"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BPN
+	echo 'BPN=${PN}' >> ${T}/BPN
+	newins "${T}/BPN" "BPN" || die "failed to newins BPN"
+	elog "Installed BPN into ${target}"
+	newins "${S}/joetoolkit/insert_into_file_template.conf" "insert_into_file_template.conf" || \
+		die "failed to newins insert_into_file_template.conf"
+	elog "Installed insert_into_file_template.conf into ${target}"
+	# install local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file
+	einfo "Installing (ins) local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file"
+	z="insert_into_file"
+	for x in local.usage local.cmdline_arguments local.cmdline_compound_arguments ; do
+		newins "${S}/joetoolkit/${z}_${x}" "${x}" || die "failed to newins ${x}"
+		elog "Installed ${x} into ${target}"
+	done
+	# install eselect module for insert_into_file
+	einfo "Installing (ins) the insert_into_file.conf eselect module into /usr/share/eselect/modules/ ..."
+	target="/usr/share/eselect/modules/"
+	insinto "${target}"
+	z="insert_into_file.eselect"
+	newins "${S}/joetoolkit/${z}" "${z}"
+	elog "Installed insert_into_file.conf eselect module."
 
 	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN
 	elog "Installing BUILD, BPN and local.usage placeholder into /etc/${PN}/check_resilient_services/ ..."
@@ -146,24 +183,9 @@ pkg_postinst() {
 	elog ""
 	elog "${P} installed"
 	elog "Version history can be found in the ebuild's files directory"
-	elog " 0.5.0-2 move to myUtilities, script_header_joetoo, /usr/share, /usr/sbin"
-	elog " 0.5.3 removes xdotool_open_windows to its own package"
-	elog " 0.5.4 adds joetoo-sbc-list script and completes repo migration"
-	elog " 0.5.5 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
-	elog " 0.5.6 updates the joetoo-sbc-list script"
-	elog " 0.5.7 provides a new (replacement) binhost_cleanup script"
-	elog " 0.5.8/9 updates the joetoo-sbc-list script w model description"
-	elog " 0.5.10 fixes tarup for case of no prior matching tarballs"
-	elog " 0.5.11 updates bashrc_aliases_include_joe_brendler"
-	elog " 0.5.12 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
-	elog " 0.5.13 adds gcsm and gpom aliases to ${PN}"
-	elog " 0.5.14 updates alias gcsm to cache passphrase"
-	elog " 0.5.15 updates joetoo-sbc-list for rock5b+ and tinker boards"
-	elog " 0.5.16 fixes libre computer sbc model names"
-	elog " 0.5.17 updates install_my_local_ca_certificates"
-	elog " 0.5.18 adds alias ebt (echo BOARD TARGET)"
-	elog " 0.5.19 adds cron-suitable check_resilient_services tool"
 	elog " 0.5.20 adds support for rk3399-rock-4se"
+	elog " 0.6.0 updates insert_into_file with cli, usage, eselect, etc"
+	elog " 0.6.1-3 provide refinements and bugfixes"
 	elog " "
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
