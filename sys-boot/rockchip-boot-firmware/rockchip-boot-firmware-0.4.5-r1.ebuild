@@ -130,6 +130,7 @@ pkg_postinst() {
 	elog " -r1 documents verification of u-boot reflash procedure for rk3588-radxa-rock-5b+"
 	elog " 0.4.4 adds rk3399-rock-4se"
 	elog " 0.4.5 updates u-boot reflash for rk3399-rock-4se and rk3588s-orangepi-5b"
+	elog " -r1 provides a workaround for rk3399-rock-4se u-boot reflash"
 	elog ""
 	elog "****************************************************************************"
 	elog "*** CAUTION: only use u-boot-reflash tools if really needed, or to make  ***"
