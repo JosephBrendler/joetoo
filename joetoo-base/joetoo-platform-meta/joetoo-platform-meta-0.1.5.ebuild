@@ -1,5 +1,5 @@
 # Copyright 2022-2052 Joe Brendler
-# Distributed under the terms of the GNU General Public License v2
+# Distributed under the terms of the GNU General Public License v2+
 
 EAPI=8
 
@@ -19,7 +19,7 @@ IUSE="
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
 	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
 	-rk3288-tinker-s
-	-rk3399-rock-pi-4c-plus -rk3399-tinker-2
+	-rk3399-rock-pi-4c-plus -rk3399-rock-4se -rk3399-tinker-2
 	-rk3588-rock-5b -rk3588-radxa-rock-5b+ -rk3588s-orangepi-5 -rk3588s-orangepi-5b -rk3588s-rock-5c
 	-meson-gxl-s905x-libretech-cc-v2 -meson-sm1-s905d3-libretech-cc -meson-g12b-a311d-libretech-cc
 	-fsl-imx8mq-phanbell
@@ -50,6 +50,7 @@ REQUIRED_USE="
 		bcm2708-rpi-b
 		rk3288-tinker-s
 		rk3399-rock-pi-4c-plus
+		rk3399-rock-4se
 		rk3399-tinker-2
 		rk3588-rock-5b
 		rk3588-radxa-rock-5b+
@@ -66,6 +67,27 @@ REQUIRED_USE="
 		generic-amd64
 		)
 	)
+	bcm2712-rpi-cm5-cm5io? ( sbc )
+	bcm2712-rpi-5-b? ( sbc )
+	bcm2711-rpi-cm4-io? ( sbc )
+	bcm2711-rpi-4-b? ( sbc )
+	bcm2710-rpi-3-b-plus? ( sbc )
+	bcm2710-rpi-3-b? ( sbc )
+	bcm2709-rpi-2-b? ( sbc )
+	bcm2708-rpi-b? ( sbc )
+	rk3288-tinker-s? ( sbc )
+	rk3399-rock-pi-4c-plus? ( sbc )
+	rk3399-rock-4se? ( sbc )
+	rk3399-tinker-2? ( sbc )
+	rk3588-rock-5b? ( sbc )
+	rk3588-radxa-rock-5b+? ( sbc )
+	rk3588s-orangepi-5? ( sbc )
+	rk3588s-orangepi-5b? ( sbc )
+	rk3588s-rock-5c? ( sbc )
+	meson-gxl-s905x-libretech-cc-v2? ( sbc grub )
+	meson-sm1-s905d3-libretech-cc? ( sbc grub )
+	meson-g12b-a311d-libretech-cc? ( sbc grub )
+	fsl-imx8mq-phanbell? ( sbc )
 "
 
 S="${WORKDIR}/${PN}"
@@ -83,38 +105,38 @@ RDEPEND="
 BDEPEND="${RDEPEND}"
 
 pkg_setup() {
-	# for sbc systems we need to know which board we are using
-	if use sbc ; then
-		einfo "USE sbc is selected. Assigning board ..."
-		if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io" ; export maker="raspi"
-		elif use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b" ; export maker="raspi"
-		elif use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io" ; export maker="raspi"
-		elif use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b" ; export maker="raspi"
-		elif use bcm2710-rpi-3-b-plus ; then export board="bcm2710-rpi-3-b-plus" ; export maker="raspi"
-		elif use bcm2710-rpi-3-b ; then export board="bcm2710-rpi-3-b" ; export maker="raspi"
-		elif use bcm2709-rpi-2-b ; then export board="bcm2709-rpi-2-b" ; export maker="raspi"
-		elif use bcm2708-rpi-b ; then export board="bcm2708-rpi-b" ; export maker="raspi"
-		elif use rk3288-tinker-s ; then export board="rk3288-tinker-s" ; export maker="rockchip"
-		elif use rk3399-rock-pi-4c-plus ; then export board="rk3399-rock-pi-4c-plus" ; export maker="rockchip"
-		elif use rk3399-tinker-2 ; then export board="rk3399-tinker-2" ; export maker="rockchip"
-		elif use rk3588-rock-5b ; then export board="rk3588-rock-5b" ; export maker="rockchip"
-		elif use rk3588-radxa-rock-5b+ ; then export board="rk3588-radxa-rock-5b+" ; export maker="rockchip"
-		elif use rk3588s-orangepi-5 ; then export board="rk3588s-orangepi-5" ; export maker="rockchip"
-		elif use rk3588s-orangepi-5b ; then export board="rk3588s-orangepi-5b" ; export maker="rockchip"
-		elif use rk3588s-rock-5c ; then export board="rk3588s-rock-5c" ; export maker="rockchip"
-		elif use fsl-imx8mq-phanbell ; then export board="fsl-imx8mq-phanbell" ; export maker="nxp"
-		elif use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2" ; export maker="amlogic"
-		elif use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc" ; export maker="amlogic"
-		elif use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc" ; export maker="amlogic"
-
-		elif use generic-armv6j ; then export board="generic-armv6j" ; export maker="raspi" # mimics bcm2708-rpi-b
-		elif use generic-armv7a ; then export board="generic-armv7a" ; export maker="raspi" # mimics bcm2709-rpi-2-b
-		elif use generic-aarch64 ; then export board="generic-aarch64" ; export maker="raspi" # mimics bcm2712-rpi-5-b
-		elif use generic-amd64 ; then export board="generic-amd64" ; export maker="gentoo"
-		else export board="" ; export maker=""
-		fi
-	else
-		einfo "USE sbc is NOT selected"
+	# we need to know which board/platform we are using
+	# maker specifies what kernel sources we are using
+	einfo "pkg_setup: Assigning board and maker ..."
+	if use bcm2712-rpi-cm5-cm5io ; then export board="bcm2712-rpi-cm5-cm5io" ; export maker="raspi"
+	elif use bcm2712-rpi-5-b ; then export board="bcm2712-rpi-5-b" ; export maker="raspi"
+	elif use bcm2711-rpi-cm4-io ; then export board="bcm2711-rpi-cm4-io" ; export maker="raspi"
+	elif use bcm2711-rpi-4-b ; then export board="bcm2711-rpi-4-b" ; export maker="raspi"
+	elif use bcm2710-rpi-3-b-plus ; then export board="bcm2710-rpi-3-b-plus" ; export maker="raspi"
+	elif use bcm2710-rpi-3-b ; then export board="bcm2710-rpi-3-b" ; export maker="raspi"
+	elif use bcm2709-rpi-2-b ; then export board="bcm2709-rpi-2-b" ; export maker="raspi"
+	elif use bcm2708-rpi-b ; then export board="bcm2708-rpi-b" ; export maker="raspi"
+	elif use rk3288-tinker-s ; then export board="rk3288-tinker-s" ; export maker="rockchip"
+	elif use rk3399-rock-pi-4c-plus ; then export board="rk3399-rock-pi-4c-plus" ; export maker="rockchip"
+	elif use rk3399-rock-4se ; then export board="rk3399-rock-4se" ; export maker="rockchip"
+	elif use rk3399-tinker-2 ; then export board="rk3399-tinker-2" ; export maker="rockchip"
+	elif use rk3588-rock-5b ; then export board="rk3588-rock-5b" ; export maker="rockchip"
+	elif use rk3588-radxa-rock-5b+ ; then export board="rk3588-radxa-rock-5b+" ; export maker="rockchip"
+	elif use rk3588s-orangepi-5 ; then export board="rk3588s-orangepi-5" ; export maker="rockchip"
+	elif use rk3588s-orangepi-5b ; then export board="rk3588s-orangepi-5b" ; export maker="rockchip"
+	elif use rk3588s-rock-5c ; then export board="rk3588s-rock-5c" ; export maker="rockchip"
+	elif use fsl-imx8mq-phanbell ; then export board="fsl-imx8mq-phanbell" ; export maker="nxp"
+	elif use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2" ; export maker="amlogic"
+	elif use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc" ; export maker="amlogic"
+	elif use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc" ; export maker="amlogic"
+	elif use generic-armv6j ; then export board="generic-armv6j" ; export maker="raspi" # mimics bcm2708-rpi-b
+	elif use generic-armv7a ; then export board="generic-armv7a" ; export maker="raspi" # mimics bcm2709-rpi-2-b
+	elif use generic-aarch64 ; then export board="generic-aarch64" ; export maker="raspi" # mimics bcm2712-rpi-5-b
+	elif use generic-amd64 ; then export board="generic-amd64" ; export maker="gentoo"
+	else export board="" ; export maker=""
+	fi
+	if ! use sbc ; then
+		einfo "USE sbc is NOT selected, implying no sbc/platform USE flag is selected either (generic)"
 		export board="generic-amd64" ; export maker="gentoo"
 	fi
 	elog "pkg_setup complete. board = ${board}; maker = ${maker}"
@@ -125,60 +147,31 @@ src_install() {
 	target="/etc/portage/"
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
-	if use sbc ; then
-		# Install both crossbuild and chroot versions of headless/desktop make.conf,
-		# and use chroot version as initial make.conf for all platforms
-		# Expect dev-sbc/crossbuild-tools to deliberately use the crossbuild version for crossbuilding
-		if use headless ; then
-			# install headless versions
+	# Install both crossbuild and chroot versions of headless/desktop make.conf,
+	# and use chroot version as initial make.conf for all platforms
+	# Expect dev-sbc/crossbuild-tools to deliberately use the crossbuild version for crossbuilding
+	if use headless ; then
+		# install headless versions
 			newins "${S}/make_conf/make.conf.headless.crossbuild.${board}" "make.conf.crossbuild" || \
-				die "failed to install make.conf.crossbuild for headless sbc"
-			elog "Installed make.conf.crossbuild for headless sbc"
-			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf.chroot" || \
-				die "failed to install make.conf.chroot for headless sbc"
-			elog "Installed make.conf.chroot for headless sbc"
-			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf" || \
-				die "failed to install make.conf for headless sbc"
-			elog "Installed make.conf for headless sbc"
-		else
-			# install desktop versions
-			newins "${S}/make_conf/make.conf.desktop.crossbuild.${board}" "make.conf.crossbuild" || \
-				die "failed to install make.conf.crossbuild for desktop sbc"
-			elog "Installed make.conf.crossbuild for desktop sbc"
-			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.chroot" || \
-				die "failed to install make.conf.chroot for desktop sbc"
-			elog "Installed make.conf.chroot for desktop sbc"
-			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf" || \
-				die "failed to install make.conf for desktop sbc"
-			elog "Installed make.conf for desktop sbc"
-		fi
+			die "failed to install make.conf.crossbuild for headless sbc"
+		elog "Installed make.conf.crossbuild for headless sbc"
+		newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf.chroot" || \
+			die "failed to install make.conf.chroot for headless sbc"
+		elog "Installed make.conf.chroot for headless sbc"
+		newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf" || \
+			die "failed to install make.conf for headless sbc"
+		elog "Installed make.conf for headless sbc"
 	else
-		# Install both crossbuild and chroot versions of headless/desktop make.conf,
-		# and use chroot version as initial make.conf for all platforms
-		# Expect dev-sbc/crossbuild-tools to deliberately use the crossbuild version for crossbuilding
-		if use headless ; then
-			# install headless versions
-			newins "${S}/make_conf/make.conf.headless.crossbuild.${board}" "make.conf.crossbuild" || \
-				die "failed to install make.conf.crossbuild for headless non-sbc"
-			elog "Installed make.conf.crossbuild for headless non-sbc"
-			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf.chroot" || \
-				die "failed to install make.conf.chroot for headless non-sbc"
-			elog "Installed make.conf.chroot for headless non-sbc"
-			newins "${S}/make_conf/make.conf.headless.chroot.${board}" "make.conf" || \
-				die "failed to install make.conf for headless non-sbc"
-			elog "Installed make.conf for headless non-sbc"
-		else
-			# install desktop versions
-			newins "${S}/make_conf/make.conf.desktop.crossbuild.${board}" "make.conf.crossbuild" || \
-				die "failed to install make.conf.crossbuild for desktop non-sbc"
-			elog "Installed make.conf.crossbuild for desktop non-sbc"
-			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.chroot" || \
-				die "failed to install make.conf.chroot for desktop non-sbc"
-			elog "Installed make.conf.chroot for desktop non-sbc"
-			newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf" || \
-				die "failed to install make.conf.crossbuild for desktop non-sbc"
-			elog "Installed make.conf for desktop non-sbc"
-		fi
+		# install desktop versions
+		newins "${S}/make_conf/make.conf.desktop.crossbuild.${board}" "make.conf.crossbuild" || \
+			die "failed to install make.conf.crossbuild for desktop sbc"
+		elog "Installed make.conf.crossbuild for desktop sbc"
+		newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf.chroot" || \
+			die "failed to install make.conf.chroot for desktop sbc"
+		elog "Installed make.conf.chroot for desktop sbc"
+		newins "${S}/make_conf/make.conf.desktop.chroot.${board}" "make.conf" || \
+			die "failed to install make.conf for desktop sbc"
+		elog "Installed make.conf for desktop sbc"
 	fi
 	elog "Done installing (ins) make.conf files into ${target} ..."
 
@@ -257,7 +250,7 @@ src_install() {
 			die "failed to install ${target}/90joetoo_${board}"
 		elog "Installed ${target}/90joetoo_${board}"
 	else
-		# install the joetoo 00cpu-flags USE flag file for this non-sbc platform
+		# install joetoo's neutered template 00cpu-flags USE flag file for this generic platform
 		einfo "Installing amd64 platform 00cpu-flags package.use file"
 		newins "${S}/package_use/package.use.00cpu-flags.amd64" "00cpu-flags" || \
 			die "failed to install 00cpu-flags for amd64"
@@ -309,13 +302,19 @@ src_install() {
 	einfo "Installing (ins) files into ${target} ..."
 	insinto "${target}"
 	if use sbc; then
+		# On platforms that have the same package.use/00cpu-flags make.conf:COMMON_FLAGS,
+		# compilation should build code for identical instruction sets (i.e. compatible)
+		# so such platforms can share binpkgs and serve them to one another.
+		# Here we will name the /etc/portage/binrepos.conf/${binhostconfigfile} that will identify
+		# these binhost groups and the url(s) for their repositories.
+		# These files are then installed by this ebuild, below
 		case $board in
 			"bcm2712-rpi-5-b"|"bcm2712-rpi-cm5-cm5io") binhostconfigfile="joetoo_rpi5_binhosts.conf" ;;
 			"bcm2711-rpi-4-b"|"bcm2711-rpi-cm4-io") binhostconfigfile="joetoo_rpi4_binhosts.conf" ;;
 			"bcm2710-rpi-3-b-plus") binhostconfigfile="joetoo_rpi3_binhosts.conf" ;;
 			"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b") binhostconfigfile="joetoo_rpi23A_binhosts.conf" ;;
 			"bcm2708-rpi-b") binhostconfigfile="joetoo_rpi1_binhosts.conf" ;;
-			"rk3399-rock-pi-4c-plus"|"rk3399-tinker-2") binhostconfigfile="joetoo_rk3399_binhosts.conf" ;;
+			"rk3399-rock-pi-4c-plus"|"rk3399-rock-4se"|"rk3399-tinker-2") binhostconfigfile="joetoo_rk3399_binhosts.conf" ;;
 			"rk3588-rock-5b"|"rk3588-radxa-rock-5b+"|"rk3588s-orangepi-5"|"rk3588s-orangepi-5b"|"rk3588s-rock-5c") binhostconfigfile="joetoo_rk3588_binhosts.conf" ;;
 			# TinkerEdgeT, CoralDev are NXP i.MX8M ; SweetPotato is aml-s905x-cc (both SoCs have cortex-A53; same cpu-flags)
 			"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2") binhostconfigfile="joetoo_sweetpotato_binhosts.conf" ;;
@@ -326,6 +325,7 @@ src_install() {
 			# for generic-amd64, install neutered alderlake config for now
 			"generic-amd64") binhostconfigfile="joetoo_gmki9_alderlake_binhosts.conf" ;;
 		esac
+		# Now install the ${binhostconfigfile} for this platform
 		if [ -z "${binhostconfigfile}" ] ; then
 			elog "binhostconfigfile is an empty string [${binhostconfigfile}] (nothing installed)"
 		elif [ -e "${S}/binrepos/${binhostconfigfile}" ] ; then
@@ -361,6 +361,8 @@ pkg_postinst() {
 	elog " 0.1.2 updates make.conf, accept_keywords, package.use, binhosts"
 	elog " 0.1.2-r1 installs chroot(live) version of make.conf by default"
 	elog " 0.1.3 adds USE nls for some packages, to get gentoo binpkgs"
+	elog " 0.1.4 adds rk3399-rock-4se; and starts sbc-to-platform migration"
+	elog " 0.1.5 fixes USE for joetoolkit"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
