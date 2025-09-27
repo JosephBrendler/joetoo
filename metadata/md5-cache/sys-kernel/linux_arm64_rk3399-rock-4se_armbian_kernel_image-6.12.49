@@ -1,0 +1,13 @@
+BDEPEND=
+DEFINED_PHASES=install postinst preinst
+DESCRIPTION=kernel image for rk3399-rock-4se sbc
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=+dtbo +rockchip-sources
+KEYWORDS=~arm64
+LICENSE=MIT
+RDEPEND=rockchip-sources? ( =sys-kernel/rockchip-sources-6.12.49 )
+RESTRICT=mirror
+SLOT=6.12.49
+SRC_URI=https://raspi56406.brendler/rockchip-kernels/linux_arm64_rk3399-rock-4se_armbian_kernel_image-6.12.49.tbz2
+_md5_=dd4c38355f572c88c2e38c2f1cf9b68f
