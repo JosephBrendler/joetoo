@@ -43,6 +43,7 @@ src_install() {
 
 	einfo "S=${S}"
 	einfo "D=${D}"
+	einfo "T=${T}"
 	einfo "CATEGORY=${CATEGORY}"
 	einfo "P=${P}"
 	einfo "PN=${PN}"
@@ -71,13 +72,15 @@ src_install() {
 	target="/etc/insert_into_file/"
 	einfo "Installing (ins) BUILD, BPN, and config template into ${target}"
 	insinto "${target}"
-	echo "BUILD=${PV}" > ${T}/BUILD
-	newins "{T}/BUILD" "BUILD" || die "failed to newins BUILD"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BUILD
+	echo "BUILD=${PV}" >> ${T}/BUILD
+	newins "${T}/BUILD" "BUILD" || die "failed to newins BUILD"
 	elog "Installed BUILD into ${target}"
-	echo 'BPN=${PN}' > ${T}/BPN
-	newins "{T}/BPN" "BPN" || die "failed to newins BPN"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BPN
+	echo 'BPN=${PN}' >> ${T}/BPN
+	newins "${T}/BPN" "BPN" || die "failed to newins BPN"
 	elog "Installed BPN into ${target}"
-	newins "{S}/insert_into_file_template.conf" "insert_into_file_template.conf" || \
+	newins "${S}/joetoolkit/insert_into_file_template.conf" "insert_into_file_template.conf" || \
 		die "failed to newins insert_into_file_template.conf"
 	elog "Installed insert_into_file_template.conf into ${target}"
 	# install local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file

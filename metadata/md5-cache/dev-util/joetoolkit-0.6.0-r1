@@ -10,4 +10,4 @@ RDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=n
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/joetoolkit-0.6.0.tbz2
-_md5_=4630e2f7ad3dec4fa3bafbde608c8516
+_md5_=8cb84ed79b2d5a49bae5d67782c633bb
