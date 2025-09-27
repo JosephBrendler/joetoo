@@ -185,6 +185,7 @@ pkg_postinst() {
 	elog "Version history can be found in the ebuild's files directory"
 	elog " 0.5.20 adds support for rk3399-rock-4se"
 	elog " 0.6.0 updates insert_into_file with cli, usage, eselect, etc"
+	elog " 0.6.1-2 provide refinements and bugfixes"
 	elog " "
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
