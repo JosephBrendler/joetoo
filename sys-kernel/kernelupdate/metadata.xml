@@ -3,42 +3,47 @@
 <pkgmetadata>
 	<longdescription>
 		This is a kernel, module, dtb, overlay (cross-)build utility for systems running
-		Gentoo Linux on amd64/x86_64, arm, and arm64 architectures, including several
-		Broadcom and rockchip based single board computer (SBC) boards.  Those of interest
+		Gentoo Linux on amd64/x86_64, arm, and arm64 architectures.  Those of interest
 		may be selected with eponymous USE flags.  A working template (cross-)build
 		configuration will be installed in /etc/kernelupdate/ for each selected board.
 		These can then be selected with # eselect kernelupdate list/set to begin
 		a build process.  The first run of kernelupdate for a new project will create
-		a directory tree for the project, according to the .conf.  The user must then
-		provide a link from the project-root of this tree, to valid kernel sources.
-		More information is provided at README-Instructions.  This sources selection
-		determines what constitiutes "upstream."
+		a directory tree for the project, according to the .conf.  The default location
+		for the project folder is /home/${user}/My_${model}_project/. The user must then
+		provide a link from the root of the project directory tree to valid kernel sources.
+		More information is provided at README-Instructions for each of the four SoC
+		makers currently supported (broadcom, rockchip, nxp, amlogic). The resulting link
+		would look like /home/${user}/My_${model}_project/linux --> /home/${user}/raspi-sources/linux
+		This arrangement determines what constitiutes "upstream."
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
 		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="dom0">Install default build-config file (can be a xen dom0)</flag>
-		<flag name="domU">Install default xen domU build-config file</flag>
+		<flag name="bcm2712-rpi-cm5-cm5io">Install default raspi CM5 w IO board build-config file</flag>
+		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
+		<flag name="bcm2711-rpi-cm4-io">Install default raspi CM4 w IO board build-config file</flag>
+		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b build-config file</flag>
+		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus build-config file</flag>
+		<flag name="bcm2710-rpi-3-b">Install default raspi 3 b v1.2 build-config file</flag>
+		<flag name="bcm2709-rpi-2-b">Install default raspi 2 b build-config file</flag>
+		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>
 		<flag name="rk3288-tinker-s">Install default tinker-s build-config file</flag>
 		<flag name="rk3399-rock-pi-4c-plus">Install default rk3399-rock-pi-4c-plus build-config file</flag>
+		<flag name="rk3399-rock-4se">Install default rk3399-rock-4se build-config file</flag>
 		<flag name="rk3399-tinker2-s">Install default tinker2-s build-config file</flag>
-		<flag name="rk3588-rock-5b">Install default Rpcl 5b build-config file</flag>
-		<flag name="rk3588s-orangepi-5">Install default OrangePi 5b build-config file</flag>
+		<flag name="rk3588-rock-5b">Install default Rock 5b build-config file</flag>
+		<flag name="rk3588-radxa-rock-5b+">Install default Rock 5b+ build-config file</flag>
+		<flag name="rk3588s-orangepi-5">Install default OrangePi 5 build-config file</flag>
+		<flag name="rk3588s-orangepi-5b">Install default OrangePi 5b build-config file</flag>
 		<flag name="rk3588s-rock-5c">Install default Rpcl 5c build-config file</flag>
-		<flag name="bcm2708-rpi-b">Install default raspi model b build-config file</flag>
-		<flag name="bcm2709-rpi-2-b">Install default raspi 2 b build-config file</flag>
-		<flag name="bcm2710-rpi-3-b">Install default raspi 3 b v1.2 build-config file</flag>
-		<flag name="bcm2710-rpi-3-b-plus">Install default raspi 3 b plus build-config file</flag>
-		<flag name="bcm2711-rpi-4-b">Install default raspi 4 b build-config file</flag>
-		<flag name="bcm2711-rpi-cm4-io">Install default raspi CM4 w IO board build-config file</flag>
-		<flag name="bcm2712-rpi-5-b">Install default raspi 5 b build-config file</flag>
-		<flag name="bcm2712-rpi-cm5-cm5io">Install default raspi CM5 w IO board build-config file</flag>
 		<flag name="fsl-imx8mq-phanbell">Tailor for TinkerEdgeT/CoralDev (i.mx8)(armv8/64)</flag>
 		<flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for SweetPotato (aml s905x a53)(armv8/64)</flag>
 		<flag name="meson-sm1-s905d3-libretech-cc">Tailor for Alta (aml s905d3 a55)(armv8/64)</flag>
 		<flag name="meson-g12b-a311d-libretech-cc">Tailor for Alta (aml a311d a73/53)(armv8/64)</flag>
+		<flag name="dom0">Install default build-config file (can be a xen dom0)</flag>
+		<flag name="domU">Install default xen domU build-config file</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>

@@ -17,8 +17,8 @@ IUSE="
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
-	rk3399-tinker-2 rk3399-rock-pi-4c-plus
-	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-tinker-2 rk3399-rock-4se rk3399-rock-pi-4c-plus
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
@@ -28,8 +28,8 @@ BOARDLIST="
 	bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b
 	bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io
 	rk3288-tinker-s
-	rk3399-tinker-2 rk3399-rock-pi-4c-plus
-	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-rock-5c
+	rk3399-tinker-2 rk3399-rock-4se rk3399-rock-pi-4c-plus
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
 "
@@ -177,24 +177,10 @@ pkg_postinst() {
 	elog ""
 	elog "${P} installed"
 	elog ""
-	elog "Version 0.8.0 reintroduces publish_ebuild for all models except dom0"
-	elog " 0.8.1 fixes bugs in publish_tarball, _ebuild to fix initial templates 0.0.0"
-	elog " 0.8.2 incorporates display_vars() from script_header in display_config()"
-	elog " 0.8.3 reformats make_me and provides easier cut/paste line for manual build"
-	elog " 0.9.0 sources from myUtilities, drops dom0, adds KERNEL_DIR, KBUILD_OUTPUT"
-	elog " 0.9.1 fixes bug in git cmd sequence, to add new template's hash file"
-	elog " 0.9.2 fixes bugs in git cmd sequence, incl location for new metadata file"
-	elog " 0.9.3 adds support for rk3588-rock-5b"
-	elog " 0.9.4 adds support for bcm2711-rpi-cm4-io and bcm2712-rpi-cm5-cm5io"
-	elog " 0.9.5/6 fix bugs in providing README instructions for new projects"
-	elog " 0.9.7 changes to use script_header_joetoo"
-	elog " 0.9.8 fixes rpi configs choice of image, zImage, Image.gz IAW upstream instr."
-	elog " 0.9.9 adds meson-gxl-s905x-libretech-cc-v2 and fsl-imx8mq-phanbell"
-	elog " 0.9.10 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
-	elog " 0.9.11 adds meson-g12b-a311d-libretech-cc (alta)"
-	elog " 0.9.12 adds meson-sm1-s905d3-libretech-cc (solitude)"
-	elog " 0.9.13 updates instructions to get amlogic-sources (like armbian/build uses)"
-	elog " 0.10.0 uses script_header_joetoo_extended cli opts and run_sequence, adds rock5b+"
+	elog "This ebuild's version_history is located at its FILESDIR"
+	elog "Ver 0.10.0 uses script_header_joetoo_extended cli opts and run_sequence, adds rock5b+"
+	elog " 0.10.1 adds commit-signing key cache step and updates README instructions"
+	elog " 0.10.2 adds rk3399-rock-4se and updates config files"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
