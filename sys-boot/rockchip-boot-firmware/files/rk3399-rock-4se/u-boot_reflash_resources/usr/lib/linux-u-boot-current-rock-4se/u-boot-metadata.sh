@@ -1,0 +1,13 @@
+declare -i UBOOT_NUM_TARGETS=1
+declare UBOOT_BIN_DIR="/usr/lib/linux-u-boot-current-rock-4se"
+declare UBOOT_VERSION="2025.04"
+declare UBOOT_ARTIFACT_VERSION="2025.04-S3482-Pec6b-H4003-V9b92-Bb703-R448a"
+declare UBOOT_GIT_REVISION="34820924edbc4ec7803eb89d9852f4b870fa760a"
+declare UBOOT_GIT_SOURCE="https://github.com/u-boot/u-boot"
+declare UBOOT_GIT_BRANCH="tag:v2025.04"
+declare UBOOT_GIT_PATCHDIR="v2025.04"
+declare UBOOT_PARTITION_TYPE="msdos"
+declare UBOOT_KERNEL_DTB="rockchip/rk3399-rock-4se.dtb"
+declare UBOOT_KERNEL_SERIALCON="ttyS2"
+declare UBOOT_EXTLINUX_PREFER="no"
+declare UBOOT_EXTLINUX_CMDLINE=""

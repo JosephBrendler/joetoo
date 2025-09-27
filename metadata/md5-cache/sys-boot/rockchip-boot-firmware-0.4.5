@@ -1,0 +1,13 @@
+BDEPEND=armbian_kernel? ( rk3288-tinker-s? ( sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image[dtbo=] ) rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image[dtbo=] ) rk3399-rock-4se? ( sys-kernel/linux_arm64_rk3399-rock-4se_armbian_kernel_image[dtbo=] ) rk3399-tinker-2? ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] ) rk3588-rock-5b? ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] ) rk3588-radxa-rock-5b+? ( sys-kernel/linux_arm64_rk3588-radxa-rock-5b+_armbian_kernel_image[dtbo=] ) rk3588s-orangepi-5? ( sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image[dtbo=] ) rk3588s-orangepi-5b? ( sys-kernel/linux_arm64_rk3588s-orangepi-5b_armbian_kernel_image[dtbo=] ) rk3588s-rock-5c? ( sys-kernel/linux_arm64_rk3588s-rock-5c_armbian_kernel_image[dtbo=] ) )
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Rockchip bootloader firmware for supported boards
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2 rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c +armbian_kernel +dtbo
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-2 Rockchip
+RDEPEND=!sys-boot/raspberrypi-firmware armbian_kernel? ( rk3288-tinker-s? ( sys-kernel/linux-rk3288-tinker-s_armbian_kernel_image[dtbo=] ) rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_armbian_kernel_image[dtbo=] ) rk3399-rock-4se? ( sys-kernel/linux_arm64_rk3399-rock-4se_armbian_kernel_image[dtbo=] ) rk3399-tinker-2? ( sys-kernel/linux-rk3399-tinker-2_armbian_kernel_image[dtbo=] ) rk3588-rock-5b? ( sys-kernel/linux-rk3588-rock-5b_armbian_kernel_image[dtbo=] ) rk3588-radxa-rock-5b+? ( sys-kernel/linux_arm64_rk3588-radxa-rock-5b+_armbian_kernel_image[dtbo=] ) rk3588s-orangepi-5? ( sys-kernel/linux-rk3588s-orangepi-5_armbian_kernel_image[dtbo=] ) rk3588s-orangepi-5b? ( sys-kernel/linux_arm64_rk3588s-orangepi-5b_armbian_kernel_image[dtbo=] ) rk3588s-rock-5c? ( sys-kernel/linux_arm64_rk3588s-rock-5c_armbian_kernel_image[dtbo=] ) )
+REQUIRED_USE=^^ ( rk3288-tinker-s rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2 rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c )
+RESTRICT=mirror binchecks strip
+SLOT=0
+_md5_=2263730370e55b024d9f4cd7d2bce0fc

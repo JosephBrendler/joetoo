@@ -1,0 +1,49 @@
+
+To re-flash u-boot on your boot device, with the u-boot image compiled for the current build,
+follow these instructions, based on armbian's platform_install.sh which can be found in
+u-boot_reflash_resources/usr/lib/u-boot/  --
+
+    # (as root)
+    cd /path/to/linux-u-boot-current-rock-5b-plus/
+    target=<devicename>
+    dd if=u-boot-rockchip.bin of=${target} bs=32k seek=1 conv=notrunc status=none
+
+There is no SPI-NOR flash device (MTD) on the rock-4se, so the rkspi_loader.img file cannot
+be loaded to MTD
+
+A further alternative is to boot from the Armbian image (assuming you can boot one) on an SD card and run
+
+Notes:
+(0) The primary procedure above has NOT been verified for rk3399-rock-4se (as of 27 Sep 2025)
+
+(1) Be sure to replace <devicename> with the correct device, e.g. /dev/mmcblk1
+
+(2) u-boot (2016.9+) assigns mmcblk0 to whatever device u-boot is loaded from
+ 
+(3) You can also re-compile u-boot from scratch, or you can (re)configure it during
+armbian/build with  ./compile.sh uboot-config and then ./compile.sh uboot
+
+(4) First partition should start at sector 32768, to leave room for u-boot image written
+    with this method.  For example, see this layout
+
+#-----[ example layout (radxa debian) ]---------------------------------------
+# rock-4se / # lsblk   ## as of (27 Sep 2025)
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+mmcblk1     179:0    0 28.9G  0 disk 
+|-mmcblk1p1 179:1    0   16M  0 part /config
+|-mmcblk1p2 179:2    0  300M  0 part 
+`-mmcblk1p3 179:3    0 28.5G  0 part /
+zram0       254:0    0  1.9G  0 disk [SWAP]
+# rock-4se / # fdisk -l /dev/mmcblk1   ## as of (27 Sep 2025)
+Disk /dev/mmcblk1: 28.87 GiB, 31002198016 bytes, 60551168 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: D9D9C4F0-62B5-48B3-A55D-1C60F2433AA2
+
+Device          Start      End  Sectors  Size Type
+/dev/mmcblk1p1  32768    65535    32768   16M Microsoft basic data    # (/config)
+/dev/mmcblk1p2  65536   679935   614400  300M EFI System              # (un-used)
+/dev/mmcblk1p3 679936 60551134 59871199 28.5G EFI System              # (/)(not sure why its EFI Sys...)
+#-----------------------------------------------------------------
