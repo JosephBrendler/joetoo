@@ -1,0 +1,13 @@
+BDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-6.16.9 ) rockchip-sources? ( =sys-kernel/rockchip-sources-6.16.9 ) amlogic-sources? ( =sys-kernel/amlogic-sources-6.16.9 ) nxp-sources? ( =sys-kernel/nxp-sources-6.16.9 )
+DEFINED_PHASES=install postinst preinst setup
+DESCRIPTION=kernel image (w modules, dtbs, overlays) for all joetoo-supported SBC & domU platforms
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=-raspi-sources -rockchip-sources -amlogic-sources -nxp-sources +dtb +dtbo -symlink
+KEYWORDS=arm arm64 amd64 ~arm ~arm64 ~amd64
+LICENSE=MIT
+RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-6.16.9 ) rockchip-sources? ( =sys-kernel/rockchip-sources-6.16.9 ) amlogic-sources? ( =sys-kernel/amlogic-sources-6.16.9 ) nxp-sources? ( =sys-kernel/nxp-sources-6.16.9 )
+RESTRICT=mirror
+SLOT=6.16.9
+SRC_URI=https://raspi56403.brendler/joetoo-kernels/linux-rk3399-rock-4se_joetoo_kernelimage-6.16.9.tar.bz2
+_md5_=3dacbcec9ce01f769b708320ea479b41
