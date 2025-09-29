@@ -362,6 +362,8 @@ pkg_postinst() {
 	elog " 0.1.2-r1 installs chroot(live) version of make.conf by default"
 	elog " 0.1.3 adds USE nls for some packages, to get gentoo binpkgs"
 	elog " 0.1.4 adds rk3399-rock-4se; and starts sbc-to-platform migration"
+	elog " 0.1.5 fixes USE for joetoolkit"
+	elog " 0.1.6 adds boards to package.use headers"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
