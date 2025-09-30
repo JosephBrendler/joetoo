@@ -77,14 +77,28 @@ src_install() {
 	# Install reusable tools into root
 	elog "Installing (exe) reusable tools into /"
 	exeinto "/"
-	newexe "${S}/mount-the-rest.nuthuvia" "mount-the-rest.nuthuvia" || die "Install mount-the-rest.nuthuvia failed!"
-	elog "Installed mount-the-rest.nuthuvia"
-	newexe "${S}/wget-stage3-amd64" "wget-stage3-amd64" || die "Install wget-stage3-amd64 failed!"
-	elog "Installed wget-stage3-amd64"
+	# /mount-the-rest.gmki91
+	newexe "${S}/mount-the-rest.gmki91" "/mount-the-rest.gmki91" || die "Install /mount-the-rest.gmki91 failed!"
+	elog "Installed /mount-the-rest.gmki91"
+	# umount-chroot
+	newexe "${S}umount-chroot" "umount-chroot" || die "Install umount-chroot failed!"
+	elog "Installed umount-chroot"
+	# joetoo-system-install
+	newexe "${S}/joetoo-system-install" "joetoo-system-install" || die "Install joetoo-system-install failed!"
+	elog "Installed joetoo-system-install"
+	# chroot-prep
 	newexe "${S}/chroot-prep" "chroot-prep" || die "Install chroot-prep failed!"
 	elog "Installed chroot-prep"
+	# chroot-commands
+	insinto "/"
 	newins "${S}/chroot-commands" "chroot-commands" || die "Install chroot-commands failed!"
 	elog "Installed chroot-commands"
+	# content_for_mkenv_gmki91
+	doins -r "${S}/content_for_mkenv_gmki91"  || die "Install content_for_mkenv_gmki91 failed!"
+	elog "Installed content_for_mkenv_gmki91"
+	# content_for_mkimg_template
+	doins -r "${S}/content_for_mkimg_template"  || die "Install content_for_mkimg_template failed!"
+	elog "Installed content_for_mkimg_template"
 }
 
 pkg_postinst() {
@@ -101,6 +115,8 @@ pkg_postinst() {
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 fixes sourcing of BUILD, BPN"
 	elog " 0.0.3 fixes validation of ROOT in make.conf"
+	elog " 0.0.4 updates finalize-chroot-joetoo and adds umount-chroot"
+	elog " 0.4.5 upgraded from wget-stage3-amd64 to joetoo-system-install (plus)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
