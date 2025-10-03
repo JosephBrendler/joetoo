@@ -185,8 +185,10 @@ pkg_postinst() {
 	elog "Version history can be found in the ebuild's files directory"
 	elog " 0.5.20 adds support for rk3399-rock-4se"
 	elog " 0.6.0 updates insert_into_file with cli, usage, eselect, etc"
-	elog " 0.6.1-2 provide refinements and bugfixes"
-	elog " "
+	elog " 0.6.1-3 provide refinements and bugfixes"
+	elog " 0.6.4 adds move_joetoo_kernels_to_webserver for use as cron job"
+	elog " 0.6.5 adds new_get_openVPN_client_info_for_dns.sh, more_archive"
+	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
 		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
