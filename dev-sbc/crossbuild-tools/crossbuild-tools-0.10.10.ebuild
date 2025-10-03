@@ -219,6 +219,8 @@ pkg_postinst() {
 	elog " 0.10.6 cb-mkenv uses make.conf.crossbuild; also update cb-dashboard"
 	elog " 0.10.7 adds spt for rk3399-rock-4se"
 	elog " 0.10.8 adds cb-mount-binhosts_template.start"
+	elog " 0.10.9 fixes bugs in handling make.conf"
+	elog " 0.10.10 updates cb-mount-binhosts_template.start"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
