@@ -182,6 +182,7 @@ pkg_postinst() {
 	elog " 0.10.1 adds commit-signing key cache step and updates README instructions"
 	elog " 0.10.2 adds rk3399-rock-4se and updates config files"
 	elog " 0.10.3-4 begin migration of kernel tarballs from github to raspi56403"
+	elog " 0.10.5-6 add safeguards on rm and chown commands in the script"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
