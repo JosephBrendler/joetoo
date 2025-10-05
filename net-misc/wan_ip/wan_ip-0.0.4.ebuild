@@ -75,8 +75,9 @@ pkg_postinst() {
 	elog ""
 	elog "version_history will be located in the ebuild's $FILESDIR"
 	elog " 0.0.1 is the initial draft package and ebuild"
-	elog " 0.0.2 provides refinements and bugfixes"
-	elog ""
+	elog " 0.0.2 fixes post_wan_ip.sh use of loggit utility from joetoolkit"
+	elog " 0.0.3 fixes Dropbox file location in wan_ip.conf"
+	elog " 0.0.4 updates wan_ip to use /usr/sbin vs /usr/local/sbin"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
