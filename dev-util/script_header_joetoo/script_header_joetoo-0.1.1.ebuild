@@ -15,9 +15,10 @@ SLOT="0"
 KEYWORDS="amd64 ~amd64 x86 ~x86 arm ~arm arm64 ~arm64"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
-IUSE="+extended +niopt +examples"
+IUSE="+extended +unicode +niopt +examples"
 REQUIRED_USE="
-	examples? ( extended )
+	unicode? ( extended )
+	examples? ( extended unicode )
 "
 RESTRICT="mirror"
 
@@ -47,6 +48,12 @@ src_install() {
 			newins "${S%/}/${PN}_extended" "${PN}_extended"
 			elog "Installed ${PN}_extended in ${target}"
 		fi
+		if use unicode ; then
+			einfo "unicode USE flag is set"
+			einfo "Installing (ins) ${PN}_unicode into ${target} ..."
+			newins "${S%/}/${PN}_unicode" "${PN}_unicode"
+			elog "Installed ${PN}_unicode in ${target}"
+		fi
 		if use niopt ; then
 			einfo "niopt USE flag is set"
 			einfo "Installing (ins) ${PN}_noninteractive into ${target} ..."
@@ -55,6 +62,12 @@ src_install() {
 		fi
 	if use examples ; then
 		einfo "examples USE flag is set"
+		# install emoji_demo script
+		einfo "Installing (exe) emoji_demo script into ${target} ..."
+                exeinto "${target}"
+		newexe "${S%/}/emoji_demo" "emoji_demo"
+		elog "Installed emoji_demo script in ${target}"
+
 		# install template script
 		einfo "Installing (exe) template_script.bash into ${target} ..."
                 exeinto "${target}"
@@ -110,6 +123,7 @@ src_install() {
 	elog " 0.0.17 adds d_do() and tweaks some other stuff"
 	elog " 0.0.18 moves ash-incompatible functions to _extended: CPR(), isfloat(), map()"
 	elog " 0.0.19 adds list_unused_disks() formerly in crossbuild-tools"
-	elog ""
+	elog " 0.1.0 introduces script_header_unicode and emoji_demo"
+	elog " 0.1.1 adds u_message(), summarize_my_unicode(); ebuild deploys unicode header"
 	elog "Thank you for using ${PN}"
 }
