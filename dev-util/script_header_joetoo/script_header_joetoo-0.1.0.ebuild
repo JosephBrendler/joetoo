@@ -109,7 +109,8 @@ src_install() {
 	elog " 0.0.16 adds isfloat() and map()"
 	elog " 0.0.17 adds d_do() and tweaks some other stuff"
 	elog " 0.0.18 moves ash-incompatible functions to _extended: CPR(), isfloat(), map()"
-	elog ""
+	elog " 0.0.19 adds list_unused_disks() formerly in crossbuild-tools"
+	elog " 0.1.0 introduces script_header_unicode and emoji_demo"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
