@@ -187,6 +187,9 @@ pkg_postinst() {
 	elog " 0.6.0 updates insert_into_file with cli, usage, eselect, etc"
 	elog " 0.6.1-3 provide refinements and bugfixes"
 	elog " 0.6.4 adds move_joetoo_kernels_to_webserver for use as cron job"
+	elog " 0.6.5 adds new_get_openVPN_client_info_for_dns.sh, more_archive"
+	elog " 0.6.6 mods move_joetoo_kernels to wait for inbound transfer"
+	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
 		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
