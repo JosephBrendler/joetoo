@@ -186,6 +186,8 @@ pkg_postinst() {
 	elog " 0.10.5-6 add safeguards on rm and chown commands in the script"
 	elog " 0.10.7-10 provides refinements and bugfixes"
 	elog " 0.1.11 computes/uploads sha512sum w tarball; checks it before making ebuild"
+	elog " 0.1.12 fixes kernelupdate.conf makeopts to incl -j prefix for computed #"
+	elog " 0.1.13 relocaes caching of commit signing key close to use"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
