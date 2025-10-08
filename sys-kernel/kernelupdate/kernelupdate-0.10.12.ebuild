@@ -44,6 +44,7 @@ S="${WORKDIR}/${PN}"
 RDEPEND="
 	dev-util/script_header_joetoo[extended]
 	>=sys-devel/crossdev-20230321
+	>=sys-apps/dtc-1.7.2
 	>=dev-util/joetoolkit-0.1.5
 	>=joetoo-base/joetoo-platform-meta-0.0.1
 	>=joetoo-base/joetoo-common-meta-0.0.1
@@ -184,6 +185,8 @@ pkg_postinst() {
 	elog " 0.10.3-4 begin migration of kernel tarballs from github to raspi56403"
 	elog " 0.10.5-6 add safeguards on rm and chown commands in the script"
 	elog " 0.10.7-10 provides refinements and bugfixes"
+	elog " 0.1.11 computes/uploads sha512sum w tarball; checks it before making ebuild"
+	elog " 0.1.12 fixes kernelupdate.conf makeopts to incl -j prefix for computed #"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
