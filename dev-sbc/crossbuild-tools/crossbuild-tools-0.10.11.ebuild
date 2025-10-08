@@ -35,6 +35,7 @@ RDEPEND="
 	sys-apps/util-linux
 	sys-block/parted
 	sys-devel/crossdev
+	sys-apps/dtc
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
 	sys-apps/grep
@@ -220,6 +221,8 @@ pkg_postinst() {
 	elog " 0.10.7 adds spt for rk3399-rock-4se"
 	elog " 0.10.8 adds cb-mount-binhosts_template.start"
 	elog " 0.10.9 fixes bugs in handling make.conf"
+	elog " 0.10.10 updates cb-mount-binhosts_template.start"
+	elog " 0.10.11 updates cloudsync.conf like joetoo-base/joetoo-common-meta"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
