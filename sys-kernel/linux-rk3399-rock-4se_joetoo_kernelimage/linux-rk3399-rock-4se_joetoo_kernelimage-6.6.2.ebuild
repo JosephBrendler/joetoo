@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # joetoo_kernelimage ebuild (does not require USE for ${model} since that info is in ${PN})
+# testing
 
 EAPI=8
 
