@@ -190,6 +190,8 @@ pkg_postinst() {
 	elog " 0.1.13 relocates caching of commit signing key close to use"
 	elog " 0.1.14 updates README_xxx-sources_instructions"
 	elog " 0.1.15 recreates cleaned distrib dirs"
+	elog " 0.1.16 removes big extra dts folder from tarball"
+	elog " 0.1.17 re-sets module_dir for make_tarball in case resuming"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
