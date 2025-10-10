@@ -224,6 +224,8 @@ pkg_postinst() {
 	elog " 0.10.10 updates cb-mount-binhosts_template.start"
 	elog " 0.10.11 updates cloudsync.conf like joetoo-base/joetoo-common-meta"
 	elog " 0.10.12 provides README instructions for linking custom content"
+	elog " 0.10.13 standardizes how cb- progs set/reset verbosity"
+	elog " 0.10.14 name_space variables in .cb-config (e.g. cb_TARGET_ARCH)"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
