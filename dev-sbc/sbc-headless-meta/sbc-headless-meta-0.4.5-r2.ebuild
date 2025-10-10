@@ -15,7 +15,7 @@ IUSE="
 	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
 	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
@@ -29,7 +29,7 @@ REQUIRED_USE="
 	^^ ( bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
 	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
 	rk3288-tinker-s
-	rk3399-rock-pi-4c-plus rk3399-tinker-2
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
 	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
 	fsl-imx8mq-phanbell
 	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
@@ -72,7 +72,6 @@ RDEPEND="
 		bcm2712-rpi-cm5-cm5io?  (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-cm5-cm5io(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -81,7 +80,6 @@ RDEPEND="
 		bcm2712-rpi-5-b?  (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -90,7 +88,6 @@ RDEPEND="
 		bcm2711-rpi-cm4-io?   (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-cm4-io(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -99,7 +96,6 @@ RDEPEND="
 		bcm2711-rpi-4-b?   (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2711-rpi-4-b(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -108,7 +104,6 @@ RDEPEND="
 		bcm2710-rpi-3-b-plus?   (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2710-rpi-3-b-plus(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -117,7 +112,6 @@ RDEPEND="
 		bcm2710-rpi-3-b?   (
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2710-rpi-3-b(+)]
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -126,7 +120,6 @@ RDEPEND="
 		bcm2709-rpi-2-b?   (
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2709-rpi-2-b(+)]
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -135,7 +128,6 @@ RDEPEND="
 		bcm2708-rpi-b?   (
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2708-rpi-b(+)]
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -147,6 +139,10 @@ RDEPEND="
 		)
 		rk3399-rock-pi-4c-plus?  (
 			>=sys-boot/sbc-boot-config-0.0.1[rk3399-rock-pi-4c-plus(+)]
+			>=sys-apps/sbc-i2c-0.0.1
+		)
+		rk3399-rock-4se?  (
+			>=sys-boot/sbc-boot-config-0.0.1[rk3399-rock-4se(+)]
 			>=sys-apps/sbc-i2c-0.0.1
 		)
 		rk3399-tinker-2? (
@@ -191,7 +187,6 @@ RDEPEND="
 		generic-aarch64?  (
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2712-rpi-5-b(+)]
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -201,7 +196,6 @@ RDEPEND="
 		generic-armv7a?   (
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2709-rpi-2-b(+)]
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -210,7 +204,6 @@ RDEPEND="
 		generic-armv6j?   (
 			>=sys-apps/rpi3-ondemand-cpufreq-1.1.1-r1
 			>=sys-boot/sbc-boot-config-0.0.1[bcm2708-rpi-b(+)]
-			media-libs/raspberrypi-userland
 			>=sys-apps/rpi-i2c-1.0.1
 			>=net-wireless/rpi3-wifi-regdom-1.1-r1
 			>=sys-apps/rpi-serial-1.0.0-r1
@@ -262,6 +255,10 @@ RDEPEND="
 		rk3399-rock-pi-4c-plus? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-rock-pi-4c-plus(+)]
 			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3399-rock-pi-4c-plus(+)]
+		)
+		rk3399-rock-4se? (
+			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-rock-4se(+)]
+			>=joetoo-base/joetoo-platform-meta-0.0.1[sbc(+),rk3399-rock-4se(+)]
 		)
 		rk3399-tinker-2? (
 			>=dev-sbc/sbc-status-leds-0.0.1[rk3399-tinker-2(+)]
@@ -327,6 +324,7 @@ RDEPEND="
 		bcm2708-rpi-b?          ( >=sys-boot/raspi-boot-firmware-1.20240424[bcm2708-rpi-b(+)] )
 		rk3288-tinker-s?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3288-tinker-s(+)] )
 		rk3399-rock-pi-4c-plus? ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-rock-pi-4c-plus(+)] )
+		rk3399-rock-4se?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-rock-4se(+)] )
 		rk3399-tinker-2?        ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3399-tinker-2(+)] )
 		rk3588-rock-5b?         ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-rock-5b(+)] )
 		rk3588-radxa-rock-5b+?  ( >=sys-boot/rockchip-boot-firmware-0.0.1[rk3588-radxa-rock-5b+(+)] )
@@ -349,6 +347,7 @@ RDEPEND="
 		bcm2708-rpi-b?          ( sys-kernel/linux-bcm2708-rpi-b_joetoo_kernelimage )
 		rk3288-tinker-s?        ( sys-kernel/linux-rk3288-tinker-s_joetoo_kernelimage )
 		rk3399-rock-pi-4c-plus? ( sys-kernel/linux-rk3399-rock-pi-4c-plus_joetoo_kernelimage )
+		rk3399-rock-4se?        ( sys-kernel/linux-rk3399-rock-4se_joetoo_kernelimage )
 		rk3399-tinker-2?        ( sys-kernel/linux-rk3399-tinker-2_joetoo_kernelimage )
 		rk3588-rock-5b?         ( sys-kernel/linux-rk3588-rock-5b_joetoo_-kernelimage )
 		rk3588-radxa-rock-5b+?  ( sys-kernel/linux-rk3588-radxa-rock-5b+_joetoo_-kernelimage )
@@ -374,6 +373,7 @@ pkg_setup() {
 	elif use bcm2708-rpi-b; then export board="bcm2708-rpi-b" ; export arch="arm"
 	elif use rk3288-tinker-s; then export board="rk3288-tinker-s" ; export arch="arm"
 	elif use rk3399-rock-pi-4c-plus; then export board="rk3399-rock-pi-4c-plus" ; export arch="arm64"
+	elif use rk3399-rock-4se; then export board="rk3399-rock-4se" ; export arch="arm64"
 	elif use rk3399-tinker-2; then export board="rk3399-tinker-2" ; export arch="arm64"
 	elif use rk3588-rock-5b; then export board="rk3588-rock-5b" ; export arch="arm64"
 	elif use rk3588-radxa-rock-5b+; then export board="rk3588-radxa-rock-5b+" ; export arch="arm64"
@@ -474,6 +474,8 @@ pkg_postinst() {
 	elog " 0.4.4-r1 uefi board (solitude), drops sys-boot/sbc-boot-config dependency"
 	elog " -r2 adds rk3588-radxa-rock-5b+ and rk3588s-orangepi-5b"
 	elog " 0.4.5 is just a version bump to clarify latest"
+	elog " -r1 adds rk3399-rock-4se"
+	elog " -r2 removes reference to deprecated raspberrypi-userland"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
