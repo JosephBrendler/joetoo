@@ -125,5 +125,8 @@ src_install() {
 	elog " 0.0.19 adds list_unused_disks() formerly in crossbuild-tools"
 	elog " 0.1.0 introduces script_header_unicode and emoji_demo"
 	elog " 0.1.1 adds u_message(), summarize_my_unicode(); ebuild deploys unicode header"
+	elog " 0.1.2 provides refinements and bugfixes"
+	elog " 0.1.3 adds uE_message() and uEx_message() to unicode header"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
