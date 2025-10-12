@@ -226,6 +226,8 @@ pkg_postinst() {
 	elog " 0.10.12 provides README instructions for linking custom content"
 	elog " 0.10.13 standardizes how cb- progs set/reset verbosity"
 	elog " 0.10.14 name_space variables in .cb-config (e.g. cb_TARGET_ARCH)"
+	elog " 0.10.15 updates cb-dashboard to include binhost web services"
+	elog " 0.10.16 updates fin-chroot; root/.bashrc to use cb_QEMU_ARCH in PS1"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
