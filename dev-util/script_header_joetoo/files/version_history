@@ -27,3 +27,21 @@ to include command higher level scripting utilities including line processor,
 usage, etc in the extended [bash] header and other updates in
 the basic [ash] header.  A template script showing how to use these was also
 included.  First uploaded as dev-util/script_header_joetoo 24 June 2025
+ 0.0.1/2 provide refinements and bugfixes
+ 0.0.3 fixes modular_msg and summarize_my_extension
+ 0.0.4 updates local script cli spt and adds functions to _joetoo and _extended
+ 0.0.5 provide refinements and bugfixes
+ 0.0.6 provides template script help and example re assigning BPN
+ 0.0.7 adds template script help and bugfixes
+ 0.0.8 provide refinements and bugfixes
+ 0.0.9 updates checkboot() to return 2 if /boot is not supposed to be a mountpoint
+ 0.0.10 provides bugfix for run_sequence separator output
+ 0.0.11 fixes usage handling - was in subshell ( ) in process_compount_argument
+ 0.0.12 fixes status report for starting_step = 0
+ 0.0.13 adds non-stty-right_status() to script_header_joetoo_extended
+ 0.0.14 adds right_most()
+ 0.0.15 updates get_luks_edev_name()
+ 0.0.16 adds isfloat() and map()
+ 0.0.17 adds d_do() and tweaks some other stuff
+ 0.0.18 moves ash-incompatible functions to _extended: CPR(), isfloat(), map()
+ 0.0.19 adds list_unused_disks() formerly in crossbuild-tools
