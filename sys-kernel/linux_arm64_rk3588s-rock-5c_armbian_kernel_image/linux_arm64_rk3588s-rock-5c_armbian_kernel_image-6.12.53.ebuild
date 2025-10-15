@@ -3,11 +3,12 @@
 
 EAPI=8
 
+BOARD="${PN/linux_arm64_/}"
+BOARD="${BOARD/_armbian_kernel_image/}"
+
 DESCRIPTION="kernel image for ${BOARD} sbc"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-#SRC_URI="https://raspi56406.brendler/amlogic-kernels/linux-${BOARD}_armbian_kernel_image-${PV}.tbz2"
 SRC_URI="https://raspi56406.brendler/rockchip-kernels/${PN}-${PV}.tbz2"
-
 
 S="${WORKDIR}/"
 
@@ -67,7 +68,7 @@ pkg_preinst() {
 
 
 src_install() {
-	einfo "BOARD=${BOARD}"
+	einfo "BOARD=${BOARD} (determined from ebuild filename; not used but available)"
 	einfo "SRC_URI=${SRC_URI}"
 	einfo "  S=${S}"
 	einfo "  T=${T}"

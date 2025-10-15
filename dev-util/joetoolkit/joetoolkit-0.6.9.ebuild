@@ -190,6 +190,8 @@ pkg_postinst() {
 	elog " 0.6.5 adds new_get_openVPN_client_info_for_dns.sh, more_archive"
 	elog " 0.6.6 mods move_joetoo_kernels to wait for inbound transfer"
 	elog " 0.6.7 adds move_joetoo_sources_to_webserver for use as cron job"
+	elog " 0.6.8 removes reference to deprecated raspberrypi-userland"
+	elog " 0.6.9 updates move_joetoo_kernels to process armbian kernels too"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
