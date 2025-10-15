@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst setup
+DESCRIPTION=Raspberry PI boot loader and firmware, for any of the versions I have
+EAPI=8
+HOMEPAGE=https://github.com/raspberrypi/firmware
+IUSE=bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io +kernel +dtbo
+KEYWORDS=arm ~arm arm64 ~arm64
+LICENSE=GPL-2 raspberrypi-videocore-bin Broadcom
+RDEPEND=!sys-boot/raspberrypi-firmware
+REQUIRED_USE=^^ ( bcm2708-rpi-b bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2711-rpi-4-b bcm2711-rpi-cm4-io bcm2712-rpi-5-b bcm2712-rpi-cm5-cm5io )
+RESTRICT=mirror binchecks strip
+SLOT=0
+SRC_URI=https://github.com/raspberrypi/firmware/archive/1.20250915.tar.gz -> raspi-boot-firmware-1.20250915.tar.gz
+_md5_=79ca2b74e26a99141d88f29cd8fb703f
