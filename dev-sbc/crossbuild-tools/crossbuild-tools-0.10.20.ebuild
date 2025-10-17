@@ -230,6 +230,8 @@ pkg_postinst() {
 	elog " 0.10.16 updates fin-chroot; root/.bashrc to use cb_QEMU_ARCH in PS1"
 	elog " 0.10.17 upgrades cb-mount-binhosts_template.start and other parts"
 	elog " 0.10.18 fixes id_boards_for_binhost() and adds armbian-imagefile-tools"
+	elog " 0.10.19 fixes cb-mount-binhosts_template.start"
+	elog " 0.10.20 provides bugfixes and enhancements"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
