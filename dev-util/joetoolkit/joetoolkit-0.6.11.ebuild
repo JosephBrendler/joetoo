@@ -124,7 +124,10 @@ src_install() {
 		elog "USE flag \"iptools\" selected ..."
 		target="/usr/sbin/"
 		insinto "${target}"
-		doins -r "${S}/iptools/*"
+		# maintain flexibility to install subdirectories under this category
+		for x in $(find ${S}/iptools/ -maxdepth 1 -mindepth 1); do
+			doins -r "${x}" || die "failed to doins -r for iptools"
+		done
 		elog "iptools installed into ${target}"
 	else
 		elog "USE flag \"iptools\" not selected iptools/ not copied"
@@ -135,8 +138,11 @@ src_install() {
 		elog "USE flag \"xenvmtools\" selected ..."
 		target="/usr/sbin/"
 		insinto "${target}"
-		doins -r "${S}/xenvmtools/*"
-		elog "xenvmtools installed into ${target}"
+		# maintain flexibility to install subdirectories under this category
+		for x in $(find ${S}/xenvmfiles_joetoo/ -maxdepth 1 -mindepth 1); do
+			doins -r "${x}" || die "failed to doins -r for xenvmfiles"
+		done
+		elog "xenvmfiles installed into ${target}"
 	else
 		elog "USE flag \"xenvmtools\" not selected; xenvmfiles_joetoo/ not copied"
 	fi
@@ -146,7 +152,10 @@ src_install() {
 		elog "USE flag \"backup_utilities\" selected ..."
 		target="/usr/sbin/"
 		insinto "${target}"
-		doins -r "${S}/backup_utilities/*"
+		# maintain flexibility to install subdirectories under this category
+		for x in $(find ${S}/backup_utilities/ -maxdepth 1 -mindepth 1); do
+			doins -r "${x}" || die "failed to doins -r for backup_utilities"
+		done
 		elog "backup_utilities installed into ${target}"
 	else
 		elog "USE flag \"backup_utilities\" not selected; backup_utilities/ not copied"
@@ -186,6 +195,7 @@ pkg_postinst() {
 	elog " 0.6.8 removes reference to deprecated raspberrypi-userland"
 	elog " 0.6.9 updates move_joetoo_kernels to process armbian kernels too"
 	elog " 0.6.10 adds fix-distcc-log-dir-and-file and updates the ebuild"
+	elog " 0.6.11 adds nextcloud_ tools enabling federated shares"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
