@@ -195,6 +195,8 @@ pkg_postinst() {
 	elog " 0.6.8 removes reference to deprecated raspberrypi-userland"
 	elog " 0.6.9 updates move_joetoo_kernels to process armbian kernels too"
 	elog " 0.6.10 adds fix-distcc-log-dir-and-file and updates the ebuild"
+	elog " 0.6.11 adds nextcloud_ tools enabling federated shares"
+	elog " 0.6.12 adds nextcloud_list_configs"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
