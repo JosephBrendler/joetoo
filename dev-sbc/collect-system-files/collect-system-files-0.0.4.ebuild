@@ -4,7 +4,7 @@
 
 EAPI=8
 
-DESCRIPTION="joetoo program to run and configure sbc emulation instances with qemu"
+DESCRIPTION="collects specified system files from client as custom content for use by crossbuild-tools cb-mkimg"
 HOMEPAGE="https://github.com/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
@@ -95,6 +95,8 @@ pkg_postinst() {
 	elog ""
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 adds local.usage info about eselect module"
+	elog " 0.0.3 provides refinements and bugfixes"
+	elog " 0.0.4 updates sensitive source dirs and files"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
