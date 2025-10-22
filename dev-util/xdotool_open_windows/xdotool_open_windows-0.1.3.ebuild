@@ -99,6 +99,8 @@ pkg_postinst() {
 	elog " 0.0.3/4 provide bugfixes and refinements for components"
 	elog " 0.1.0 is a significant rewrite of these tools"
 	elog " 0.1.1 stabilizes and provides bugfixes and refinements"
+	elog " 0.1.2 standardizes config data and drafts code to select wm_tool"
+	elog " 0.1.3 moves logging functions to script_header_joetoo"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
