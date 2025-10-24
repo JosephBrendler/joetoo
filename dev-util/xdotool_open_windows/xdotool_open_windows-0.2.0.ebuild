@@ -23,7 +23,10 @@ S="${WORKDIR}/${PN}"
 RDEPEND="
 	dev-util/script_header_joetoo
 	app-admin/eselect
+	net-analyzer/nmap
+	x11-apps/xprop
 	x11-misc/xdotool
+	x11-misc/wmctrl
 	x11-base/xorg-server
 	x11-libs/libX11
 "
@@ -75,6 +78,15 @@ src_install() {
 	echo "BUILD=${PV}" >> ${D}/etc/${PN}/BUILD
 	elog "Installed build number reference file in /etc/${PN}/"
 
+	# install logrotate file
+	einfo "Installing (ins) logrotate file"
+	target="/etc/logrotate.d/"
+	insinto "${target}"
+	einfo "Installing (ins) xdotool_open_windows ..."
+	newins "${S}/xdotool_open_windows.logrotate" "xdotool_open_windows"
+	elog "installed (newins) xdotool_open_windows in ${target}"
+
+
 	# install an exclusion from config_protect-tion for BUILD
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
 	newenvd "${S}/config_protect_mask" "99${PN}-BUILD"
@@ -101,7 +113,8 @@ pkg_postinst() {
 	elog " 0.1.1 stabilizes and provides bugfixes and refinements"
 	elog " 0.1.2 standardizes config data and drafts code to select wm_tool"
 	elog " 0.1.3 moves logging functions to script_header_joetoo"
-	elog " 0.1.4-6 improve stability of _open_, _close_, _sizemove_"
+	elog " 0.1.4-7 improve stability of _open_, _close_, _sizemove_"
+	elog " 0.2.0 completes basic re-write of all components"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
