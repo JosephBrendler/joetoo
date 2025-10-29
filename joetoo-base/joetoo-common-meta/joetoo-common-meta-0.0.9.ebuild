@@ -62,10 +62,11 @@ RDEPEND="
 		>=app-admin/eselect-1.4.26
 		>=app-admin/logrotate-3.15.1
 		>=app-admin/sudo-1.8.29-r2
-		>=app-eselect/eselect-python-20200719
-		>=app-eselect/eselect-repository-8
 		>=app-crypt/gnupg-2.2.19
 		>=app-editors/nano-4.6
+		>=app-eselect/eselect-python-20200719
+		>=app-eselect/eselect-repository-8
+		>=app-misc/neofetch-7.1.0
 		>=app-misc/screen-4.7.0
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
@@ -74,7 +75,6 @@ RDEPEND="
 		>=app-text/wgetpaste-2.33-r3[ssl(+)]
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
-		>=sys-apps/util-linux-2.34-r3
 		>=net-analyzer/nmap-7.80
 		>=net-vpn/openvpn-2.4.7-r1
 		>=net-wireless/wpa_supplicant-2.8
@@ -83,6 +83,7 @@ RDEPEND="
 		>=sys-apps/mlocate-0.26-r2
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
+		>=sys-apps/util-linux-2.34-r3
 		>=sys-auth/elogind-255.17
 		>=sys-devel/bc-1.07.1
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
@@ -149,6 +150,7 @@ RDEPEND="
 		x11-base/xorg-fonts
 		x11-base/xorg-server
 		x11-libs/libxcb
+		x11-misc/sddm
 		x11-misc/xdotool
 		x11-themes/oxygen-gtk
 	)
@@ -174,6 +176,7 @@ RDEPEND="
 		x11-base/xorg-fonts
 		x11-base/xorg-server
 		x11-libs/libxcb
+		x11-misc/sddm
 		x11-misc/xdotool
 		x11-themes/oxygen-gtk
 	)
@@ -193,8 +196,19 @@ src_install() {
 		z=$(echo $x | sed "s|${S}||")
 		dn=$(dirname $z)
 		bn=$(basename $z)
-		insinto "${dn}"
-		newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		# handle special cases
+		if [[ "$bn" == "distccd.log" ]] ; then
+			# install empty distccd.log owned by distcc:daemon
+			insinto "${dn}"
+			doins -m644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
+			# install grub.d files as +x so grub-mkconfig will use them
+			exeinto "${dn}"
+			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		else
+			insinto "${dn}"
+			newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		fi
 		elog "Installed ${bn} in ${dn}"
 	done
 	elog "Done installing (ins) files into file system tree"
@@ -252,11 +266,12 @@ src_install() {
 			if [ ! -f /home/${username}/.bashrc ] ; then
 				einfo "user ${username} does not appear to have a .bashrc file in /home/${username}/; fixing ..."
 				einfo "creating template .bashrc in temp scratch space"
-				cp ${FILESDIR}/backup.baseline.bashrc ${T}/.bashrc || \
-					die "failed to copy backup .bashrc for user"
+				insinto "/home/${username}/"
+				cp "${S}/etc/skel/.bashrc" "${T}/.bashrc" || \
+					die "failed to copy template .bashrc for user"
 			else
 				# append to .bashrc
-				einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc already; fixing ..."
+				einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc ; fixing ..."
 				einfo "appending to .bashrc in temp scratch space"
 				cat /home/${username}/.bashrc ${FILESDIR}/XDG_RUNTIME_DIR-setting > ${T}/.bashrc || \
 					die "failed to assemble new .bashrc in scratch space"
@@ -298,6 +313,9 @@ pkg_postinst() {
 	elog " 0.0.5-r1 adds support for openrc user services stabled in Gentoo 9/5/25"
 	elog " 0.0.6 updates /root/.bashrc"
 	elog " 0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies"
+	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
+	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
+	elog " 0.0.8 updates a number of parts"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
