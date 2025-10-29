@@ -196,8 +196,19 @@ src_install() {
 		z=$(echo $x | sed "s|${S}||")
 		dn=$(dirname $z)
 		bn=$(basename $z)
-		insinto "${dn}"
-		newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		# handle special cases
+		if [[ "$bn" == "distccd.log" ]] ; then
+			# install empty distccd.log owned by distcc:daemon
+			insinto "${dn}"
+			doins -m644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
+			# install grub.d files as +x so grub-mkconfig will use them
+			exeinto "${dn}"
+			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		else
+			insinto "${dn}"
+			newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+		fi
 		elog "Installed ${bn} in ${dn}"
 	done
 	elog "Done installing (ins) files into file system tree"
@@ -304,6 +315,8 @@ pkg_postinst() {
 	elog " 0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies"
 	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
 	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
+	elog " 0.0.8/9 updates a number of parts"
+	elog " 0.0.10 update distcc stuff"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
