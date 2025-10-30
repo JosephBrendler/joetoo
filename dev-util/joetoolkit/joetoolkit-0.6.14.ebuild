@@ -73,7 +73,8 @@ src_install() {
 	exeinto "${target}"
 	newexe "${S}/joetoolkit/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
 	elog "insert_into_file installed into ${target}"
-	# install BUILD, BPN, and config template for insert_into_file
+
+	# install BUILD, BPN, and config template *(for insert_into_file)*
 	target="/etc/insert_into_file/"
 	einfo "Installing (ins) BUILD, BPN, and config template into ${target}"
 	insinto "${target}"
@@ -88,14 +89,15 @@ src_install() {
 	newins "${S}/joetoolkit/insert_into_file_template.conf" "insert_into_file_template.conf" || \
 		die "failed to newins insert_into_file_template.conf"
 	elog "Installed insert_into_file_template.conf into ${target}"
-	# install local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file
+
+	# install local.usage, .cmdline_arguments, .cmdline_compound_arguments *(for insert_into_file)*
 	einfo "Installing (ins) local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file"
 	z="insert_into_file"
 	for x in local.usage local.cmdline_arguments local.cmdline_compound_arguments ; do
 		newins "${S}/joetoolkit/${z}_${x}" "${x}" || die "failed to newins ${x}"
 		elog "${x} installed into ${target}"
 	done
-	# install eselect module for insert_into_file
+	# install eselect module *(for insert_into_file)*
 	einfo "Installing (ins) the insert_into_file.conf eselect module into /usr/share/eselect/modules/ ..."
 	target="/usr/share/eselect/modules/"
 	insinto "${target}"
@@ -113,7 +115,8 @@ src_install() {
 
 	# server certificates for joetoo servers
 	elog "Installing (ins) server_certs ..."
-	target="/usr/share/${PN}/server_certs/"
+#	target="/usr/share/${PN}/server_certs/"
+	target="/usr/share/${PN}/"
 	insinto "${target}"
 	doins -r "${S}/joetoolkit/server_certs"
 	elog "server_certs installed into ${target}"
@@ -198,7 +201,9 @@ pkg_postinst() {
 	elog " 0.6.11 adds nextcloud_ tools enabling federated shares"
 	elog " 0.6.12 adds nextcloud_list_configs"
 	elog " 0.6.13 adds tools to collect distcc server farm data"
-	elog ""
+	elog " -r1 fixes install location for server ca certs"
+	elog " 0.6.14 adds screen alias to force utf8 support"
+	elog " "
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
 		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
