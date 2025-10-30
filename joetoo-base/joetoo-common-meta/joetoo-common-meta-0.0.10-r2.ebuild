@@ -122,7 +122,10 @@ RDEPEND="
 		dev-lang/php
 	)
 	joetoolkit? ( >=dev-util/joetoolkit-0.4.13 )
-	nextcloud? ( >=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)] )
+	nextcloud? (
+		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
+		>=app-antivirus/clamav-1.4.2-r1[clamapp(+),system-mspack(+)]
+	)
 	distcc? ( >=sys-devel/distcc-3.3.3 )
 	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
 	jus? ( >=app-portage/jus-6.2.5 )
@@ -142,8 +145,6 @@ RDEPEND="
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
-		www-client/google-chrome
-		www-plugins/chrome-binary-plugins
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
@@ -168,8 +169,6 @@ RDEPEND="
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
-		www-client/google-chrome
-		www-plugins/chrome-binary-plugins
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
@@ -200,7 +199,8 @@ src_install() {
 		if [[ "$bn" == "distccd.log" ]] ; then
 			# install empty distccd.log owned by distcc:daemon
 			insinto "${dn}"
-			doins -m644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+#			doins -m0644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+			newins -m0644 -o distcc -g daemon "${x}" "${bn}"  || die "failed to install ${bn} in ${dn}"
 		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
 			# install grub.d files as +x so grub-mkconfig will use them
 			exeinto "${dn}"
@@ -316,7 +316,8 @@ pkg_postinst() {
 	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
 	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
 	elog " 0.0.8/9 updates a number of parts"
-	elog " 0.0.10 update distcc stuff"
+	elog " 0.0.10/-r1 update distcc stuff"
+	elog " -r2 adds clamav dependency for USE nextcloud"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
