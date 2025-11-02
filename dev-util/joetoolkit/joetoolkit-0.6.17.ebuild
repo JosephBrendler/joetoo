@@ -59,10 +59,12 @@ src_install() {
 			einfo "Installing (exe) ${z} into ${target}"
 			exeinto "${target}"
 			newexe "${x}" "${z}"
+			elog "Installed (exe) ${z} in ${target}"
 		else
 			einfo "Installing (ins) ${z} into ${target}"
 			insinto "${target}"
 			newins "${x}" "${z}"
+			elog "Installed (ins) ${z} in ${target}"
 		fi
 	done
 	elog "done"
@@ -203,7 +205,9 @@ pkg_postinst() {
 	elog " 0.6.13 adds tools to collect distcc server farm data"
 	elog " -r1 fixes install location for server ca certs"
 	elog " 0.6.14 adds screen alias to force utf8 support"
-	elog " "
+	elog " 0.6.15/16 update tarup and add ebuild update (ebup) command"
+	elog " 0.6.17 adds alias cv as upd to strip_blank_lines_and_comments.sh"
+	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
 		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
