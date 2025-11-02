@@ -202,7 +202,9 @@ pkg_postinst() {
 	elog " 0.6.12 adds nextcloud_list_configs"
 	elog " 0.6.13 adds tools to collect distcc server farm data"
 	elog " -r1 fixes install location for server ca certs"
-	elog " "
+	elog " 0.6.14 adds screen alias to force utf8 support"
+	elog " 0.6.15 update tarup and add ebuild update (ebup) command"
+	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
 		elog "utility_archive.tbz2 has been installed at /usr/share/${PN}/"
