@@ -36,17 +36,18 @@ BDEPEND="${RDEPEND}
 "
 
 install_tool_category() {
-	# install all contents from a category which must exist within a one-level eponymous directory
-	# use $2, if provided, to filter contents to be dealt with separately (e.g. insert_into_file)
+	# install files from a category which is this level of the eponymous directory
+	# -type f ensures subdirectories are handled as if a separate category (see server_certs, below)
+	# use $2, if provided, to filter contents to install separately (e.g. insert_into_file, below)
 	local tool_category="$1"
 	local find_command=""
 	local filter=""
 	einfo "running install_tool_category ${tool_category}"
 	if [ ! -z "$2" ] ; then
 		filter="$2"
-		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1 | grep -Ev \"${filter}\""
+		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1 -type f | grep -Ev \"${filter}\""
 	else
-		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1"
+		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1 -type f"
 	fi
 	for x in $(eval "${find_command}"); do
 		z=$(echo ${x} | sed "s|${S}/${tool_category}/||");
