@@ -35,9 +35,37 @@ RDEPEND="
 BDEPEND="${RDEPEND}
 "
 
-src_install() {
-	# install utilities into /usr/local/sbin (for now)
+install_tool_category() {
+	# install all contents from a category which must exist within a one-level eponymous directory
+	# use $2, if provided, to filter contents to be dealt with separately (e.g. insert_into_file)
+	local tool_category="$1"
+	local find_command=""
+	local filter=""
+	einfo "running install_tool_category ${tool_category}"
+	if [ ! -z "$2" ] ; then
+		filter="$2"
+		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1 | grep -Ev \"${filter}\""
+	else
+		find_command="find ${S}/${tool_category}/ -maxdepth 1 -mindepth 1"
+	fi
+	for x in $(eval "${find_command}"); do
+		z=$(echo ${x} | sed "s|${S}/${tool_category}/||");
+		if [[ -x ${x} ]] ; then
+			einfo "Installing (exe) ${z} into ${target}"
+			exeinto "${target}"
+			newexe "${x}" "${z}" || die "failed to install (exe) $z"
+			elog "Installed (exe) ${z} in ${target}"
+		else
+			einfo "Installing (ins) ${z} into ${target}"
+			insinto "${target}" || die "failed to install (ins) $z"
+			newins "${x}" "${z}"
+			elog "Installed (ins) ${z} in ${target}"
+		fi
+	done
+	elog "done install_tool_category ${tool_category}"
+}
 
+src_install() {
 	einfo "S=${S}"
 	einfo "D=${D}"
 	einfo "T=${T}"
@@ -52,23 +80,12 @@ src_install() {
 	elog "Installing joetoolkit ..."
 	target="/usr/sbin/"
 	dodir "${target}"
-	for x in $(find ${S}/joetoolkit/ -maxdepth 1 -type f | grep -v insert_into_file);
-	do
-		z=$(echo ${x} | sed "s|${S}/joetoolkit/||");
-		if [[ -x ${x} ]] ; then
-			einfo "Installing (exe) ${z} into ${target}"
-			exeinto "${target}"
-			newexe "${x}" "${z}"
-			elog "Installed (exe) ${z} in ${target}"
-		else
-			einfo "Installing (ins) ${z} into ${target}"
-			insinto "${target}"
-			newins "${x}" "${z}"
-			elog "Installed (ins) ${z} in ${target}"
-		fi
-	done
+	tool_category="joetoolkit"
+	filter="insert_into_file"
+        install_tool_category "${tool_category}" "${filter}"
 	elog "done"
 
+	# to do: spin off insert_into_file as a separate package independent of joetoolkit
 	# install insert_into_file tool and associated components
 	target="/usr/sbin/"
 	einfo "Installing (exe) insert_into_file into ${target}"
@@ -107,6 +124,7 @@ src_install() {
 	newins "${S}/joetoolkit/${z}" "${z}"
 	elog "Installed insert_into_file.conf eselect module."
 
+	# to do: spin off check_resilient_services as a separate package independent of joetoolkit
 	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN
 	elog "Installing BUILD, BPN and local.usage placeholder into /etc/${PN}/check_resilient_services/ ..."
 	dodir "/etc/${PN}/check_resilient_services/"
@@ -126,44 +144,35 @@ src_install() {
 	# ip tools
 	if use iptools;
 	then
-		elog "USE flag \"iptools\" selected ..."
 		target="/usr/sbin/"
-		insinto "${target}"
-		# maintain flexibility to install subdirectories under this category
-		for x in $(find ${S}/iptools/ -maxdepth 1 -mindepth 1); do
-			doins -r "${x}" || die "failed to doins -r for iptools"
-		done
-		elog "iptools installed into ${target}"
+		tool_category="iptools"
+		elog "USE flag \"${tool_category}\" selected ..."
+		dodir "${target}"
+		install_tool_category "${tool_category}"
 	else
 		elog "USE flag \"iptools\" not selected iptools/ not copied"
 	fi
 
 	# xenvmfiles
 	if use xenvmfiles ; then
-		elog "USE flag \"xenvmtools\" selected ..."
 		target="/usr/sbin/"
-		insinto "${target}"
-		# maintain flexibility to install subdirectories under this category
-		for x in $(find ${S}/xenvmfiles_joetoo/ -maxdepth 1 -mindepth 1); do
-			doins -r "${x}" || die "failed to doins -r for xenvmfiles"
-		done
-		elog "xenvmfiles installed into ${target}"
+		tool_category="xenvmfiles"
+		elog "USE flag \"${tool_category}\" selected ..."
+		dodir "${target}"
+		install_tool_category "${tool_category}_joetoo"
 	else
 		elog "USE flag \"xenvmtools\" not selected; xenvmfiles_joetoo/ not copied"
 	fi
 
 	# backup_utilities
-	if use backup_utilities ; then
-		elog "USE flag \"backup_utilities\" selected ..."
+	if use xenvmfiles ; then
 		target="/usr/sbin/"
-		insinto "${target}"
-		# maintain flexibility to install subdirectories under this category
-		for x in $(find ${S}/backup_utilities/ -maxdepth 1 -mindepth 1); do
-			doins -r "${x}" || die "failed to doins -r for backup_utilities"
-		done
-		elog "backup_utilities installed into ${target}"
+		tool_category="backup_utilities"
+		elog "USE flag \"${tool_category}\" selected ..."
+		dodir "${target}"
+		install_tool_category "${tool_category}"
 	else
-		elog "USE flag \"backup_utilities\" not selected; backup_utilities/ not copied"
+		elog "USE flag \"xenvmtools\" not selected; xenvmfiles_joetoo/ not copied"
 	fi
 
 	# utility_archive
@@ -190,22 +199,14 @@ pkg_postinst() {
 	elog ""
 	elog "${P} installed"
 	elog "Version history can be found in the ebuild's files directory"
-	elog " 0.5.20 adds support for rk3399-rock-4se"
-	elog " 0.6.0 updates insert_into_file with cli, usage, eselect, etc"
-	elog " 0.6.1-3 provide refinements and bugfixes"
-	elog " 0.6.4 adds move_joetoo_kernels_to_webserver for use as cron job"
-	elog " 0.6.5 adds new_get_openVPN_client_info_for_dns.sh, more_archive"
-	elog " 0.6.6 mods move_joetoo_kernels to wait for inbound transfer"
-	elog " 0.6.7 adds move_joetoo_sources_to_webserver for use as cron job"
-	elog " 0.6.8 removes reference to deprecated raspberrypi-userland"
-	elog " 0.6.9 updates move_joetoo_kernels to process armbian kernels too"
-	elog " 0.6.10 adds fix-distcc-log-dir-and-file and updates the ebuild"
 	elog " 0.6.11 adds nextcloud_ tools enabling federated shares"
 	elog " 0.6.12 adds nextcloud_list_configs"
 	elog " 0.6.13 adds tools to collect distcc server farm data"
 	elog " -r1 fixes install location for server ca certs"
 	elog " 0.6.14 adds screen alias to force utf8 support"
 	elog " 0.6.15/16 update tarup and add ebuild update (ebup) command"
+	elog " 0.6.17 adds alias cv as upd to strip_blank_lines_and_comments.sh"
+	elog " 0.7.0 uses install_tool_category() to properly install executables"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."

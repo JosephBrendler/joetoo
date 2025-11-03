@@ -60,3 +60,14 @@ up to 0.1.14 tweak tools and move some tools to/from other packages
 0.5.17 updates install_my_local_ca_certificates
 0.5.18 adds alias ebt (echo BOARD TARGET)
 0.5.19 adds cron-suitable check_resilient_services tool
+0.5.20 adds support for rk3399-rock-4se
+0.6.0 updates insert_into_file with cli, usage, eselect, etc
+0.6.1-3 provide refinements and bugfixes
+0.6.4 adds move_joetoo_kernels_to_webserver for use as cron job
+0.6.5 adds new_get_openVPN_client_info_for_dns.sh, more_archive
+0.6.6 mods move_joetoo_kernels to wait for inbound transfer
+0.6.7 adds move_joetoo_sources_to_webserver for use as cron job
+0.6.8 removes reference to deprecated raspberrypi-userland
+0.6.9 updates move_joetoo_kernels to process armbian kernels too
+0.6.10 adds fix-distcc-log-dir-and-file and updates the ebuild
+0.6.11 adds nextcloud_ tools enabling federated shares
