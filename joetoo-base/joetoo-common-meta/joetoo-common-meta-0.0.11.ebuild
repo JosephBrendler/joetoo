@@ -122,7 +122,10 @@ RDEPEND="
 		dev-lang/php
 	)
 	joetoolkit? ( >=dev-util/joetoolkit-0.4.13 )
-	nextcloud? ( >=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)] )
+	nextcloud? (
+		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
+		>=app-antivirus/clamav-1.4.2-r1[clamapp(+),system-mspack(+)]
+	)
 	distcc? ( >=sys-devel/distcc-3.3.3 )
 	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
 	jus? ( >=app-portage/jus-6.2.5 )
@@ -142,8 +145,6 @@ RDEPEND="
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
-		www-client/google-chrome
-		www-plugins/chrome-binary-plugins
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
@@ -168,8 +169,6 @@ RDEPEND="
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
-		www-client/google-chrome
-		www-plugins/chrome-binary-plugins
 		x11-apps/mesa-progs
 		x11-apps/xdpyinfo
 		x11-apps/xrandr
@@ -200,14 +199,19 @@ src_install() {
 		if [[ "$bn" == "distccd.log" ]] ; then
 			# install empty distccd.log owned by distcc:daemon
 			insinto "${dn}"
-			doins -m644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+#			doins -m0644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
+			newins "${x}" "${bn}"  || die "failed to install ${bn} in ${dn}"
+			fperms 0644 "${z}"  || die "failed to set fperms for ${z}"
+			fowners distcc:daemon "${z}"  || die "failed to set fowners for ${z}"
 		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
 			# install grub.d files as +x so grub-mkconfig will use them
 			exeinto "${dn}"
 			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+			elog "installed (exe) $bn into $dn"
 		else
 			insinto "${dn}"
 			newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
+			elog "installed (ins) $bn into $dn"
 		fi
 		elog "Installed ${bn} in ${dn}"
 	done
@@ -315,11 +319,23 @@ pkg_postinst() {
 	elog " 0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies"
 	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
 	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
-	elog " 0.0.8 updates a number of parts"
+	elog " 0.0.8/9 updates a number of parts"
+	elog " 0.0.10/-r1 update distcc stuff"
+	elog " -r2-4 adds clamav dependency for USE nextcloud"
+	elog " 0.0.11 updates configs to configure and enable ipv6"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
+	elog ""
+	ewarn "Note: with version 0.0.11+, ipv6 can be enabled with changes to template config"
+	ewarn " files: (/etc/conf.d/net, /etc/resolv.conf.head & .tail, /etc/dhcpcd.conf)"
+	ewarn " and hook/ddns update scripts: (/lib/dhcpcd/dhcpcd-hooks/99-ddns-update"
+	ewarn " and /etc/dhcpcd.ddns-update.sh) delivered by this package. However,"
+	ewarn " you will also need to install an ssh key in /home/\${user}/.ssh"
+	ewarn " and ensure the dns has a copy of the public key and that the router's"
+	ewarn " ddns update script (/etc/ddns_update/update-client-host.sh) is configured"
+	ewarn " to identify it. Current naming convention is id_ddns_update_xxxxx"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
