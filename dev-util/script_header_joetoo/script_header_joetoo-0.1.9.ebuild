@@ -111,8 +111,8 @@ src_install() {
 	elog " 0.1.3 adds uE_message() and uEx_message() to unicode header"
 	elog " 0.1.4 updates supported unicode characters"
 	elog " 0.1.5 updates emoji_demo"
-	elog " 0.1.6 adds log-messaging functions"
-	elog " 0.1.7 adds additional log-messaging functions"
+	elog " 0.1.6-8 add log-messaging functions"
+	elog " 0.1.9 adds annotation heading regarding the use of emojis"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
