@@ -208,7 +208,9 @@ pkg_postinst() {
 	elog " 0.6.15/16 update tarup and add ebuild update (ebup) command"
 	elog " 0.6.17 adds alias cv as upd to strip_blank_lines_and_comments.sh"
 	elog " 0.7.0 uses install_tool_category() to properly install executables"
-	elog " o.7.1 adds joetoolkit/iptools/openvpn_dns_updater.sh"
+	elog " 0.7.1 adds joetoolkit/iptools/openvpn_dns_updater.sh"
+	elog " 0.7.2 changes a , to a . in a filename"
+	elog " 0.7.3 updates unlock-drives; adds unlock-drives-minimal"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
