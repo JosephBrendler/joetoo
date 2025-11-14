@@ -190,32 +190,43 @@ pkg_setup() {
 
 src_install() {
 	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
-	einfo "Installing (ins) files into file system tree ..."
+	einfo "Installing (exe/ins) baseline files into file system tree ..."
 	for x in $(find ${S} -type f); do
 		z=$(echo $x | sed "s|${S}||")
 		dn=$(dirname $z)
 		bn=$(basename $z)
-		# handle special cases
+		dodir ${dn}  # equiv to if ! -d; then mkdir
 		if [[ "$bn" == "distccd.log" ]] ; then
-			# install empty distccd.log owned by distcc:daemon
-			insinto "${dn}"
-#			doins -m0644 "${x}" "${bn}" owner=distcc group=daemon  || die "failed to install ${bn} in ${dn}"
-			newins "${x}" "${bn}"  || die "failed to install ${bn} in ${dn}"
+			# special: install empty distccd.log owned by distcc:daemon
+			target="${dn}"
+			insinto "${target}"
+			newins "${x}" "${bn}"  || die "failed to install ${bn} in ${target}"
 			fperms 0644 "${z}"  || die "failed to set fperms for ${z}"
 			fowners distcc:daemon "${z}"  || die "failed to set fowners for ${z}"
 		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
-			# install grub.d files as +x so grub-mkconfig will use them
-			exeinto "${dn}"
-			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
-			elog "installed (exe) $bn into $dn"
+			# special: install grub.d files as +x so grub-mkconfig will use them
+			target="${dn}"
+			einfo "Installing (exe) ${z} into ${target}"
+			exeinto "${target}"
+			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${target}"
+			elog "installed (exe) $bn into $target"
+		elif [[ -x ${x} ]] ; then
+			# special: preserve the executability set on source file
+			einfo "Installing (exe) ${z} into ${target}"
+			target="${dn}"
+			exeinto "${target}"
+			newexe "${x}" "${bn}" || die "failed to install (exe) $bn in ${target}"
+			elog "Installed (exe) ${z} in ${target}"
 		else
-			insinto "${dn}"
-			newins "${x}" "${bn}" || die "failed to install ${bn} in ${dn}"
-			elog "installed (ins) $bn into $dn"
+			# not special: insert config/text file
+			target="${dn}"
+			einfo "Installing (ins) ${z} into ${target}"
+			insinto "${target}" || die "failed to install (ins) $z in ${target}"
+			newins "${x}" "${bn}"
+			elog "Installed (ins) ${z} in ${target}"
 		fi
-		elog "Installed ${bn} in ${dn}"
 	done
-	elog "Done installing (ins) files into file system tree"
+	elog "Done installing (exe/ins) baseline files into file system tree"
 	# install symlinks for basic openvpn configs for joetoo
 	target="/etc/openvpn/"
 		einfo "Installing (sym) files into ${target} ..."
@@ -254,7 +265,7 @@ src_install() {
 		dosym /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
 		elog "Installed symlink /etc/chrony.conf"
 		elog "Done installing (sym) links into ${target} ..."
-	# install elogind service in boot runlevel if install symlinks for basic chrony config for joetoo
+	# install symlink for elogind service in boot runlevel if install symlinks for basic chrony config for joetoo
 	if [ -z "$( find /etc/runlevels/boot/ -iname 'elogind' )" ] ; then
 		target="/etc/runlevels/boot/"
 			einfo "Installing (sym) files into ${target} ..."
@@ -321,11 +332,22 @@ pkg_postinst() {
 	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
 	elog " 0.0.8/9 updates a number of parts"
 	elog " 0.0.10/-r1 update distcc stuff"
-	elog " -r2 adds clamav dependency for USE nextcloud"
+	elog " -r2-4 adds clamav dependency for USE nextcloud"
+	elog " 0.0.11 updates configs to configure and enable ipv6"
+	elog " 0.0.12 drops 192.168.1.1 from upstream fallback for dns"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
+	elog ""
+	ewarn "Note: with version 0.0.11+, ipv6 can be enabled with changes to template config"
+	ewarn " files: (/etc/conf.d/net, /etc/resolv.conf.head & .tail, /etc/dhcpcd.conf)"
+	ewarn " and hook/ddns update scripts: (/lib/dhcpcd/dhcpcd-hooks/99-ddns-update"
+	ewarn " and /etc/dhcpcd.ddns-update.sh) delivered by this package. However,"
+	ewarn " you will also need to install an ssh key in /home/\${user}/.ssh"
+	ewarn " and ensure the dns has a copy of the public key and that the router's"
+	ewarn " ddns update script (/etc/ddns_update/update-client-host.sh) is configured"
+	ewarn " to identify it. Current naming convention is id_ddns_update_xxxxx"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
