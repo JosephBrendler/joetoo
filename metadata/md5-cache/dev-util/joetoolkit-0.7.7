@@ -1,0 +1,13 @@
+BDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/nmap-7.92 >=net-dns/bind-tools-9.16 ) backup_utilities? ( >=net-misc/rsync-3.2.4 )
+DEFINED_PHASES=install postinst
+DESCRIPTION=Utilities for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=+iptools -xenvmfiles -backup_utilities -utility_archive
+KEYWORDS=amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/nmap-7.92 >=net-dns/bind-tools-9.16 ) backup_utilities? ( >=net-misc/rsync-3.2.4 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/joetoolkit-0.7.7.tbz2
+_md5_=d09a3f4d545f01ecb4ad13a011028614

@@ -211,7 +211,7 @@ pkg_postinst() {
 	elog " 0.7.1 adds joetoolkit/iptools/openvpn_dns_updater.sh"
 	elog " 0.7.2 changes a , to a . in a filename"
 	elog " 0.7.3 updates unlock-drives; adds unlock-drives-minimal"
-	elog " 0.7.4/5 fix sort order with key/LC_COLLATE in openvpn_dns_updater.sh"
+	elog " 0.7.4-7 bugfix sort unique/order with key/LC_COLLATE in openvpn_dns_updater.sh"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
