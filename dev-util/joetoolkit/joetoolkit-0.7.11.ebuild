@@ -213,7 +213,7 @@ pkg_postinst() {
 	elog " 0.7.3 updates unlock-drives; adds unlock-drives-minimal"
 	elog " 0.7.4-7 bugfix sort unique/order with key/LC_COLLATE in openvpn_dns_updater.sh"
 	elog " 0.7.8 adds 99-ula-ndp-fix.start and restart-network utilities"
-	elog " 0.7.9 updates openvpn_dns_updater.sh"
+	elog " 0.7.9-11 updates openvpn_dns_updater.sh"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
