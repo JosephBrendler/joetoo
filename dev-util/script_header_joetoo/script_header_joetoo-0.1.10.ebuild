@@ -112,6 +112,8 @@ src_install() {
 	elog " 0.1.4 updates supported unicode characters"
 	elog " 0.1.5 updates emoji_demo"
 	elog " 0.1.6-8 add log-messaging functions"
+	elog " 0.1.9 adds annotation heading regarding the use of emojis"
+	elog " 0.1.10 makes a lot of progress on script_header_joetoo_posix"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
