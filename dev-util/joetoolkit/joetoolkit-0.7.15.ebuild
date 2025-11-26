@@ -215,6 +215,8 @@ pkg_postinst() {
 	elog " 0.7.8 adds 99-ula-ndp-fix.start and restart-network utilities"
 	elog " 0.7.9-11 updates openvpn_dns_updater.sh"
 	elog " 0.7.12/13 add connectivity_check.sh"
+	elog " 0.7.14 changes hostname to fqdn for ipv6 in openvpn_dns_updater.sh"
+	elog " 0.7.14 adds 0+ whitespace before # comment stripping for alias cv"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
