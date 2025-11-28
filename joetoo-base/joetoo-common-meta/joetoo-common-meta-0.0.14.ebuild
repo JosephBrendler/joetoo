@@ -335,6 +335,7 @@ pkg_postinst() {
 	elog " -r2-4 adds clamav dependency for USE nextcloud"
 	elog " 0.0.11 updates configs to configure and enable ipv6"
 	elog " 0.0.12 (rollback 13,14) drop 192.168.1.1 from upstream fallback for dns"
+	elog " 0.0.13/14 changes sshd_config to AddressFamily any"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
