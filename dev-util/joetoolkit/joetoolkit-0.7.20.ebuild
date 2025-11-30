@@ -219,7 +219,7 @@ pkg_postinst() {
 	elog " 0.7.12/13 add connectivity_check.sh"
 	elog " 0.7.14 changes hostname to fqdn for ipv6 in openvpn_dns_updater.sh"
 	elog " 0.7.14/15 adds 0+ whitespace before # comment stripping for alias cv"
-	elog " 0.7.16-18 add/update utilities"
+	elog " 0.7.16-20 add/update utilities"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
