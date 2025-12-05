@@ -168,7 +168,7 @@ src_install() {
 	fi
 
 	# backup_utilities
-	if use xenvmfiles ; then
+	if use backup_utilities ; then
 		target="/usr/sbin/"
 		tool_category="backup_utilities"
 		elog "USE flag \"${tool_category}\" selected ..."
