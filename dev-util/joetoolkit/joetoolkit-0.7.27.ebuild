@@ -221,7 +221,7 @@ pkg_postinst() {
 	elog " 0.7.14/15 adds 0+ whitespace before # comment stripping for alias cv"
 	elog " 0.7.16-22 add/update utilities"
 	elog " 0.7.23 removes old certs; updates bashrc_aliases"
-	elog " 0.7.24-25 add/update utilities"
+	elog " 0.7.24-27 add/update utilities"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
