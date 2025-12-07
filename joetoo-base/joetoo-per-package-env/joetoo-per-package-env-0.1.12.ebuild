@@ -68,6 +68,8 @@ pkg_postinst() {
 	elog " 0.1.8 updates packages in package.env"
 	elog " 0.1.9 introduces nobin_features.conf"
 	elog " 0.1.10 removes reference to deprecated raspberrypi-userland"
-	elog ""
+	elog " 0.1.11 updates packages in package.env"
+	elog " 0.1.12 adds ghostscript-fix.conf"
+	elog " "
 	elog "Thank you for using ${PN}"
 }
