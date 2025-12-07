@@ -365,7 +365,9 @@ pkg_postinst() {
 	elog " 0.1.5 fixes USE for joetoolkit"
 	elog " 0.1.6 adds boards to package.use headers"
 	elog " 0.1.7 removes reference to deprecated raspberrypi-userland"
-	elog " 0.1.8 tweaks package.use/80 and 90"
+	elog " 0.1.8 tweaks package.use/80joetoo_common and 90joetoo_platform"
+	elog " 0.1.9 adds clamav to package.use/80joetoo_common"
+	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
