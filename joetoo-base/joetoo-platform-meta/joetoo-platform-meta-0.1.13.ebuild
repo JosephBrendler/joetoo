@@ -386,6 +386,7 @@ pkg_postinst() {
 	elog " 0.1.8 tweaks package.use/80joetoo_common and 90joetoo_platform"
 	elog " 0.1.9 adds clamav to package.use/80joetoo_common"
 	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
+	elog " 0.1.11-13 introduce lxde desktop"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
