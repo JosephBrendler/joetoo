@@ -13,7 +13,7 @@ KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 RESTRICT="mirror"
 
 IUSE="
-	headless plasma gnome
+	headless plasma gnome lxde
 	+grub
 	-sbc
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -38,7 +38,7 @@ IUSE="
 #--------------------------------------------------------------------------------------
 
 REQUIRED_USE="
-	^^ ( headless plasma gnome )
+	^^ ( headless plasma gnome lxde )
 	sbc? ( ^^ (
 		bcm2712-rpi-cm5-cm5io
 		bcm2712-rpi-5-b
@@ -244,6 +244,16 @@ src_install() {
 			sed -i "s|<GNOME>|-gnome|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit -gnome"
 		fi
+		# edit <LXDE> USE flag settings
+		if use lxde ; then
+			einfo "editing 90platform_template for lxde ..."
+			sed -i "s|<LXDE>|lxde|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit lxde"
+		else
+			einfo "editing 90platform_template for -gnome ..."
+			sed -i "s|<GNOME>|-gnome|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -gnome"
+		fi
 		# now install the platform-specific package.use file
 		einfo "Installing platform-specific (${maker} ${board}) package.use file"
 		newins "${T}/package.use.joetoo.90platform_template" "90joetoo_${board}" || \
@@ -270,10 +280,14 @@ src_install() {
 		newins "${S}/package_use/package.use.joetoo.99gnome" "99gnome" || \
 			die "failed to install ${target}/99gnome"
 		elog "USE gnome set; Installed ${target}/99gnome"
+	elif use lxde ; then
+		newins "${S}/package_use/package.use.joetoo.99lxde" "99lxde" || \
+			die "failed to install ${target}/99lxde"
+		elog "USE lxde set; Installed ${target}/99lxde"
 	elif use headless ; then
 		elog "USE headless set; no ${target}/99xxx use flag file required; nothing installed"
 	else
-		eerror "invalid USE flags; must specify exactly one of headless, plasma, or gnome"
+		eerror "invalid USE flags; must specify exactly one of headless, plasma, gnome, or lxde"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
 
@@ -290,6 +304,10 @@ src_install() {
 		newins "${S}/package_accept_keywords/package.accept_keywords.gnome" "99gnome" || \
 			die "failed to install ${target}/99gnome"
 		elog "USE gnome set; Installed ${target}/99gnome"
+	elif use lxde ; then
+		newins "${S}/package_accept_keywords/package.accept_keywords.lxde" "99lxde" || \
+			die "failed to install ${target}/99lxde"
+		elog "USE gnome set; Installed ${target}/99lxde"
 	elif use headless ; then
 		elog "USE headless set; no ${target}/99xxx accept_keywords file required; nothing installed"
 	else
@@ -367,6 +385,7 @@ pkg_postinst() {
 	elog " 0.1.7 removes reference to deprecated raspberrypi-userland"
 	elog " 0.1.8 tweaks package.use/80joetoo_common and 90joetoo_platform"
 	elog " 0.1.9 adds clamav to package.use/80joetoo_common"
+	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
