@@ -115,7 +115,7 @@ pkg_postinst() {
 	elog " 0.1.3 moves logging functions to script_header_joetoo"
 	elog " 0.1.4-7 improve stability of _open_, _close_, _sizemove_"
 	elog " 0.2.0 completes basic re-write of all components"
-	elog " 0.2.1/2 provide bugfixes and decouple terminal-open and ssh-launch"
+	elog " 0.2.1-4 provide bugfixes and decouple terminal-open and ssh-launch"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
