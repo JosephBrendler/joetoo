@@ -13,6 +13,7 @@
 		<flag name="headless">Configure joetoo for use as a headless server</flag>
 		<flag name="plasma">(to do) Configure joetoo for use with a plasma desktop</flag>
 		<flag name="gnome">(to do) Configure joetoo for use with a gnome desktop</flag>
+		<flag name="lxde">Configure joetoo for use with a lxde (lightweight) desktop</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
 		<flag name="lamp">Pull in packages required for a LAMP server</flag>
 		<flag name="mysql">Pull in the mysql database and required components</flag>
