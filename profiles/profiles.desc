@@ -1,2 +1,3 @@
 # Adjust the list below as needed, no need to make them all
 amd64 hardened-plasma stable
+amd64 hardened-desktop stable
