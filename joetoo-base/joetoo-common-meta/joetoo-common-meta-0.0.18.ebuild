@@ -18,7 +18,7 @@ RESTRICT="mirror"
 IUSE="
 	+innercore
 	+joetoolkit
-	+headless -plasma -gnome
+	+headless -plasma -gnome -lxde
 	-lamp -nextcloud -mysql -mariadb
 	+cloudsync
 	+distcc
@@ -41,7 +41,7 @@ REQUIRED_USE="
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
 	^^ ( netifrc networkmanager )
-	^^ ( headless plasma gnome )
+	^^ ( headless plasma gnome lxde )
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
@@ -155,6 +155,28 @@ RDEPEND="
 		x11-misc/xdotool
 		x11-themes/oxygen-gtk
 	)
+	lxde? (
+		lxde-base/lxde-meta
+		lxde-base/lxterminal
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-apps/xdpyinfo
+		lxde-base/lxdm
+		lxde-base/lxsession
+		lxde-base/lxpanel
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/liberation-fonts
+		media-fonts/oxygen-fonts
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		x11-apps/mesa-progs
+		x11-misc/xdotool
+		x11-themes/oxygen-gtk
+	)
 	plasma? (
 		app-misc/wayland-utils
 		kde-apps/kde-apps-meta
@@ -185,7 +207,22 @@ BDEPEND="${RDEPEND}"
 
 pkg_setup() {
 	# sbc board determination no longer needed here - taken care of in joetoo-base/joetoo-platform-meta
-	elog "pkg_setup not required; therefor complete."
+	# we have some content for /boot/grub - so make sure boot is mounted ...
+	# if /boot is on a separate block device, and it is not mounted, try to mount it
+	elog "checking whether /boot should be/is mounted ..."
+	if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  ; then
+		elog "Verified /boot is supposed to be mounted; checking if it is ..."
+		if ! grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1 ; then
+			elog "${ROOT%/}/boot is not mounted, trying to mount it now ..."
+			! $(mount /boot) && \
+				die "Failed to mount /boot" || \
+				elog "Succeeded in mounting /boot ; continuing ..."
+		else
+			elog "Verified ${ROOT%/}/boot is mounted ; continuing ..."
+		fi
+	else
+		elog "Verified /boot is not supposed to be mounted ; continuing ..."
+	fi
 }
 
 src_install() {
@@ -338,9 +375,14 @@ pkg_postinst() {
 	elog " 0.0.13-15 changes sshd_config to AddressFamily any"
 	elog " 0.0.16 adds local router ip addresses to /etc/chrony.conf"
 	elog " 0 0.17 updates resolv.conf"
+	elog " 0.0.18 updates configs incl distccd for ipv6"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
+	fi
+	elog ""
+	if use lxde; then
+		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
 	fi
 	elog ""
 	ewarn "Note: with version 0.0.11+, ipv6 can be enabled with changes to template config"
