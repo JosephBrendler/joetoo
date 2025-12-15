@@ -115,6 +115,8 @@ src_install() {
 	elog " 0.1.9 adds annotation heading regarding the use of emojis"
 	elog " 0.1.10 makes a lot of progress on script_header_joetoo_posix"
 	elog " 0.1.11/12 fixes a bug in log_separator()"
+	elog " 0.1.13 adds VS16 to unicode header and fixes older emojis"
+	elog " 0.1.14 generalizes handling cmdline args w operands"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
