@@ -375,6 +375,8 @@ pkg_postinst() {
 	elog " 0.0.13-15 changes sshd_config to AddressFamily any"
 	elog " 0.0.16 adds local router ip addresses to /etc/chrony.conf"
 	elog " 0 0.17 updates resolv.conf"
+	elog " 0.0.18 updates configs incl distccd for ipv6"
+	elog " 0.0.19 updates .bashrc and skel to match that in cb-mkupd"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
