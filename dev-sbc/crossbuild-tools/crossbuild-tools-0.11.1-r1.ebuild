@@ -169,12 +169,12 @@ src_install() {
         # also install cb-mkupd.local and its local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
 	target="/etc/${PN}/cb-mkupd.local/"
 	insinto "${target}"
-	newins "${S}/cb-layout-device.local/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-	elog "Done installing local.cmdline_arguments for cb-layout-device.local"
-	newins "${S}/cb-layout-device.local/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
-	elog "Done installing local.cmdline_compound_arguments for cb-layout-device.local"
-	newins "${S}/cb-layout-device.local/local.usage" "local.usage"  || die "Install failed!"
-	elog "Done installing local.usage for cb-layout-device.local"
+	newins "${S}/cb-mkupd.local/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_arguments for cb-mkupd.local"
+	newins "${S}/cb-mkupd.local/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_compound_arguments for cb-mkupd.local"
+	newins "${S}/cb-mkupd.local/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage for cb-mkupd.local"
 
 	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
