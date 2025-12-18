@@ -169,12 +169,12 @@ src_install() {
         # also install cb-mkupd.local and its local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
 	target="/etc/${PN}/cb-mkupd.local/"
 	insinto "${target}"
-	newins "${S}/cb-layout-device.local/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-	elog "Done installing local.cmdline_arguments for cb-layout-device.local"
-	newins "${S}/cb-layout-device.local/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
-	elog "Done installing local.cmdline_compound_arguments for cb-layout-device.local"
-	newins "${S}/cb-layout-device.local/local.usage" "local.usage"  || die "Install failed!"
-	elog "Done installing local.usage for cb-layout-device.local"
+	newins "${S}/cb-mkupd.local/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_arguments for cb-mkupd.local"
+	newins "${S}/cb-mkupd.local/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
+	elog "Done installing local.cmdline_compound_arguments for cb-mkupd.local"
+	newins "${S}/cb-mkupd.local/local.usage" "local.usage"  || die "Install failed!"
+	elog "Done installing local.usage for cb-mkupd.local"
 
 	# Install cb- scripts into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
@@ -255,6 +255,8 @@ pkg_postinst() {
 	elog " 0.10.20-25 are bugfix/enhancements, incl subtle readarray syntax"
 	elog " 0.10.26 updates and bugfixes cb-dashboard and cb-mount-binhosts"
 	elog " 0.11.0 introduces cb-mkupd and associated parts"
+	elog " 0.11.1 adds cb-chroot-update, bugfixes, and enhancements"
+	elog " 0.11.2 comments out code attempting to protect qemu from removal"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
