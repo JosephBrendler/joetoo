@@ -32,15 +32,16 @@ RDEPEND="
 	dev-util/script_header_joetoo
 	net-misc/curl
 	net-misc/wget
+	sys-apps/arch-chroot
 	sys-apps/coreutils
+	sys-apps/dtc
+	sys-apps/grep
+	sys-apps/portage
 	sys-apps/util-linux
 	sys-block/parted
 	sys-devel/crossdev
-	sys-apps/dtc
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
-	sys-apps/grep
-	sys-apps/portage
 "
 
 
@@ -257,6 +258,8 @@ pkg_postinst() {
 	elog " 0.11.0 introduces cb-mkupd and associated parts"
 	elog " 0.11.1 adds cb-chroot-update, bugfixes, and enhancements"
 	elog " 0.11.2 comments out code attempting to protect qemu from removal"
+	elog " 0.11.3 begins move from crossbuild to Embedded wiki"
+	elog " 0.12.0 starts to apply updated coding standard to full toolsuite"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
