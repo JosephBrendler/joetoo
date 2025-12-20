@@ -260,7 +260,7 @@ pkg_postinst() {
 	elog " 0.11.2 comments out code attempting to protect qemu from removal"
 	elog " 0.11.3 begins move from crossbuild to Embedded wiki"
 	elog " 0.12.0 starts to apply updated coding standard to full toolsuite"
-	elog " 0.12.1 provides bugfixes"
+	elog " 0.12.1-3 provide bugfixes"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
