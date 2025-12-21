@@ -203,11 +203,11 @@ src_install() {
 	elog "Installed cb-layout-device.conf eselect module."
 
 	# Install custom_content/mkimg-files eselect module
-	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-image.eselect) module into /usr/share/eselect/modules/ ..."
+	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-img.eselect) module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
-	z="cb-populate-image.eselect"
+	z="cb-populate-img.eselect"
 	newins "${S}/${z}" "${z}"
-	elog "Installed custom_content/mkimg-files (cb-populate-image.eselect) module."
+	elog "Installed custom_content/mkimg-files (cb-populate-img.eselect) module."
 
 	# Install cb-mount-binhosts_template.start in /etc/local.d
 	target="/etc/local.d/"
@@ -260,7 +260,7 @@ pkg_postinst() {
 	elog " 0.11.2 comments out code attempting to protect qemu from removal"
 	elog " 0.11.3 begins move from crossbuild to Embedded wiki"
 	elog " 0.12.0 starts to apply updated coding standard to full toolsuite"
-	elog " 0.12.1-7 provide bugfixes, rationalizations, and enhancements"
+	elog " 0.12.1-9 provide bugfixes, rationalizations, and enhancements"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
