@@ -203,11 +203,11 @@ src_install() {
 	elog "Installed cb-layout-device.conf eselect module."
 
 	# Install custom_content/mkimg-files eselect module
-	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-image.eselect) module into /usr/share/eselect/modules/ ..."
+	einfo "Installing (ins) the custom_content/mkimg-files (cb-populate-img.eselect) module into /usr/share/eselect/modules/ ..."
 	insinto "/usr/share/eselect/modules/"
-	z="cb-populate-image.eselect"
+	z="cb-populate-img.eselect"
 	newins "${S}/${z}" "${z}"
-	elog "Installed custom_content/mkimg-files (cb-populate-image.eselect) module."
+	elog "Installed custom_content/mkimg-files (cb-populate-img.eselect) module."
 
 	# Install cb-mount-binhosts_template.start in /etc/local.d
 	target="/etc/local.d/"
