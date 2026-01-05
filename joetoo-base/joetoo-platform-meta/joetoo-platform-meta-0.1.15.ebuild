@@ -387,6 +387,8 @@ pkg_postinst() {
 	elog " 0.1.9 adds clamav to package.use/80joetoo_common"
 	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
 	elog " 0.1.11-13 introduce lxde desktop"
+	elog " 0.1.14 adds qemu to accept_keywords for arm (qemu chroot)"
+	elog " 0.1.15 adds USE -branding for grub (protect sbc builds)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
