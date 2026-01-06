@@ -25,7 +25,7 @@ RDEPEND="
 	app-admin/eselect
 	app-arch/tar
 	dev-lang/python-exec
-	dev-lang/rust
+	dev-lang/rust[rust-src]
 	dev-libs/openssl
 	dev-python/pkgconfig
 	dev-util/joetoolkit
