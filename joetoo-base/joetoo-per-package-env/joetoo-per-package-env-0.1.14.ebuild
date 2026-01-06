@@ -70,6 +70,8 @@ pkg_postinst() {
 	elog " 0.1.10 removes reference to deprecated raspberrypi-userland"
 	elog " 0.1.11 updates packages in package.env"
 	elog " 0.1.12 adds ghostscript-fix.conf"
+	elog " 0.1.13 joetoo-base/joetoo-common-meta no_collision-protect.conf"
+	elog " 0.1.14 adds crossbuild-perl-fix to package.env"
 	elog " "
 	elog "Thank you for using ${PN}"
 }
