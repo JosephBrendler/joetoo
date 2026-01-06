@@ -377,6 +377,8 @@ pkg_postinst() {
 	elog " 0 0.17 updates resolv.conf"
 	elog " 0.0.18 updates configs incl distccd for ipv6"
 	elog " 0.0.19 updates .bashrc and skel to match that in cb-mkupd"
+	elog " 0.0.20 updates chrony.conf and adds chronyc_check_sources.sh"
+	elog " 0.0.21 updates .bashrc for root and skel"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
