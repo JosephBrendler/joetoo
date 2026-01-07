@@ -25,7 +25,7 @@ RDEPEND="
 	app-admin/eselect
 	app-arch/tar
 	dev-lang/python-exec
-	dev-lang/rust-bin
+	dev-lang/rust-bin[rust-src]
 	dev-libs/openssl
 	dev-python/pkgconfig
 	dev-util/joetoolkit
@@ -260,7 +260,8 @@ pkg_postinst() {
 	elog " 0.11.2 comments out code attempting to protect qemu from removal"
 	elog " 0.11.3 begins move from crossbuild to Embedded wiki"
 	elog " 0.12.0 starts to apply updated coding standard to full toolsuite"
-	elog " 0.12.1-14 provide bugfixes, rationalizations, and enhancements"
+	elog " 0.12.1-15 provide bugfixes, rationalizations, and enhancements"
+	elog " 0.13.0 swithches from rust-std to rust-bin[rust-src] for cross rust"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
