@@ -262,6 +262,7 @@ pkg_postinst() {
 	elog " 0.12.0 starts to apply updated coding standard to full toolsuite"
 	elog " 0.12.1-15 provide bugfixes, rationalizations, and enhancements"
 	elog " 0.13.0 swithches from rust-std to rust-bin[rust-src] for cross rust"
+	elog " 0.13.1-2 provide bugfixes, rationalizations, and enhancements"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
