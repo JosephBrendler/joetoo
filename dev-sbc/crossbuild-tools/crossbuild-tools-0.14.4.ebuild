@@ -264,7 +264,7 @@ pkg_postinst() {
 	elog " 0.13.0 swithches from rust-std to rust-bin[rust-src] for cross rust"
 	elog " 0.13.1-13 provide bugfixes, rationalizations, and enhancements"
 	elog " 0.14.0 switches to temporary use per-package for cb-perl-wrapper"
-	elog " 0.14.1-2 provides bugfixes, rationalizations, and enhancements"
+	elog " 0.14.1-4 provides bugfixes, rationalizations, and enhancements"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
