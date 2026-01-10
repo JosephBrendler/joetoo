@@ -91,3 +91,34 @@ Version 0.0.1 is the initial package for crossbuild-tools
 0.9.2-5 save work in progress on cb-layout-device
 0.9.6 updates mkenv-files/common for ca_certs and script headers
 0.9.7 updates cb-mkdev for new cb-layout-device
+
+0.10.0 updates to cb-mkenv, cb-mkimg, andcb-mkdev
+0.10.1 makes cb-layout-device resumable via cli; plus tweaks
+0.10.2 incl bugfixes and moves some chroot fns to cb-common-
+0.10.3 fixes path in umount-chroot-prep() in cb-common-functions
+0.10.4 adds cleanup for cb-mkdev, plus enhancements, bugfixes
+0.10.5 updates cb-dashboard
+0.10.6 cb-mkenv uses make.conf.crossbuild; also update cb-dashboard
+0.10.7 adds spt for rk3399-rock-4se
+0.10.8 adds cb-mount-binhosts_template.start
+0.10.9 fixes bugs in handling make.conf
+0.10.10 updates cb-mount-binhosts_template.start
+0.10.11 updates cloudsync.conf like joetoo-base/joetoo-common-meta
+0.10.12 provides README instructions for linking custom content
+0.10.13 standardizes how cb- progs set/reset verbosity
+0.10.14 name_space variables in .cb-config (e.g. cb_TARGET_ARCH)
+0.10.15 updates cb-dashboard to include binhost web services
+0.10.16 updates fin-chroot; root/.bashrc to use cb_QEMU_ARCH in PS1
+0.10.17 upgrades cb-mount-binhosts_template.start and other parts
+0.10.18 fixes id_boards_for_binhost() and adds armbian-imagefile-tools
+0.10.19 fixes cb-mount-binhosts_template.start
+0.10.20-25 are bugfix/enhancements, incl subtle readarray syntax
+0.10.26 updates and bugfixes cb-dashboard and cb-mount-binhosts
+0.11.0 introduces cb-mkupd and associated parts
+0.11.1 adds cb-chroot-update, bugfixes, and enhancements
+0.11.2 comments out code attempting to protect qemu from removal
+0.11.3 begins move from crossbuild to Embedded wiki
+0.12.0 starts to apply updated coding standard to full toolsuite
+0.12.1-15 provide bugfixes, rationalizations, and enhancements
+0.13.0 swithches from rust-std to rust-bin[rust-src] for cross rust
+0.13.1-13 provide bugfixes, rationalizations, and enhancements
