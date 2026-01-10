@@ -251,8 +251,8 @@ src_install() {
 				die "failed to edit lxde"
 		else
 			einfo "editing 90platform_template for -gnome ..."
-			sed -i "s|<GNOME>|-gnome|g" ${T}/package.use.joetoo.90platform_template || \
-				die "failed to edit -gnome"
+			sed -i "s|<LXDE>|-lxde|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -lxde"
 		fi
 		# now install the platform-specific package.use file
 		einfo "Installing platform-specific (${maker} ${board}) package.use file"
@@ -388,6 +388,8 @@ pkg_postinst() {
 	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
 	elog " 0.1.11-13 introduce lxde desktop"
 	elog " 0.1.14 adds qemu to accept_keywords for arm (qemu chroot)"
+	elog " 0.1.15 adds USE -branding for grub (protect sbc builds)"
+	elog " 0.1.16 drops USE thin from lvm2 in 80joetoo_common"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
