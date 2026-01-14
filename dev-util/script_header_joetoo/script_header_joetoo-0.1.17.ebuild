@@ -117,6 +117,8 @@ src_install() {
 	elog " 0.1.11/12 fixes a bug in log_separator()"
 	elog " 0.1.13 adds VS16 to unicode header and fixes older emojis"
 	elog " 0.1.14/15 generalize handling cmdline args w operands"
+	elog " 0.1.16 forces prompt and CPR read cmds input from hw tty"
+	elog " 0.1.17 backs up progress on script_header_joetoo_posix"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
