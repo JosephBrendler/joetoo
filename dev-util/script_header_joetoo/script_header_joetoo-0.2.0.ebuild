@@ -23,7 +23,7 @@ REQUIRED_USE="
 RESTRICT="mirror"
 
 RDEPEND="
-	virtual/awk
+	app-alternatives/awk
 	sys-libs/ncurses[-minimal]
 	sys-apps/util-linux
 	net-analyzer/netcat
