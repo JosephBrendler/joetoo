@@ -130,7 +130,7 @@ src_install() {
 	elog " 0.1.17 backs up progress on script_header_joetoo_posix"
 	elog " 0.2.0 deploys the new POSIX scritp_header_joetoo"
 	elog " 0.2.1-2 bugfix checkboot in header & isnumeric in _extended"
-	elog " 0.2.3 bugfixes termwidth/height for initramfs init when no /dev/tty yet"
+	elog " 0.2.3-5 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
