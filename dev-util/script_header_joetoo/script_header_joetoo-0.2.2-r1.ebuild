@@ -26,7 +26,7 @@ RDEPEND="
 	app-alternatives/awk
 	sys-libs/ncurses[-minimal]
 	sys-apps/util-linux
-	net-analyzer/netcat
+	|| ( net-analyzer/openbsd-netcat net-analyzer/netcat )
 	sys-apps/coreutils
 	sys-apps/grep
 	sys-apps/sed
@@ -129,7 +129,7 @@ src_install() {
 	elog " 0.1.16 forces prompt and CPR read cmds input from hw tty"
 	elog " 0.1.17 backs up progress on script_header_joetoo_posix"
 	elog " 0.2.0 deploys the new POSIX scritp_header_joetoo"
-	elog " 0.2.1 bugfixes checkboot in header & isnumeric in _extended"
+	elog " 0.2.1-2 bugfix checkboot in header & isnumeric in _extended"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
