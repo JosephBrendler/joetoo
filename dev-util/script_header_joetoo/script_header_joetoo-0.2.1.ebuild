@@ -22,7 +22,16 @@ REQUIRED_USE="
 "
 RESTRICT="mirror"
 
-RDEPEND=""
+RDEPEND="
+	app-alternatives/awk
+	sys-libs/ncurses[-minimal]
+	sys-apps/util-linux
+	net-analyzer/netcat
+	sys-apps/coreutils
+	sys-apps/grep
+	sys-apps/sed
+	net-misc/openssh
+"
 
 BDEPEND="${RDEPEND}"
 
@@ -64,13 +73,13 @@ src_install() {
 		einfo "examples USE flag is set"
 		# install emoji_demo script
 		einfo "Installing (exe) emoji_demo script into ${target} ..."
-                exeinto "${target}"
+		exeinto "${target}"
 		newexe "${S%/}/emoji_demo" "emoji_demo"
 		elog "Installed emoji_demo script in ${target}"
 
 		# install template script
 		einfo "Installing (exe) template_script.bash into ${target} ..."
-                exeinto "${target}"
+		exeinto "${target}"
 		newexe "${S%/}/template_script.bash" "template_script.bash"
 		elog "Installed template_script.bash in ${target}"
 
@@ -119,6 +128,8 @@ src_install() {
 	elog " 0.1.14/15 generalize handling cmdline args w operands"
 	elog " 0.1.16 forces prompt and CPR read cmds input from hw tty"
 	elog " 0.1.17 backs up progress on script_header_joetoo_posix"
+	elog " 0.2.0 deploys the new POSIX scritp_header_joetoo"
+	elog " 0.2.1 bugfixes checkboot in header & isnumeric in _extended"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
