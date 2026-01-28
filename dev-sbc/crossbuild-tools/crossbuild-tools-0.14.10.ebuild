@@ -237,6 +237,7 @@ pkg_postinst() {
 	elog " 0.14.1-4 provide bugfixes, rationalizations, and enhancements"
 	elog " 0.14.5 sorted out sequenced deps in finalize-chroot-common-functions"
 	elog " 0.14.6-8 provides bugfixes, rationalizations, and enhancements"
+	elog " 0.14.9-10 update crossbuild-tools for new script_header_joetoo"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
