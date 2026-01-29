@@ -238,7 +238,7 @@ pkg_postinst() {
 	elog " 0.14.5 sorted out sequenced deps in finalize-chroot-common-functions"
 	elog " 0.14.6-8 provides bugfixes, rationalizations, and enhancements"
 	elog " 0.14.9 updates crossbuild-tools for new script_header_joetoo"
-	elog " 0.14.10-15 add/bugfix layout templates for rk3588-radxa-rock-5b+"
+	elog " 0.14.10-17 add/bugfix layout templates for rk3588-radxa-rock-5b+"
 	elog ""
 	ewarn "Notes:"
 	ewarn "  (1) cb-mount-binhosts_template.start is installed in /etc/local.d/"
