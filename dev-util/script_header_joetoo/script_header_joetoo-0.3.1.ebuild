@@ -133,6 +133,8 @@ src_install() {
 	elog " 0.2.3-5 provide bugfixes and enhancements"
 	elog " 0.2.6 adds full_repeat() and ask_pass()"
 	elog " 0.2.7-29 provide bugfixes and enhancements"
+	elog " 0.3.0 implements POSIX command sequence framework"
+	elog " 0.3.1- provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
