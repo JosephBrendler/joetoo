@@ -83,15 +83,13 @@ src_install() {
 		newexe "${S%/}/joetoo_cli_example" "joetoo_cli_example"
 		elog "Installed joetoo_cli_example in ${target}"
 
-		# install example local cmdline arg processing and "usage" extension modules
+		# install example local cmdline arg processing and "usage" extension module
 		target="/etc/joetoo_cli_example/"
-		einfo "Installing (ins) cmdline arg and usage modules into ${target} ..."
+		einfo "Installing (ins) cmdline arg and usage module into ${target} ..."
 		insinto "${target}"
-		for x in $(find ${S%/}/ -maxdepth 1 -iname "example*") ; do
-			z=$(echo $(basename $x) | sed 's|example_||')
-			newins "${x}" "${z}"
-			elog "installed ${z} in ${target}"
-		done
+		newins "${S%/}/joetoo_cli_example_local.cmdline_arg_handler" "joetoo_cli_example_local.cmdline_arg_handler" || \
+			die "failed to install joetoo_cli_example_local.cmdline_arg_handler"
+		elog "installed joetoo_cli_example_local.cmdline_arg_handler in ${target}"
 
 		# install POSIX application template .config file
 		einfo "Installing (exe) joetoo_cli_example.conf into ${target} ..."
@@ -128,7 +126,7 @@ src_install() {
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
 	elog " 0.3.0 implements POSIX command sequence framework"
-	elog " 0.3.1-2 provide bugfixes and enhancements"
+	elog " 0.3.1-5 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
