@@ -77,12 +77,6 @@ src_install() {
 		newexe "${S%/}/emoji_demo" "emoji_demo"
 		elog "Installed emoji_demo script in ${target}"
 
-		# install bash template script
-		einfo "Installing (exe) template_script.bash into ${target} ..."
-		exeinto "${target}"
-		newexe "${S%/}/template_script.bash" "template_script.bash"
-		elog "Installed template_script.bash in ${target}"
-
 		# install POSIX application template script
 		einfo "Installing (exe) joetoo_cli_example into ${target} ..."
 		exeinto "${target}"
@@ -93,11 +87,24 @@ src_install() {
 		target="/etc/joetoo_cli_example/"
 		einfo "Installing (ins) cmdline arg and usage modules into ${target} ..."
 		insinto "${target}"
-		for x in $(find ${S%/}/ -iname "example*") ; do
-			z=$(echo $(basename $x) | sed 's|example_||')
+		for x in $(find ${S%/}/ -maxdepth 1 -iname "example*") ; do
+			z=$(echo $(basename $x) | sed 's|example_|joetoo_cli_example_|')
 			newins "${x}" "${z}"
 			elog "installed ${z} in ${target}"
 		done
+
+		# install POSIX application template .config file
+		einfo "Installing (exe) joetoo_cli_example.conf into ${target} ..."
+		exeinto "${target}"
+		newexe "${S%/}/joetoo_cli_example.conf" "joetoo_cli_example.conf"
+		elog "Installed joetoo_cli_example.conf in ${target}"
+
+		# install a BUILD assignment file
+		einfo "Installing (ins) BUILD assignment file in ${target}"
+		echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+		insinto "${target}"
+		newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
+		elog "installed BUILD file in ${target}"
 
 		# install an example BPN assignment file
 		einfo "Installing (ins) example BPN assignment file in ${target}"
@@ -120,27 +127,8 @@ src_install() {
 	elog "version_history, in the ebuild's FILESDIR, records version history"
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
-	elog " 0.1.0 introduces script_header_unicode and emoji_demo"
-	elog " 0.1.1 adds u_message(), summarize_my_unicode(); ebuild deploys unicode header"
-	elog " 0.1.2 provides refinements and bugfixes"
-	elog " 0.1.3 adds uE_message() and uEx_message() to unicode header"
-	elog " 0.1.4 updates supported unicode characters"
-	elog " 0.1.5 updates emoji_demo"
-	elog " 0.1.6-8 add log-messaging functions"
-	elog " 0.1.9 adds annotation heading regarding the use of emojis"
-	elog " 0.1.10 makes a lot of progress on script_header_joetoo_posix"
-	elog " 0.1.11/12 fixes a bug in log_separator()"
-	elog " 0.1.13 adds VS16 to unicode header and fixes older emojis"
-	elog " 0.1.14/15 generalize handling cmdline args w operands"
-	elog " 0.1.16 forces prompt and CPR read cmds input from hw tty"
-	elog " 0.1.17 backs up progress on script_header_joetoo_posix"
-	elog " 0.2.0 deploys the new POSIX scritp_header_joetoo"
-	elog " 0.2.1-2 bugfix checkboot in header & isnumeric in _extended"
-	elog " 0.2.3-5 provide bugfixes and enhancements"
-	elog " 0.2.6 adds full_repeat() and ask_pass()"
-	elog " 0.2.7-29 provide bugfixes and enhancements"
 	elog " 0.3.0 implements POSIX command sequence framework"
-	elog " 0.3.1-2 provide bugfixes and enhancements"
+	elog " 0.3.1-4 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
