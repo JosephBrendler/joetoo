@@ -77,14 +77,20 @@ src_install() {
 		newexe "${S%/}/emoji_demo" "emoji_demo"
 		elog "Installed emoji_demo script in ${target}"
 
-		# install template script
+		# install bash template script
 		einfo "Installing (exe) template_script.bash into ${target} ..."
 		exeinto "${target}"
 		newexe "${S%/}/template_script.bash" "template_script.bash"
 		elog "Installed template_script.bash in ${target}"
 
+		# install POSIX application template script
+		einfo "Installing (exe) joetoo_cli_example into ${target} ..."
+		exeinto "${target}"
+		newexe "${S%/}/joetoo_cli_example" "joetoo_cli_example"
+		elog "Installed joetoo_cli_example in ${target}"
+
 		# install example local cmdline arg processing and "usage" extension modules
-		target="/etc/template_script.bash/"
+		target="/etc/joetoo_cli_example/"
 		einfo "Installing (ins) cmdline arg and usage modules into ${target} ..."
 		insinto "${target}"
 		for x in $(find ${S%/}/ -iname "example*") ; do
@@ -134,6 +140,7 @@ src_install() {
 	elog " 0.2.6 adds full_repeat() and ask_pass()"
 	elog " 0.2.7-29 provide bugfixes and enhancements"
 	elog " 0.3.0 implements POSIX command sequence framework"
+	elog " 0.3.1-2 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
