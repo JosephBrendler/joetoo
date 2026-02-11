@@ -126,7 +126,8 @@ src_install() {
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
 	elog " 0.3.0 implements POSIX command sequence framework"
-	elog " 0.3.1-9 provide bugfixes and enhancements"
+	elog " 0.3.1-10 provide bugfixes and enhancements"
+	elog " 0.4.0 deploys a new severity-aware, log-enabled, consolidated messaging system"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
