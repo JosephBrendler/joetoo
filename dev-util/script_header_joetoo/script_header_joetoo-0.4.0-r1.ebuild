@@ -51,6 +51,9 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}" "${PN}"
 		elog "Installed ${PN} in ${target}"
+		# install compatability header
+		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
+		elog "Installed ${PN}_compat in ${target}"
 		if use extended ; then
 			einfo "extended USE flag is set"
 			einfo "Installing (ins) ${PN}_extended into ${target} ..."
