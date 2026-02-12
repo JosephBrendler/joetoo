@@ -51,6 +51,9 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}" "${PN}"
 		elog "Installed ${PN} in ${target}"
+		# install compatability header
+		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
+		elog "Installed ${PN}_compat in ${target}"
 		if use extended ; then
 			einfo "extended USE flag is set"
 			einfo "Installing (ins) ${PN}_extended into ${target} ..."
@@ -127,6 +130,8 @@ src_install() {
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
 	elog " 0.3.0 implements POSIX command sequence framework"
 	elog " 0.3.1-10 provide bugfixes and enhancements"
+	elog " 0.4.0 deploys a new severity-aware, log-enabled, consolidated messaging system"
+	elog " 0.4.1 provides bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
