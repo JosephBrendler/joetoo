@@ -109,6 +109,8 @@ pkg_postinst() {
 	elog " 6.6.2 vice grep ^PORTDIR now source make.conf which may e.g. =\${ROOT}var/db/..."
 	elog " 6.6.3 mods so FEATURES not override make.conf or per-package package.env"
 	elog " 6.6.4 updates to use new POSIX cli framework and script_header_joetoo"
+	elog " 6.7.0 begins evolution with new cli framework"
+	elog " 6.7.1 provides bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 
