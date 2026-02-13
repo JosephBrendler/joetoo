@@ -139,6 +139,8 @@ src_install() {
 	elog " 0.4.0 deploys a new severity-aware, log-enabled, consolidated messaging system"
 	elog " 0.4.1 provides bugfixes and enhancements"
 	elog " 0.4.2 fixes QUIET and DEBUG functionality, introduces mini version of cli example"
+	elog " 0.4.3 retires legacy _extended cli framework and refactors _posix to replace it"
+	elog " 0.4.4 provides bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
