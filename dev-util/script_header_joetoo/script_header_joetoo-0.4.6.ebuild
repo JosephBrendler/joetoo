@@ -140,7 +140,8 @@ src_install() {
 	elog " 0.4.1 provides bugfixes and enhancements"
 	elog " 0.4.2 fixes QUIET and DEBUG functionality, introduces mini version of cli example"
 	elog " 0.4.3 retires legacy _extended cli framework and refactors _posix to replace it"
-	elog " 0.4.4 provides bugfixes and enhancements"
+	elog " 0.4.4-5 provide bugfixes and enhancements"
+	elog " 0.4.6 chose flags N,I,h,s,r,l,v,q,Q,V,[0-9] as std (free up n,i,S,R,H,L)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
