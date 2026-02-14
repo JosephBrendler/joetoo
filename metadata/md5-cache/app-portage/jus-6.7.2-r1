@@ -1,0 +1,13 @@
+BDEPEND=>=sys-apps/portage-2.3.3 >=app-portage/portage-utils-0.62 >=app-portage/gentoolkit-0.3.2 eix? ( >=app-portage/eix-0.32.4 >=app-shells/push-2.0 ) distcc? ( >=sys-devel/distcc-3.1 ) dev-util/script_header_joetoo[extended] >=dev-util/joetoolkit-0.4.21
+DEFINED_PHASES=install postinst
+DESCRIPTION=A simple joetoo update sequence (jus)
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+IUSE=distcc eix
+KEYWORDS=~amd64 ~x86 ~arm ~arm64 amd64 x86 arm arm64
+LICENSE=MIT
+RDEPEND=>=sys-apps/portage-2.3.3 >=app-portage/portage-utils-0.62 >=app-portage/gentoolkit-0.3.2 eix? ( >=app-portage/eix-0.32.4 >=app-shells/push-2.0 ) distcc? ( >=sys-devel/distcc-3.1 ) dev-util/script_header_joetoo[extended] >=dev-util/joetoolkit-0.4.21
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/app-portage/jus-6.7.2.tbz2
+_md5_=3d8b6028adace15f98b263578f46b4e6

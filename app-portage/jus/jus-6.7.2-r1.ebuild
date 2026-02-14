@@ -42,9 +42,11 @@ src_install() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	einfo ""
-	# copy config file to temp space, to edit if needed
+	# copy config files for both jus and rus to temp space, to edit if needed
 	einfo "Copying ${PN}.conf to ${T} to edit if needed"
 	cp -v ${S}/${PN}.conf ${T}/
+        # don't need to edit rus.conf (it doesn't use DISTCC=yes/no) just put it where we can find it
+	cp -v ${S}/${PN/j/r}.conf ${T}/
 
 	if use distcc ; then
 		elog "  (USE=\"distcc\") (set)"
@@ -94,7 +96,7 @@ src_install() {
 
 	# install jus conf, handler, BUILD in /etc/jus/
 	target="/etc/${PN}/"
-		# install jus.conf
+		# install edited jus.conf (from T)
 		insinto "${target}"
 		newins "${T}/${PN}.conf" "${PN}.conf" || die "failed to install ${PN}.conf"
 		elog "Installed (ins) ${PN}.conf in ${target}"
@@ -111,7 +113,7 @@ src_install() {
 
 	# install rus conf, handler, BUILD in /etc/jus/rus/
         target="/etc/${PN}/${PN/j/r}/"
-		# install rus.conf
+		# install edited rus.conf (from T)
 		insinto "${target}"
 		newins "${T}/${PN/j/r}.conf" "${PN/j/r}.conf" || die "failed to install ${PN/j/r}.conf"
 		elog "Installed (ins) ${PN/j/r}.conf in ${target}"
