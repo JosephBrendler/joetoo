@@ -67,32 +67,64 @@ src_install() {
 
 	# install utilities jus and rus in /usr/bin; .conf file in /etc/
 	dodir usr/bin/
+        # jus conf, handler, BUILD go in /etc/jus/
 	dodir /etc/${PN}/
-	target="/usr/bin"
-	# install jus
-	einfo "Installing (exe) ${PN} into ${target} ..."
-	exeinto "${target}"
-	newexe "${S}/${PN}" "${PN}"
-	elog "Installed (exe) ${PN} in ${target}"
-
-	# install rus
-	einfo "Installing (exe) ${PN/j/r} into ${target} ..."
-	exeinto "${target}"
-	newexe "${S}/${PN/j/r}" "${PN/j/r}"
-	elog "Installed (exe) ${PN/j/r} in ${target}"
-
-	# install jus.conf
-	target="/etc/${PN}/"
-	insinto "${target}"
-	newins "${T}/${PN}.conf" "${PN}.conf"
-	elog "Installed (ins) ${PN}.conf in ${target}"
-
+        # rus conf, handler, BUILD go in /etc/jus/rus/
+	dodir /etc/${PN}/${PN/j/r}/
+        # create the file to be sourced by jus/rus to assign their BUILD version number
 	einfo "About to create PKG_PVR (BUILD) file"
 	build_assignment="BUILD='"
 	build_assignment+="${PVR}'"
+	# save this in temporary space ${T}
 	echo "${build_assignment}" > ${T}/PKG_PVR
-	newins "${T}/PKG_PVR" "BUILD"
-	elog "PKG_PVR file with content [${PVR}] installed in ${target}/BUILD"
+
+	# install executables in /usr/bin
+	target="/usr/bin"
+		# install jus
+		einfo "Installing (exe) ${PN} into ${target} ..."
+		exeinto "${target}"
+		newexe "${S}/${PN}" "${PN}" || die "failed to install ${PN}" 
+		elog "Installed (exe) ${PN} in ${target}"
+
+		# install rus
+		einfo "Installing (exe) ${PN/j/r} into ${target} ..."
+		exeinto "${target}"
+		newexe "${S}/${PN/j/r}" "${PN/j/r}"
+		elog "Installed (exe) ${PN/j/r} in ${target}"
+
+	# install jus conf, handler, BUILD in /etc/jus/
+	target="/etc/${PN}/"
+		# install jus.conf
+		insinto "${target}"
+		newins "${T}/${PN}.conf" "${PN}.conf" || die "failed to install ${PN}.conf"
+		elog "Installed (ins) ${PN}.conf in ${target}"
+
+		# install jus_local.cmdline_arg_handler
+		handler="${PN}_local.cmdline_arg_handler"
+		newins "${S}/${handler}" "${handler}" || \
+			die "failed to install ${handler}"
+		elog "Installed (ins) ${handler} in ${target}"
+
+		# install the BUILD file
+		newins "${T}/PKG_PVR" "BUILD"
+		elog "PKG_PVR file with content [${PVR}] installed in ${target}/BUILD"
+
+	# install rus conf, handler, BUILD in /etc/jus/rus/
+        target="/etc/${PN}/${PN/j/r}/"
+		# install rus.conf
+		insinto "${target}"
+		newins "${T}/${PN/j/r}.conf" "${PN/j/r}.conf" || die "failed to install ${PN/j/r}.conf"
+		elog "Installed (ins) ${PN/j/r}.conf in ${target}"
+
+		# install rus_local.cmdline_arg_handler
+		handler="${PN/j/r}_local.cmdline_arg_handler"
+		newins "${S}/${handler}" "${handler}" || \
+			die "failed to install ${handler}"
+		elog "Installed (ins) ${handler} in ${target}"
+
+		# install the BUILD file
+		newins "${T}/PKG_PVR" "BUILD"
+		elog "PKG_PVR file with content [${PVR}] installed in ${target}/BUILD"
 	elog ""
 }
 
@@ -110,6 +142,8 @@ pkg_postinst() {
 	elog " 6.6.3 mods so FEATURES not override make.conf or per-package package.env"
 	elog " 6.6.4 updates to use new POSIX cli framework and script_header_joetoo"
 	elog " 6.7.0 begins evolution with new cli framework"
+	elog " 6.7.1 provides bugfixes and enhancements"
+	elog " 6.7.2 upgrades rus and well as jus, buth using new cli framework"
 	elog ""
 	elog "Thank you for using ${PN}"
 
