@@ -145,7 +145,7 @@ pkg_postinst() {
 	elog " 6.6.4 updates to use new POSIX cli framework and script_header_joetoo"
 	elog " 6.7.0 begins evolution with new cli framework"
 	elog " 6.7.1 provides bugfixes and enhancements"
-	elog " 6.7.2-3 upgrade rus as well as jus, both using new cli framework"
+	elog " 6.7.2-5 upgrade rus as well as jus, both using new cli framework"
 	elog ""
 	elog "Thank you for using ${PN}"
 
