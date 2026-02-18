@@ -193,6 +193,8 @@ pkg_postinst() {
 	elog " 0.1.16 removes big extra dts folder from tarball"
 	elog " 0.1.17 re-sets module_dir for make_tarball in case resuming"
 	elog " 0.1.18 provides refinements and bugfixes"
+	elog " 0.11.0 updates to new joetoo cli and messaging frameworks"
+	elog " 0.11.1 provides refinements and bugfixes"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
