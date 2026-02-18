@@ -45,3 +45,22 @@ included.  First uploaded as dev-util/script_header_joetoo 24 June 2025
  0.0.17 adds d_do() and tweaks some other stuff
  0.0.18 moves ash-incompatible functions to _extended: CPR(), isfloat(), map()
  0.0.19 adds list_unused_disks() formerly in crossbuild-tools
+ 0.1.0 introduces script_header_unicode and emoji_demo
+ 0.1.1 adds u_message(), summarize_my_unicode(); ebuild deploys unicode header
+ 0.1.2 provides refinements and bugfixes
+ 0.1.3 adds uE_message() and uEx_message() to unicode header
+ 0.1.4 updates supported unicode characters
+ 0.1.5 updates emoji_demo
+ 0.1.6-8 add log-messaging functions
+ 0.1.9 adds annotation heading regarding the use of emojis
+ 0.1.10 makes a lot of progress on script_header_joetoo_posix
+ 0.1.11/12 fixes a bug in log_separator()
+ 0.1.13 adds VS16 to unicode header and fixes older emojis
+ 0.1.14/15 generalize handling cmdline args w operands
+ 0.1.16 forces prompt and CPR read cmds input from hw tty
+ 0.1.17 backs up progress on script_header_joetoo_posix
+ 0.2.0 deploys the new POSIX scritp_header_joetoo
+ 0.2.1-2 bugfix checkboot in header & isnumeric in _extended
+ 0.2.3-5 provide bugfixes and enhancements
+ 0.2.6 adds full_repeat() and ask_pass()
+ 0.2.7-29 provide bugfixes and enhancements
