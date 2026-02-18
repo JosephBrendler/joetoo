@@ -85,16 +85,9 @@ src_install() {
 		elog "Installed ${x} in /etc/${PN}/"
 	done
 
-# this raspi-sources-update-ebuild.sh is deprecated ... ignore it
-	# install the raspi-sources-update-ebuild.sh
-#	einfo "Installing (exe) raspi-sources update-ebuild.sh into /etc/${PN}"
-#	exeinto "/etc/${PN}"
-#	newexe "${S}/raspi-sources-update-ebuild.sh" "update-ebuild.sh"
-#	elog "Installed update-ebuild.sh script in /etc/${PN}/"
-
 	# install config files only for those boards selected via use flags
 	einfo "Installing (ins) configuration files for selected boards into /etc/${PN}/..."
-	insinto "/etc/${PN}/"
+	insinto "/etc/${PN}/config_files/"
 	for board in ${BOARDLIST}; do
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
@@ -118,6 +111,14 @@ src_install() {
 	newins "${S}/${z}" "${z}"
 	elog "Installed ${PN}.conf eselect module."
 
+	# install kernelupdate local cmdline arg processing and "usage" extension module
+	target="/etc/${PN}/"
+	einfo "Installing (ins) kernelupdate cmdline arg and usage module into ${target} ..."
+	insinto "${target}"
+	newins "${S%/}/${PN}_local.cmdline_arg_handler" "${PN}_local.cmdline_arg_handler" || \
+		die "failed to install ${PN}_local.cmdline_arg_handler"
+	elog "installed ${PN}_local.cmdline_arg_handler in ${target}"
+
 	# install the current build number reference file
 	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
 	insinto "/etc/${PN}/"
@@ -133,18 +134,6 @@ src_install() {
 	echo "# This file will be sourced by the kernelupdate script to support future local cmdline opts and usage" >> ${D}/etc/${PN}/BUILD
 	echo "BPN=${PN}" >> ${D}/etc/${PN}/BPN
 	elog "Installed BPN reference file in /etc/${PN}/"
-
-# I don't have any local./local.cmdline_arguments and local.cmdline_compound_arguments
-# for kernelupdate (yet) -- it just uses the basic cli opts -i,n,r,s,v,q
-# put this here to activate when needed
-	# also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
-#	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_arguments"
-#	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install faile>
-#	elog "Done installing local.cmdline_compound_arguments"
-# an empty local.usage exists for now (should have no effect), so install it
-	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-	elog "Done installing local.usage"
 
 	# install an exclusion from config_protect-tion for BUILD
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
@@ -194,7 +183,7 @@ pkg_postinst() {
 	elog " 0.1.17 re-sets module_dir for make_tarball in case resuming"
 	elog " 0.1.18 provides refinements and bugfixes"
 	elog " 0.11.0 updates to new joetoo cli and messaging frameworks"
-	elog " 0.11.1 provides refinements and bugfixes"
+	elog " 0.11.1-3 provide refinements and bugfixes"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
