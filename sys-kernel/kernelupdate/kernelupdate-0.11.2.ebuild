@@ -85,16 +85,9 @@ src_install() {
 		elog "Installed ${x} in /etc/${PN}/"
 	done
 
-# this raspi-sources-update-ebuild.sh is deprecated ... ignore it
-	# install the raspi-sources-update-ebuild.sh
-#	einfo "Installing (exe) raspi-sources update-ebuild.sh into /etc/${PN}"
-#	exeinto "/etc/${PN}"
-#	newexe "${S}/raspi-sources-update-ebuild.sh" "update-ebuild.sh"
-#	elog "Installed update-ebuild.sh script in /etc/${PN}/"
-
 	# install config files only for those boards selected via use flags
 	einfo "Installing (ins) configuration files for selected boards into /etc/${PN}/..."
-	insinto "/etc/${PN}/"
+	insinto "/etc/${PN}/config_files/"
 	for board in ${BOARDLIST}; do
 		if use ${board}; then
 			elog "USE flag \"${board}\" selected ..."
@@ -117,6 +110,14 @@ src_install() {
 	z="${PN}.eselect"
 	newins "${S}/${z}" "${z}"
 	elog "Installed ${PN}.conf eselect module."
+
+	# install kernelupdate local cmdline arg processing and "usage" extension module
+	target="/etc/${PN}/"
+	einfo "Installing (ins) kernelupdate cmdline arg and usage module into ${target} ..."
+	insinto "${target}"
+	newins "${S%/}/${PN}_local.cmdline_arg_handler" "${PN}_local.cmdline_arg_handler" || \
+		die "failed to install ${PN}_local.cmdline_arg_handler"
+	elog "installed ${PN}_local.cmdline_arg_handler in ${target}"
 
 	# install the current build number reference file
 	einfo "Generating and installing (echo) build number reference file into /etc/${PN}/ ..."
@@ -194,6 +195,7 @@ pkg_postinst() {
 	elog " 0.1.17 re-sets module_dir for make_tarball in case resuming"
 	elog " 0.1.18 provides refinements and bugfixes"
 	elog " 0.11.0 updates to new joetoo cli and messaging frameworks"
+	elog " 0.11.1-2 provide refinements and bugfixes"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
