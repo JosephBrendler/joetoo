@@ -135,18 +135,6 @@ src_install() {
 	echo "BPN=${PN}" >> ${D}/etc/${PN}/BPN
 	elog "Installed BPN reference file in /etc/${PN}/"
 
-# I don't have any local./local.cmdline_arguments and local.cmdline_compound_arguments
-# for kernelupdate (yet) -- it just uses the basic cli opts -i,n,r,s,v,q
-# put this here to activate when needed
-	# also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
-#	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_arguments"
-#	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install faile>
-#	elog "Done installing local.cmdline_compound_arguments"
-# an empty local.usage exists for now (should have no effect), so install it
-	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-	elog "Done installing local.usage"
-
 	# install an exclusion from config_protect-tion for BUILD
 	einfo "Installing (envd) exclusion from config_protect for build number reference file"
 	newenvd "${S}/config_protect_mask" "99${PN}-BUILD"
