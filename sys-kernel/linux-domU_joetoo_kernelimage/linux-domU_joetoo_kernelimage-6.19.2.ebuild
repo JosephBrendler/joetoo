@@ -30,7 +30,9 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tar.bz2"
+# moving from github to raspi56403 (PN-PV vs P to enable -rX revisions of ebuild)
+#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${P}.tar.bz2"
+SRC_URI="https://raspi56403.brendler/joetoo-kernels/${PN}-${PV}.tar.bz2"
 
 # fix S
 S=${WORKDIR}
