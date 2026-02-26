@@ -21,7 +21,7 @@ REQUIRED_USE=""
 S="${WORKDIR%/}/${PN}"
 
 RDEPEND="
-	dev-util/script_header_joetoo[extended,unicode]
+	dev-util/script_header_joetoo[extended]
 	app-admin/eselect
 	app-text/enscript
 	app-text/ghostscript-gpl
