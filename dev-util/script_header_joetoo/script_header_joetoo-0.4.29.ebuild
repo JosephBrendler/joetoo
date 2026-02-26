@@ -12,12 +12,11 @@ S="${WORKDIR}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ~amd64 x86 ~x86 arm ~arm arm64 ~arm64"
+KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
-IUSE="+extended +unicode +niopt +examples"
+IUSE="+extended +niopt +examples"
 REQUIRED_USE="
-	unicode? ( extended )
 	examples? ( extended unicode )
 "
 RESTRICT="mirror"
@@ -59,12 +58,6 @@ src_install() {
 			einfo "Installing (ins) ${PN}_extended into ${target} ..."
 			newins "${S%/}/${PN}_extended" "${PN}_extended"
 			elog "Installed ${PN}_extended in ${target}"
-		fi
-		if use unicode ; then
-			einfo "unicode USE flag is set"
-			einfo "Installing (ins) ${PN}_unicode into ${target} ..."
-			newins "${S%/}/${PN}_unicode" "${PN}_unicode"
-			elog "Installed ${PN}_unicode in ${target}"
 		fi
 		if use niopt ; then
 			einfo "niopt USE flag is set"
@@ -142,7 +135,7 @@ src_install() {
 	elog " 0.4.3 retires legacy _extended cli framework and refactors _posix to replace it"
 	elog " 0.4.4-5 provide bugfixes and enhancements"
 	elog " 0.4.6 chose flags N,I,h,s,r,l,v,q,Q,V,[0-9] as std (free up n,i,S,R,H,L)"
-	elog " 0.4.7-27 provide bugfixes and enhancements"
+	elog " 0.4.7-29 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
