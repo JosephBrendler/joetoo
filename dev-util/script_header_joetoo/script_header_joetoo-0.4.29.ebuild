@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
 REQUIRED_USE="
-	examples? ( extended unicode )
+	examples? ( extended )
 "
 RESTRICT="mirror"
 
