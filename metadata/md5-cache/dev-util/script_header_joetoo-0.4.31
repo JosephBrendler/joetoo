@@ -1,0 +1,14 @@
+BDEPEND=app-alternatives/awk sys-libs/ncurses[-minimal] sys-apps/util-linux || ( net-analyzer/openbsd-netcat net-analyzer/netcat ) sys-apps/coreutils sys-apps/grep sys-apps/sed net-misc/openssh
+DEFINED_PHASES=install
+DESCRIPTION=A script header with easy-to-use formatting colors and misc functions
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=+extended +niopt +examples
+KEYWORDS=~amd64 ~x86 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=app-alternatives/awk sys-libs/ncurses[-minimal] sys-apps/util-linux || ( net-analyzer/openbsd-netcat net-analyzer/netcat ) sys-apps/coreutils sys-apps/grep sys-apps/sed net-misc/openssh
+REQUIRED_USE=examples? ( extended )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo-0.4.31.tbz2
+_md5_=8f5b72b1a4c866931ab30763e0a65c2e
