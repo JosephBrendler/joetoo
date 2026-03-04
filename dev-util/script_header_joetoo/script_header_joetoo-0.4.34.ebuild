@@ -50,6 +50,11 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}" "${PN}"
 		elog "Installed ${PN} in ${target}"
+		# install unicode hex codepoint definitions
+		einfo "Installing (ins) ${PN}_unicode into ${target} ..."
+		insinto "${target}"
+		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
+		elog "Installed ${PN}_unicode in ${target}"
 		# install compatability header
 		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
 		elog "Installed ${PN}_compat in ${target}"
