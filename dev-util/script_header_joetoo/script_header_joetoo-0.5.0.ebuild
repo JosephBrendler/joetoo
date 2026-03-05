@@ -72,12 +72,6 @@ src_install() {
 		fi
 	if use examples ; then
 		einfo "examples USE flag is set"
-		# install emoji_demo script
-		einfo "Installing (exe) emoji_demo script into ${target} ..."
-		exeinto "${target}"
-		newexe "${S%/}/emoji_demo" "emoji_demo"
-		elog "Installed emoji_demo script in ${target}"
-
 		# install POSIX application template scripts
 		einfo "Installing (exe) joetoo_cli_example scripts into ${target} ..."
 		exeinto "${target}"
