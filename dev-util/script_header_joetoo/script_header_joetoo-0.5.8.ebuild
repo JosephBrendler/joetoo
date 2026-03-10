@@ -136,7 +136,7 @@ src_install() {
 	elog " 0.4.6 chose flags N,I,h,s,r,l,v,q,Q,V,[0-9] as std (free up n,i,S,R,H,L)"
 	elog " 0.4.7-34 provide bugfixes and enhancements"
 	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
-	elog " 0.5.1-6 provide bugfixes and enhancements"
+	elog " 0.5.1-8 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
