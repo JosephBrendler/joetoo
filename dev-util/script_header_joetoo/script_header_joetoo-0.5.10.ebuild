@@ -55,9 +55,41 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
 		elog "Installed ${PN}_unicode in ${target}"
+		# install demonstrate_header script
+		einfo "Installing (ins) demonstrate_header into ${target} ..."
+		exeinto "${target}"
+		newexe "${S%/}/demonstrate_header" "demonstrate_header"
+		elog "Installed demonstrate_header in ${target}"
 		# install compatability header
 		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
 		elog "Installed ${PN}_compat in ${target}"
+	target="/etc/${PN}/"
+			# install a BUILD assignment file for ${PN}
+			einfo "Installing (ins) BUILD assignment file in ${target}"
+			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			insinto "${target}"
+			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
+			elog "installed BUILD file in ${target}"
+	target="/etc/demonstrate_header/"
+			# install the demonstrate_header.conf file
+			einfo "Installing (ins) demonstrate_header.conf into ${target} ..."
+			exeinto "${target}"
+			newexe "${S%/}/demonstrate_header.conf" "demonstrate_header.conf"
+			elog "Installed demonstrate_header.conf in ${target}"
+			# install the demonstrate_header_local.cmdline_arg_handler
+			einfo "Installing (ins) demonstrate_header cmdline arg and usage module into ${target} ..."
+			insinto "${target}"
+			newins "${S%/}/demonstrate_header_local.cmdline_arg_handler" "demonstrate_header_local.cmdline_arg_handler" || \
+				die "failed to install demonstrate_header_local.cmdline_arg_handler"
+			elog "installed demonstrate_header_local.cmdline_arg_handler in ${target}"
+			# install a BUILD assignment file for demonstrate_header
+			einfo "Installing (ins) BUILD assignment file in ${target}"
+			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			insinto "${target}"
+			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
+			elog "installed BUILD file in ${target}"
+	target="/usr/sbin/"
+		insinto "${target}"
 		if use extended ; then
 			einfo "extended USE flag is set"
 			einfo "Installing (ins) ${PN}_extended into ${target} ..."
@@ -136,7 +168,7 @@ src_install() {
 	elog " 0.4.6 chose flags N,I,h,s,r,l,v,q,Q,V,[0-9] as std (free up n,i,S,R,H,L)"
 	elog " 0.4.7-34 provide bugfixes and enhancements"
 	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
-	elog " 0.5.1-8 provide bugfixes and enhancements"
+	elog " 0.5.1-10 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
