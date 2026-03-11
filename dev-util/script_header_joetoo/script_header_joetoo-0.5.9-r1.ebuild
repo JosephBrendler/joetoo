@@ -63,6 +63,13 @@ src_install() {
 		# install compatability header
 		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
 		elog "Installed ${PN}_compat in ${target}"
+	target="/etc/${PN}/"
+			# install a BUILD assignment file for ${PN}
+			einfo "Installing (ins) BUILD assignment file in ${target}"
+			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			insinto "${target}"
+			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
+			elog "installed BUILD file in ${target}"
 	target="/etc/demonstrate_header/"
 			# install the demonstrate_header.conf file
 			einfo "Installing (ins) demonstrate_header.conf into ${target} ..."
@@ -75,6 +82,12 @@ src_install() {
 			newins "${S%/}/demonstrate_header_local.cmdline_arg_handler" "demonstrate_header_local.cmdline_arg_handler" || \
 				die "failed to install demonstrate_header_local.cmdline_arg_handler"
 			elog "installed demonstrate_header_local.cmdline_arg_handler in ${target}"
+			# install a BUILD assignment file for demonstrate_header
+			einfo "Installing (ins) BUILD assignment file in ${target}"
+			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			insinto "${target}"
+			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
+			elog "installed BUILD file in ${target}"
 	target="/usr/sbin/"
 		insinto "${target}"
 		if use extended ; then
