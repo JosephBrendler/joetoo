@@ -57,8 +57,8 @@ src_install() {
 		elog "Installed ${PN}_unicode in ${target}"
 		# install demonstrate_header script
 		einfo "Installing (ins) demonstrate_header into ${target} ..."
-		insinto "${target}"
-		newins "${S%/}/demonstrate_header" "demonstrate_header"
+		exeinto "${target}"
+		newexe "${S%/}/demonstrate_header" "demonstrate_header"
 		elog "Installed demonstrate_header in ${target}"
 		# install compatability header
 		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
