@@ -1,0 +1,11 @@
+BDEPEND=
+DEFINED_PHASES=install postinst
+DESCRIPTION=Utilities for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+KEYWORDS=amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=
+RESTRICT=mirror
+SLOT=0
+_md5_=6d75d6aa11e19aa2e63dbcb07f5dc3d2
