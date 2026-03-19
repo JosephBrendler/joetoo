@@ -386,6 +386,8 @@ pkg_postinst() {
 	elog " 0.0.20 updates chrony.conf and adds chronyc_check_sources.sh"
 	elog " 0.0.21 updates .bashrc for root and skel"
 	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
+	elog " 0.0.23 provides locale UTF-8 standardization"
+	elog " 0.0.24 drops unicode header from .bashrc"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
