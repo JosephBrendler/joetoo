@@ -16,7 +16,9 @@ IUSE="+iptools -router -xenvmfiles -backup_utilities -utility_archive"
 
 RESTRICT="mirror"
 
-REQUIRED_USE=""
+REQUIRED_USE="
+	router? ( iptools )
+"
 
 S="${WORKDIR%/}/${PN}"
 
@@ -29,13 +31,13 @@ RDEPEND="
 		>=net-analyzer/nmap-7.92
 		>=net-dns/bind-tools-9.16
 	)
-	router? ( iptools )
 	backup_utilities? (
 		>=net-misc/rsync-3.2.4
 	)
 "
 
-BDEPEND="${RDEPEND}
+BDEPEND="
+	${RDEPEND}
 "
 
 install_tool_category() {
