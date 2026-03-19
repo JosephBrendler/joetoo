@@ -205,24 +205,30 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
+
+W0="[[:space:]]*"	# zero or more space chars
+W1="[[:space:]]${W1}"	# one or more whitespace chars
+
 pkg_setup() {
 	# sbc board determination no longer needed here - taken care of in joetoo-base/joetoo-platform-meta
 	# we have some content for /boot/grub - so make sure boot is mounted ...
 	# if /boot is on a separate block device, and it is not mounted, try to mount it
 	elog "checking whether /boot should be/is mounted ..."
-	if grep -v '^#' /etc/fstab | grep boot >/dev/null 2>&1  ; then
+	if grep -v "^${W0}#" /etc/fstab | grep "${W1}/boot${W1}" >/dev/null 2>&1  ; then
 		elog "Verified /boot is supposed to be mounted; checking if it is ..."
-		if ! grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1 ; then
-			elog "${ROOT%/}/boot is not mounted, trying to mount it now ..."
-			! $(mount /boot) && \
-				die "Failed to mount /boot" || \
-				elog "Succeeded in mounting /boot ; continuing ..."
-		else
+		if grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1 ; then
 			elog "Verified ${ROOT%/}/boot is mounted ; continuing ..."
-		fi
+		else
+			elog "${ROOT%/}/boot is not mounted, trying to mount it now ..."
+			if $(mount /boot) ; then
+				elog "Succeeded in mounting /boot ; continuing ..."
+			else
+				die "Failed to mount /boot"
+			fi  # managed to mount ?
+		fi  # is mounted ?
 	else
 		elog "Verified /boot is not supposed to be mounted ; continuing ..."
-	fi
+	fi  # is supposed to be mounted ?
 }
 
 src_install() {
@@ -380,6 +386,7 @@ pkg_postinst() {
 	elog " 0.0.20 updates chrony.conf and adds chronyc_check_sources.sh"
 	elog " 0.0.21 updates .bashrc for root and skel"
 	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
+	elog " 0.0.23 provides locale UTF-8 standardization"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
