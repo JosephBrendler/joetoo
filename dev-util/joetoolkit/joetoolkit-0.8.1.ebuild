@@ -12,11 +12,13 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64"
 
-IUSE="+iptools -xenvmfiles -backup_utilities -utility_archive"
+IUSE="+iptools -router -xenvmfiles -backup_utilities -utility_archive"
 
 RESTRICT="mirror"
 
-REQUIRED_USE=""
+REQUIRED_USE="
+	router? ( iptools )
+"
 
 S="${WORKDIR%/}/${PN}"
 
@@ -34,7 +36,8 @@ RDEPEND="
 	)
 "
 
-BDEPEND="${RDEPEND}
+BDEPEND="
+	${RDEPEND}
 "
 
 install_tool_category() {
@@ -88,7 +91,21 @@ src_install() {
         install_tool_category "${tool_category}" "${filter}"
 	elog "done"
 
-	# to do: spin off insert_into_file as a separate package independent of joetoolkit
+	# install BUILD and BPN files for the joetoolkit itself
+	target="/etc/${PN}/"
+	einfo "Installing (ins) BUILD, BPN, and config template into ${target}"
+	insinto "${target}"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BUILD
+	echo "BUILD=${PV}" >> ${T}/BUILD
+	newins "${T}/BUILD" "BUILD" || die "failed to newins BUILD"
+	elog "BUILD installed into ${target}"
+	echo "# DO NOT EDIT - created by ebuild for sourcing by script" > ${T}/BPN
+	echo 'BPN=${PN}' >> ${T}/BPN
+	newins "${T}/BPN" "BPN" || die "failed to newins BPN"
+	elog "BPN installed into ${target}"
+
+	# to do: spin off some of these below as separate packages independent of joetoolkit
+
 	# install insert_into_file tool and associated components
 	target="/usr/sbin/"
 	einfo "Installing (exe) insert_into_file into ${target}"
@@ -127,8 +144,14 @@ src_install() {
 	newins "${S}/joetoolkit/${z}" "${z}"
 	elog "Installed insert_into_file.conf eselect module."
 
-	# to do: spin off check_resilient_services as a separate package independent of joetoolkit
-	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN
+	# install /etc/nextcloud_check_version with BUILD and BPN (executable got installed as a normal utility)
+	elog "Installing BUILD, BPN and local.usage placeholder into /etc/nextcloud_check_version/ ..."
+	dodir "/etc/nextcloud_check_version/"
+	echo "BUILD=${PV}" > ${D}/etc/nextcloud_check_version/BUILD || die "failed to install BUILD"
+	echo "BPN=${PN}/check_resilient_services" > ${D}/etc/nextcloud_check_version/BPN || die "failed to install BPN"
+	elog "done installing BUILD, BPN for nextcloud_check_version"
+
+	# install /etc/${PN}/check_resilient_services/ with BUILD and BPN (executable got installed as a normal utility)
 	elog "Installing BUILD, BPN and local.usage placeholder into /etc/${PN}/check_resilient_services/ ..."
 	dodir "/etc/${PN}/check_resilient_services/"
 	echo "BUILD=${PV}" > ${D}/etc/${PN}/check_resilient_services/BUILD || die "failed to install BUILD"
@@ -154,6 +177,18 @@ src_install() {
 		install_tool_category "${tool_category}"
 	else
 		elog "USE flag \"iptools\" not selected iptools/ not copied"
+	fi
+
+	# router
+	if use router;
+	then
+		target="/usr/sbin/"
+		tool_category="router"
+		elog "USE flag \"${tool_category}\" selected ..."
+		dodir "${target}"
+		install_tool_category "${tool_category}"
+	else
+		elog "USE flag \"router\" not selected router/ not copied"
 	fi
 
 	# xenvmfiles
@@ -222,6 +257,8 @@ pkg_postinst() {
 	elog " 0.7.16-22 add/update utilities"
 	elog " 0.7.23 removes old certs; updates bashrc_aliases"
 	elog " 0.7.24-32 add/update utilities"
+	elog " 0.8.0 is a rewrite/refactor/update prior to consol. with script_header_joetoo"
+	elog " 0.8.1 fixes path names used by ebup, prior to consol. with script_header_joetoo"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
