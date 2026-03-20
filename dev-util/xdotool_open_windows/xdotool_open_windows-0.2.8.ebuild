@@ -117,6 +117,7 @@ pkg_postinst() {
 	elog " 0.2.0 completes basic re-write of all components"
 	elog " 0.2.1-5 provide bugfixes and decouple terminal-open and ssh-launch"
 	elog " 0.2.6 upgrades to severity-aware, logging-enabled _msg() framework "
+	elog " 0.2.7/8 provide bugfixes and enhancements"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
