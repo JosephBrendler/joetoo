@@ -76,6 +76,7 @@ RDEPEND="
 		>=dev-libs/elfutils-0.178
 		>=dev-vcs/git-2.24.1
 		>=net-analyzer/nmap-7.80
+		>=net-dns/openresolv-3.16.5
 		>=net-vpn/openvpn-2.4.7-r1
 		>=net-wireless/wpa_supplicant-2.8
 		>=sys-apps/busybox-1.32.0[-static(-)]
@@ -270,14 +271,29 @@ src_install() {
 		fi
 	done
 	elog "Done installing (exe/ins) baseline files into file system tree"
+	# install symlink for openresolv support to resolv.conf
+	target="/etc/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym /run/resolvconf/resolv.conf /etc/resolv.conf  || die "failed to symlink resolv.conf"
+		elog "Installed symlink ${target%/}/resolv.conf"
+		elog "Done installing (sym) links into ${target}"
 	# install symlinks for basic openvpn configs for joetoo
 	target="/etc/openvpn/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /etc/openvpn/openvpnkeys_2024/brendler-local.ovpn /etc/openvpn/local.conf  || die "failed to symlink local.conf"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-local.ovpn /etc/openvpn/local.conf  || die "failed to symlink local.conf"
 		elog "Installed symlink ${target%/}/local.conf"
-		dosym /etc/openvpn/openvpnkeys_2024/brendler-remote.ovpn /etc/openvpn/remote.conf  || die "failed to symlink remote.conf"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-remote.ovpn /etc/openvpn/remote.conf  || die "failed to symlink remote.conf"
 		elog "Installed symlink ${target%/}/remote.conf"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.remote-up.sh || die "failed to symlink openvpn.remote-up.sh"
+		elog "Installed symlink ${target%/}/openvpn.remote-up.sh"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.local-up.sh || die "failed to symlink openvpn.local-up.sh"
+		elog "Installed symlink ${target%/}/openvpn.local-up.sh"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.remote-down.sh || die "failed to symlink openvpn.remote-down.sh"
+		elog "Installed symlink ${target%/}/openvpn.remote-down.sh"
+		dosym /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.local-down.sh || die "failed to symlink openvpn.local-down.sh"
+		elog "Installed symlink ${target%/}/openvpn.local-down.sh"
 		elog "Done installing (sym) links into ${target}"
 	# install symlinks in init.d for openvpn services
 	target="/etc/init.d/"
@@ -316,6 +332,15 @@ src_install() {
 			dosym /etc/init.d/elogind ${target%/}/elogind || die "failed to symlink ${target%/}/elogind"
 			elog "Installed symlink ${target%/}/elogind"
 			elog "Done installing (sym) elogind link into ${target} ..."
+	fi
+	# install symlinks for dhcpcd service in default runlevel if not installed
+	if [ -z "$( find /etc/runlevels/default/ -iname 'dhcpcd' )" ] ; then
+		target="/etc/runlevels/default/"
+			einfo "Installing (sym) files into ${target} ..."
+			insinto "${target}"
+			dosym /etc/init.d/dhcpcd ${target%/}/dhcpcd || die "failed to symlink ${target%/}/dhcpcd"
+			elog "Installed symlink ${target%/}/dhcpcd"
+			elog "Done installing (sym) dhcpcd link into ${target} ..."
 	fi
 	# if XDG_RUNTIME_DIR is not set in user(s) .bashrc, then append that
 	for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
@@ -387,6 +412,8 @@ pkg_postinst() {
 	elog " 0.0.21 updates .bashrc for root and skel"
 	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
 	elog " 0.0.23 provides locale UTF-8 standardization"
+	elog " 0.0.24 drops unicode header from .bashrc"
+	elog " 0.0.25 adds openresolv fix for resolv.conf with openvpn"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
