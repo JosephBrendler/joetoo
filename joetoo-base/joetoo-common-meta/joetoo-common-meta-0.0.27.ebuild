@@ -413,7 +413,7 @@ pkg_postinst() {
 	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
 	elog " 0.0.23 provides locale UTF-8 standardization"
 	elog " 0.0.24 drops unicode header from .bashrc"
-	elog " 0.0.25 adds openresolv fix for resolv.conf with openvpn"
+	elog " 0.0.25-7 refines networking and hook scripts"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
