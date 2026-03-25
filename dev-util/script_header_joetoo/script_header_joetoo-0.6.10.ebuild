@@ -170,7 +170,7 @@ src_install() {
 	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
 	elog " 0.5.1-17 provide bugfixes and enhancements"
 	elog " 0.6.0 adds asset cache file and precook_everything_now()"
-	elog " 0.6.1-8 provide bugfixes and enhancements"
+	elog " 0.6.1-10 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
