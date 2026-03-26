@@ -49,9 +49,15 @@ src_install() {
 	einfo "PN=${PN}"
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
+	elog "in src_install"
+  if use dns; then elog "USE flag dns was selected"; else elog "USE flag dns was not selected"; fi
+  if use client; then elog "USE flag client was selected"; else elog "USE flag client was not selected"; fi
+  if use direct; then elog "USE flag direct was selected"; else elog "USE flag direct was not selected"; fi
+  if use vpn; then elog "USE flag vpn was selected"; else elog "USE flag vpn was not selected"; fi
+
 
 	if use dns; then
-		elog "USE flag dns was selected"
+		elog "installing for USE flag dns"
 		# install openvpn_dns_updater.sh to /usr/sbin/
 		target="/usr/sbin/"
 		einfo "Installing (exe) openvpn_dns_updater.sh into ${target}"
@@ -81,9 +87,9 @@ src_install() {
 		newins "${S}/dns/99-ddns-update" "99-ddns-update" || die "failed to install 99-ddns-update"
 		elog "Installed (newins) 99-ddns-update into ${target}"
 	elif use client; then
-		elog "USE flag client was selected"
+		elog "installing for USE flag client"
 		if use direct; then
-			elog "USE flag direct was selected"
+			elog "installing for USE flag direct"
 			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
 			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
 			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
@@ -112,7 +118,7 @@ src_install() {
 			elog "Installed (newexe) 99-ula-ndp-fix.start into ${target}"
 
 		elif use vpn; then
-			elog "USE flag direct was selected"
+			elog "installing for USE flag direct"
 			# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 			einfo "Installing (ins) dhcpcd.conf into ${target}"
 			insinto "${target}"
