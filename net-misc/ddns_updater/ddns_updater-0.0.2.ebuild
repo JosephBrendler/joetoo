@@ -118,7 +118,7 @@ src_install() {
 			elog "Installed (newexe) 99-ula-ndp-fix.start into ${target}"
 
 		elif use vpn; then
-			elog "installing for USE flag direct"
+			elog "installing for USE flag vpn"
 			# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 			einfo "Installing (ins) dhcpcd.conf into ${target}"
 			insinto "${target}"
