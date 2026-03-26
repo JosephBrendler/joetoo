@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		provides client and dns server scripts enabling clients to submit dynamic updates to their dns,
+		in a dual-stack environment including both direct dnsmasq/radvd clients and openvpn clients
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="dns">install scripts and configs for ddns serverr</flag>
+		<flag name="client">enable client support (direct or vpn) as appropriate</flag>
+		<flag name="direct">if direct client, install scripts and configs for ddns client</flag>
+		<flag name="direct">if vpn client, install only neighbor discovery script</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
+	</upstream>
+</pkgmetadata>
