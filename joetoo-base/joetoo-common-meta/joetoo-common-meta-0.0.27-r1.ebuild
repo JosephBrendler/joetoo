@@ -113,6 +113,7 @@ RDEPEND="
 		netifrc? (
 			>=net-misc/netifrc-0.7.3
 			>=net-misc/dhcpcd-9.4.0
+			>=net-misc/ddns_updater-0.0.1
 		)
 		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
 	)
