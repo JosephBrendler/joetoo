@@ -146,6 +146,7 @@ pkg_postinst() {
 	elog " 6.7.0 begins evolution with new cli framework"
 	elog " 6.7.1 provides bugfixes and enhancements"
 	elog " 6.7.2-6 upgrade rus as well as jus, both using new cli framework"
+	elog " 6.7.7-8 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 
