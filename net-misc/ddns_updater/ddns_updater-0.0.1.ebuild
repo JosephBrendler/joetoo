@@ -31,7 +31,7 @@ RDEPEND="
 		>=net-vpn/openvpn-2.6.17-r1[ssl]
 		>=dev-util/joetoolkit-0.8.4[router]
 		)
-	vpn? ( >=net-vpn/openvpn-2.6.17-r1[ssl] )
+	vpn? ( >=net-vpn/openvpn-2.6.17-r1[openssl] )
 	>=net-dns/openresolv-3.16.5
 	>=dev-util/joetoolkit-0.8.4
 	>=dev-util/script_header_joetoo-0.6.10
