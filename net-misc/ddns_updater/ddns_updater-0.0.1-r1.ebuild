@@ -101,7 +101,7 @@ src_install() {
 			# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 			einfo "Installing (ins) dhcpcd.conf into ${target}"
 			insinto "${target}"
-			newins "${S}/dns/dhcpcd.conf.client" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
+			newins "${S}/client/dhcpcd.conf.client" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
 			elog "Installed (newins) dhcpcd.conf into ${target}"
 
 			# install 99-ula-ndp-fix.start to /etc/local.d/; chmod +x (fix selected interfaces)
@@ -116,7 +116,7 @@ src_install() {
 			# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 			einfo "Installing (ins) dhcpcd.conf into ${target}"
 			insinto "${target}"
-			newins "${S}/dns/dhcpcd.conf.client" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
+			newins "${S}/client/dhcpcd.conf.client" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
 			elog "Installed (newins) dhcpcd.conf into ${target}"
 
 			# install 99-ula-ndp-fix.start to /etc/local.d/; chmod +x (fix selected interfaces)
