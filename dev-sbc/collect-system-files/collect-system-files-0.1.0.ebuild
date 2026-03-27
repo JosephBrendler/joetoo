@@ -48,13 +48,13 @@ src_install() {
 	echo "BPN=${PN}" > ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "Install failed!"
 	elog "Done installing BPN"
-#	# also install local.cmdline_arguments, local.cmdline_compound_arguments, local.usage
-#	newins "${S}/local.cmdline_arguments" "local.cmdline_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_arguments"
-#	newins "${S}/local.cmdline_compound_arguments" "local.cmdline_compound_arguments"  || die "Install failed!"
-#	elog "Done installing local.cmdline_compound_arguments"
-	newins "${S}/local.usage" "local.usage"  || die "Install failed!"
-	elog "Done installing local.usage"
+
+	# install the ${PN}_local.cmdline_arg_handler
+	einfo "Installing (ins) ${PN} cmdline arg and usage module into ${target} ..."
+	insinto "${target}"
+	newins "${S%/}/${PN}_local.cmdline_arg_handler" "${PN}_local.cmdline_arg_handler" || \
+		die "failed to install ${PN}_local.cmdline_arg_handler"
+	elog "installed ${PN}_local.cmdline_arg_handler in ${target}"
 
 	# Install script into /usr/sbin/
 	elog "Installing (exe) into /usr/sbin/"
@@ -65,8 +65,8 @@ src_install() {
 	# Install this package's .conf files in /etc/${PN}
 	target="/etc/${PN}"
 	insinto "${target}"
-	for x in $(find ${S} -name "${PN}_*.conf") ; do
-		z=$(basename $x)
+	for x in $(find ${S} -maxdepth 1 -type f -name "${PN}_*.conf") ; do
+		z="${x##*/}"   # like =$(basename $x) but w/o subshell and function call
 		einfo "installing ${z} into ${target}"
 		newins "${x}" "${z}"  || die "failed to install ${z} into ${target}"
 	done
@@ -96,6 +96,8 @@ pkg_postinst() {
 	elog "ver 0.0.1 is the initial build"
 	elog " 0.0.2 adds local.usage info about eselect module"
 	elog " 0.0.3 provides refinements and bugfixes"
+	elog " 0.0.4 updates sensitive source dirs and files"
+	elog " 0.1.0 adopts j_msg, new joetoo cli, and extracts ssh key mgmt to script_header_joetoo_ssh"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
