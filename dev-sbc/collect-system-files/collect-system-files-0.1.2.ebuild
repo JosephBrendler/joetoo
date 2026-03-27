@@ -62,10 +62,11 @@ src_install() {
 	newexe "${S}/${PN}" "${PN}" || die "failed to install script ${PN}"
 	elog "Done installing script ${PN}"
 
-	# Install this package's .conf files in /etc/${PN}
-	target="/etc/${PN}"
+	# Install this package's .conf files in /etc/${PN}/configs
+	# ( so app_configure will only load the linked config )
+	target="/etc/${PN}/configs/"
 	insinto "${target}"
-	for x in $(find ${S} -maxdepth 1 -type f -name "${PN}_*.conf") ; do
+	for x in $(find ${S} -type f -name "${PN}_*.conf") ; do
 		z="${x##*/}"   # like =$(basename $x) but w/o subshell and function call
 		einfo "installing ${z} into ${target}"
 		newins "${x}" "${z}"  || die "failed to install ${z} into ${target}"
@@ -79,7 +80,6 @@ src_install() {
 	z="${PN}.eselect"
 	newins "${S}/${z}" "${z}"
 	elog "Installed ${PN}.conf eselect module."
-
 }
 
 pkg_postinst() {
@@ -98,6 +98,7 @@ pkg_postinst() {
 	elog " 0.0.3 provides refinements and bugfixes"
 	elog " 0.0.4 updates sensitive source dirs and files"
 	elog " 0.1.0 adopts j_msg, new joetoo cli, and extracts ssh key mgmt to script_header_joetoo_ssh"
+	elog " 0.1.1-2 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
