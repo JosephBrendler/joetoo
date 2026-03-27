@@ -28,7 +28,7 @@ RDEPEND="
 		>=net-misc/radvd-2.20
 		>=net-dns/getdns-1.7.3
 		>=net-dns/unbound-1.23.0-r1
-		>=net-vpn/openvpn-2.6.17-r1[ssl]
+		>=net-vpn/openvpn-2.6.17-r1[openssl]
 		>=dev-util/joetoolkit-0.8.4[router]
 		)
 	vpn? ( >=net-vpn/openvpn-2.6.17-r1[openssl] )
@@ -149,6 +149,7 @@ pkg_postinst() {
 	einfo "PVR=${PVR}"
 	elog "${P} installed"
 	elog "version 0.0.1 is the initial ebuild"
+	elog " 0.0.2 provides bugfixes and enhancements"
 	elog ""
 	ewarn "note: router must have /home/joe/.ssh/id_ddns_update.pub (public key)"
 	ewarn "client connects to submit update with /home/joe/.ssh/id_ddns_update (private key)"
