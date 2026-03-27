@@ -55,6 +55,11 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
 		elog "Installed ${PN}_unicode in ${target}"
+		# install ssh key management module
+		einfo "Installing (ins) ${PN}_ssh into ${target} ..."
+		insinto "${target}"
+		newins "${S%/}/${PN}_ssh" "${PN}_ssh"
+		elog "Installed ${PN}_ssh in ${target}"
 		# install demonstrate_header script
 		einfo "Installing (ins) demonstrate_header into ${target} ..."
 		exeinto "${target}"
