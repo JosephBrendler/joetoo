@@ -55,6 +55,11 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
 		elog "Installed ${PN}_unicode in ${target}"
+		# install ssh key management module
+		einfo "Installing (ins) ${PN}_ssh into ${target} ..."
+		insinto "${target}"
+		newins "${S%/}/${PN}_ssh" "${PN}_ssh"
+		elog "Installed ${PN}_ssh in ${target}"
 		# install demonstrate_header script
 		einfo "Installing (ins) demonstrate_header into ${target} ..."
 		exeinto "${target}"
@@ -170,7 +175,7 @@ src_install() {
 	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
 	elog " 0.5.1-17 provide bugfixes and enhancements"
 	elog " 0.6.0 adds asset cache file and precook_everything_now()"
-	elog " 0.6.1-13 provide bugfixes and enhancements"
+	elog " 0.6.1-15 provide bugfixes and enhancements"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
