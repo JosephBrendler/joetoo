@@ -38,29 +38,32 @@ src_install() {
 	einfo "FILESDIR=${FILESDIR}"
 
 	# install README.md, BUILD, BPN files into /etc/${PN}/
-	elog "Installing (ins) into /etc/${PN}/"
-	insinto "/etc/${PN}/"
+	target="/etc/${PN}/"
+	einfo "Installing (ins) README.md, BUILD, BPN files into ${target}"
+	insinto "${target}"
 	newins "${S}/README.md" "README.md"  || die "Install failed!"
-	elog "Done installing README.md"
+	elog "Installed README.md into ${target}"
 	echo "BUILD=${PVR}" > ${T}/BUILD
 	newins "${T}/BUILD" "BUILD" || die "Install failed!"
-	elog "Done installing BUILD"
+	elog "Installed BUILD into ${target}"
 	echo "BPN=${PN}" > ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "Install failed!"
-	elog "Done installing BPN"
+	elog "Installed BPN into ${target}"
 
 	# install the ${PN}_local.cmdline_arg_handler
+	target="/etc/${PN}/"
+	insinto "${target}"
 	einfo "Installing (ins) ${PN} cmdline arg and usage module into ${target} ..."
 	insinto "${target}"
 	newins "${S%/}/${PN}_local.cmdline_arg_handler" "${PN}_local.cmdline_arg_handler" || \
 		die "failed to install ${PN}_local.cmdline_arg_handler"
-	elog "installed ${PN}_local.cmdline_arg_handler in ${target}"
+	elog "Installed ${PN}_local.cmdline_arg_handler in ${target}"
 
 	# Install script into /usr/sbin/
-	elog "Installing (exe) into /usr/sbin/"
+	einfo "Installing (exe) into /usr/sbin/"
 	exeinto "/usr/sbin/"
 	newexe "${S}/${PN}" "${PN}" || die "failed to install script ${PN}"
-	elog "Done installing script ${PN}"
+	elog "Installed script ${PN} into ${target}"
 
 	# Install this package's .conf files in /etc/${PN}/configs
 	# ( so app_configure will only load the linked config )
@@ -71,7 +74,7 @@ src_install() {
 		einfo "installing ${z} into ${target}"
 		newins "${x}" "${z}"  || die "failed to install ${z} into ${target}"
 	done
-	elog "Done installing .conf file(s)"
+	elog "Installed .conf file(s) into ${target}"
 
 	# Install ${PN}.conf eselect module
 	target="/usr/share/eselect/modules/"
@@ -98,7 +101,7 @@ pkg_postinst() {
 	elog " 0.0.3 provides refinements and bugfixes"
 	elog " 0.0.4 updates sensitive source dirs and files"
 	elog " 0.1.0 adopts j_msg, new joetoo cli, and extracts ssh key mgmt to script_header_joetoo_ssh"
-	elog " 0.1.1-2 provide refinements and bugfixes"
+	elog " 0.1.1-4 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
