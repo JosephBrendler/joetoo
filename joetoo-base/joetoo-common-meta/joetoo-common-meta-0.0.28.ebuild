@@ -113,6 +113,7 @@ RDEPEND="
 		netifrc? (
 			>=net-misc/netifrc-0.7.3
 			>=net-misc/dhcpcd-9.4.0
+			>=net-misc/ddns_updater-0.0.1
 		)
 		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
 	)
@@ -413,7 +414,8 @@ pkg_postinst() {
 	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
 	elog " 0.0.23 provides locale UTF-8 standardization"
 	elog " 0.0.24 drops unicode header from .bashrc"
-	elog " 0.0.25/6 adds openresolv fix for resolv.conf with openvpn hook scripts"
+	elog " 0.0.25-7 refines networking and hook scripts"
+	elog " 0.0.28 adds sysctl.d lines for temp priv ipv6 ULA policy"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
