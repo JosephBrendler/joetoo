@@ -149,7 +149,7 @@ pkg_postinst() {
 	einfo "PVR=${PVR}"
 	elog "${P} installed"
 	elog "version 0.0.1 is the initial ebuild"
-	elog " 0.0.2-5 provide bugfixes and enhancements"
+	elog " 0.0.2-7 provide bugfixes and enhancements"
 	elog ""
 	ewarn "note: router must have /home/joe/.ssh/id_ddns_update.pub (public key)"
 	ewarn "client connects to submit update with /home/joe/.ssh/id_ddns_update (private key)"
