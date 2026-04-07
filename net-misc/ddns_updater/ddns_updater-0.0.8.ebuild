@@ -13,7 +13,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
 
-IUSE="+client direct vpn dns"
+IUSE="+client daemon direct vpn dns"
 
 REQUIRED_USE="
 	^^ ( client dns )
