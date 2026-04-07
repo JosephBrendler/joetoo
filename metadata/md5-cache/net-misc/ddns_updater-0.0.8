@@ -1,0 +1,14 @@
+BDEPEND=dns? ( >=net-dns/dnsmasq-2.91 >=net-misc/radvd-2.20 >=net-dns/getdns-1.7.3 >=net-dns/unbound-1.23.0-r1 >=net-vpn/openvpn-2.6.17-r1[openssl] >=dev-util/joetoolkit-0.8.4[router] ) vpn? ( >=net-vpn/openvpn-2.6.17-r1[openssl] ) >=net-dns/openresolv-3.16.5 >=dev-util/joetoolkit-0.8.4 >=dev-util/script_header_joetoo-0.6.10
+DEFINED_PHASES=install postinst
+DESCRIPTION=custom scripts for client and server side of dynamic dns update process in dual-stack ipv4/ipv6 local net
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=+client direct vpn dns
+KEYWORDS=amd64 ~amd64 arm ~arm arm64 ~arm64
+LICENSE=MIT
+RDEPEND=dns? ( >=net-dns/dnsmasq-2.91 >=net-misc/radvd-2.20 >=net-dns/getdns-1.7.3 >=net-dns/unbound-1.23.0-r1 >=net-vpn/openvpn-2.6.17-r1[openssl] >=dev-util/joetoolkit-0.8.4[router] ) vpn? ( >=net-vpn/openvpn-2.6.17-r1[openssl] ) >=net-dns/openresolv-3.16.5 >=dev-util/joetoolkit-0.8.4 >=dev-util/script_header_joetoo-0.6.10
+REQUIRED_USE=^^ ( client dns ) client? ( ^^ ( direct daemon vpn ) )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/net-misc/ddns_updater-0.0.8.tbz2
+_md5_=310fbc3bc527fce975de7d8b7b0a3a73
