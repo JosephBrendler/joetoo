@@ -74,6 +74,8 @@ pkg_postinst() {
 	elog " 0.1.14 adds crossbuild-perl-fix to package.env"
 	elog " 0.1.15 adds bind_ldflags.conf/package.env for crossbuilding net-dns/bind"
 	elog " 0.1.16 fixes UTF-8 standardization"
+	elog " 0.1.17 adds j1_makeopts.conf and trims package.env"
+	elog " 0.1.18 adds draft test harness for distcc-fail packages"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
