@@ -73,6 +73,8 @@ pkg_postinst() {
 	elog " 0.1.13 joetoo-base/joetoo-common-meta no_collision-protect.conf"
 	elog " 0.1.14 adds crossbuild-perl-fix to package.env"
 	elog " 0.1.15 adds bind_ldflags.conf/package.env for crossbuilding net-dns/bind"
-	elog " "
+	elog " 0.1.16 fixes UTF-8 standardization"
+	elog " 0.1.17 adds j1_makeopts.conf and trims package.env"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
