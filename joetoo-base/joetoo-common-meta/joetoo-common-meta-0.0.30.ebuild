@@ -415,7 +415,8 @@ pkg_postinst() {
 	elog " 0.0.23 provides locale UTF-8 standardization"
 	elog " 0.0.24 drops unicode header from .bashrc"
 	elog " 0.0.25-7 refines networking and hook scripts"
-	elog " 0.0.28 adds sysctl.d lines for temp priv ipv6 ULA policy"
+	elog " 0.0.29 adds sysctl.d lines for temp priv ipv6 ULA policy"
+	elog " 0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
