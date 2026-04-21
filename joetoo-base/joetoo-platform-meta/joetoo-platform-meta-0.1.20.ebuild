@@ -391,6 +391,8 @@ pkg_postinst() {
 	elog " 0.1.15 adds USE -branding for grub (protect sbc builds)"
 	elog " 0.1.16 drops USE thin from lvm2 in 80joetoo_common"
 	elog " 0.1.17/8 updates make.conf parts, assemble family and adds parallel tool"
+	elog " 0.1.19 updates package.use"
+	elog " 0.1.20 updates make.conf and its assembler"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
