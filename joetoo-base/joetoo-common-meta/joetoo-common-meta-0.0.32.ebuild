@@ -417,6 +417,8 @@ pkg_postinst() {
 	elog " 0.0.25-7 refines networking and hook scripts"
 	elog " 0.0.29 adds sysctl.d lines for temp priv ipv6 ULA policy"
 	elog " 0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg"
+	elog " 0.0.31 updates ssh_config"
+	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
