@@ -11,10 +11,7 @@
 	</maintainer>
 	<use>
 		<flag name="dns">install scripts and configs for ddns serverr</flag>
-		<flag name="client">enable client support (direct or vpn) as appropriate</flag>
-		<flag name="daeomn">install ddns init script with daemon and updater for ddns client</flag>
-		<flag name="direct">(legacy mode)if direct client, install dhcpcd.ddns for client</flag>
-		<flag name="direct">if vpn client, install only dhcpcd config and neighbor discovery script</flag>
+		<flag name="client">install client openrc service ddns, ddns-daemon, and ddns-updtate scripts</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
