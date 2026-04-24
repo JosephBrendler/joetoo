@@ -17,7 +17,6 @@ IUSE="+client daemon direct vpn dns"
 
 REQUIRED_USE="
 	^^ ( client dns )
-	client? ( ^^ ( direct daemon vpn ) )
 "
 
 RESTRICT="mirror"
@@ -31,7 +30,6 @@ RDEPEND="
 		>=net-vpn/openvpn-2.6.17-r1[openssl]
 		>=dev-util/joetoolkit-0.8.4[router]
 		)
-	vpn? ( >=net-vpn/openvpn-2.6.17-r1[openssl] )
 	>=net-dns/bind-tools-9.18.0-r1
 	>=net-dns/openresolv-3.16.5
 	>=dev-util/joetoolkit-0.8.4
