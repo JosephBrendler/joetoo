@@ -127,6 +127,7 @@ pkg_postinst() {
 	elog " 10.0.0 integrates script_header_joetoo (POSIX), upgrades all"
 	elog " 10.0.1 provides bufixes and enhancements"
 	elog " 10.0.2 adopts new joetoo messaging engine and luks management"
+	elog " 10.0.3/4 provide bugfixes and enhancements"
 	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
