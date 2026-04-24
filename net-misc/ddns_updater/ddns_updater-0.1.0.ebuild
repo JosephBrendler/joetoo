@@ -51,12 +51,12 @@ src_install() {
 	einfo "PV=${PV}"
 	einfo "PVR=${PVR}"
 	elog "in src_install"
-  if use dns; then elog "USE flag dns was selected"; else elog "USE flag dns was not selected"; fi
-  if use client; then elog "USE flag client was selected"; else elog "USE flag client was not selected"; fi
-  if use direct; then elog "USE flag direct was selected"; else elog "USE flag direct was not selected"; fi
-  if use daemon; then elog "USE flag daemon was selected"; else elog "USE flag daemon was not selected"; fi
-  if use vpn; then elog "USE flag vpn was selected"; else elog "USE flag vpn was not selected"; fi
-
+	if use dns; then elog "USE flag dns was selected"; else elog "USE flag dns was not selected"; fi
+	if use client; then elog "USE flag client was selected"; else elog "USE flag client was not selected"; fi
+# (legacy - retain until fully retired)
+#  if use direct; then elog "USE flag direct was selected"; else elog "USE flag direct was not selected"; fi
+#  if use daemon; then elog "USE flag daemon was selected"; else elog "USE flag daemon was not selected"; fi
+#  if use vpn; then elog "USE flag vpn was selected"; else elog "USE flag vpn was not selected"; fi
 
 	if use dns; then
 		elog "installing for USE flag dns"
@@ -90,49 +90,50 @@ src_install() {
 		elog "Installed (newins) 99-ddns-update into ${target}"
 	elif use client; then
 		elog "installing for USE flag client"
-		if use direct; then
-			elog "installing for USE flag direct (legacy mode)"
-			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
-			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
-			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
-			exeinto "${target}"
-			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update-hook" || die "failed to install 99-ddns-update-hook"
-			elog "Installed (newexe) 99-ddns-update-hook into ${target}"
+# note: leaving legacy modes commented out as tracker for what to retire deliberately in future updates
+#		if use direct; then
+#			elog "installing for USE flag direct (legacy mode)"
+#			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
+#			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
+#			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
+#			exeinto "${target}"
+#			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update-hook" || die "failed to install 99-ddns-update-hook"
+#			elog "Installed (newexe) 99-ddns-update-hook into ${target}"
+#
+#			# install dhcpcd.ddns-update.sh to /etc/ (called by hook, to send update to dns)
+#			target="/etc/"
+#			einfo "Installing (exe) dhcpcd.ddns-update.sh into ${target}"
+#			exeinto "${target}"
+#			newexe "${S}/client/dhcpcd.ddns-update.sh" "dhcpcd.ddns-update.sh" || die "failed to install dhcpcd.ddns-update.sh"
+#			elog "Installed (newexe) dhcpcd.ddns-update.sh into ${target}"
+#
+#		elif use daemon; then
+		elog "installing for USE flag daemon (new ddns mode)"
+		# install ddns init script as /etc/init.d/ddns
+		target="/etc/init.d/"
+		einfo "Installing (exe) ddns into ${target}"
+		exeinto "${target}"
+		newexe "${S}/client/ddns" "ddns" || die "failed to install ddns init script"
+		elog "Installed (newexe) ddns into ${target}"
 
-			# install dhcpcd.ddns-update.sh to /etc/ (called by hook, to send update to dns)
-			target="/etc/"
-			einfo "Installing (exe) dhcpcd.ddns-update.sh into ${target}"
-			exeinto "${target}"
-			newexe "${S}/client/dhcpcd.ddns-update.sh" "dhcpcd.ddns-update.sh" || die "failed to install dhcpcd.ddns-update.sh"
-			elog "Installed (newexe) dhcpcd.ddns-update.sh into ${target}"
+		# install ddns-daemon to /usr/sbin
+		target="/usr/sbin/"
+		einfo "Installing (exe) ddns-daemon into ${target}"
+		exeinto "${target}"
+		newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
+		elog "Installed (newexe) ddns-daemon into ${target}"
 
-		elif use daemon; then
-			elog "installing for USE flag daemon (new ddns mode)"
-			# install ddns init script as /etc/init.d/ddns
-			target="/etc/init.d/"
-			einfo "Installing (exe) ddns into ${target}"
-			exeinto "${target}"
-			newexe "${S}/client/ddns" "ddns" || die "failed to install ddns init script"
-			elog "Installed (newexe) ddns into ${target}"
+		# install ddns-update to /usr/sbin
+		target="/usr/sbin/"
+		einfo "Installing (exe) ddns-update into ${target}"
+		exeinto "${target}"
+		newexe "${S}/client/ddns-update" "ddns-update" || die "failed to install ddns-update"
+		elog "Installed (newexe) ddns-update into ${target}"
 
-			# install ddns-daemon to /usr/sbin
-			target="/usr/sbin/"
-			einfo "Installing (exe) ddns-daemon into ${target}"
-			exeinto "${target}"
-			newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
-			elog "Installed (newexe) ddns-daemon into ${target}"
-
-			# install ddns-update to /usr/sbin
-			target="/usr/sbin/"
-			einfo "Installing (exe) ddns-update into ${target}"
-			exeinto "${target}"
-			newexe "${S}/client/ddns-update" "ddns-update" || die "failed to install ddns-update"
-			elog "Installed (newexe) ddns-update into ${target}"
-
-		elif use vpn; then
-			elog "installing for USE flag vpn"
-
-		fi  # direct/daemon/vpn
+#		elif use vpn; then
+#			elog "installing for USE flag vpn"
+#
+#		fi  # direct/daemon/vpn
 
 		# for all client cases - install dhcpcd.conf and 99-ula-ndp-fix.start
 
@@ -164,11 +165,21 @@ pkg_postinst() {
 	einfo "PVR=${PVR}"
 	elog "${P} installed"
 	elog "version 0.0.1 is the initial ebuild"
-	elog " 0.0.2-10 provide bugfixes and enhancements"
+	elog " 0.0.2-11 provide bugfixes and enhancements"
+	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog ""
-	ewarn "note: router must have /home/joe/.ssh/id_ddns_update.pub (public key)"
-	ewarn "client connects to submit update with /home/joe/.ssh/id_ddns_update (private key)"
-	ewarn "99-ula-ndp-fix.start insstalled in /etc/local.d/;"
-	ewarn "   must be executable to run (also fix selected interfaces)"
+	ewarn "notes:"
+	ewarn "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
+	ewarn "(2) router must now have /home/joe/.ssh/id_ddns_update_46.pub (new public key)"
+	ewarn " (a) router must also install sudoers file distributed by ebuild for USE=dns"
+	ewarn " (b) router must also update /home/${user}/.ssh/authorized_keys file for new ssh hey and command"
+	elog " (again for log) router must also update /home/${user}/.ssh/authorized_keys file for new ssh hey and command"
+	elog "  this should resemble:"
+	elog "  command=\"/usr/bin/sudo /usr/sbin/ddns-update-server $SSH_ORIGINAL_COMMAND\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 <pubkey> joe@brendler-ddns-dualstack"
+	ewarn "(3) client connects to submit update with /home/joe/.ssh/id_ddns_update_46 (new private key)"
+	ewarn " (a) client sub-USE flags for vpn, direct, daemon are deprecated; all use daemon now"
+	ewarn " (b) client 99-ula-ndp-fix.start insstalled in /etc/local.d/;"
+	ewarn " (c) client must also run sudo rc-update add ddns default"
+	ewarn "    must be executable to run (also fix selected interfaces)"
 	elog "Thank you for using ${PN}"
 }
