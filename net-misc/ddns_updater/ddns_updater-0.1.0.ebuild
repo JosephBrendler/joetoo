@@ -11,7 +11,8 @@ S="${WORKDIR%/}/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64"
+# revert to testing this version
+KEYWORDS="~amd64 ~arm ~arm64"
 
 IUSE="+client daemon direct vpn dns"
 
