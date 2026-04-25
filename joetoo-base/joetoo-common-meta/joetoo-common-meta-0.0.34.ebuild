@@ -9,7 +9,8 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${C
 
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
+# revert to testing this version
+KEYWORDS="~arm ~amd64 ~arm64"
 
 RESTRICT="mirror"
 
