@@ -9,7 +9,8 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${C
 
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
+# revert to testing this version
+KEYWORDS="~arm ~amd64 ~arm64"
 
 RESTRICT="mirror"
 
@@ -419,7 +420,7 @@ pkg_postinst() {
 	elog " 0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg"
 	elog " 0.0.31 updates ssh_config"
 	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
-	elog " 0.0.33 adds ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
+	elog " 0.0.33-5 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
