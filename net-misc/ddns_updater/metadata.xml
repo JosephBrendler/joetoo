@@ -4,14 +4,17 @@
 	<longdescription>
 		provides client and dns server scripts enabling clients to submit dynamic updates to their dns,
 		in a dual-stack environment including both direct dnsmasq/radvd clients and openvpn clients
+		dnsmasq clients are supported by openrc service and daemon and dhcpcd hook script
+		vpn clients are supported by openvpn.romote|local-up|down.sn --> joetoo-up|down.sh hook scripts
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
 		<name>Joe Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="dns">install scripts and configs for ddns serverr</flag>
-		<flag name="client">install client openrc service ddns, ddns-daemon, and ddns-updtate scripts</flag>
+		<flag name="dns">install scripts and configs for ddns server (dnsmasq dns)</flag>
+		<flag name="client">install client and ddns-updtate script and common configs</flag>
+		<flag name="daemon">install client ddns, ddns-daemon (ipv6) and 99-ddns-update-hook (ipv4)</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>

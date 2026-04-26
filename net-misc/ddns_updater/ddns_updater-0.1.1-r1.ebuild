@@ -7,6 +7,8 @@ DESCRIPTION="custom scripts for client and server side of dynamic dns update pro
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
+# 20260425 - update: daemon ONLY goes to dnsmasq/SLAAC clients (not vpn)
+
 S="${WORKDIR%/}/${PN}"
 
 LICENSE="MIT"
@@ -14,10 +16,11 @@ SLOT="0"
 # revert to testing this version
 KEYWORDS="~amd64 ~arm ~arm64"
 
-IUSE="+client daemon direct vpn dns"
+IUSE="+client daemon dns"
 
 REQUIRED_USE="
 	^^ ( client dns )
+	daemon? ( client )
 "
 
 RESTRICT="mirror"
@@ -89,38 +92,13 @@ src_install() {
 		elog "Installed (newins) 99-ddns-update into ${target}"
 	elif use client; then
 		elog "installing for USE flag client"
-# note: leaving legacy modes commented out as tracker for what to retire deliberately in future updates
-#		if use direct; then
-#			elog "installing for USE flag direct (legacy mode)"
-#			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
-#			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
-#			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
-#			exeinto "${target}"
-#			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update-hook" || die "failed to install 99-ddns-update-hook"
-#			elog "Installed (newexe) 99-ddns-update-hook into ${target}"
-#
-#			# install dhcpcd.ddns-update.sh to /etc/ (called by hook, to send update to dns)
-#			target="/etc/"
-#			einfo "Installing (exe) dhcpcd.ddns-update.sh into ${target}"
-#			exeinto "${target}"
-#			newexe "${S}/client/dhcpcd.ddns-update.sh" "dhcpcd.ddns-update.sh" || die "failed to install dhcpcd.ddns-update.sh"
-#			elog "Installed (newexe) dhcpcd.ddns-update.sh into ${target}"
-#
-#		elif use daemon; then
-		elog "installing for USE flag daemon (new ddns mode)"
-		# install ddns init script as /etc/init.d/ddns
-		target="/etc/init.d/"
-		einfo "Installing (exe) ddns into ${target}"
-		exeinto "${target}"
-		newexe "${S}/client/ddns" "ddns" || die "failed to install ddns init script"
-		elog "Installed (newexe) ddns into ${target}"
 
-		# install ddns-daemon to /usr/sbin
-		target="/usr/sbin/"
-		einfo "Installing (exe) ddns-daemon into ${target}"
-		exeinto "${target}"
-		newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
-		elog "Installed (newexe) ddns-daemon into ${target}"
+		# install /etc/conf.d/ddns
+		target="/etc/conf.d/"
+		einfo "Installing (ins) ddns into ${target}"
+		insinto "${target}"
+		newins "${S}/client/config_d_ddns" "ddns" || die "failed to install /etc/conf.d/ddns"
+		elog "Installed (newexe) ddns into ${target}"
 
 		# install ddns-update to /usr/sbin
 		target="/usr/sbin/"
@@ -128,13 +106,6 @@ src_install() {
 		exeinto "${target}"
 		newexe "${S}/client/ddns-update" "ddns-update" || die "failed to install ddns-update"
 		elog "Installed (newexe) ddns-update into ${target}"
-
-#		elif use vpn; then
-#			elog "installing for USE flag vpn"
-#
-#		fi  # direct/daemon/vpn
-
-		# for all client cases - install dhcpcd.conf and 99-ula-ndp-fix.start
 
 		# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 		einfo "Installing (ins) dhcpcd.conf into ${target}"
@@ -148,6 +119,30 @@ src_install() {
 		exeinto "${target}"
 		newexe "${S}/client/99-ula-ndp-fix.start" "99-ula-ndp-fix.start" || die "failed to install 99-ula-ndp-fix.start"
 		elog "Installed (newexe) 99-ula-ndp-fix.start into ${target}"
+
+		if use daemon; then
+			# install ddns init script as /etc/init.d/ddns
+			target="/etc/init.d/"
+			einfo "Installing (exe) ddns into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/ddns" "ddns" || die "failed to install ddns init script"
+			elog "Installed (newexe) ddns into ${target}"
+
+			# install ddns-daemon to /usr/sbin
+			target="/usr/sbin/"
+			einfo "Installing (exe) ddns-daemon into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
+			elog "Installed (newexe) ddns-daemon into ${target}"
+
+			elog "installing for USE flag direct (legacy mode)"
+			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
+			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
+			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update-hook" || die "failed to install 99-ddns-update-hook"
+			elog "Installed (newexe) 99-ddns-update-hook into ${target}"
+		fi
 
 	fi  # dns/client
 	elog "done src_install for ${PN}"
