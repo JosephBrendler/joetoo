@@ -14,7 +14,8 @@
 	<use>
 		<flag name="dns">install scripts and configs for ddns server (dnsmasq dns)</flag>
 		<flag name="client">install client and ddns-updtate script and common configs</flag>
-		<flag name="daemon">install client ddns, ddns-daemon (ipv6) and 99-ddns-update-hook (ipv4)</flag>
+		<flag name="daemon">install ddns-update, triggered by openrc ddns-daemon (ipv6) and dhcpcd 99-ddns-update hook (ipv4)</flag>
+		<flag name="vpn">install ddns-updtate, triggered by openvpn up/down.sh hooks</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
