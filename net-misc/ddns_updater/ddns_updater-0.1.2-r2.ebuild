@@ -135,13 +135,13 @@ src_install() {
 			newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
 			elog "Installed (newexe) ddns-daemon into ${target}"
 
-			elog "installing for USE flag direct (legacy mode)"
-			# install 99-ddns-update-hook as /usr/lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /etc/dhcpcd.ddns-update.sh)
-			target="/usr/lib/dhcpcd/dhcpcd-hooks/"
+			elog "installing for USE flag direct"
+			# install 99-ddns-update-hook as /lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /usr/sbin/ddns-update)
+			target="/lib/dhcpcd/dhcpcd-hooks/"
 			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
 			exeinto "${target}"
-			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update-hook" || die "failed to install 99-ddns-update-hook"
-			elog "Installed (newexe) 99-ddns-update-hook into ${target}"
+			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update" || die "failed to install 99-ddns-update hook script"
+			elog "Installed (newexe) 99-ddns-update hook script into ${target}"
 		fi
 
 	fi  # dns/client
@@ -162,6 +162,7 @@ pkg_postinst() {
 	elog " 0.0.2-11 provide bugfixes and enhancements"
 	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
+	elog " 0.1.2- provide bugfixes and enhancements"
 	elog ""
 	ewarn "notes:"
 	ewarn "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
