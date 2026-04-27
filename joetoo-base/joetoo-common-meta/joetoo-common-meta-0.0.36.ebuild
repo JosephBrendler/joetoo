@@ -420,7 +420,7 @@ pkg_postinst() {
 	elog " 0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg"
 	elog " 0.0.31 updates ssh_config"
 	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
-	elog " 0.0.33/4 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
+	elog " 0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
