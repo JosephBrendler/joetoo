@@ -262,7 +262,7 @@ pkg_postinst() {
 	elog " 0.8.2 utility_archive.tbz2; decided NOT to consolidate script_header_joetoo"
 	elog " 0.8.3 bugfix ebup and tarup"
 	elog " 0.8.4 patches logfile writability in utilities"
-	elog " 0.8.6-15 provide toolkit bugfixes and enhancements"
+	elog " 0.8.6-17 provide toolkit bugfixes and enhancements"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
