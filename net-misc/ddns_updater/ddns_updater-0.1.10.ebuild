@@ -65,7 +65,7 @@ src_install() {
 	# draft, edit, and install /etc/conf.d/ddns
 	# First - copy /etc/conf.d/ddns draft (config_d_ddns) to temp scratch space to edit
 	einfo "copying config_d_ddns to temporary scratch work space T: ${T} ..."
-	cp ${S}/config_d_ddns" ${T}/ || \
+	cp "${S}/config_d_ddns" "${T}/" || \
 	die "failed to copy config_d_ddns to $T"
 	# Next - edit config_d_ddns assignment of BUILD env variable
 	einfo "editing config_d_ddns to set BUILD=${PVR} ..."

@@ -11,4 +11,4 @@ REQUIRED_USE=^^ ( client dns ) client? ( ^^ ( daemon vpn ) )
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/net-misc/ddns_updater-0.1.10.tbz2
-_md5_=fed39f3c3336c3bd2a56d141bde55e7b
+_md5_=a7eeb88279f3dd7f12572ab1d5067490
