@@ -62,17 +62,33 @@ src_install() {
 #  if use direct; then elog "USE flag direct was selected"; else elog "USE flag direct was not selected"; fi
 
 	# gobal: install this for all USE cases
-	# install /etc/conf.d/ddns
+	# draft, edit, and install /etc/conf.d/ddns
+	# First - copy /etc/conf.d/ddns draft (config_d_ddns) to temp scratch space to edit
+	einfo "copying config_d_ddns to temporary scratch work space T: ${T} ..."
+	cp ${S}/config_d_ddns" ${T}/ || \
+	die "failed to copy config_d_ddns to $T"
+	# Next - edit config_d_ddns assignment of BUILD env variable
+	einfo "editing config_d_ddns to set BUILD=${PVR} ..."
+	NEW_BUILD_STR="${PVR}    # dynamically updated by ebuild"  # note: .* matches any char followed by anything
+	sed -i "s|BUILD=.*|BUILD=${NEW_BUILD_STR}|" "${T}/config_d_ddns" || die "failed to edit config_d_ddns"
+	# Finally - install the draft as final
 	target="/etc/conf.d/"
-	einfo "Installing (ins) ddns into ${target}"
+	einfo "Installing (ins) config_d_ddns as ddns into ${target}"
 	insinto "${target}"
-	newins "${S}/config_d_ddns" "ddns" || die "failed to install /etc/conf.d/ddns"
+	newins "${T}/config_d_ddns" "ddns" || die "failed to install /etc/conf.d/ddns"
 	elog "Installed (newexe) ddns into ${target}"
 
 	if use dns; then
 		# server-specific: only the ddns server gets these things
 		elog "installing for USE flag dns"
-		# **[LEGACY-MAYBE]** install openvpn_dns_updater.sh to /usr/sbin/
+		# install ddns-update-server to /usr/sbin (client ssh command calls this)
+		target="/usr/sbin/"
+		einfo "Installing (exe) ddns-update into ${target}"
+		exeinto "${target}"
+		newexe "${S}/dns/ddns-update-server" "ddns-update" || die "failed to install ddns-update-server"
+		elog "Installed (newexe) ddns-update-server into ${target}"
+
+		# **[ To Do: REFACTOR as emaint_ddns]** install openvpn_dns_updater.sh to /usr/sbin/ (this scrapes /var/log/openvpn-status.log)
 		target="/usr/sbin/"
 		einfo "Installing (exe) openvpn_dns_updater.sh into ${target}"
 		exeinto "${target}"
@@ -86,25 +102,17 @@ src_install() {
 		newins "${S}/dns/dhcpcd.conf.router" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
 		elog "Installed (newins) dhcpcd.conf into ${target}"
 
-		# **[LEGACY]** install update-client-host.sh /etc/ddns_update/ (this is the script run by sudo when the ssh
-			# user connects and sends "${COMMAND_ARGS} (="${ACTION_IPV6_ADDRESS} ${FQDN} ${INTERFACE} $(timestamp)")
-		target="/etc/ddns_update/"
-		einfo "Installing (exe) update-client-host.sh into ${target}"
-		exeinto "${target}"
-		newexe "${S}/dns/update-client-host.sh" "update-client-host.sh" || die "failed to install update-client-host.sh"
-		elog "Installed (newexe) update-client-host.sh into ${target}"
-
 		# install 99-ddns-update to /etc/sudoers.d/ (allows remote connect to run specified commands)
 		target="/etc/sudoers.d/"
-		einfo "Installing (ins) 99-ddns-update into ${target}"
+		einfo "Installing (ins) 99-ddns-update-server into ${target}"
 		insinto "${target}"
-		newins "${S}/dns/99-ddns-update" "99-ddns-update" || die "failed to install 99-ddns-update"
-		elog "Installed (newins) 99-ddns-update into ${target}"
+		newins "${S}/dns/99-ddns-update-server" "99-ddns-update-server" || die "failed to install 99-ddns-update"
+		elog "Installed (newins) 99-ddns-update-server into ${target}"
 	elif use client; then
-                # client-common: all clients (vpn and dnsmasq/SLAAC get these things
+		# client-common: all clients (vpn and dnsmasq/SLAAC get these things
 		elog "installing for USE flag client"
 
-		# install ddns-update to /usr/sbin
+		# install ddns-update to /usr/sbin (this uses ssh to submit update to dns)
 		target="/usr/sbin/"
 		einfo "Installing (exe) ddns-update into ${target}"
 		exeinto "${target}"
@@ -126,14 +134,14 @@ src_install() {
 
 		# all clients get the stuff above, but only openrc daemon clients get these things
 		if use daemon; then
-			# install ddns init script as /etc/init.d/ddns
+			# install ddns init script as /etc/init.d/ddns (this is the openrc service to run under supervise-daemon)
 			target="/etc/init.d/"
 			einfo "Installing (exe) ddns into ${target}"
 			exeinto "${target}"
 			newexe "${S}/client/ddns" "ddns" || die "failed to install ddns init script"
 			elog "Installed (newexe) ddns into ${target}"
 
-			# install ddns-daemon to /usr/sbin
+			# install ddns-daemon to /usr/sbin (this calls ddns-update for ipv6)
 			target="/usr/sbin/"
 			einfo "Installing (exe) ddns-daemon into ${target}"
 			exeinto "${target}"
@@ -141,7 +149,7 @@ src_install() {
 			elog "Installed (newexe) ddns-daemon into ${target}"
 
 			elog "installing for USE flag direct"
-			# install 99-ddns-update-hook as /lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (calls /usr/sbin/ddns-update)
+			# install 99-ddns-update-hook as /lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (this calls /usr/sbin/ddns-update for ipv4)
 			target="/lib/dhcpcd/dhcpcd-hooks/"
 			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
 			exeinto "${target}"
@@ -167,7 +175,7 @@ pkg_postinst() {
 	elog " 0.0.2-11 provide bugfixes and enhancements"
 	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
-	elog " 0.1.2-8 provide bugfixes and enhancements"
+	elog " 0.1.2-10 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
