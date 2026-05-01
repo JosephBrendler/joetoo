@@ -120,6 +120,7 @@ src_install() {
 		elog "Installed (newexe) ddns-update into ${target}"
 
 		# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
+		target="/etc/"
 		einfo "Installing (ins) dhcpcd.conf into ${target}"
 		insinto "${target}"
 		newins "${S}/client/dhcpcd.conf.client" "dhcpcd.conf" || die "failed to install dhcpcd.conf"
