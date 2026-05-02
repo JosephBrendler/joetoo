@@ -176,7 +176,7 @@ pkg_postinst() {
 	elog " 0.0.2-11 provide bugfixes and enhancements"
 	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
-	elog " 0.1.2-13 provide bugfixes and enhancements"
+	elog " 0.1.2-15 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
