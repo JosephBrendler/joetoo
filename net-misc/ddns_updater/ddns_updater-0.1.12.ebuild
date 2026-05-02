@@ -135,6 +135,7 @@ src_install() {
 
 		# all clients get the stuff above, but only openrc daemon clients get these things
 		if use daemon; then
+			elog "installing for USE flag daemon"
 			# install ddns init script as /etc/init.d/ddns (this is the openrc service to run under supervise-daemon)
 			target="/etc/init.d/"
 			einfo "Installing (exe) ddns into ${target}"
@@ -149,13 +150,12 @@ src_install() {
 			newexe "${S}/client/ddns-daemon" "ddns-daemon" || die "failed to install ddns-daemon"
 			elog "Installed (newexe) ddns-daemon into ${target}"
 
-			elog "installing for USE flag direct"
-			# install 99-ddns-update-hook as /lib/dhcpcd/dhcpcd-hooks/99-ddns-update-hook (this calls /usr/sbin/ddns-update for ipv4)
+			# install 99-ddns-update-hook-ipv4 as /lib/dhcpcd/dhcpcd-hooks/99-ddns-update-ipv4 (this calls /usr/sbin/ddns-update for ipv4)
 			target="/lib/dhcpcd/dhcpcd-hooks/"
-			einfo "Installing (exe) 99-ddns-update-hook into ${target}"
+			einfo "Installing (exe) 99-ddns-update-ipv4 into ${target}"
 			exeinto "${target}"
-			newexe "${S}/client/99-ddns-update-hook" "99-ddns-update" || die "failed to install 99-ddns-update hook script"
-			elog "Installed (newexe) 99-ddns-update hook script into ${target}"
+			newexe "${S}/client/99-ddns-update-hook-ipv4" "99-ddns-update-ipv4" || die "failed to install 99-ddns-update-ipv4 hook script"
+			elog "Installed (newexe) 99-ddns-update-ipv4 hook script into ${target}"
 		fi
 
 	fi  # dns/client
@@ -176,7 +176,7 @@ pkg_postinst() {
 	elog " 0.0.2-11 provide bugfixes and enhancements"
 	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
-	elog " 0.1.2-10 provide bugfixes and enhancements"
+	elog " 0.1.2-12 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
