@@ -83,9 +83,9 @@ src_install() {
 		elog "installing for USE flag dns"
 		# install ddns-update-server to /usr/sbin (client ssh command calls this)
 		target="/usr/sbin/"
-		einfo "Installing (exe) ddns-update into ${target}"
+		einfo "Installing (exe) ddns-update-server into ${target}"
 		exeinto "${target}"
-		newexe "${S}/dns/ddns-update-server" "ddns-update" || die "failed to install ddns-update-server"
+		newexe "${S}/dns/ddns-update-server" "ddns-update-server" || die "failed to install ddns-update-server"
 		elog "Installed (newexe) ddns-update-server into ${target}"
 
 		# **[ To Do: REFACTOR as emaint_ddns]** install openvpn_dns_updater.sh to /usr/sbin/ (this scrapes /var/log/openvpn-status.log)
@@ -176,7 +176,7 @@ pkg_postinst() {
 	elog " 0.0.2-11 provide bugfixes and enhancements"
 	elog " 0.1.0 introduced dual-stack ipv4/6 for both slaac/openvpn environments"
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
-	elog " 0.1.2-12 provide bugfixes and enhancements"
+	elog " 0.1.2-14 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.1.0 instroduces dual-stack ipv4/6 for both slaac/openvpn environments"
