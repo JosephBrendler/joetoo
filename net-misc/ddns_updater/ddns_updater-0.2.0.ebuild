@@ -16,7 +16,7 @@ SLOT="0"
 # revert to testing this version
 KEYWORDS="~amd64 ~arm ~arm64"
 
-IUSE="server +client daemon_4 +daemon_6 +dhcpcd_4 dhcpcd_6 openvpn_4 openvpn6 wsl_4 wsl_6"
+IUSE="+client +ipv4 +ipv6 daemon_4 +daemon_6 +dhcpcd_4 dhcpcd_6 openvpn_4 openvpn_6 wsl_4 wsl_6 server openvpn_status emaint"
 
 REQUIRED_USE="
 	^^ ( client server )
