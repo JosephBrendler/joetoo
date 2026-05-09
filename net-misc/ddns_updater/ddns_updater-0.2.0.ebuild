@@ -95,17 +95,17 @@ src_install() {
 		die "failed to edit config_d_ddns for BUILD"
 	# Next - enable ipv4/ipv6 support according to USE flags
 	if use ipv4; then
-		sed -i "s|^^IPV4_SUPPORT=.*|IPV4_SUPPORT=$TRUE" "${T}/config_d_ddns" || \
+		sed -i 's|^IPV4_SUPPORT=.*|IPV4_SUPPORT=$TRUE' "${T}/config_d_ddns" || \
 			die "failed to edit config_d_ddns for IPV4_SUPPORT"
 	else
-		sed -i "s|^^IPV4_SUPPORT=.*|IPV4_SUPPORT=$FALSE" "${T}/config_d_ddns" || \
+		sed -i 's|^IPV4_SUPPORT=.*|IPV4_SUPPORT=$FALSE' "${T}/config_d_ddns" || \
 			die "failed to edit config_d_ddns for IPV4_SUPPORT"
 	fi
 	if use ipv6; then
-		sed -i "s|^^IPV6_SUPPORT=.*|IPV6_SUPPORT=$TRUE" "${T}/config_d_ddns" || \
+		sed -i 's|^IPV6_SUPPORT=.*|IPV6_SUPPORT=$TRUE' "${T}/config_d_ddns" || \
 			die "failed to edit config_d_ddns for IPV6_SUPPORT"
 	else
-		sed -i "s|^^IPV6_SUPPORT=.*|IPV6_SUPPORT=$FALSE" "${T}/config_d_ddns" || \
+		sed -i 's|^IPV6_SUPPORT=.*|IPV6_SUPPORT=$FALSE' "${T}/config_d_ddns" || \
 			die "failed to edit config_d_ddns for IPV6_SUPPORT"
 	fi
 	# Finally - install the draft as final
