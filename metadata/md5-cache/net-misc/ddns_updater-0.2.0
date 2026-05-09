@@ -11,4 +11,4 @@ REQUIRED_USE=^^ ( client server ) client? ( || ( ipv4 ipv6 ) ipv4? ( || ( daemon
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/net-misc/ddns_updater-0.2.0.tbz2
-_md5_=391e4b3f6d6465a2fd45de2f864db472
+_md5_=4ebfd313e5b7e9d9bb0d3285db0b78ca
