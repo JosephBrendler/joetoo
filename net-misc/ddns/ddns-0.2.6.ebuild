@@ -347,7 +347,7 @@ pkg_postinst() {
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
-	elog " 0.2.1-4 provide bugfixes and enhancements"
+	elog " 0.2.1-5 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"

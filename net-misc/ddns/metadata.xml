@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		provides client and dns server scripts enabling clients to submit dynamic updates to their dns,
+		in a dual-stack environment including both direct dnsmasq/radvd clients and openvpn clients
+		dnsmasq clients are supported by openrc service and daemon and dhcpcd hook script
+		vpn clients are supported by openvpn.romote|local-up|down.sn --> joetoo-up|down.sh hook scripts
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<use>
+		<flag name="server">install scripts and configs for ddns server (dnsmasq dns)</flag>
+		<flag name="openvpn_status">(server) install openvpn_dns_updater.sh script to update hosts files</flag>
+		<flag name="emaint">(server) install ddns-emaint script to curate dns hosts files</flag>
+		<flag name="client">(default) install ddns-updtate script and common configs</flag>
+		<flag name="daemon_4">install openrc ddns server and ddns-daemon config in conf.d/ddns for ipv4</flag>
+		<flag name="daemon_6">(default) install openrc ddns server and ddns-daemon config in conf.d/ddns for ipv6</flag>
+		<flag name="dhcpcd_4">(default) install dhcpcd hook script for ipv4 support</flag>
+		<flag name="dhcpcd_6">install dhcpcd hook script for ipv6 support (if using dhcpv6)</flag>
+		<flag name="openvpn_4">(to do) install openvpn hook script for ipv4 support (if using openvpn and its up.sh)</flag>
+		<flag name="openvpn_6">(to do) install openvpn hook script for ipv6 support (if using openvpn and its up.sh)</flag>
+		<flag name="wsl_4">install linux and powershell support for Windows Subsystem for Linux (WSL) client (ipv4))</flag>
+		<flag name="wsl_6">install linux and powershell support for Windows Subsystem for Linux (WSL) client (ipv6))</flag>
+		<flag name="ipv4">configure for ipv4 ddns support</flag>
+		<flag name="ipv6">configure for ipv6 ddns support</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
+	</upstream>
+</pkgmetadata>
