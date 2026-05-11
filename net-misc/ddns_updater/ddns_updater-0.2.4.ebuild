@@ -93,20 +93,20 @@ src_install() {
 	NEW_BUILD_STR="${PVR}    # dynamically updated by ebuild"  # note: .* matches any char followed by anything
 	sed -i "s|^BUILD=.*|BUILD=${NEW_BUILD_STR}|" "${T}/config_d_ddns" || \
 		die "failed to edit config_d_ddns for BUILD"
-	# Next - enable ipv4/ipv6 support according to USE flags
-	if use ipv4; then
-		sed -i 's|^IPV4_SUPPORT=.*|IPV4_SUPPORT=$TRUE|' "${T}/config_d_ddns" || \
-			die "failed to edit config_d_ddns for IPV4_SUPPORT"
+	# Next - enable /etc/conf.d/ddns ipv4/ipv6 support according to USE flags (relevant ONLY to ddhs-daemon)
+	if use daemon_4; then
+		sed -i 's|^DAEMON_4_SUPPORT=.*|DAEMON_4_SUPPORT=$TRUE|' "${T}/config_d_ddns" || \
+			die "failed to edit config_d_ddns for DAEMON_4_SUPPORT"
 	else
-		sed -i 's|^IPV4_SUPPORT=.*|IPV4_SUPPORT=$FALSE|' "${T}/config_d_ddns" || \
-			die "failed to edit config_d_ddns for IPV4_SUPPORT"
+		sed -i 's|^DAEMON_4_SUPPORT=.*|DAEMON_4_SUPPORT=$FALSE|' "${T}/config_d_ddns" || \
+			die "failed to edit config_d_ddns for DAEMON_4_SUPPORT"
 	fi
-	if use ipv6; then
-		sed -i 's|^IPV6_SUPPORT=.*|IPV6_SUPPORT=$TRUE|' "${T}/config_d_ddns" || \
-			die "failed to edit config_d_ddns for IPV6_SUPPORT"
+	if use daemon_6; then
+		sed -i 's|^DAEMON_6_SUPPORT=.*|DAEMON_6_SUPPORT=$TRUE|' "${T}/config_d_ddns" || \
+			die "failed to edit config_d_ddns for DAEMON_6_SUPPORT"
 	else
-		sed -i 's|^IPV6_SUPPORT=.*|IPV6_SUPPORT=$FALSE|' "${T}/config_d_ddns" || \
-			die "failed to edit config_d_ddns for IPV6_SUPPORT"
+		sed -i 's|^DAEMON_6_SUPPORT=.*|DAEMON_6_SUPPORT=$FALSE|' "${T}/config_d_ddns" || \
+			die "failed to edit config_d_ddns for DAEMON_6_SUPPORT"
 	fi
 	# Finally - install the draft as final
 	target="/etc/conf.d/"
@@ -170,6 +170,12 @@ src_install() {
 #				die "failed to install emaint_ddns"
 			elog "Installed (newexe) openvpn_dns_updater.sh into ${target}"
 		fi
+# to do:
+# - implement emaint module for server (periodic check, purge, or re-timestamp)
+# - rationalize (assuming client side works) offering vpn server vs client responsibility for updates
+#      (for clients that may be a "if your server runs ... then you don't need..."
+# - give server a choice about running openvpn_dns_updater and/or emaint script (when such exists)
+# - develop USE flag dependencies and install logic to implement these choices
 
 
 	elif use client; then
@@ -235,6 +241,8 @@ src_install() {
 			newexe "${S}/client/99-ddns-update-hook-ipv6" "99-ddns-update-ipv6" || die "failed to install 99-ddns-update-ipv6 hook script"
 			elog "Installed (newexe) 99-ddns-update-ipv6 hook script into ${target}"
 		fi
+# to do: implement openvpn hooks
+#   - rationalize (assuming client side works) a vpn option as a third client choice (both ipv4 and ipv6)
 		if use openvpn_4 || use openvpn_6; then
 			elog "use openvpn_4 and/or openvpn_6 was set but is not yet implemented"
 		fi
@@ -319,14 +327,6 @@ src_install() {
 			elog "Installed (newins) resolvconf.conf into ${target}"
 
 		fi
-
-# to do:
-#   - rationalize (assuming client side works) a vpn option as a third client choice (both ipv4 and ipv6)
-#   - rationalize (assuming client side works) offering vpn server vs client responsibility for updates
-#      (for clients that may be a "if your server runs ... then you don't need..."
-# - give server a choice about running openvpn_dns_updater and/or emaint script (when such exists)
-#   - develop USE flag dependencies and install logic to implement these choices
-
 	fi  # server/client
 	elog "done src_install for ${PN}"
 }
@@ -347,7 +347,7 @@ pkg_postinst() {
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
-	elog " 0.2.1-2 provide bugfixes and enhancements"
+	elog " 0.2.1-4 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
@@ -363,3 +363,4 @@ pkg_postinst() {
 	elog "    must be executable to run (also fix selected interfaces)"
 	elog "Thank you for using ${PN}"
 }
+
