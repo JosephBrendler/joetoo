@@ -1,0 +1,14 @@
+BDEPEND=server? ( >=net-dns/dnsmasq-2.91 >=net-misc/radvd-2.20 >=net-dns/getdns-1.7.3 >=net-dns/unbound-1.23.0-r1 >=net-vpn/openvpn-2.6.17-r1[openssl] >=dev-util/joetoolkit-0.8.4[router] ) >=net-dns/bind-tools-9.18.0-r1 >=net-dns/openresolv-3.16.5 >=dev-util/joetoolkit-0.8.4 >=dev-util/script_header_joetoo-0.6.10
+DEFINED_PHASES=install postinst
+DESCRIPTION=custom scripts for client and server side of dynamic dns update process in dual-stack ipv4/ipv6 local net
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+IUSE=+client +ipv4 +ipv6 daemon_4 +daemon_6 +dhcpcd_4 dhcpcd_6 openvpn_4 openvpn_6 wsl_4 wsl_6 server openvpn_status emaint
+KEYWORDS=~amd64 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=server? ( >=net-dns/dnsmasq-2.91 >=net-misc/radvd-2.20 >=net-dns/getdns-1.7.3 >=net-dns/unbound-1.23.0-r1 >=net-vpn/openvpn-2.6.17-r1[openssl] >=dev-util/joetoolkit-0.8.4[router] ) >=net-dns/bind-tools-9.18.0-r1 >=net-dns/openresolv-3.16.5 >=dev-util/joetoolkit-0.8.4 >=dev-util/script_header_joetoo-0.6.10
+REQUIRED_USE=^^ ( client server ) client? ( || ( ipv4 ipv6 ) ipv4? ( || ( daemon_4 dhcpcd_4 openvpn_4 wsl_4 ) ) ipv6? ( || ( daemon_6 dhcpcd_6 openvpn_6 wsl_6 ) ) !server !openvpn_status !emaint ) server? ( || ( openvpn_status emaint ) || ( ipv4 ipv6 ) !client !daemon_4 !daemon_6 !dhcpcd_4 !dhcpcd_6 !openvpn_4 !openvpn_6 !wsl_4 !wsl_6 )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/net-misc/ddns_updater-0.2.3.tbz2
+_md5_=943b53451bfee8db8ccae6ffe42d61c9
