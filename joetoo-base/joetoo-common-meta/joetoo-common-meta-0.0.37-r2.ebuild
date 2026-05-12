@@ -114,7 +114,7 @@ RDEPEND="
 		netifrc? (
 			>=net-misc/netifrc-0.7.3
 			>=net-misc/dhcpcd-9.4.0
-			>=net-misc/ddns_updater-0.0.1
+			>=net-misc/ddns-0.2.6
 		)
 		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
 	)
@@ -421,7 +421,7 @@ pkg_postinst() {
 	elog " 0.0.31 updates ssh_config"
 	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
 	elog " 0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
-	elog " 0.0.37 adds a profile update -r1 and -r2 tweak and bugfix"
+	elog " 0.0.37 adds a profile update"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
