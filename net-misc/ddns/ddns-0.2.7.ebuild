@@ -294,14 +294,14 @@ src_install() {
 				target="/etc/cron.d/"
 				einfo "Installing (ins) ddns-trigger-wsl.crontab into ${target}"
 				cp "${S}/client/ddns-parts-wsl/ddns-trigger-wsl.crontab" "${T}/"
-				if use wsl4; then
+				if use wsl_4; then
 					# enable the cron trigger for ipv4 (edit existing line)
 					sed -i 's|ddns-trigger-wsl|ddns-trigger-wsl-ipv4|' "${T}/ddns-trigger-wsl.crontab"
 				else
 					# comment it out
 					sed -i 's|^|#|' "${T}/ddns-trigger-wsl.crontab"
 				fi
-				if use wsl6; then
+				if use wsl_6; then
 					# enable the cron trigger for ipv6 (append a line)
 					echo "*/5 * * * * root /usr/sbin/ddns-trigger-wsl-ipv6 wsl-cron" >> "${T}//ddns-trigger-wsl.crontab"
 				fi
@@ -347,7 +347,7 @@ pkg_postinst() {
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
-	elog " 0.2.1-5 provide bugfixes and enhancements"
+	elog " 0.2.1-7 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
