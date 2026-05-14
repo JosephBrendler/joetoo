@@ -128,24 +128,22 @@ src_install() {
 	echo 'BPN=${PN}' >> ${T}/BPN
 	newins "${T}/BPN" "BPN" || die "failed to newins BPN"
 	elog "BPN installed into ${target}"
-	newins "${S}/joetoolkit/insert_into_file_template.conf" "insert_into_file_template.conf" || \
-		die "failed to newins insert_into_file_template.conf"
-	elog "Installed insert_into_file_template.conf into ${target}"
+	x="insert_into_file_template.conf"
+	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	elog "Installed ${x} into ${target}"
 
-	# install local.usage, .cmdline_arguments, .cmdline_compound_arguments *(for insert_into_file)*
-	einfo "Installing (ins) local.usage, .cmdline_arguments, .cmdline_compound_arguments for insert_into_file"
-	z="insert_into_file"
-	for x in local.usage local.cmdline_arguments local.cmdline_compound_arguments ; do
-		newins "${S}/joetoolkit/${z}_${x}" "${x}" || die "failed to newins ${x}"
-		elog "${x} installed into ${target}"
-	done
+	# install /etc/insert_into_file/insert_into_file_local.cmdline_arg_handler
+	einfo "Installing (ins) /etc/insert_into_file/insert_into_file_local.cmdline_arg_handler"
+	x="insert_into_file_local.cmdline_arg_handler"
+	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	elog "Installed ${x} into ${target}"
 	# install eselect module *(for insert_into_file)*
 	einfo "Installing (ins) the insert_into_file.conf eselect module into /usr/share/eselect/modules/ ..."
 	target="/usr/share/eselect/modules/"
 	insinto "${target}"
-	z="insert_into_file.eselect"
-	newins "${S}/joetoolkit/${z}" "${z}"
-	elog "Installed insert_into_file.conf eselect module."
+	x="insert_into_file.eselect"
+	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	elog "Installed ${x} into ${target}"
 
 	# install /etc/nextcloud_check_version with BUILD and BPN (executable got installed as a normal utility)
 	elog "Installing BUILD, BPN and local.usage placeholder into /etc/nextcloud_check_version/ ..."
@@ -265,7 +263,7 @@ pkg_postinst() {
 	elog " 0.8.2 utility_archive.tbz2; decided NOT to consolidate script_header_joetoo"
 	elog " 0.8.3 bugfix ebup and tarup"
 	elog " 0.8.4 patches logfile writability in utilities"
-	elog " 0.8.6-19 provide toolkit bugfixes and enhancements"
+	elog " 0.8.6-21 provide toolkit bugfixes and enhancements"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
