@@ -184,6 +184,8 @@ pkg_postinst() {
 	elog " 0.1.18 provides refinements and bugfixes"
 	elog " 0.11.0 updates to new joetoo cli and messaging frameworks"
 	elog " 0.11.1-15 provide refinements and bugfixes"
+	elog " 0.12.0 refactors kernelupdate and its arg handler for j_msg"
+	elog " 0.12.1 provides refinements and bugfixes"
 	elog ""
 	elog "Don't forget to use the ${PN} eselect module to choose a baseline (or modified)"
 	elog "configuration file in /etc/${PN}"
