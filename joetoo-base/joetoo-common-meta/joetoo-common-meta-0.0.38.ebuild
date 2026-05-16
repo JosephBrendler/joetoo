@@ -114,7 +114,7 @@ RDEPEND="
 		netifrc? (
 			>=net-misc/netifrc-0.7.3
 			>=net-misc/dhcpcd-9.4.0
-			>=net-misc/ddns_updater-0.0.1
+			>=net-misc/ddns-0.2.6
 		)
 		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
 	)
@@ -335,15 +335,15 @@ src_install() {
 			elog "Installed symlink ${target%/}/elogind"
 			elog "Done installing (sym) elogind link into ${target} ..."
 	fi
-	# install symlinks for dhcpcd service in default runlevel if not installed
-	if [ -z "$( find /etc/runlevels/default/ -iname 'dhcpcd' )" ] ; then
-		target="/etc/runlevels/default/"
-			einfo "Installing (sym) files into ${target} ..."
-			insinto "${target}"
-			dosym /etc/init.d/dhcpcd ${target%/}/dhcpcd || die "failed to symlink ${target%/}/dhcpcd"
-			elog "Installed symlink ${target%/}/dhcpcd"
-			elog "Done installing (sym) dhcpcd link into ${target} ..."
-	fi
+#	# install symlinks for dhcpcd service in default runlevel if not installed
+#	if [ -z "$( find /etc/runlevels/default/ -iname 'dhcpcd' )" ] ; then
+#		target="/etc/runlevels/default/"
+#			einfo "Installing (sym) files into ${target} ..."
+#			insinto "${target}"
+#			dosym /etc/init.d/dhcpcd ${target%/}/dhcpcd || die "failed to symlink ${target%/}/dhcpcd"
+#			elog "Installed symlink ${target%/}/dhcpcd"
+#			elog "Done installing (sym) dhcpcd link into ${target} ..."
+#	fi
 	# if XDG_RUNTIME_DIR is not set in user(s) .bashrc, then append that
 	for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
 		if [ -z "$(grep XDG_RUNTIME_DIR /home/${username}/.bashrc 2>/dev/null)" ] ; then
@@ -421,6 +421,8 @@ pkg_postinst() {
 	elog " 0.0.31 updates ssh_config"
 	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
 	elog " 0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
+	elog " 0.0.37 adds a profile update"
+	elog " 0.0.38 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
