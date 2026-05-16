@@ -20,8 +20,8 @@
 		<flag name="daemon_6">(default) install openrc ddns server and ddns-daemon config in conf.d/ddns for ipv6</flag>
 		<flag name="dhcpcd_4">(default) install dhcpcd hook script for ipv4 support</flag>
 		<flag name="dhcpcd_6">install dhcpcd hook script for ipv6 support (if using dhcpv6)</flag>
-		<flag name="openvpn_4">(to do) install openvpn hook script for ipv4 support (if using openvpn and its up.sh)</flag>
-		<flag name="openvpn_6">(to do) install openvpn hook script for ipv6 support (if using openvpn and its up.sh)</flag>
+		<flag name="openvpn_4">install openvpn route-up hook script and ddns-update launcher for ipv4 support</flag>
+		<flag name="openvpn_6">install openvpn route-up hook script and ddns-update launcher for ipv6 support</flag>
 		<flag name="wsl_4">install linux and powershell support for Windows Subsystem for Linux (WSL) client (ipv4))</flag>
 		<flag name="wsl_6">install linux and powershell support for Windows Subsystem for Linux (WSL) client (ipv6))</flag>
 		<flag name="ipv4">configure for ipv4 ddns support</flag>

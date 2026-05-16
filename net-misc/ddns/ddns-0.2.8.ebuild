@@ -241,10 +241,32 @@ src_install() {
 			newexe "${S}/client/99-ddns-update-hook-ipv6" "99-ddns-update-ipv6" || die "failed to install 99-ddns-update-ipv6 hook script"
 			elog "Installed (newexe) 99-ddns-update-ipv6 hook script into ${target}"
 		fi
-# to do: implement openvpn hooks
-#   - rationalize (assuming client side works) a vpn option as a third client choice (both ipv4 and ipv6)
 		if use openvpn_4 || use openvpn_6; then
-			elog "use openvpn_4 and/or openvpn_6 was set but is not yet implemented"
+			# install vpn client up-hook (both ipv4 and ipv6) called from ovpn config file
+			target="/etc/openvpn/openvpnkeys_2024/"
+			x="openvpn-ddns-hook"
+			einfo "Installing (exe) ${x} into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/${x}" "${x}" || die "failed to install ${x}"
+			elog "Installed (newexe) ${x} into ${target}"
+		fi
+		if use openvpn_4 ; then
+			# install ipv4 vpn client ddns-update launcher called by vpn client up-hook above
+			target="/etc/openvpn/openvpnkeys_2024/"
+			x="openvpn-ddns-hook-ipv4.up"
+			einfo "Installing (exe) ${x} into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/${x}" "${x}" || die "failed to install ${x}"
+			elog "Installed (newexe) ${x} into ${target}"
+		fi
+		if use openvpn_6 ; then
+			# install ipv6 vpn client ddns-update launcher called by vpn client up-hook above
+			target="/etc/openvpn/openvpnkeys_2024/"
+			x="openvpn-ddns-hook-ipv6.up"
+			einfo "Installing (exe) ${x} into ${target}"
+			exeinto "${target}"
+			newexe "${S}/client/${x}" "${x}" || die "failed to install ${x}"
+			elog "Installed (newexe) ${x} into ${target}"
 		fi
 
 		if use wsl_4 || use wsl_6; then
@@ -347,7 +369,7 @@ pkg_postinst() {
 	elog " 0.1.1 fixes ipv4 for dnsmasq clients and overhauls ever component"
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
-	elog " 0.2.1-5 provide bugfixes and enhancements"
+	elog " 0.2.1-8 provide bugfixes and enhancements"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
