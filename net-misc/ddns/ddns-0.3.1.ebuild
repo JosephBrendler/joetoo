@@ -136,7 +136,7 @@ src_install() {
 			die "failed to install dhcpcd.conf"
 		elog "Installed (newins) dhcpcd.conf into ${target}"
 
-		# install 99-ddns-update to /etc/sudoers.d/ (allows remote connect to run specified commands)
+		# install 99-ddns-update-server to /etc/sudoers.d/ (allows remote connect to run specified commands)
 		target="/etc/sudoers.d/"
 		einfo "Installing (ins) 99-ddns-update-server into ${target}"
 		insinto "${target}"
@@ -145,15 +145,38 @@ src_install() {
 		elog "Installed (newins) 99-ddns-update-server into ${target}"
 
 		if use openvpn_status; then
-			# **[ To Do: REFACTOR openvpn_dns_updater.sh to split off emaint_ddns**
-			#  install openvpn_dns_updater.sh to /usr/sbin/
-			# (this scrapes /var/log/openvpn-status.log)
+			# install openvpn_dns_updater.sh to /usr/sbin/ (this scrapes /var/log/openvpn-status.log)
 			target="/usr/sbin/"
 			einfo "Installing (exe) openvpn_dns_updater.sh into ${target}"
 			exeinto "${target}"
 			newexe "${S}/server/openvpn_dns_updater.sh" "openvpn_dns_updater.sh" || \
 				die "failed to install openvpn_dns_updater.sh"
 			elog "Installed (newexe) openvpn_dns_updater.sh into ${target}"
+			# now install openvpn-ddns-hook.down (server-side removal of info on down vpn clients)
+			target="/etc/openvpn/"
+			x="openvpn-ddns-hook.down"
+			einfo "Installing (exe) ${x} into ${target}"
+			exeinto "${target}"
+			newexe "${S}/server/${x}" "${x}" || die "failed to install ${x}"
+			elog "Installed (newexe) ${x} into ${target}"
+			if use openvpn_4; then
+				# now install openvpn-ddns-hook-ipv4.down (server-side removal of info on down vpn clients)
+				target="/etc/openvpn/"
+				x="openvpn-ddns-hook-ipv4.down"
+				einfo "Installing (exe) ${x} into ${target}"
+				exeinto "${target}"
+				newexe "${S}/server/${x}" "${x}" || die "failed to install ${x}"
+				elog "Installed (newexe) ${x} into ${target}"
+			fi
+			if use openvpn_6; then
+				# now install openvpn-ddns-hook-ipv6.down (server-side removal of info on down vpn clients)
+				target="/etc/openvpn/"
+				x="openvpn-ddns-hook-ipv6.down"
+				einfo "Installing (exe) ${x} into ${target}"
+				exeinto "${target}"
+				newexe "${S}/server/${x}" "${x}" || die "failed to install ${x}"
+				elog "Installed (newexe) ${x} into ${target}"
+			fi
 		fi
 		if use emaint; then
 			# **[ To Do: REFACTOR openvpn_dns_updater.sh to split off emaint_ddns**
@@ -370,6 +393,7 @@ pkg_postinst() {
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
 	elog " 0.2.1-8 provide bugfixes and enhancements"
+	elog " 0.3.0-1 incorporate ddns-openvpn integration"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
