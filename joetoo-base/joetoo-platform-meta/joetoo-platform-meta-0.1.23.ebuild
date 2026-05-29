@@ -394,6 +394,8 @@ pkg_postinst() {
 	elog " 0.1.19 updates package.use"
 	elog " 0.1.20 updates make.conf and its assembler"
 	elog " 0.1.21 updates binrepo binhots lists for raspi4/5"
+	elog " 0.1.22 added ipcalc to package.accept_keywords for jping development"
+	elog " 0.1.23 added defaults for ddns to package.use and package.accept_keywords"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
