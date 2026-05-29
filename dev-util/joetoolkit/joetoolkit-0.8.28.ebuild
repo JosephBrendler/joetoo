@@ -28,11 +28,12 @@ RDEPEND="
 	app-text/enscript
 	app-text/ghostscript-gpl
 	iptools? (
+		>=net-analyzer/fping-5.4
 		>=net-analyzer/nmap-7.92
 		>=net-dns/bind-tools-9.16
-		>=net-misc/socat-1.8.1.1
-		>=net-analyzer/fping-5.4
+		>=net-misc/ipcalc-ng-1.0.3
 		>=net-misc/ndisc6-1.0.8
+		>=net-misc/socat-1.8.1.1
 	)
 	backup_utilities? (
 		>=net-misc/rsync-3.2.4
@@ -263,7 +264,7 @@ pkg_postinst() {
 	elog " 0.8.2 utility_archive.tbz2; decided NOT to consolidate script_header_joetoo"
 	elog " 0.8.3 bugfix ebup and tarup"
 	elog " 0.8.4 patches logfile writability in utilities"
-	elog " 0.8.6-26 provide toolkit bugfixes and enhancements"
+	elog " 0.8.6-28 provide toolkit bugfixes and enhancements"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
