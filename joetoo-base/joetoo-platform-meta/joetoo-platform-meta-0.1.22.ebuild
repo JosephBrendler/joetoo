@@ -393,6 +393,8 @@ pkg_postinst() {
 	elog " 0.1.17/8 updates make.conf parts, assemble family and adds parallel tool"
 	elog " 0.1.19 updates package.use"
 	elog " 0.1.20 updates make.conf and its assembler"
+	elog " 0.1.21 updates binrepo binhots lists for raspi4/5"
+	elog " 0.1.22 added ipcalc to package.accept_keywords for jping development"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
