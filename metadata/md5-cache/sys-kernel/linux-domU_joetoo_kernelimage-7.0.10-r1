@@ -9,5 +9,5 @@ LICENSE=MIT
 RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-7.0.10 ) rockchip-sources? ( =sys-kernel/rockchip-sources-7.0.10 ) amlogic-sources? ( =sys-kernel/amlogic-sources-7.0.10 ) nxp-sources? ( =sys-kernel/nxp-sources-7.0.10 )
 RESTRICT=mirror
 SLOT=7.0.10
-SRC_URI=https://raspi56403.brendler/joetoo-kernels/linux-domU_joetoo_kernelimage-7.0.10.tar.bz2
-_md5_=3dacbcec9ce01f769b708320ea479b41
+SRC_URI=https://raspi56403.brendler/joetoo-kernels/linux-domU_joetoo_kernelimage-7.0.10-r1.tar.bz2
+_md5_=8652e264ecd60517295c1211f0aae904
