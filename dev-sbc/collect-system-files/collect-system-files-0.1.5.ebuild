@@ -101,7 +101,7 @@ pkg_postinst() {
 	elog " 0.0.3 provides refinements and bugfixes"
 	elog " 0.0.4 updates sensitive source dirs and files"
 	elog " 0.1.0 adopts j_msg, new joetoo cli, and extracts ssh key mgmt to script_header_joetoo_ssh"
-	elog " 0.1.1-3 provide refinements and bugfixes"
+	elog " 0.1.1-5 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
