@@ -74,6 +74,7 @@ pkg_postinst() {
 	elog " -r1/2 update the ebuild's RDEPEND dependencies"
 	elog " 0.0.4 auto-detects root_dev, _disk, _part, _crypt, and sets DEVTYPE, ENC"
 	elog " 0.0.5 auto-determines BOARD"
+	elog " 0.0.6/7 refactor for j_msg and fixes some bugs"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
