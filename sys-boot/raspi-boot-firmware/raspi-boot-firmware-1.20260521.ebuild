@@ -136,7 +136,7 @@ src_install() {
 	for x in elf bin dat broadcom linux; do
 		einfo "installing *.${x}..."
 		for y in *.${x}; do
-			doins *.${x}
+			doins ${y}
 			elog "installed ${y}"
 		done
 	done
