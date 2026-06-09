@@ -422,7 +422,9 @@ pkg_postinst() {
 	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
 	elog " 0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
 	elog " 0.0.37 adds a profile update"
-	elog " 0.0.38-40 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
+	elog " 0.0.38-41 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
+	elog " 0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR"
+	elog " 0.0.43 changes gentoo repo to type git"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
