@@ -344,34 +344,6 @@ src_install() {
 #			elog "Installed symlink ${target%/}/dhcpcd"
 #			elog "Done installing (sym) dhcpcd link into ${target} ..."
 #	fi
-	# if XDG_RUNTIME_DIR is not set in user(s) .bashrc, then append that
-	for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
-		if [ -z "$(grep XDG_RUNTIME_DIR /home/${username}/.bashrc 2>/dev/null)" ] ; then
-			# if this user's .bashrc doesn't exist, create one; otherwise append to it
-			if [ ! -f /home/${username}/.bashrc ] ; then
-				einfo "user ${username} does not appear to have a .bashrc file in /home/${username}/; fixing ..."
-				einfo "creating template .bashrc in temp scratch space"
-				insinto "/home/${username}/"
-				cp "${S}/etc/skel/.bashrc" "${T}/.bashrc" || \
-					die "failed to copy template .bashrc for user"
-			else
-				# append to .bashrc
-				einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc ; fixing ..."
-				einfo "appending to .bashrc in temp scratch space"
-				cat /home/${username}/.bashrc ${FILESDIR}/XDG_RUNTIME_DIR-setting > ${T}/.bashrc || \
-					die "failed to assemble new .bashrc in scratch space"
-			fi
-			target="/home/${username}/"
-			einfo "Installing (ins) updated .bashrc into ${target}"
-			insinto "${target}"
-			newins "${T}/.bashrc" ".bashrc"  || die "failed to install updated .bashrc"
-			elog "Done installing (ins) updated .bashrc into ${target}"
-		else
-			elog "XDG_RUNTIME_DIR appears to be set in /home/${username}/.bashrc already; skipping"
-		fi
-		einfo "Done handling XDG_RUNTIME_DIR for user ${username}"
-	done
-	elog "Done handling XDG_RUNTIME_DIR for all users"
 }
 
 pkg_postinst() {
@@ -424,7 +396,7 @@ pkg_postinst() {
 	elog " 0.0.37 adds a profile update"
 	elog " 0.0.38-41 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
 	elog " 0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR"
-	elog " 0.0.43 changes gentoo repo to type git"
+	elog " 0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
