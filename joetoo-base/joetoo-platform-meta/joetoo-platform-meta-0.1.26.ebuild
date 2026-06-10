@@ -397,6 +397,8 @@ pkg_postinst() {
 	elog " 0.1.22 added ipcalc to package.accept_keywords for jping development"
 	elog " 0.1.23 added defaults for ddns to package.use and package.accept_keywords"
 	elog " 0.1.24 fixed openssl and added iproute2 use flag for openvpn"
+	elog " 0.1.25 adds binpkg signing and sandbox_write to make.conf"
+	elog " 0.1.26 adds pyopenssl to package.accept_keywords for python cryptography"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
