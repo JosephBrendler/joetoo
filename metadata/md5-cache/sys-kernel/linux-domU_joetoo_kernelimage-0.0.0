@@ -10,4 +10,4 @@ RDEPEND=raspi-sources? ( =sys-kernel/raspi-sources-0.0.0 ) rockchip-sources? ( =
 RESTRICT=mirror
 SLOT=0.0.0
 SRC_URI=https://raspi56403.brendler/joetoo-kernels/linux-domU_joetoo_kernelimage-0.0.0.tar.bz2
-_md5_=3dacbcec9ce01f769b708320ea479b41
+_md5_=8652e264ecd60517295c1211f0aae904
