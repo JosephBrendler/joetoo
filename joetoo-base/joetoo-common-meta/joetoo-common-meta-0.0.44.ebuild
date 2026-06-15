@@ -19,7 +19,7 @@ RESTRICT="mirror"
 IUSE="
 	+innercore
 	+joetoolkit
-	+headless -plasma -gnome -lxde
+	+headless -plasma -gnome -lxde -lxqt
 	-lamp -nextcloud -mysql -mariadb
 	+cloudsync
 	+distcc
@@ -33,7 +33,9 @@ IUSE="
 	-samba
 	+gentoo-kernel -gentoo-sources
 	+grub
+	+tmux -screen
 	"
+# zero or any of ( tmux screen ) are ok
 # ?? = zero or one of, but not multiple ( gentoo-sources gentoo-kernel )
 REQUIRED_USE="
 	innercore
@@ -68,7 +70,6 @@ RDEPEND="
 		>=app-eselect/eselect-python-20200719
 		>=app-eselect/eselect-repository-8
 		>=app-misc/neofetch-7.1.0
-		>=app-misc/screen-4.7.0
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
 		>=app-shells/bash-completion-2.14.0
@@ -138,12 +139,18 @@ RDEPEND="
 	domU? ( sys-kernel/linux-domU_joetoo_kernelimage )
 	cloudsync? ( >=net-misc/cloudsync-2.1 )
 	samba? ( >=net-fs/samba-4.15.4-r2 )
+	screen? ( >=app-misc/screen-4.7.0 )
+	tmux? (	>=app-misc/tmux-3.4-r1[utempter(+),vim-syntax(+)] )
 	gnome? (
 		app-misc/wayland-utils
 		lxde-base/lxterminal
 		media-fonts/corefonts
 		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
 		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
 		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
@@ -171,7 +178,11 @@ RDEPEND="
 		lxde-base/lxpanel
 		media-fonts/corefonts
 		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
 		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
 		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
@@ -179,6 +190,46 @@ RDEPEND="
 		x11-apps/mesa-progs
 		x11-misc/xdotool
 		x11-themes/oxygen-gtk
+	)
+	lxqt? (
+		# LXQt core meta
+		lxqt-base/lxqt-meta
+		lxqt-base/lxqt-session
+		lxqt-base/lxqt-panel
+		lxqt-base/lxqt-config
+		lxqt-base/lxqt-notificationd
+		lxqt-base/lxqt-policykit
+
+		# Terminal emulator
+		x11-terms/qterminal
+
+		# Window manager (Openbox is the standard)
+		x11-wm/openbox
+		x11-themes/lxqt-themes
+
+		# X11 utilities
+		x11-apps/xrandr
+		x11-apps/xdpyinfo
+		x11-base/xorg-server
+		x11-base/xorg-fonts
+		x11-libs/libxcb
+		x11-misc/xdotool
+		x11-apps/mesa-progs
+
+		# Fonts
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
+		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
+		media-fonts/oxygen-fonts
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+
+		# Optional Nextcloud client
+		nextcloud? ( net-misc/nextcloud-client )
 	)
 	plasma? (
 		app-misc/wayland-utils
@@ -189,7 +240,11 @@ RDEPEND="
 		lxde-base/lxterminal
 		media-fonts/corefonts
 		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
 		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
 		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
@@ -237,11 +292,14 @@ pkg_setup() {
 src_install() {
 	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
 	einfo "Installing (exe/ins) baseline files into file system tree ..."
-	for x in $(find ${S} -type f); do
-		z=$(echo $x | sed "s|${S}||")
-		dn=$(dirname $z)
-		bn=$(basename $z)
-		dodir ${dn}  # equiv to if ! -d; then mkdir
+	for x in $(find "${S}" -type f); do
+#		z=$(echo $x | sed "s|${S}||")
+#		dn=$(dirname $z)
+#		bn=$(basename $z)
+		z="${x#${S%}}"
+		dn="${z%/*}"
+		bn="${z##*/}"
+		dodir "${dn}"  # equiv to if ! -d; then mkdir
 		if [[ "$bn" == "distccd.log" ]] ; then
 			# special: install empty distccd.log owned by distcc:daemon
 			target="${dn}"
@@ -249,7 +307,9 @@ src_install() {
 			newins "${x}" "${bn}"  || die "failed to install ${bn} in ${target}"
 			fperms 0644 "${z}"  || die "failed to set fperms for ${z}"
 			fowners distcc:daemon "${z}"  || die "failed to set fowners for ${z}"
-		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
+#		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
+		elif [[ "${dn##*/}" == "grub.d" ]] ; then
+			# ( basename of dirname of x e.g. matches grub.d e.g. from z = /etc/grub.d/10linux )
 			# special: install grub.d files as +x so grub-mkconfig will use them
 			target="${dn}"
 			einfo "Installing (exe) ${z} into ${target}"
@@ -301,9 +361,9 @@ src_install() {
 	target="/etc/init.d/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym ${target%/}/openvpn ${target%/}/openvpn.local || die "failed to symlink openvpn.local"
+		dosym "${target%/}/openvpn" "${target%/}/openvpn.local" || die "failed to symlink openvpn.local"
 		elog "Installed symlink ${target%/}/openvpn.local"
-		dosym ${target%/}/openvpn ${target%/}/openvpn.remote || die "failed to symlink openvpn.remote"
+		dosym "${target%/}/openvpn" "${target%/}/openvpn.remote" || die "failed to symlink openvpn.remote"
 		elog "Installed symlink ${target%/}/openvpn.remote"
 		elog "Done installing (sym) vpn links into ${target} ..."
 	# install symlink in init.d for user services (assume valid users have shell programs named *sh)
@@ -314,7 +374,7 @@ src_install() {
 		# (most entries end "nologin" or "false"
 		#  users will end in an actual shell program path name)
 		for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
-			dosym ${target%/}/user ${target%/}/user.${username} || \
+			dosym "${target%/}/user" "${target%/}/user.${username}" || \
 				die "failed to symlink user.${username}"
 			elog "Installed symlink ${target%/}/user.${username}"
 		done
@@ -331,47 +391,10 @@ src_install() {
 		target="/etc/runlevels/boot/"
 			einfo "Installing (sym) files into ${target} ..."
 			insinto "${target}"
-			dosym /etc/init.d/elogind ${target%/}/elogind || die "failed to symlink ${target%/}/elogind"
+			dosym /etc/init.d/elogind "${target%/}/elogind" || die "failed to symlink ${target%/}/elogind"
 			elog "Installed symlink ${target%/}/elogind"
 			elog "Done installing (sym) elogind link into ${target} ..."
 	fi
-#	# install symlinks for dhcpcd service in default runlevel if not installed
-#	if [ -z "$( find /etc/runlevels/default/ -iname 'dhcpcd' )" ] ; then
-#		target="/etc/runlevels/default/"
-#			einfo "Installing (sym) files into ${target} ..."
-#			insinto "${target}"
-#			dosym /etc/init.d/dhcpcd ${target%/}/dhcpcd || die "failed to symlink ${target%/}/dhcpcd"
-#			elog "Installed symlink ${target%/}/dhcpcd"
-#			elog "Done installing (sym) dhcpcd link into ${target} ..."
-#	fi
-	# if XDG_RUNTIME_DIR is not set in user(s) .bashrc, then append that
-	for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
-		if [ -z "$(grep XDG_RUNTIME_DIR /home/${username}/.bashrc 2>/dev/null)" ] ; then
-			# if this user's .bashrc doesn't exist, create one; otherwise append to it
-			if [ ! -f /home/${username}/.bashrc ] ; then
-				einfo "user ${username} does not appear to have a .bashrc file in /home/${username}/; fixing ..."
-				einfo "creating template .bashrc in temp scratch space"
-				insinto "/home/${username}/"
-				cp "${S}/etc/skel/.bashrc" "${T}/.bashrc" || \
-					die "failed to copy template .bashrc for user"
-			else
-				# append to .bashrc
-				einfo "XDG_RUNTIME_DIR does not appear to be set in /home/${username}/.bashrc ; fixing ..."
-				einfo "appending to .bashrc in temp scratch space"
-				cat /home/${username}/.bashrc ${FILESDIR}/XDG_RUNTIME_DIR-setting > ${T}/.bashrc || \
-					die "failed to assemble new .bashrc in scratch space"
-			fi
-			target="/home/${username}/"
-			einfo "Installing (ins) updated .bashrc into ${target}"
-			insinto "${target}"
-			newins "${T}/.bashrc" ".bashrc"  || die "failed to install updated .bashrc"
-			elog "Done installing (ins) updated .bashrc into ${target}"
-		else
-			elog "XDG_RUNTIME_DIR appears to be set in /home/${username}/.bashrc already; skipping"
-		fi
-		einfo "Done handling XDG_RUNTIME_DIR for user ${username}"
-	done
-	elog "Done handling XDG_RUNTIME_DIR for all users"
 }
 
 pkg_postinst() {
@@ -424,12 +447,17 @@ pkg_postinst() {
 	elog " 0.0.37 adds a profile update"
 	elog " 0.0.38-41 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
 	elog " 0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR"
+	elog " 0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid"
+	elog " 0.0.44 adds configs and USE flags for screen and tmux, introduces USE lxqt"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
 	elog ""
 	if use lxde; then
+		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
+	fi
+	if use lxqt; then
 		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
 	fi
 	elog ""
