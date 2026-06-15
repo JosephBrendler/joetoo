@@ -398,6 +398,8 @@ pkg_postinst() {
 	elog " 0.1.23 added defaults for ddns to package.use and package.accept_keywords"
 	elog " 0.1.24 fixed openssl and added iproute2 use flag for openvpn"
 	elog " 0.1.25 adds binpkg signing and sandbox_write to make.conf"
+	elog " 0.1.26 adds pyopenssl to package.accept_keywords for python cryptography"
+	elog " 0.1.27 adds pillow use jpeg2k to package.use to support uat2pdf in joetoolkit"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
