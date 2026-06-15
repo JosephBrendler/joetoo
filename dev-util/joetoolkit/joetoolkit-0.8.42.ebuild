@@ -25,8 +25,6 @@ S="${WORKDIR%/}/${PN}"
 RDEPEND="
 	dev-util/script_header_joetoo[extended]
 	app-admin/eselect
-	app-text/enscript
-	app-text/ghostscript-gpl
 	iptools? (
 		>=net-analyzer/fping-5.4
 		>=net-analyzer/nmap-7.92
@@ -38,6 +36,18 @@ RDEPEND="
 	backup_utilities? (
 		>=net-misc/rsync-3.2.4
 	)
+"
+# add runtime dependencies for text2pdf (separate for easier extraction some day)
+RDEPEND="
+	${RDEPEND}
+	app-text/enscript
+	app-text/ghostscript-gpl
+"
+# add runtime dependencies for uat2pdf (separate for easier extraction some day)
+RDEPEND="
+	${RDEPEND}
+	dev-python/ansi2html
+	dev-python/weasyprint
 "
 
 BDEPEND="
@@ -264,7 +274,7 @@ pkg_postinst() {
 	elog " 0.8.2 utility_archive.tbz2; decided NOT to consolidate script_header_joetoo"
 	elog " 0.8.3 bugfix ebup and tarup"
 	elog " 0.8.4 patches logfile writability in utilities"
-	elog " 0.8.6-40 provide toolkit bugfixes and enhancements"
+	elog " 0.8.6-42 provide toolkit bugfixes and enhancements"
 	elog ""
 	if use utility_archive ; then
 		elog "USE flag \"utility_archive\" selected ..."
