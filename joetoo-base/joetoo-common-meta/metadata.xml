@@ -14,6 +14,7 @@
 		<flag name="plasma">(to do) Configure joetoo for use with a plasma desktop</flag>
 		<flag name="gnome">(to do) Configure joetoo for use with a gnome desktop</flag>
 		<flag name="lxde">Configure joetoo for use with a lxde (lightweight) desktop</flag>
+		<flag name="lxqt">Configure joetoo for use with a lxqt (lightweight) desktop based on the Qt toolkit</flag>
 		<flag name="innercore">Pull in baseline packages required by the headless meta</flag>
 		<flag name="lamp">Pull in packages required for a LAMP server</flag>
 		<flag name="mysql">Pull in the mysql database and required components</flag>
@@ -32,6 +33,8 @@
 		<flag name="compareConfigs">Pull in the joetoo's initramfs builder and required components</flag>
 		<flag name="Terminal">Pull in the joetoo Terminal c++ shared obj library and test program</flag>
 		<flag name="cloudsync">Cron scrit to sync content, scripts, binary packages across multiple nodes</flag>
+		<flag name="screen">Pull in app-misc/screen (GNU screen) terminal multiplexer and dependencies</flag>
+		<flag name="tmux">Pull in app-misc/tmux terminal multiplexer and dependencies</flag>
 		<flag name="domU">Pull in joetoo's sys-kernel/linux-domU_joetoo_kernelimage</flag>
 	</use>
 	<upstream>
