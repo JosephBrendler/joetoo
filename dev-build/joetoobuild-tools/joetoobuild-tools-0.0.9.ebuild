@@ -119,7 +119,7 @@ pkg_postinst() {
 	elog " 0.0.2 fixes sourcing of BUILD, BPN"
 	elog " 0.0.3 fixes validation of ROOT in make.conf"
 	elog " 0.0.4 updates finalize-chroot-joetoo and adds umount-chroot"
-	elog " 0.4.5-7 upgraded from wget-stage3-amd64 to joetoo-system-install (plus)"
+	elog " 0.4.5-9 upgraded from wget-stage3-amd64 to joetoo-system-install (plus)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
