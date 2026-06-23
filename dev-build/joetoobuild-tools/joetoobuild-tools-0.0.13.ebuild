@@ -17,13 +17,6 @@ SRC_URI=(
 "${CUSTOM_SRC_ROOT}/dev-sbc/crossbuild-tools/mkenv-files/common/usr/sbin/finalize-chroot-common-functions -> finalize-chroot-common-functions.copy"
 )
 
-#https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo/script_header_joetoo -> script_header_joetoo.copy
-#https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo/script_header_joetoo_compat -> script_header_joetoo_compat.copy
-#https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo/script_header_joetoo_unicode -> script_header_joetoo_unicode.copy
-#https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/script_header_joetoo/script_header_joetoo_extended -> script_header_joetoo_extended.copy
-#https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-sbc/crossbuild-tools/mkenv-files/common/usr/sbin/finalize-chroot-common-functions -> finalize-chroot-common-functions.copy
-#"
-
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~arm64 ~amd64"
@@ -150,7 +143,7 @@ pkg_postinst() {
 	elog " 0.0.3 fixes validation of ROOT in make.conf"
 	elog " 0.0.4 updates finalize-chroot-joetoo and adds umount-chroot"
 	elog " 0.4.5-10 upgraded from wget-stage3-amd64 to joetoo-system-install (plus)"
-	elog " 0.4.11 (significant change) now installing core tools in /$PN/ and added external tools"
+	elog " 0.4.11-13 (significant change) now jb- core tools in /$PN/ and added external tools"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
