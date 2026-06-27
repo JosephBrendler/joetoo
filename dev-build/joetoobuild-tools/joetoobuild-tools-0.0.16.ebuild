@@ -57,11 +57,9 @@ src_install() {
 	einfo "testing access to file from other repo at \$DISTDIR -"
 	einfo "file: $DISTDIR/finalize-chroot-common-functions.copy"
 
-	elog "Installing (cp) into /etc/${PN}/"
-
 	# install README.md, BUILD, BPN files into /etc/${PN}/
-	elog "Installing (ins) into /etc/${PN}/"
-	target="/etc/${PN}/"
+	target="/${PN}/"
+	elog "Installing (ins) BUILD and BPN into ${target}"
 	insinto "${target}"
 	newins "${S%/}/README.md" "README.md"  || die "Install failed!"
 	elog "Done installing README.md"
@@ -143,7 +141,7 @@ pkg_postinst() {
 	elog " 0.0.3 fixes validation of ROOT in make.conf"
 	elog " 0.0.4 updates finalize-chroot-joetoo and adds umount-chroot"
 	elog " 0.4.5-10 upgraded from wget-stage3-amd64 to joetoo-system-install (plus)"
-	elog " 0.4.11-14 (significant change) now jb- core tools in /$PN/ and added external tools"
+	elog " 0.4.11-16 (significant change) now jb- core tools in /$PN/ and added external tools"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
