@@ -6,7 +6,7 @@ EAPI=8
 
 DESCRIPTION="collects specified system files from client as custom content for use by crossbuild-tools cb-mkimg"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PVR}.tbz2"
 
 LICENSE="MIT"
 SLOT="0"
@@ -101,7 +101,7 @@ pkg_postinst() {
 	elog " 0.0.3 provides refinements and bugfixes"
 	elog " 0.0.4 updates sensitive source dirs and files"
 	elog " 0.1.0 adopts j_msg, new joetoo cli, and extracts ssh key mgmt to script_header_joetoo_ssh"
-	elog " 0.1.1-4 provide refinements and bugfixes"
+	elog " 0.1.1-6 provide refinements and bugfixes"
 	elog ""
 	ewarn "Note: ${PN} has installed files in /etc/${PN}. By default,"
 	ewarn "  these will be config-protect'd and you will need to use"
