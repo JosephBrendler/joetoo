@@ -44,7 +44,7 @@ REQUIRED_USE="
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
 	^^ ( netifrc networkmanager )
-	^^ ( headless plasma gnome lxde )
+	^^ ( headless plasma gnome lxde lxqt )
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
