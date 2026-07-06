@@ -192,22 +192,15 @@ RDEPEND="
 		x11-themes/oxygen-gtk
 	)
 	lxqt? (
-		# LXQt core meta
 		lxqt-base/lxqt-meta
 		lxqt-base/lxqt-session
 		lxqt-base/lxqt-panel
 		lxqt-base/lxqt-config
 		lxqt-base/lxqt-notificationd
 		lxqt-base/lxqt-policykit
-
-		# Terminal emulator
 		x11-terms/qterminal
-
-		# Window manager (Openbox is the standard)
 		x11-wm/openbox
 		x11-themes/lxqt-themes
-
-		# X11 utilities
 		x11-apps/xrandr
 		x11-apps/xdpyinfo
 		x11-base/xorg-server
@@ -215,8 +208,6 @@ RDEPEND="
 		x11-libs/libxcb
 		x11-misc/xdotool
 		x11-apps/mesa-progs
-
-		# Fonts
 		media-fonts/corefonts
 		media-fonts/croscorefonts
 		media-fonts/dejavu
@@ -227,8 +218,6 @@ RDEPEND="
 		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
-
-		# Optional Nextcloud client
 		nextcloud? ( net-misc/nextcloud-client )
 	)
 	plasma? (
