@@ -418,6 +418,7 @@ pkg_postinst() {
 	elog " 0.1.25 adds binpkg signing and sandbox_write to make.conf"
 	elog " 0.1.26 adds pyopenssl to package.accept_keywords for python cryptography"
 	elog " 0.1.27 adds pillow use jpeg2k to package.use to support uat2pdf in joetoolkit"
+	elog " 0.1.28/29 introduce lxqt desktop"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
