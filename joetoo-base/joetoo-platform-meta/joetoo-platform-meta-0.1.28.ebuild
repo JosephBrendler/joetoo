@@ -13,7 +13,7 @@ KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
 RESTRICT="mirror"
 
 IUSE="
-	headless plasma gnome lxde
+	headless plasma gnome lxde lxqt
 	+grub
 	-sbc
 	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
@@ -38,7 +38,7 @@ IUSE="
 #--------------------------------------------------------------------------------------
 
 REQUIRED_USE="
-	^^ ( headless plasma gnome lxde )
+	^^ ( headless plasma gnome lxde lxqt )
 	sbc? ( ^^ (
 		bcm2712-rpi-cm5-cm5io
 		bcm2712-rpi-5-b
@@ -250,8 +250,18 @@ src_install() {
 			sed -i "s|<LXDE>|lxde|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit lxde"
 		else
-			einfo "editing 90platform_template for -gnome ..."
+			einfo "editing 90platform_template for -lxde ..."
 			sed -i "s|<LXDE>|-lxde|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit -lxde"
+		fi
+		# edit <LXQT> USE flag settings
+		if use lxqt ; then
+			einfo "editing 90platform_template for lxqt ..."
+			sed -i "s|<LXQT>|lxqt|g" ${T}/package.use.joetoo.90platform_template || \
+				die "failed to edit lxde"
+		else
+			einfo "editing 90platform_template for -lxqt ..."
+			sed -i "s|<LXQT>|-lxqt|g" ${T}/package.use.joetoo.90platform_template || \
 				die "failed to edit -lxde"
 		fi
 		# now install the platform-specific package.use file
@@ -284,6 +294,10 @@ src_install() {
 		newins "${S}/package_use/package.use.joetoo.99lxde" "99lxde" || \
 			die "failed to install ${target}/99lxde"
 		elog "USE lxde set; Installed ${target}/99lxde"
+	elif use lxqt ; then
+		newins "${S}/package_use/package.use.joetoo.99lxqt" "99lxqt" || \
+			die "failed to install ${target}/99lxqt"
+		elog "USE lxqt set; Installed ${target}/99lxqt"
 	elif use headless ; then
 		elog "USE headless set; no ${target}/99xxx use flag file required; nothing installed"
 	else
@@ -308,6 +322,10 @@ src_install() {
 		newins "${S}/package_accept_keywords/package.accept_keywords.lxde" "99lxde" || \
 			die "failed to install ${target}/99lxde"
 		elog "USE gnome set; Installed ${target}/99lxde"
+	elif use lxqt ; then
+		newins "${S}/package_accept_keywords/package.accept_keywords.lxqt" "99lxqt" || \
+			die "failed to install ${target}/99lxqt"
+		elog "USE gnome set; Installed ${target}/99lxqt"
 	elif use headless ; then
 		elog "USE headless set; no ${target}/99xxx accept_keywords file required; nothing installed"
 	else
@@ -399,6 +417,8 @@ pkg_postinst() {
 	elog " 0.1.24 fixed openssl and added iproute2 use flag for openvpn"
 	elog " 0.1.25 adds binpkg signing and sandbox_write to make.conf"
 	elog " 0.1.26 adds pyopenssl to package.accept_keywords for python cryptography"
+	elog " 0.1.27 adds pillow use jpeg2k to package.use to support uat2pdf in joetoolkit"
+	elog " 0.1.28 introduces lxqt desktop"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
