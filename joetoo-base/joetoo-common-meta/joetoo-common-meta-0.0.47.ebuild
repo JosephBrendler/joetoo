@@ -44,7 +44,7 @@ REQUIRED_USE="
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
 	^^ ( netifrc networkmanager )
-	^^ ( headless plasma gnome lxde )
+	^^ ( headless plasma gnome lxde lxqt )
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
@@ -438,7 +438,7 @@ pkg_postinst() {
 	elog " 0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR"
 	elog " 0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid"
 	elog " 0.0.44 adds configs and USE flags for screen and tmux, introduces USE lxqt"
-	elog " 0.0.45 updates /etc/skel/.bashrc and /etc/conf.d/net"
+	elog " 0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
