@@ -45,7 +45,7 @@ RDEPEND="
 		>=net-vpn/openvpn-2.6.17-r1[openssl]
 		>=dev-util/joetoolkit-0.8.4[router]
 		)
-	>=net-dns/bind-tools-9.18.0-r1
+	>=net-dns/bind-9.18
 	>=net-dns/openresolv-3.16.5
 	>=dev-util/joetoolkit-0.8.4
 	>=dev-util/script_header_joetoo-0.6.10
@@ -393,7 +393,6 @@ pkg_postinst() {
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
 	elog " 0.2.1-8 provide bugfixes and enhancements"
-	elog " 0.3.0-1 incorporate ddns-openvpn integration"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
