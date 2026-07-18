@@ -1,0 +1,14 @@
+BDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/fping-5.4 >=net-analyzer/nmap-7.92 >=net-dns/bind-9.18 >=net-misc/ipcalc-ng-1.0.3 >=net-misc/ndisc6-1.0.8 >=net-misc/socat-1.8.1.1 ) backup_utilities? ( >=net-misc/rsync-3.2.4 ) app-text/enscript app-text/ghostscript-gpl dev-python/ansi2html dev-python/weasyprint
+DEFINED_PHASES=install postinst
+DESCRIPTION=Utilities for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+IUSE=+iptools -router -xenvmfiles -backup_utilities -utility_archive
+KEYWORDS=amd64 x86 arm arm64 ~amd64 ~x86 ~arm ~arm64
+LICENSE=MIT
+RDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/fping-5.4 >=net-analyzer/nmap-7.92 >=net-dns/bind-9.18 >=net-misc/ipcalc-ng-1.0.3 >=net-misc/ndisc6-1.0.8 >=net-misc/socat-1.8.1.1 ) backup_utilities? ( >=net-misc/rsync-3.2.4 ) app-text/enscript app-text/ghostscript-gpl dev-python/ansi2html dev-python/weasyprint
+REQUIRED_USE=router? ( iptools )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/dev-util/joetoolkit-0.8.53.tbz2
+_md5_=54aa9636ce112752e21f37a3d21e9bcf
