@@ -439,6 +439,8 @@ pkg_postinst() {
 	elog " 0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid"
 	elog " 0.0.44 adds configs and USE flags for screen and tmux, introduces USE lxqt"
 	elog " 0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net"
+	elog " 0.0.48 updated conf.d/distccd"
+	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
