@@ -16,7 +16,7 @@ SLOT="0"
 # revert to testing this version
 KEYWORDS="~amd64 ~arm ~arm64"
 
-IUSE="+client +ipv4 +ipv6 daemon_4 +daemon_6 +dhcpcd_4 dhcpcd_6 openvpn_4 openvpn_6 wsl_4 wsl_6 server openvpn_status emaint"
+IUSE="+client +ipv4 +ipv6 daemon_4 +daemon_6 +dhcpcd_4 dhcpcd_6 openvpn_4 openvpn_6 wsl_4 wsl_6 server openvpn_status"
 
 REQUIRED_USE="
 	^^ ( client server )
@@ -27,7 +27,7 @@ REQUIRED_USE="
 		!server !openvpn_status !emaint
 	)
 	server? (
-		|| ( openvpn_status emaint )
+		openvpn_status
 		|| ( ipv4 ipv6 )
 		!client !daemon_4 !daemon_6 !dhcpcd_4 !dhcpcd_6
 		!openvpn_4 !openvpn_6 !wsl_4 !wsl_6
@@ -75,7 +75,6 @@ src_install() {
 	if use wsl_6; then elog "USE flag wsl_6 was selected"; else elog "USE flag wsl_6 was not selected"; fi
 	if use server; then elog "USE flag server was selected"; else elog "USE flag server was not selected"; fi
 	if use openvpn_status; then elog "USE flag openvpn_status was selected"; else elog "USE flag openvpn_status was not selected"; fi
-	if use emaint; then elog "USE flag emaint was selected"; else elog "USE flag emaint was not selected"; fi
 	if use ipv4; then elog "USE flag ipv4 was selected"; else elog "USE flag ipv4 was not selected"; fi
 	if use ipv6; then elog "USE flag ipv6 was selected"; else elog "USE flag ipv6 was not selected"; fi
 
@@ -120,15 +119,30 @@ src_install() {
 		#    /server/dhcpcd.conf.router, /server/99-ddns-update-server
 		elog "installing for USE flag server"
 		# install ddns-update-server to /usr/sbin (client ssh command calls this)
+                payload="ddns-update-server"
 		target="/usr/sbin/"
-		einfo "Installing (exe) ddns-update-server into ${target}"
+		einfo "Installing (exe) ${payload} into ${target}"
 		exeinto "${target}"
-		newexe "${S}/server/ddns-update-server" "ddns-update-server" || \
-			die "failed to install ddns-update-server"
-		elog "Installed (newexe) ddns-update-server into ${target}"
+		newexe "${S}/server/${payload}" "${payload}" || \
+			die "failed to install ${payload}"
+		elog "Installed (newexe) ${payload} into ${target}"
+		# install ddns-curate-files to /usr/sbin (cron job calls this)
+                payload="ddns-curate-files"
+		target="/usr/sbin/"
+		einfo "Installing (exe) ${payload} into ${target}"
+		exeinto "${target}"
+		newexe "${S}/server/${payload}" "${payload}" || \
+			die "failed to install ${payload}"
+		elog "Installed (newexe) ${payload} into ${target}"
+		# install 99ddns-curate-files_cron to /etc/cron.hourly/ (cron job to call ddns-curate-files)
+                payload="99ddns-curate-files_cron"
+		target="/etc/cron.hourly/"
+		einfo "Installing (exe) ${payload} into ${target}"
+		exeinto "${target}"
+		newexe "${S}/server/${payload}" "${payload}" || \
+			die "failed to install ${payload}"
+		elog "Installed (newexe) ${payload} into ${target}"
 
-# to do - edit both dhcpcd.conf and 99-ddns-update according to ipv4/ipv6 USE
-		# install dhcpcd.conf to /etc/ (this is dns/router version of the .conf)
 		target="/etc/"
 		einfo "Installing (ins) dhcpcd.conf into ${target}"
 		insinto "${target}"
@@ -178,26 +192,10 @@ src_install() {
 				elog "Installed (newexe) ${x} into ${target}"
 			fi
 		fi
-		if use emaint; then
-			# **[ To Do: REFACTOR openvpn_dns_updater.sh to split off emaint_ddns**
-			#  install openvpn_dns_updater.sh to /usr/sbin/
-			# (this scrapes /var/log/openvpn-status.log)
-			target="/usr/sbin/"
-			einfo "Installing (exe) placeholder for emaint_ddns into ${target}"
-			exeinto "${target}"
-			echo 'echo "I am just a placeholder"' > "${T}/emaint_ddns"
-			cp  "${T}/emaint_ddns"
-			newexe "${T}/emaint_ddns" "emaint_ddns" || \
-				die "failed to install emaint_ddns"
-#			newexe "${S}/server/emaint_ddns" "emaint_ddns" || \
-#				die "failed to install emaint_ddns"
-			elog "Installed (newexe) openvpn_dns_updater.sh into ${target}"
-		fi
-# to do:
-# - implement emaint module for server (periodic check, purge, or re-timestamp)
+# maybe todo -
 # - rationalize (assuming client side works) offering vpn server vs client responsibility for updates
 #      (for clients that may be a "if your server runs ... then you don't need..."
-# - give server a choice about running openvpn_dns_updater and/or emaint script (when such exists)
+# - maybe give server a choice about running openvpn_dns_updater and/or ddns-curate-files ?
 # - develop USE flag dependencies and install logic to implement these choices
 
 
@@ -212,8 +210,6 @@ src_install() {
 		newexe "${S}/client/ddns-update" "ddns-update" || die "failed to install ddns-update"
 		elog "Installed (newexe) ddns-update into ${target}"
 
-# to do - edit both dhcpcd.conf and 99-ddns-update according to ipv4/ipv6 USE
-		# install dhcpcd.conf.client as /etc/dhcpcd.conf (client version)
 		target="/etc/"
 		einfo "Installing (ins) dhcpcd.conf into ${target}"
 		insinto "${target}"
@@ -393,6 +389,8 @@ pkg_postinst() {
 	elog " 0.1.2-18 provide bugfixes and enhancements"
 	elog " 0.2.0 splits -ipv4/6 hooks and triggers, T/F in conf.d/ddns for daemon; adds WSL client support"
 	elog " 0.2.1-8 provide bugfixes and enhancements"
+	elog " 0.3.0-1 incorporate ddns-openvpn integration"
+	elog " 0.3.2 adds ddns-curate-files, cron job; openvpn_status now mandatory for server; drops emaint"
 	elog ""
 	elog "notes:"
 	elog "(1) version 0.2.0 splits dual-stack ipv4/6 modules for slaac/dhcp/vpn/WSL environments"
