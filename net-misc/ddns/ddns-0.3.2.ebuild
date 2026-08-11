@@ -24,7 +24,7 @@ REQUIRED_USE="
 		|| ( ipv4 ipv6 )
 		ipv4? ( || ( daemon_4 dhcpcd_4 openvpn_4 wsl_4 ) )
 		ipv6? ( || ( daemon_6 dhcpcd_6 openvpn_6 wsl_6 ) )
-		!server !openvpn_status !emaint
+		!server !openvpn_status
 	)
 	server? (
 		openvpn_status
