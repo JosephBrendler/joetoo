@@ -420,6 +420,8 @@ pkg_postinst() {
 	elog " 0.1.27 adds pillow use jpeg2k to package.use to support uat2pdf in joetoolkit"
 	elog " 0.1.28-30 introduce lxqt desktop, refine other desktop support"
 	elog " 0.1.31 adds distcc settings to make.conf to spt joetoolkit distccmon-tui"
+	elog " 0.1.32/33 update VIDEO_CARDS for generic_amd64, nmap USE flags"
+	elog " 0.1.34 fixes SANDBOX_WRITE whitelist in make.conf"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
