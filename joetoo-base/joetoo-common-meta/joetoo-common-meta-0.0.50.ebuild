@@ -67,9 +67,9 @@ RDEPEND="
 		>=app-admin/sudo-1.8.29-r2
 		>=app-crypt/gnupg-2.2.19
 		>=app-editors/nano-4.6
-		>=app-eselect/eselect-python-20200719
+		app-eselect/eselect
 		>=app-eselect/eselect-repository-8
-		>=app-misc/neofetch-7.1.0
+		app-misc/fastfetch
 		>=app-portage/eix-0.33.9
 		>=app-portage/gentoolkit-0.4.6
 		>=app-shells/bash-completion-2.14.0
@@ -83,7 +83,7 @@ RDEPEND="
 		>=net-wireless/wpa_supplicant-2.8
 		>=sys-apps/busybox-1.32.0[-static(-)]
 		>=sys-apps/lshw-02.19.2b_p20210121-r3
-		>=sys-apps/mlocate-0.26-r2
+		sys-apps/plocate
 		>=sys-apps/rng-tools-6.8
 		>=sys-apps/usbutils-012
 		>=sys-apps/util-linux-2.34-r3
@@ -91,7 +91,7 @@ RDEPEND="
 		>=sys-devel/bc-1.07.1
 		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
 		>=sys-fs/dosfstools-4.1
-		>=sys-fs/lvm2-2.02.187[-udev(-)]
+		>=sys-fs/lvm2-2.03[-udev(-)]
 		gentoo-kernel? (
 			sys-kernel/gentoo-kernel[-initramfs(-)]
 			sys-kernel/installkernel[-dracut(-)]
@@ -120,7 +120,7 @@ RDEPEND="
 		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
 	)
 	lamp? (
-		mysql? ( >=dev-db/mysql-5.7.27-r1 )
+		mysql? ( >=dev-db/mysql-8.0 )
 		mariadb? ( >=dev-db/mariadb-10.5 )
 		>=www-servers/apache-2.4.41
 		dev-lang/php
@@ -151,7 +151,6 @@ RDEPEND="
 		media-fonts/liberation-fonts
 		media-fonts/noto
 		media-fonts/noto-emoji
-		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
@@ -163,7 +162,6 @@ RDEPEND="
 		x11-libs/libxcb
 		x11-misc/sddm
 		x11-misc/xdotool
-		x11-themes/oxygen-gtk
 	)
 	lxde? (
 		lxde-base/lxde-meta
@@ -183,13 +181,11 @@ RDEPEND="
 		media-fonts/liberation-fonts
 		media-fonts/noto
 		media-fonts/noto-emoji
-		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
 		x11-apps/mesa-progs
 		x11-misc/xdotool
-		x11-themes/oxygen-gtk
 	)
 	lxqt? (
 		lxqt-base/lxqt-meta
@@ -215,7 +211,6 @@ RDEPEND="
 		media-fonts/liberation-fonts
 		media-fonts/noto
 		media-fonts/noto-emoji
-		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
@@ -234,7 +229,6 @@ RDEPEND="
 		media-fonts/liberation-fonts
 		media-fonts/noto
 		media-fonts/noto-emoji
-		media-fonts/oxygen-fonts
 		media-fonts/terminus-font
 		media-fonts/ubuntu-font-family
 		nextcloud? ( net-misc/nextcloud-client )
@@ -246,7 +240,6 @@ RDEPEND="
 		x11-libs/libxcb
 		x11-misc/sddm
 		x11-misc/xdotool
-		x11-themes/oxygen-gtk
 	)
 "
 
@@ -441,19 +434,13 @@ pkg_postinst() {
 	elog " 0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net"
 	elog " 0.0.48 updated conf.d/distccd"
 	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
+	elog " 0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
 	elog ""
-	if use lxde; then
-		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
-	fi
-	if use lxqt; then
-		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
-	fi
-	elog ""
-	ewarn "Note: with version 0.0.11+, ipv6 can be enabled with changes to template config"
+	ewarn "Note: with version 0.0.11+, ipv6 is enabled with changes to template config"
 	ewarn " files: (/etc/conf.d/net, /etc/resolv.conf.head & .tail, /etc/dhcpcd.conf)"
 	ewarn " and hook/ddns update scripts: (/lib/dhcpcd/dhcpcd-hooks/99-ddns-update"
 	ewarn " and /etc/dhcpcd.ddns-update.sh) delivered by this package. However,"
