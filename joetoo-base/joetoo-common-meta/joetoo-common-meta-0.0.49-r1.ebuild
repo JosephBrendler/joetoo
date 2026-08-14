@@ -67,7 +67,7 @@ RDEPEND="
 		>=app-admin/sudo-1.8.29-r2
 		>=app-crypt/gnupg-2.2.19
 		>=app-editors/nano-4.6
-		app-eselect/eselect
+		app-admin/eselect
 		>=app-eselect/eselect-repository-8
 		app-misc/fastfetch
 		>=app-portage/eix-0.33.9
