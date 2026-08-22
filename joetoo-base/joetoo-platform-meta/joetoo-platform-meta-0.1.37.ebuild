@@ -423,6 +423,8 @@ pkg_postinst() {
 	elog " 0.1.32/33 update VIDEO_CARDS for generic_amd64, nmap USE flags"
 	elog " 0.1.34 fixes SANDBOX_WRITE whitelist in make.conf"
 	elog " 0.1.35 adds USE flags for tmux, screen; skylake binrepos file"
+	elog " 0.1.36 fixes usersandbox typo in make.conf"
+	elog " 0.1.37 stabilizes binpkg signing socket selection"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
