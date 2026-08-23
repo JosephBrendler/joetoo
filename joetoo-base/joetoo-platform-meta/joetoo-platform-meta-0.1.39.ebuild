@@ -425,6 +425,8 @@ pkg_postinst() {
 	elog " 0.1.35 adds USE flags for tmux, screen; skylake binrepos file"
 	elog " 0.1.36 fixes usersandbox typo in make.conf"
 	elog " 0.1.37 stabilizes binpkg signing socket selection"
+	elog " 0.1.38 updates package.accept_keywords.joetoo"
+	elog " 0.1.39 updates default emerge options in make.conf"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
