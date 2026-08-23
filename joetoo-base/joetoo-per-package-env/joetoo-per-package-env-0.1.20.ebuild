@@ -76,6 +76,8 @@ pkg_postinst() {
 	elog " 0.1.16 fixes UTF-8 standardization"
 	elog " 0.1.17 adds j1_makeopts.conf and trims package.env"
 	elog " 0.1.18 adds draft test harness for distcc-fail packages"
+	elog " 0.1.19 adds nodist_features.conf for gentoo-kernel again"
+	elog " 0.1.20 adds nobin_features.conf for split/merged-usr sensitive pkgs"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
