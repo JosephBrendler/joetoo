@@ -427,6 +427,8 @@ pkg_postinst() {
 	elog " 0.1.37 stabilizes binpkg signing socket selection"
 	elog " 0.1.38 updates package.accept_keywords.joetoo"
 	elog " 0.1.39 updates default emerge options in make.conf"
+	elog " 0.1.40 adds floppy and 86box stuff to accept_keywords"
+	elog " 0.1.41 renames e.g. app-misc/tracker app-misc/tinysparql"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
