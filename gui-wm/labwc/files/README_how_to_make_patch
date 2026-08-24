@@ -1,0 +1,82 @@
+
+# copy a good ebuild
+  cd /home/joe/joetoo
+  mkdir gui-wm
+  cp -r /var/db/repos/gentoo/gui-wm/labwc .
+  cd labwc
+  nano metadata.xml 
+  mkdir files
+# regenerate teh manifest 
+  pkgdev manifest -f
+# unpack the ebuild and edit source(s) to make the fixes
+  ebuild /home/joe/joetoo/gui-wm/labwc/labwc-0.20.1-r1.ebuild unpack
+# locate file(s) that need fixing
+  find /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work/ -iname output.c
+  cd /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work/labwc-0.20.1/
+# copy the file to an "orig" baseline for diff comparison
+  cp src/output.c src/output.c.orig
+# locate the place in the file tnat need fixing
+  grep -n -A20 -B10 'add_output_to_layout' src/output.c
+# edit to make the change
+  nano src/output.c
+# run diff to produce a patch (use a, b labels for standardization)
+  diff -u \
+        --label a/src/output.c \
+        --label b/src/output.c \
+        src/output.c.orig src/output.c \
+        > /home/joe/joetoo/gui-wm/labwc/files/labwc-0.20.1-initial-modeset.patch
+# inspect the patch
+  joe@gmki91 ~/joetoo/gui-wm/labwc $ cat files/labwc-0.20.1-initial-modeset.patch 
+  --- a/src/output.c
+  +++ b/src/output.c
+  @@ -529,6 +529,24 @@
+          add_output_to_layout(output);
+        server.pending_output_layout_change--;
+   
+  +  /*
+  +   * (backport from upstream post-0.20.1)
+  +   * Force the initial modeset commit to actually happen.
+  +   *
+  +   * lab_wlr_scene_output_commit() skips the real commit whenever the
+  +   * scene reports neither damage nor needs_frame. But on this very
+  +   * first commit the output has not been modeset yet, so its resolution
+  +   * is still 0x0 ...
+  +   *
+  +   * As a result the enabled=true state set above would never be
+  +   * committed and the output would stay black until some unrelated
+  +   * event (VT switch, hotplug, display-manager restart) happens to
+  +   * raise needs_frame.
+  +   *
+  +   * With hardware cursors this is masked ...
+  +   */
+  +  wlr_output_schedule_frame(wlr_output);
+  +
+          /*
+           * Commit the output this way instead, HDR needs a buffer, and
+           * this commit must be called after the output is added to the
+  ...
+  }
+# now clean up the temp workdir
+  sudo ebuild ./labwc-0.20.1-r1.ebuild clean
+# test the new patch
+  ebuild ./labwc-0.20.1-r1.ebuild prepare
+# (ant to see something along the lines of:
+#   Applying labwc-0.20.1-initial-modeset.patch ...
+#  with success and no failed hunks)
+# example --
+#joe@gmki91 ~/joetoo/gui-wm/labwc $ ebuild ./labwc-0.20.1-r1.ebuild prepare
+# Appending /home/joe/joetoo to PORTDIR_OVERLAY...
+# * labwc-0.20.1.tar.gz BLAKE2B SHA512 size ;-) ...                                                       [ ok ]
+# >>> Unpacking source...
+# >>> Unpacking 'labwc-0.20.1.tar.gz' to /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work
+# >>> Source unpacked in /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work
+# >>> Preparing source in /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work/labwc-0.20.1 ...
+#  * Applying labwc-0.20.1-initial-modeset.patch ...                                                      [ ok ]
+# >>> Source prepared.
+
+# now inspect the prepared source to confirm the patch was made
+  nano /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work/labwc-0.20.1/src/output.c
+# go to the line where it should be and look
+  <ALT>-g 529   ## see above patch for line number(s)
+# or grep for it --
+  grep -n -C 20 'wlr_output_schedule_frame' /var/tmp/portage/gui-wm/labwc-0.20.1-r1/work/labwc-0.20.1/src/output.c

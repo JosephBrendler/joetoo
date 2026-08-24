@@ -1,0 +1,27 @@
+--- a/src/output.c
++++ b/src/output.c
+@@ -529,6 +529,24 @@
+ 	add_output_to_layout(output);
+ 	server.pending_output_layout_change--;
+ 
++  /*
++   * (backport from upstream post-0.20.1)
++   * Force the initial modeset commit to actually happen.
++   *
++   * lab_wlr_scene_output_commit() skips the real commit whenever the
++   * scene reports neither damage nor needs_frame. But on this very
++   * first commit the output has not been modeset yet, so its resolution
++   * is still 0x0 ...
++   *
++   * As a result the enabled=true state set above would never be
++   * committed and the output would stay black until some unrelated
++   * event (VT switch, hotplug, display-manager restart) happens to
++   * raise needs_frame.
++   *
++   * With hardware cursors this is masked ...
++   */
++  wlr_output_schedule_frame(wlr_output);
++
+ 	/*
+ 	 * Commit the output this way instead, HDR needs a buffer, and
+ 	 * this commit must be called after the output is added to the
