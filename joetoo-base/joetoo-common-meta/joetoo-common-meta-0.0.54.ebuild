@@ -434,19 +434,15 @@ pkg_postinst() {
 	elog " 0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net"
 	elog " 0.0.48 updated conf.d/distccd"
 	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
+	elog " 0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies"
+	elog " 0.0.51 changes from dhcpcd ntp server to joetoo list"
+	elog " 0.0.53/4 adds a post_up script for conf.d/net for router-ULA NDP fix"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
 	fi
 	elog ""
-	if use lxde; then
-		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
-	fi
-	if use lxqt; then
-		ewarn "USE = lxde was specified *** note: you are among the furst users ***"
-	fi
-	elog ""
-	ewarn "Note: with version 0.0.11+, ipv6 can be enabled with changes to template config"
+	ewarn "Note: with version 0.0.11+, ipv6 is enabled with changes to template config"
 	ewarn " files: (/etc/conf.d/net, /etc/resolv.conf.head & .tail, /etc/dhcpcd.conf)"
 	ewarn " and hook/ddns update scripts: (/lib/dhcpcd/dhcpcd-hooks/99-ddns-update"
 	ewarn " and /etc/dhcpcd.ddns-update.sh) delivered by this package. However,"
