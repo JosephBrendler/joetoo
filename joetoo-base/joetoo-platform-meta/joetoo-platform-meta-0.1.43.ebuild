@@ -429,6 +429,8 @@ pkg_postinst() {
 	elog " 0.1.39 updates default emerge options in make.conf"
 	elog " 0.1.40 adds floppy and 86box stuff to accept_keywords"
 	elog " 0.1.41 renames e.g. app-misc/tracker app-misc/tinysparql"
+	elog " 0.1.42 consolidates joetoo_alderlake_N_binhosts.conf"
+	elog " 0.1.43 adds joetoo_alderlake_hybrid_binhosts.conf"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
