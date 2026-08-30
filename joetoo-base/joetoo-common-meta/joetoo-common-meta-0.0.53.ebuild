@@ -436,6 +436,7 @@ pkg_postinst() {
 	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
 	elog " 0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies"
 	elog " 0.0.51 changes from dhcpcd ntp server to joetoo list"
+	elog " 0.0.53 adds a post_up script for conf.d/net for router-ULA NDP fix"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
