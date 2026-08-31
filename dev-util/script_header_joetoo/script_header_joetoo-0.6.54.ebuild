@@ -6,8 +6,9 @@ EAPI=8
 
 DESCRIPTION="A script header with easy-to-use formatting colors and misc functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
-
+#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
+# first ebuild mapped to migrated sources at joetoo-upstream
 S="${WORKDIR}"
 
 LICENSE="MIT"
@@ -175,7 +176,9 @@ src_install() {
 	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
 	elog " 0.5.1-17 provide bugfixes and enhancements"
 	elog " 0.6.0 adds asset cache file and precook_everything_now()"
-	elog " 0.6.1-52 provide bugfixes and enhancements"
+	elog " 0.6.1-5 provide bugfixes and enhancements"
+	elog " 0.6.53 first migration to joetoo-upstream (removes unused unicode files upstream)"
+	elog " 0.6.54 begins update of license/copyright standardization icw migration"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
