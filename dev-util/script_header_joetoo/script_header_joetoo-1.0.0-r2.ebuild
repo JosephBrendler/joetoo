@@ -92,16 +92,16 @@ src_install() {
 			insinto "${target}"
 			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
 			elog "installed BUILD file in ${target}"
-	target="/usr/share/licenses/${PF}/"
+	target="/usr/share/licenses/${PN}/"
 			# install the root license for $PN
 			x="LICENSE"
 			einfo "Installing (ins) $x into $target ..."
 			insinto "$target"
 			newins "${S%/}/${x}" "$x" || die "failed to install $x into $target"
 			elog "Installed $x in $target"
-	target="/usr/share/licenses/${PF}/LICENSES/"
+	target="/usr/share/licenses/${PN}/LICENSES/"
 			# install other licenses applicable to parts of $PN
-			for x in $(find "${S%?}/LICENSES/" -maxdepth 1 -mindepth 1 -type f); do
+			for x in $(find "${S%/}/LICENSES/" -maxdepth 1 -mindepth 1 -type f); do
 				y=${x#${S}}   # strip ${S} from the prefix of x
 				bn=${y##*/}   # basename of y
 				dn=${y%/*}    # dirname of y
