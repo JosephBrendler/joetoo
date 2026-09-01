@@ -20,6 +20,6 @@
 		<name>Joe Brendler</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="github">https://github.com/JosephBrendler/joetoo-upstream</remote-id>
+		<remote-id type="github">JosephBrendler/joetoo-upstream</remote-id>
 	</upstream>
 </pkgmetadata>

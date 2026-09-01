@@ -10,9 +10,10 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="amd64 ~amd64 arm ~arm arm64 ~arm64 x86 ~x86"
 
 S="${WORKDIR%/}/${PN}"
+
+KEYWORDS="amd64 arm arm64 x86"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
