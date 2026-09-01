@@ -101,7 +101,7 @@ src_install() {
 			elog "Installed $x in $target"
 	target="/usr/share/licenses/${PF}/LICENSES/"
 			# install other licenses applicable to parts of $PN
-			for x in $(find "$S" -maxdepth 1 -mindepth 1 -type f); do
+			for x in $(find "${S%?}/LICENSES/" -maxdepth 1 -mindepth 1 -type f); do
 				y=${x#${S}}   # strip ${S} from the prefix of x
 				bn=${y##*/}   # basename of y
 				dn=${y%/*}    # dirname of y
