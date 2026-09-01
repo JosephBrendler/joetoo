@@ -41,6 +41,4 @@ joetoo_license_src_install() {
 		done
 }
 
-EXPORT_FUNCTIONS joetoo_license_src_install
-
 fi
