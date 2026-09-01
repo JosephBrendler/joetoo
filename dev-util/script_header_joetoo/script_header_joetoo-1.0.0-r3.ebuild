@@ -10,9 +10,10 @@ SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master
 # first ebuild using an eclass
 
 LICENSE="GPL-3+"
-SLOT="0"
 
 S="${WORKDIR%/}/${PN}"
+
+SLOT="0"
 
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 

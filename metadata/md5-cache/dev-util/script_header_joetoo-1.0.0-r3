@@ -13,4 +13,4 @@ RESTRICT=mirror
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/dev-util/script_header_joetoo-1.0.0.tbz2
 _eclasses_=joetoo_license	f95cc3d16b13836fc0d878405908b530
-_md5_=966636abc6dc2142d2154afc31a6e4ef
+_md5_=23ab55296ef42c7bb3a5d0bebb1b915f
