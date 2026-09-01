@@ -9,9 +9,9 @@ HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
 # first ebuild using an eclass
 
-LICENSE="GPL-3+"
-
 S="${WORKDIR%/}/${PN}"
+
+LICENSE="GPL-3+"
 
 SLOT="0"
 

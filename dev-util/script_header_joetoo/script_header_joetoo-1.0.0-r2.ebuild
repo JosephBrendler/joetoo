@@ -8,9 +8,9 @@ HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
 # first ebuild mapped to migrated sources at joetoo-upstream
 
-LICENSE="GPL-3+"
-
 S="${WORKDIR%/}/${PN}"
+
+LICENSE="GPL-3+"
 
 SLOT="0"
 
