@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: joetoo_license.eclass
-# @SUMMARY: deploy the joetoo root license and other license(s) applicable to the package
+# @MAINTAINER:
+# Joseph Brendler <joseph.brendler@gmail.com>
+# @BLURB: deploy the joetoo root license and other license(s) applicable to the package
 
 case ${EAPI} in
 	8) ;;   # ok
@@ -13,7 +15,9 @@ if [[ ! ${_JOETOO_LICENSE_ECLASS} ]]; then
 	__JOETOO_LICENSE_ECLASS=1
 
 # @FUNCTION: joetoo_license_src_install
-# @DESCRIPTION: install joetoo root license and other license(s) applicable to the package
+# @USAGE:
+# @DESCRIPTION:
+# install joetoo root license and other license(s) applicable to the package
 joetoo_license_src_install() {
 	local target="/usr/share/licenses/${PN}/"
 	# install the root license for $PN
@@ -35,5 +39,7 @@ joetoo_license_src_install() {
 			elog "Installed $x in $target"
 		done
 }
+
+EXPORT_FUNCTIONS joetoo_license_src_install
 
 fi
