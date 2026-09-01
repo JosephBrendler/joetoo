@@ -12,12 +12,11 @@ case ${EAPI} in
 esac
 
 if [[ ! ${_JOETOO_LICENSE_ECLASS} ]]; then
-	__JOETOO_LICENSE_ECLASS=1
+	_JOETOO_LICENSE_ECLASS=1
 
 # @FUNCTION: joetoo_license_src_install
 # @USAGE:
-# @DESCRIPTION:
-# install joetoo root license and other license(s) applicable to the package
+# @DESCRIPTION: install joetoo license and license(s) applicable to package
 joetoo_license_src_install() {
 	local target="/usr/share/licenses/${PN}/"
 	# install the root license for $PN

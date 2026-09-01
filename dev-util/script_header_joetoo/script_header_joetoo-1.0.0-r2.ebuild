@@ -3,21 +3,23 @@
 
 EAPI=8
 
-DESCRIPTION="A script header with easy-to-use color/unicode formatting, UI resources, CLI, and many other functions"
+DESCRIPTION="script header w easy formatting, UI, CLI, and many functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-#SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
 # first ebuild mapped to migrated sources at joetoo-upstream
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
 REQUIRED_USE="
 	examples? ( extended )
 "
+
+S=${WORKDIR%/}/${PN}
+
 RESTRICT="mirror"
 
 RDEPEND="
@@ -33,7 +35,6 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
-S=${WORKDIR%/}/${PN}
 src_install() {
 	# install utility script header in /usr/local/sbin
 	einfo "WORKDIR=${WORKDIR}"
@@ -70,7 +71,7 @@ src_install() {
 	target="/etc/${PN}/"
 			# install a BUILD assignment file for ${PN}
 			einfo "Installing (ins) BUILD assignment file in ${target}"
-			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			echo "BUILD=${PVR}" > "${T}/BUILD" || die "failed to create BUILD file"
 			insinto "${target}"
 			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
 			elog "installed BUILD file in ${target}"
@@ -88,7 +89,7 @@ src_install() {
 			elog "installed demonstrate_header_local.cmdline_arg_handler in ${target}"
 			# install a BUILD assignment file for demonstrate_header
 			einfo "Installing (ins) BUILD assignment file in ${target}"
-			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			echo "BUILD=${PVR}" > "${T}/BUILD" || die "failed to create BUILD file"
 			insinto "${target}"
 			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
 			elog "installed BUILD file in ${target}"
