@@ -16,7 +16,9 @@ if [[ ! ${_JOETOO_LICENSE_ECLASS} ]]; then
 
 # @FUNCTION: joetoo_license_src_install
 # @USAGE:
-# @DESCRIPTION: install joetoo license and license(s) applicable to package
+# @RETURN: 0 if successful
+# @DESCRIPTION:
+# install joetoo license and license(s) applicable to package
 joetoo_license_src_install() {
 	local target="/usr/share/licenses/${PN}/"
 	# install the root license for $PN

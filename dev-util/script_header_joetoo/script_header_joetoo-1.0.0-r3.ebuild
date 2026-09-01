@@ -13,13 +13,13 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
+S="${WORKDIR%/}/${PN}"
+
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
 REQUIRED_USE="
 	examples? ( extended )
 "
-
-S=${WORKDIR%/}/${PN}
 
 RESTRICT="mirror"
 
@@ -161,14 +161,14 @@ src_install() {
 
 			# install a BUILD assignment file (for both examples)
 			einfo "Installing (ins) BUILD assignment file in ${target}"
-			echo "BUILD=${PVR}" > ${T}/BUILD || die "failed to create BUILD file"
+			echo "BUILD=${PVR}" > "${T}/BUILD" || die "failed to create BUILD file"
 			insinto "${target}"
 			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
 			elog "installed BUILD file in ${target}"
 
 			# install an example BPN assignment file (for both examples)
 			einfo "Installing (ins) example BPN assignment file in ${target}"
-			echo "BPN=${PN}" > ${T}/BPN || die "failed to create BPN file"
+			echo "BPN=${PN}" > "${T}/BPN" || die "failed to create BPN file"
 			insinto "${target}"
 			newins "${T}/BPN" "BPN" || die "failed to install BPN file"
 			elog "installed BPN file in ${target}"
