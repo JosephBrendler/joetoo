@@ -1,17 +1,15 @@
-# Copyright 2024-2054 Joe Brendler
-# Distributed under the terms of the GNU General Public License v3
-# joe brendler 6/8/2024
+# Copyright 2024-2026 Joseph Brendler
+# Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-DESCRIPTION="A script header with easy-to-use formatting colors and misc functions"
+DESCRIPTION="A script header with easy-to-use color/unicode formatting, UI resources, CLI, and many other functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 #SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
 # first ebuild mapped to migrated sources at joetoo-upstream
-S="${WORKDIR}"
 
-LICENSE="MIT"
+LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
@@ -94,6 +92,26 @@ src_install() {
 			insinto "${target}"
 			newins "${T}/BUILD" "BUILD" || die "failed to install BUILD file"
 			elog "installed BUILD file in ${target}"
+	target="/usr/share/licenses/${PF}/"
+			# install the root license for $PN
+			x="LICENSE"
+			einfo "Installing (ins) $x into $target ..."
+			insinto "$target"
+			newins "${S%/}/${x}" "$x" || die "failed to install $x into $target"
+			elog "Installed $x in $target"
+	target="/usr/share/licenses/${PF}/LICENSES/"
+			# install other licenses applicable to parts of $PN
+			for x in $(find "$S" -maxdepth 1 -mindepth 1 -type f); do
+				y=${x#${S}}   # strip ${S} from the prefix of x
+				bn=${y##*/}   # basename of y
+				dn=${y%/*}    # dirname of y
+				einfo "working with y: $y   dn: $dn   bn: $bn"
+				einfo "Installing (ins) $y into $target ..."
+				insinto "$target"
+				newins "${x}" "$bn" || die "failed to install $x into $target"
+				elog "Installed $x in $target"
+			done
+
 	target="/usr/sbin/"
 		insinto "${target}"
 		if use extended ; then
@@ -178,6 +196,8 @@ src_install() {
 	elog " 0.6.0 adds asset cache file and precook_everything_now()"
 	elog " 0.6.1-5 provide bugfixes and enhancements"
 	elog " 0.6.53 first migration to joetoo-upstream (removes unused unicode files upstream)"
+	elog " 0.6.54 begins update of license/copyright standardization icw migration"
+	elog " 1.0.0 is the first version to distribute licenses"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
