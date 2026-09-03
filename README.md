@@ -12,10 +12,10 @@ joetoo began as a simple set of personal Linux utilities but grew and added subs
 
 ## Contents
 
-* system construction and installation
-* platform and base-system configuration
+* system build and installation
+* board, platform, and base-system configuration
 * cross-building and QEMU support
-* SBC and non-SBC board-specific support
+* SBC and non-SBC board- and platform-specific support
 * kernel building, packaging, installation, and updating
 * script headers used to easily source UI assets, core logic functions, and tools
 * joetoo system utilities
@@ -24,12 +24,12 @@ joetoo began as a simple set of personal Linux utilities but grew and added subs
 
 ## Relationship to `joetoo-upstream`
 
-The [myUtilities](https://github.com/JosephBrendler/myUtilities) repository contains the source implementation for most of the software packaged here.
+The external [joetoo-upstream](https://github.com/JosephBrendler/joetoo-upstream) repository contains the source implementation for most of the software packaged by joetoo ebuilds.
 
 These two repositories deliberately use the same category/package organization where appropriate:
 
 ```text
-myUtilities                         joetoo
+joetoo-upstream                         joetoo
 (source)                            (Gentoo repository)
 
 dev-build/...        ----------->  dev-build/...
@@ -40,7 +40,7 @@ sys-kernel/...       ----------->  sys-kernel/...
 ```
 Note: Some of these categories (e.g. dev-sbc) do not exist in upstream Gentoo profiles, and are only defined in profiles maintained in the joetoo repository
 
-`myUtilities` is the source/implementation side of joetoo, while this repository provides the Gentoo packaging and integration side. Joe Brendler is the original/primary author of both.
+`joetoo-upstream` is the source/implementation side of joetoo, while this repository provides the Gentoo packaging and integration side. Joe Brendler is the original/primary author of both.
 
 ## Platform Architecture
 
@@ -61,7 +61,7 @@ This board and platform framework also facilitates the development and maintenan
 
 One near-term architectural goal for joetoo is the centralization this knowledge described above, so individual packages do not each maintain independent lists or `case` statements for every supported board (as is currently the case in supporting ebuilds).  To that end a joetoo platform eclass is beginning development.
 
-See the [joetoo Platform Architecture](https://github.com/JosephBrendler/myUtilities/blob/master/docs/platform-architecture.md).
+See the [joetoo Platform Architecture](https://github.com/JosephBrendler/joetoo-upstream/blob/master/docs/platform-architecture.md).
 
 ## Repository Organization
 
@@ -101,7 +101,7 @@ Two joetoo systems may use different board identities while still being sufficie
 
 Binary-package compatibility is therefore treated as a separate architectural concern rather than being inferred solely from `BOARD`. For example, `BOARD`is used to deploy standardized values in make.conf's COMMON_FLAGS and package.use/00cpu-flags, and joetoo may be updated to deploy selected binrepos/joetoo-<platform>-binhosts.conf, but the user must ensure those configurations are in fact consistent with binpkg compatibility before adding a new host to an existing -binhosts.conf or enabling a new host to subscribe to existing binhosts by installing an active -binhosts.conf file.
 
-See [Binary Package Architecture](https://github.com/JosephBrendler/myUtilities/blob/master/docs/architecture/binpkg-architecture.md).
+See [Binary Package Architecture](https://github.com/JosephBrendler/joetoo-upstream/blob/master/docs/architecture/binpkg-architecture.md).
 
 ## Adding a Supported Platform
 
@@ -118,18 +118,18 @@ update existing joetoo packages to implement policy
 (IAW discovered properties for the inherited new board)
 ```
 
-See [Adding a Platform](https://github.com/JosephBrendler/myUtilities/blob/master/docs/architecture/adding-a-platform.md).
+See [Adding a Platform](https://github.com/JosephBrendler/joetoo-upstream/blob/master/docs/architecture/adding-a-platform.md).
 
 ## Documentation
 
-Architecture documentation is maintained with the source infrastructure in `myUtilities`:
+Architecture documentation is maintained with the source infrastructure in `joetoo-upstream`:
 
-[**joetoo Platform Architecture**](https://github.com/JosephBrendler/myUtilities/blob/master/docs/platform-architecture.md)
+[**joetoo Platform Architecture**](https://github.com/JosephBrendler/joetoo-upstream/blob/master/docs/platform-architecture.md)
 
 Detailed topics are maintained under:
 
 ```text
-myUtilities/docs/architecture/
+joetoo-upstream/docs/architecture/
 ```
 
 The README in this repository describes joetoo from the Gentoo repository and packaging perspective; the architecture documentation describes the system as a whole.
@@ -140,7 +140,9 @@ joetoo is an actively developed personal Gentoo infrastructure project originall
 
 ## Development and AI Policy
 
-joetoo's AI policy differs from that of its primary external upstream source joetoo-upstream human developer(s) may use AI tools for research, discussion, debugging, design review, and suggestions.  AI tools may be used in an advisory capacity only. Developers may not authorize any agentic AI system to modify the repository, execute its development workflow, or commit changes.
+joetoo's AI policy is still in develoment but differs from that of its primary external upstream source [joetoo-upstream AI Policy](https://github.com/JosephBrendler/joetoo-upstream/README.md)
+
+joetoo-upstream uman developer(s) may use AI tools for research, discussion, debugging, design review, and suggestions.  AI tools may be used in an advisory capacity only. Developers may not authorize any agentic AI system to modify the repository, execute its development workflow, or commit changes.
 
 All changes to this repository are made, reviewed, tested as appropriate, documented in the VCS workflow, and committed by a human developer. The human developer(s) retain responsibility for the design, implementation, correctness, licensing, and provenance of committed content.
 
