@@ -1,8 +1,8 @@
 # joetoo
 
-`joetoo` is a custom Gentoo Linux ebuild repository containing packages, profiles, metadata, and system-integration components used to build and maintain joetoo systems.
+`joetoo` is a custom Gentoo Linux ebuild repository containing packages, profiles, metadata, and system-integration components used to build and maintain joetoo systems (both conventional x86/x86_64 systems and a variety of single board computer systems (SBCs).  Thus, "joetoo" is the name of a custom Gentoo overlay.
 
-The corresponding upstream source repository is [myUtilities](https://github.com/JosephBrendler/myUtilities).
+Some joetoo ebuilds cite sources including external entities like [kernel.org](https://www.kernel.org/) and [RaspberryPi/Linux](https://github.com/raspberrypi/linux), but joetoo's primary external upstream source repository - which hosts most of the external software that joetoo ebuilds package - is [joetoo-upstream](https://github.com/JosephBrendler/joetoo-upstream).
 
 ## Purpose
 
@@ -22,7 +22,7 @@ joetoo began as a simple set of personal Linux utilities but grew and added subs
 * Portage and package-management integration
 * joetoo meta packages
 
-## Relationship to `myUtilities`
+## Relationship to `joetoo-upstream`
 
 The [myUtilities](https://github.com/JosephBrendler/myUtilities) repository contains the source implementation for most of the software packaged here.
 
@@ -140,7 +140,7 @@ joetoo is an actively developed personal Gentoo infrastructure project originall
 
 ## Development and AI Policy
 
-joetoo's human developer(s) may use AI tools for research, discussion, debugging, design review, and suggestions.  AI tools may be used in an advisory capacity only. Developers may not authorize any agentic AI system to modify the repository, execute its development workflow, or commit changes.
+joetoo's AI policy differs from that of its primary external upstream source joetoo-upstream human developer(s) may use AI tools for research, discussion, debugging, design review, and suggestions.  AI tools may be used in an advisory capacity only. Developers may not authorize any agentic AI system to modify the repository, execute its development workflow, or commit changes.
 
 All changes to this repository are made, reviewed, tested as appropriate, documented in the VCS workflow, and committed by a human developer. The human developer(s) retain responsibility for the design, implementation, correctness, licensing, and provenance of committed content.
 
