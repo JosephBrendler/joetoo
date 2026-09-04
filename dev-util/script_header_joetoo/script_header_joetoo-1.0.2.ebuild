@@ -7,7 +7,7 @@ inherit joetoo_license
 DESCRIPTION="script header w easy formatting, UI, CLI, and many functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
-# second version of first ebuild using an eclass
+# first ebuild using an eclass
 
 S="${WORKDIR%/}/${PN}"
 
@@ -15,7 +15,7 @@ LICENSE="GPL-3+"
 
 SLOT="0"
 
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 arm arm64 x86"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
 IUSE="+extended +niopt +examples"
@@ -206,6 +206,7 @@ src_install() {
 	elog " 0.6.53 first migration to joetoo-upstream (removes unused unicode files upstream)"
 	elog " 0.6.54 begins update of license/copyright standardization icw migration"
 	elog " 1.0.0 is the first version to distribute licenses"
-	elog " 1.0.1 provide bugfixes and enhancements"
+	elog " 1.0.1 adds millis2time and decode_right_status"
+	elog ""
 	elog "Thank you for using ${PN}"
 }
