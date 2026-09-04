@@ -7,7 +7,7 @@ inherit joetoo_license
 DESCRIPTION="script header w easy formatting, UI, CLI, and many functions"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
 SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
-# first ebuild using an eclass
+# second version of first ebuild using an eclass
 
 S="${WORKDIR%/}/${PN}"
 
