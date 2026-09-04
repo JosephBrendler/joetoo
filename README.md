@@ -1,14 +1,14 @@
 # joetoo
 
-`joetoo` is a custom Gentoo Linux ebuild repository containing packages, profiles, metadata, and system-integration components used to build and maintain joetoo systems (both conventional x86/x86_64 systems and a variety of single board computer systems (SBCs).  Thus, "joetoo" is the name of a custom Gentoo overlay.
+`joetoo` is a custom Gentoo Linux overlay - an ebuild repository hosting packages for software used to build and maintain joetoo systems (both conventional x86/x86_64 systems and a variety of single board computer systems (SBCs).
 
 Some joetoo ebuilds cite sources including external entities like [kernel.org](https://www.kernel.org/) and [RaspberryPi/Linux](https://github.com/raspberrypi/linux), but joetoo's primary external upstream source repository - which hosts most of the external software that joetoo ebuilds package - is [joetoo-upstream](https://github.com/JosephBrendler/joetoo-upstream).
 
-## Purpose
+## Purpose and History
 
 This repository packages the software and configuration that make up the joetoo environment for installation and management through Gentoo Portage.
 
-joetoo began as a simple set of personal Linux utilities but grew and added substantial support for ARM single-board computers and has since expanded into a common platform model covering SBCs and conventional systems across ARM, ARM64, and amd64/x86_64 architectures. As the author(s) capacity to work and interest dictates, this may further evolve through refinement/expansion of existing categories of content or by the addition of new architectures or other categories.
+joetoo began as a relatively small set of Joseph Brendler's personal Linux utilities with no real infrastructure; a custom rsync wrapper script was its initial distribution mechanism, but after its founder retired from "full time work" in late 2016 and had more time to "play" with it, joetoo grew and added support for the founder's budding hobby - building custom Gentoo setups for a variety of ARM single-board computers. Since that time, joetoo has expanded to provide a common platform model covering both SBCs and conventional systems (arm, arm64, ARM64, and amd64/x86_64, with RISC-V on the to-do list). As the author(s) interest and capacity to work dictate, this ecosystemmay will further evolve.
 
 ## Contents
 
@@ -24,23 +24,21 @@ joetoo began as a simple set of personal Linux utilities but grew and added subs
 
 ## Relationship to `joetoo-upstream`
 
-The external [joetoo-upstream](https://github.com/JosephBrendler/joetoo-upstream) repository contains the source implementation for most of the software packaged by joetoo ebuilds.
+The external [joetoo-upstream](https://github.com/JosephBrendler/joetoo-upstream) repository contains the sources for most of the software packaged by joetoo ebuilds.
 
-These two repositories deliberately use the same category/package organization where appropriate:
+These two repositories deliberately use the same category/package organization:
 
 ```text
-joetoo-upstream                         joetoo
-(source)                            (Gentoo repository)
-
-dev-build/...        ----------->  dev-build/...
-dev-sbc/...          ----------->  dev-sbc/...
-dev-util/...         ----------->  dev-util/...
-joetoo-base/...      ----------->  joetoo-base/...
-sys-kernel/...       ----------->  sys-kernel/...
+dev-build/...
+dev-sbc/...
+dev-util/...
+joetoo-base/...
+sys-kernel/...
+...
 ```
-Note: Some of these categories (e.g. dev-sbc) do not exist in upstream Gentoo profiles, and are only defined in profiles maintained in the joetoo repository
-
-`joetoo-upstream` is the source/implementation side of joetoo, while this repository provides the Gentoo packaging and integration side. Joe Brendler is the original/primary author of both.
+### The joetoo repository contains ebuilds for packages in these categories, and the joetoo-upstream repository contains tarball (.tbz2) archives and the original content from which the tarballs are created.  Generally, ```Joetoo <category>/<pkg>/<pkg>-<version>.ebuild``` sources the tarball found at ```joetoo-upstream <category>/<pkg>/<pkg>-<version>.tbz2```
+### Some of these categories (e.g. dev-sbc) do not exist in upstream Gentoo profiles, and are only defined in profiles maintained in the joetoo repository
+### joetoo also includes its own custom eclass set (albeit of just one eclass as of Sep 2026; more are planned)
 
 ## Platform Architecture
 
