@@ -3,7 +3,7 @@
 <pkgmetadata>
 	<longdescription>
 		kernel Image, device tree blob files, modules, firmware, and sources
-		for an armbian kernel built for Rock 5c
+		for an armbian kernel built for Rock 5b+
 	</longdescription>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
@@ -14,7 +14,7 @@
 		<flag name="symlink">(to do)(wont work on vfat) Create/update symlink in /boot directory </flag>
 	</use>
 	<upstream>
-		<remote-id type="github">https://github.com/armbian/build</remote-id>
+		<remote-id type="github">armbian/build</remote-id>
 	</upstream>
 </pkgmetadata>
 
