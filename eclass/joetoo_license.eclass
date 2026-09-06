@@ -1,6 +1,7 @@
 # Copyright 2024-2026 Joseph Brendler
 # Distributed under the terms of the GNU General Public License v2
 # Reference: https://devmanual.gentoo.org/eclass-writing/index.html
+# ToDo - add function to create elog message about license for pkg_postinstall
 
 # @ECLASS: joetoo_license.eclass
 # @MAINTAINER:

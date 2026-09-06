@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst
+DEPEND=acct-group/i2c !sys-apps/rpi3-i2cdev systemd? ( >=sys-apps/systemd-242-r6 ) !systemd? ( >=sys-apps/openrc-0.41 ) >=virtual/udev-215 >=app-shells/bash-4.0
+DESCRIPTION=Service and udev rule to allow i2c group RPi I2C access
+EAPI=6
+HOMEPAGE=https://github.com/sakaki-/gentoo-on-rpi-64bit
+IUSE=-systemd
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-3+
+RDEPEND=acct-group/i2c !sys-apps/rpi3-i2cdev systemd? ( >=sys-apps/systemd-242-r6 ) !systemd? ( >=sys-apps/openrc-0.41 ) >=virtual/udev-215 >=app-shells/bash-4.0
+RESTRICT=mirror
+SLOT=0
+_md5_=f962b8e1c868f8caf2607c97db2480af

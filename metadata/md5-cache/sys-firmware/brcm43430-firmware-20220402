@@ -1,0 +1,11 @@
+DEFINED_PHASES=install
+DESCRIPTION=Configuration file required for integrated WiFi on RPi3/4
+EAPI=8
+HOMEPAGE=https://github.com/RPi-Distro/firmware-nonfree
+IUSE=43455-fix
+KEYWORDS=~arm ~arm64
+LICENSE=Broadcom
+RDEPEND=>=sys-kernel/linux-firmware-20190726-r2[43455-fix(-)?]
+RESTRICT=mirror
+SLOT=0
+_md5_=74196932846346daeea9c2461a9f1e39

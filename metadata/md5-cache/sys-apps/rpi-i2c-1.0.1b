@@ -1,0 +1,11 @@
+DEFINED_PHASES=install postinst
+DEPEND=>=acct-group/i2c-0a !sys-apps/rpi3-i2cdev >=sys-apps/openrc-0.41 >=virtual/udev-215 >=app-shells/bash-4.0
+DESCRIPTION=Service and udev rule to allow i2c group RPi I2C access
+EAPI=8
+HOMEPAGE=https://github.com/joetoo
+KEYWORDS=~arm ~arm64
+LICENSE=GPL-3+
+RDEPEND=>=acct-group/i2c-0a !sys-apps/rpi3-i2cdev >=sys-apps/openrc-0.41 >=virtual/udev-215 >=app-shells/bash-4.0
+RESTRICT=mirror
+SLOT=0
+_md5_=d04f1ea80ef61b1e7f92f9c7d779347f
