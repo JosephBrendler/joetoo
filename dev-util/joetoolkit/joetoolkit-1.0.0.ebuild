@@ -168,7 +168,7 @@ src_install() {
 	newins "${T}/BPN" "BPN" || die "failed to newins BPN"
 	elog "BPN installed into ${target}"
 	x="insert_into_file_template.conf"
-	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	newins "${S}/devtools/${x}" "${x}" || die "failed to newins ${x}"
 	elog "Installed ${x} into ${target}"
 
 	# install /etc/insert_into_file/insert_into_file_local.cmdline_arg_handler
