@@ -2,7 +2,7 @@ Version History
 0.0.4 adds a vpn watch service for raspi4 (optional with iptools USE flag
 0.0.5 adds/tweaks a nextcloud_upgrade utility
 0.1.8 moved kernelupdate-tinker utility to a separate eponymous package
-0.1.9 adds tool to remove bogus binary packages on \"Destination exists\"
+0.1.9 adds tool to remove bogus binary packages on \Destination exists\
 up to 0.1.14 tweak tools and move some tools to/from other packages
 0.2.0 improves the nextcloud_upgrade utility
 0.3.0 introduces nuoromis infrastructure related code
@@ -71,3 +71,28 @@ up to 0.1.14 tweak tools and move some tools to/from other packages
 0.6.9 updates move_joetoo_kernels to process armbian kernels too
 0.6.10 adds fix-distcc-log-dir-and-file and updates the ebuild
 0.6.11 adds nextcloud_ tools enabling federated shares
+0.6.12 adds nextcloud_list_configs
+0.6.13 adds tools to collect distcc server farm data
+   -r1 fixes install location for server ca certs
+0.6.14 adds screen alias to force utf8 support
+0.6.15/16 update tarup and add ebuild update (ebup) command
+0.6.17 adds alias cv as upd to strip_blank_lines_and_comments.sh
+0.7.0 uses install_tool_category() to properly install executables
+0.7.1 adds joetoolkit/iptools/openvpn_dns_updater.sh
+0.7.2 changes a , to a . in a filename
+0.7.3 updates unlock-drives; adds unlock-drives-minimal
+0.7.4-7 bugfix sort unique/order with key/LC_COLLATE in openvpn_dns_updater.sh
+0.7.8 adds 99-ula-ndp-fix.start and restart-network utilities
+0.7.9-11 updates openvpn_dns_updater.sh
+0.7.12/13 add connectivity_check.sh
+0.7.14 changes hostname to fqdn for ipv6 in openvpn_dns_updater.sh
+0.7.14/15 adds 0+ whitespace before # comment stripping for alias cv
+0.7.16-22 add/update utilities
+0.7.23 removes old certs; updates bashrc_aliases
+0.7.24-32 add/update utilities
+0.8.0 is a rewrite/refactor/update prior to consol. with script_header_joetoo
+0.8.1 fixes path names used by ebup, prior to consol. with script_header_joetoo
+0.8.2 utility_archive.tbz2; decided NOT to consolidate script_header_joetoo
+0.8.3 bugfix ebup and tarup
+0.8.4 patches logfile writability in utilities
+0.8.6-72 provide toolkit bugfixes and enhancements

@@ -2,22 +2,26 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		This is the meta-ebuild for joetoolkit utilities. It deployes basic "joetoolkit"
-		and optionally (with USE flags) can deploy other tools, including --
-		"iptools," "xenvmfiles," "backup_utilities," and "utility_archive"
-		Note that the latter is archived, depractated tools
+		utility scripts for joetoo systems, including in categories
+		"iptools", "devtools", "converters", "router"
+		joetoolkit supports amd64, arm64, and arm and has made efforts to design
+		pdf-converters that will run on arm and arm64 or their ~ arch, however
+		because some of the converters upstream dependencies are not keyworded
+		for those arch, this package is not either. Nonetheless, you SHOULD be able
+		to unmask the package and those dependencies with ~* or ** in package.accept_keywords
+		and they should work, but to do so accept this "at your own risk" warning
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
-		<name>Joe Brendler</name>
+		<name>Joseph Brendler</name>
 	</maintainer>
 	<use>
-		<flag name="iptools">Install tools helpful for ip networking</flag>
-		<flag name="xenvmfiles">Install /etc/portage files used by joetoo xen vms</flag>
-		<flag name="backup_utilities">Install example joetoo backup utilities (must be customized)</flag>
-		<flag name="utility_archive">Pull in an archive of extra utilities that have come and gone</flag>
+		<flag name="iptools">Install the iptools scripts</flag>
+		<flag name="devtools">Install the devtools scripts</flag>
+		<flag name="converters">Install the pdf converter tool scripts</flag>
+		<flag name="router">Install scripts required by a joetoo router/firewall/dns/ddns/vpn server</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">https://github.com/JosephBrendler/myUtilities.git</remote-id>
+		<remote-id type="github">JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>

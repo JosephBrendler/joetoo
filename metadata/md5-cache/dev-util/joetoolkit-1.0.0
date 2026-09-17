@@ -1,0 +1,16 @@
+BDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/fping-5.4 >=net-analyzer/nmap-7.92 >=net-dns/bind-9.18 >=net-misc/ipcalc-ng-1.0.3 >=net-misc/ndisc6-1.0.8 >=net-misc/socat-1.8.1.1 ) devtools? ( >=app-misc/jq-1.8.2 >=dev-util/shellcheck-0.11.0 >=net-misc/curl-8.21.0-r1 ) converters? ( >=app-text/enscript-1.6.6-r2 app-text/ghostscript-gpl dev-python/ansi2html >=dev-python/weasyprint-69.0 )
+DEFINED_PHASES=install postinst
+DESCRIPTION=Utilities for a joetoo system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/joetoo
+INHERIT=joetoo_license
+IUSE=+iptools devtools converters router
+KEYWORDS=~amd64
+LICENSE=GPL-3+
+RDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=net-analyzer/fping-5.4 >=net-analyzer/nmap-7.92 >=net-dns/bind-9.18 >=net-misc/ipcalc-ng-1.0.3 >=net-misc/ndisc6-1.0.8 >=net-misc/socat-1.8.1.1 ) devtools? ( >=app-misc/jq-1.8.2 >=dev-util/shellcheck-0.11.0 >=net-misc/curl-8.21.0-r1 ) converters? ( >=app-text/enscript-1.6.6-r2 app-text/ghostscript-gpl dev-python/ansi2html >=dev-python/weasyprint-69.0 )
+REQUIRED_USE=router? ( iptools )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/dev-util/joetoolkit-1.0.0.tbz2
+_eclasses_=joetoo_license	dfe6b6fc4b4aa21884cf5920733551e8
+_md5_=0308e1a90e2a7f118184f1dfb1831111
