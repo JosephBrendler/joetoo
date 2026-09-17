@@ -152,7 +152,7 @@ src_install() {
 	target="/usr/sbin/"
 	einfo "Installing (exe) insert_into_file into ${target}"
 	exeinto "${target}"
-	newexe "${S}/joetoolkit/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
+	newexe "${S}/devtools/insert_into_file" "insert_into_file" || die "failed to newexe insert_into_file"
 	elog "insert_into_file installed into ${target}"
 
 	# install BUILD, BPN, and config template *(for insert_into_file)*
@@ -174,14 +174,14 @@ src_install() {
 	# install /etc/insert_into_file/insert_into_file_local.cmdline_arg_handler
 	einfo "Installing (ins) /etc/insert_into_file/insert_into_file_local.cmdline_arg_handler"
 	x="insert_into_file_local.cmdline_arg_handler"
-	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	newins "${S}/devtools/${x}" "${x}" || die "failed to newins ${x}"
 	elog "Installed ${x} into ${target}"
 	# install eselect module *(for insert_into_file)*
 	einfo "Installing (ins) the insert_into_file.conf eselect module into /usr/share/eselect/modules/ ..."
 	target="/usr/share/eselect/modules/"
 	insinto "${target}"
 	x="insert_into_file.eselect"
-	newins "${S}/joetoolkit/${x}" "${x}" || die "failed to newins ${x}"
+	newins "${S}/devtools/${x}" "${x}" || die "failed to newins ${x}"
 	elog "Installed ${x} into ${target}"
 
 	# install /etc/nextcloud_check_version with BUILD and BPN (executable got installed as a normal utility)
