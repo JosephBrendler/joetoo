@@ -220,7 +220,7 @@ pkg_postinst() {
 	elog "${P} installed"
 	elog "Version history can be found in the ebuild's files directory"
 	elog " 1.0.0 was the first licensed version of ${PN}"
-	elog " 1.0.1-1 provide bugfixes and enhancements"
+	elog " 1.0.1-2 provide bugfixes and enhancements"
 	elog ""
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
