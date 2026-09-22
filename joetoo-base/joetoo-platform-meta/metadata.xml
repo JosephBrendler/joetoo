@@ -15,6 +15,8 @@
 		<flag name="plasma">Configure joetoo for use with a plasma desktop</flag>
 		<flag name="gnome">(to do) Configure joetoo for use with a gnome desktop</flag>
 		<flag name="lxde">Configure joetoo for use with a lxde (light weight) desktop</flag>
+		<flag name="lxqt">Configure joetoo for use with a lxqt (light weight) Qt desktop</flag>
+		<flag name="grub">Pull in grub and dependencies</flag>
 		<flag name="sbc">Tailor for single board computer (SBC) system, require board model selection</flag>
 		<flag name="bcm2708-rpi-b">Tailor for Raspberry Pi model B (armv6/32)</flag>
 		<flag name="bcm2709-rpi-2-b">Tailor for Raspberry Pi 2 B (armv7/32)</flag>
@@ -29,7 +31,9 @@
 		<flag name="rk3399-rock-4se">Tailor for Rock 4se (armv8/64)</flag>
 		<flag name="rk3399-tinker-2">Tailor for Tinkerboard 2/2S (armv8/64)</flag>
 		<flag name="rk3588-rock-5b">Tailor for Rock 5b (armv8/64)</flag>
-		<flag name="rk3588s-orangepi-5">Tailor for OrangePi 5/5b (armv8/64)</flag>
+		<flag name="rk3588-radxa-rock-5b+">Tailor for Radxa Rock 5b+ (armv8/64)</flag>
+		<flag name="rk3588s-orangepi-5">Tailor for OrangePi 5 (armv8/64)</flag>
+		<flag name="rk3588s-orangepi-5b">Tailor for OrangePi 5b (armv8/64)</flag>
 		<flag name="rk3588s-rock-5c">Tailor for Rock 5c (armv8/64)</flag>
 		<flag name="fsl-imx8mq-phanbell">Tailor for TinkerEdgeT/CoralDev (imx8mq)(armv8/64)</flag>
 		<flag name="meson-gxl-s905x-libretech-cc-v2">Tailor for Libre Computer Sweet Potato (aml s905x a53)(armv8/64)</flag>
@@ -41,6 +45,6 @@
 		<flag name="generic-amd64">Tailor for generic-amd64 (amd64/x86_64)</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+		<remote-id type="github">JosephBrendler/joetoo</remote-id>
 	</upstream>
 </pkgmetadata>

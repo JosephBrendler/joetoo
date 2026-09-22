@@ -2,29 +2,34 @@
 # Distributed under the terms of the GNU General Public License v2+
 
 EAPI=8
+inherit joetoo_license
 
 DESCRIPTION="Baseline platform-specific config files for a joetoo system"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
+
+S="${WORKDIR}/${PN}"
 
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="~arm ~amd64 ~arm64 arm amd64 arm64"
-RESTRICT="mirror"
 
+# rust-bin not available for arm
+KEYWORDS="~amd64 ~arm64"
+
+# in EAPI 8, you dont say - ; then are off by default
 IUSE="
-	headless plasma gnome lxde lxqt
+	+headless plasma gnome lxde lxqt
 	+grub
-	-sbc
-	-bcm2712-rpi-cm5-cm5io -bcm2712-rpi-5-b -bcm2711-rpi-cm4-io -bcm2711-rpi-4-b -bcm2710-rpi-3-b-plus
-	-bcm2710-rpi-3-b -bcm2709-rpi-2-b -bcm2708-rpi-b
-	-rk3288-tinker-s
-	-rk3399-rock-pi-4c-plus -rk3399-rock-4se -rk3399-tinker-2
-	-rk3588-rock-5b -rk3588-radxa-rock-5b+ -rk3588s-orangepi-5 -rk3588s-orangepi-5b -rk3588s-rock-5c
-	-meson-gxl-s905x-libretech-cc-v2 -meson-sm1-s905d3-libretech-cc -meson-g12b-a311d-libretech-cc
-	-fsl-imx8mq-phanbell
-	-generic-armv6j -generic-armv7a -generic-aarch64
-	-generic-amd64
+	sbc
+	bcm2712-rpi-cm5-cm5io bcm2712-rpi-5-b bcm2711-rpi-cm4-io bcm2711-rpi-4-b bcm2710-rpi-3-b-plus
+	bcm2710-rpi-3-b bcm2709-rpi-2-b bcm2708-rpi-b
+	rk3288-tinker-s
+	rk3399-rock-pi-4c-plus rk3399-rock-4se rk3399-tinker-2
+	rk3588-rock-5b rk3588-radxa-rock-5b+ rk3588s-orangepi-5 rk3588s-orangepi-5b rk3588s-rock-5c
+	meson-gxl-s905x-libretech-cc-v2 meson-sm1-s905d3-libretech-cc meson-g12b-a311d-libretech-cc
+	fsl-imx8mq-phanbell
+	generic-armv6j generic-armv7a generic-aarch64
+	generic-amd64
 "
 
 #-----[ to-do: add board USE flags for non-sbc systems, such as ]----------------------
@@ -37,8 +42,9 @@ IUSE="
 #    etc
 #--------------------------------------------------------------------------------------
 
+# ^^ ( headless plasma gnome lxde lxqt )  <-- removed because it is really the profile's job to enforce this
+# and pkgcheck scan QA objects to this as a REQUIRED_USE
 REQUIRED_USE="
-	^^ ( headless plasma gnome lxde lxqt )
 	sbc? ( ^^ (
 		bcm2712-rpi-cm5-cm5io
 		bcm2712-rpi-5-b
@@ -90,12 +96,12 @@ REQUIRED_USE="
 	fsl-imx8mq-phanbell? ( sbc )
 "
 
-S="${WORKDIR}/${PN}"
-
 # (1) do not depend on joetoo-platform-meta (circular)
 # (2) leave kernel-sources dependency to sbc-headless-meta
 # (3) leave plasma/gnome dependencies to joetoo-common-meta
 # (4) just install platform-specific config files
+
+RESTRICT="mirror"
 
 RDEPEND="
 	>=joetoo-base/joetoo-per-package-env-0.1.0
@@ -126,9 +132,12 @@ pkg_setup() {
 	elif use rk3588s-orangepi-5b ; then export board="rk3588s-orangepi-5b" ; export maker="rockchip"
 	elif use rk3588s-rock-5c ; then export board="rk3588s-rock-5c" ; export maker="rockchip"
 	elif use fsl-imx8mq-phanbell ; then export board="fsl-imx8mq-phanbell" ; export maker="nxp"
-	elif use meson-gxl-s905x-libretech-cc-v2 ; then export board="meson-gxl-s905x-libretech-cc-v2" ; export maker="amlogic"
-	elif use meson-sm1-s905d3-libretech-cc ; then export board="meson-sm1-s905d3-libretech-cc" ; export maker="amlogic"
-	elif use meson-g12b-a311d-libretech-cc ; then export board="meson-g12b-a311d-libretech-cc" ; export maker="amlogic"
+	elif use meson-gxl-s905x-libretech-cc-v2 ; then
+		export board="meson-gxl-s905x-libretech-cc-v2" ; export maker="amlogic"
+	elif use meson-sm1-s905d3-libretech-cc ; then
+		export board="meson-sm1-s905d3-libretech-cc" ; export maker="amlogic"
+	elif use meson-g12b-a311d-libretech-cc ; then
+		export board="meson-g12b-a311d-libretech-cc" ; export maker="amlogic"
 	elif use generic-armv6j ; then export board="generic-armv6j" ; export maker="raspi" # mimics bcm2708-rpi-b
 	elif use generic-armv7a ; then export board="generic-armv7a" ; export maker="raspi" # mimics bcm2709-rpi-2-b
 	elif use generic-aarch64 ; then export board="generic-aarch64" ; export maker="raspi" # mimics bcm2712-rpi-5-b
@@ -143,6 +152,14 @@ pkg_setup() {
 }
 
 src_install() {
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "board=${board}"
+	elog "maker=${maker}"
 	#-----[ make.conf section ]-----------------------------------------------------------------
 	target="/etc/portage/"
 	einfo "Installing (ins) files into ${target} ..."
@@ -190,78 +207,78 @@ src_install() {
 		elog "Installed ${target}/00cpu-flags for ${board}"
 		# prepare and install the board-specific platform package.use file
 		einfo "copying 90platform_template to temporary scratch work space T: ${T} ..."
-		cp ${S}/package_use/package.use.joetoo.90platform_template ${T}/ || \
+		cp "${S}/package_use/package.use.joetoo.90platform_template" "${T}/" || \
 			die "failed to copy 90platform_template to $T"
 		# edit <BOARD> USE flag settings
 		einfo "editing 90platform_template for board: ${board} ..."
-		sed -i "s|<BOARD>|${board}|g" ${T}/package.use.joetoo.90platform_template || \
+		sed -i "s|<BOARD>|${board}|g" "${T}/package.use.joetoo.90platform_template" || \
 			die "failed to edit board"
 		# edit <MAKER> USE flag settings
 		einfo "editing 90platform_template for maker: ${maker} ..."
-		sed -i "s|<MAKER>|${maker}|g" ${T}/package.use.joetoo.90platform_template || \
+		sed -i "s|<MAKER>|${maker}|g" "${T}/package.use.joetoo.90platform_template" || \
 			die "failed to edit maker"
 		if [[ "${maker}" == "raspi" ]] ; then
-			sed -i "s|armbian_kernel|kernel|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|armbian_kernel|kernel|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit kernel for maker: ${maker}"
 		fi
 		# edit <GRUB> USE flag settings
 		if use grub ; then
 			einfo "editing 90platform_template for grub ..."
-			sed -i "s|<GRUB>|grub|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<GRUB>|grub|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit grub"
 		else
 			einfo "editing 90platform_template for -grub ..."
-			sed -i "s|<GRUB>|-grub|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<GRUB>|-grub|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -grub"
 		fi
 		# edit <HEADLESS> USE flag settings
 		if use headless ; then
 			einfo "editing 90platform_template for headless ..."
-			sed -i "s|<HEADLESS>|headless|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<HEADLESS>|headless|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit headless"
 		else
 			einfo "editing 90platform_template for -headless ..."
-			sed -i "s|<HEADLESS>|-headless|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<HEADLESS>|-headless|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -headless"
 		fi
 		# edit <PLASMA> USE flag settings
 		if use plasma ; then
 			einfo "editing 90platform_template for plasma ..."
-			sed -i "s|<PLASMA>|plasma|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<PLASMA>|plasma|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit plasma"
 		else
 			einfo "editing 90platform_template for -plasma ..."
-			sed -i "s|<PLASMA>|-plasma|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<PLASMA>|-plasma|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -plasma"
 		fi
 		# edit <GNOME> USE flag settings
 		if use gnome ; then
 			einfo "editing 90platform_template for gnome ..."
-			sed -i "s|<GNOME>|gnome|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<GNOME>|gnome|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit gnome"
 		else
 			einfo "editing 90platform_template for -gnome ..."
-			sed -i "s|<GNOME>|-gnome|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<GNOME>|-gnome|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -gnome"
 		fi
 		# edit <LXDE> USE flag settings
 		if use lxde ; then
 			einfo "editing 90platform_template for lxde ..."
-			sed -i "s|<LXDE>|lxde|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<LXDE>|lxde|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit lxde"
 		else
 			einfo "editing 90platform_template for -lxde ..."
-			sed -i "s|<LXDE>|-lxde|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<LXDE>|-lxde|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -lxde"
 		fi
 		# edit <LXQT> USE flag settings
 		if use lxqt ; then
 			einfo "editing 90platform_template for lxqt ..."
-			sed -i "s|<LXQT>|lxqt|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<LXQT>|lxqt|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit lxde"
 		else
 			einfo "editing 90platform_template for -lxqt ..."
-			sed -i "s|<LXQT>|-lxqt|g" ${T}/package.use.joetoo.90platform_template || \
+			sed -i "s|<LXQT>|-lxqt|g" "${T}/package.use.joetoo.90platform_template" || \
 				die "failed to edit -lxde"
 		fi
 		# now install the platform-specific package.use file
@@ -344,16 +361,20 @@ src_install() {
 		# Here we will name the /etc/portage/binrepos.conf/${binhostconfigfile} that will identify
 		# these binhost groups and the url(s) for their repositories.
 		# These files are then installed by this ebuild, below
-		case $board in
+		case "$board" in
 			"bcm2712-rpi-5-b"|"bcm2712-rpi-cm5-cm5io") binhostconfigfile="joetoo_rpi5_binhosts.conf" ;;
 			"bcm2711-rpi-4-b"|"bcm2711-rpi-cm4-io") binhostconfigfile="joetoo_rpi4_binhosts.conf" ;;
 			"bcm2710-rpi-3-b-plus") binhostconfigfile="joetoo_rpi3_binhosts.conf" ;;
 			"bcm2709-rpi-2-b"|"bcm2710-rpi-3-b") binhostconfigfile="joetoo_rpi23A_binhosts.conf" ;;
 			"bcm2708-rpi-b") binhostconfigfile="joetoo_rpi1_binhosts.conf" ;;
-			"rk3399-rock-pi-4c-plus"|"rk3399-rock-4se"|"rk3399-tinker-2") binhostconfigfile="joetoo_rk3399_binhosts.conf" ;;
-			"rk3588-rock-5b"|"rk3588-radxa-rock-5b+"|"rk3588s-orangepi-5"|"rk3588s-orangepi-5b"|"rk3588s-rock-5c") binhostconfigfile="joetoo_rk3588_binhosts.conf" ;;
-			# TinkerEdgeT, CoralDev are NXP i.MX8M ; SweetPotato is aml-s905x-cc (both SoCs have cortex-A53; same cpu-flags)
-			"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2") binhostconfigfile="joetoo_sweetpotato_binhosts.conf" ;;
+			"rk3399-rock-pi-4c-plus"|"rk3399-rock-4se"|"rk3399-tinker-2")
+				binhostconfigfile="joetoo_rk3399_binhosts.conf" ;;
+			"rk3588-rock-5b"|"rk3588-radxa-rock-5b+"|"rk3588s-orangepi-5"|"rk3588s-orangepi-5b"|"rk3588s-rock-5c")
+				 binhostconfigfile="joetoo_rk3588_binhosts.conf" ;;
+			# TinkerEdgeT, CoralDev are NXP i.MX8M ; SweetPotato is aml-s905x-cc
+			# (both SoCs have cortex-A53; same cpu-flags)
+			"fsl-imx8mq-phanbell"|"meson-gxl-s905x-libretech-cc-v2")
+				 binhostconfigfile="joetoo_sweetpotato_binhosts.conf" ;;
 			"meson-sm1-s905d3-libretech-cc") binhostconfigfile="joetoo_solitude_binhosts.conf" ;;
 			"meson-g12b-a311d-libretech-cc") binhostconfigfile="joetoo_alta_binhosts.conf" ;;
 			# nothing for tinker-s, yet - I only have one of these (and my tinker-s is retired)
@@ -376,61 +397,18 @@ src_install() {
 		elog "not an sbc install; no joetoo_X_binhost configured for this context, yet"
 	fi
 	elog "Done installing (ins) files into ${target} ..."
+
+	# run eclass joetoo_license code
+	joetoo_license_src_install
 }
 
 pkg_postinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "board=${board}"
-	einfo "maker=${maker}"
 	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
-	elog " 0.1.0 moves assemble-make-conf tool to ${PN}"
-	elog " 0.1.1 updates the USE part of make.conf to add pam"
-	elog " 0.1.2 updates make.conf, accept_keywords, package.use, binhosts"
-	elog " 0.1.2-r1 installs chroot(live) version of make.conf by default"
-	elog " 0.1.3 adds USE nls for some packages, to get gentoo binpkgs"
-	elog " 0.1.4 adds rk3399-rock-4se; and starts sbc-to-platform migration"
-	elog " 0.1.5 fixes USE for joetoolkit"
-	elog " 0.1.6 adds boards to package.use headers"
-	elog " 0.1.7 removes reference to deprecated raspberrypi-userland"
-	elog " 0.1.8 tweaks package.use/80joetoo_common and 90joetoo_platform"
-	elog " 0.1.9 adds clamav to package.use/80joetoo_common"
-	elog " 0.1.10 updates package.accept_keywords.joetoo for enscript"
-	elog " 0.1.11-13 introduce lxde desktop"
-	elog " 0.1.14 adds qemu to accept_keywords for arm (qemu chroot)"
-	elog " 0.1.15 adds USE -branding for grub (protect sbc builds)"
-	elog " 0.1.16 drops USE thin from lvm2 in 80joetoo_common"
-	elog " 0.1.17/8 updates make.conf parts, assemble family and adds parallel tool"
-	elog " 0.1.19 updates package.use"
-	elog " 0.1.20 updates make.conf and its assembler"
-	elog " 0.1.21 updates binrepo binhots lists for raspi4/5"
-	elog " 0.1.22 added ipcalc to package.accept_keywords for jping development"
-	elog " 0.1.23 added defaults for ddns to package.use and package.accept_keywords"
-	elog " 0.1.24 fixed openssl and added iproute2 use flag for openvpn"
-	elog " 0.1.25 adds binpkg signing and sandbox_write to make.conf"
-	elog " 0.1.26 adds pyopenssl to package.accept_keywords for python cryptography"
-	elog " 0.1.27 adds pillow use jpeg2k to package.use to support uat2pdf in joetoolkit"
-	elog " 0.1.28-30 introduce lxqt desktop, refine other desktop support"
-	elog " 0.1.31 adds distcc settings to make.conf to spt joetoolkit distccmon-tui"
-	elog " 0.1.32/33 update VIDEO_CARDS for generic_amd64, nmap USE flags"
-	elog " 0.1.34 fixes SANDBOX_WRITE whitelist in make.conf"
-	elog " 0.1.35 adds USE flags for tmux, screen; skylake binrepos file"
-	elog " 0.1.36 fixes usersandbox typo in make.conf"
-	elog " 0.1.37 stabilizes binpkg signing socket selection"
-	elog " 0.1.38 updates package.accept_keywords.joetoo"
-	elog " 0.1.39 updates default emerge options in make.conf"
-	elog " 0.1.40 adds floppy and 86box stuff to accept_keywords"
-	elog " 0.1.41 renames e.g. app-misc/tracker app-misc/tinysparql"
-	elog " 0.1.42 consolidates joetoo_alderlake_N_binhosts.conf"
-	elog " 0.1.43 adds joetoo_alderlake_hybrid_binhosts.conf"
+	elog " 1.0.0 migrates this package to joetoo-upstream repo ${PN}"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
