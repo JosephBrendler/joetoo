@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="amd64 arm arm64 x86"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
-IUSE="+extended +niopt +examples"
+IUSE="+extended +niopt +examples unicode_data"
 REQUIRED_USE="
 	examples? ( extended )
 "
@@ -40,14 +40,14 @@ BDEPEND="${RDEPEND}"
 
 src_install() {
 	# install utility script header in /usr/local/sbin
-	einfo "WORKDIR=${WORKDIR}"
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo ""
+	elog "WORKDIR=${WORKDIR}"
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog ""
 	target="/usr/sbin/"
 		einfo "Installing (ins) ${PN} into ${target} ..."
 		insinto "${target}"
@@ -58,6 +58,16 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
 		elog "Installed ${PN}_unicode in ${target}"
+		# install unicode registry definitions
+		einfo "Installing (ins) ${PN}_registries into ${target} ..."
+		insinto "${target}"
+		newins "${S%/}/${PN}_registries" "${PN}_registries"
+		elog "Installed ${PN}_registries in ${target}"
+		# install uiasset definitions
+		einfo "Installing (ins) ${PN}_uiassets into ${target} ..."
+		insinto "${target}"
+		newins "${S%/}/${PN}_uiassets" "${PN}_uiassets"
+		elog "Installed ${PN}_uiassets in ${target}"
 		# install ssh key management module
 		einfo "Installing (ins) ${PN}_ssh into ${target} ..."
 		insinto "${target}"
@@ -100,26 +110,6 @@ src_install() {
 	# run eclass joetoo_license code
 	joetoo_license_src_install
 
-#	target="/usr/share/licenses/${PN}/"
-#			# install the root license for $PN
-#			x="LICENSE"
-#			einfo "Installing (ins) $x into $target ..."
-#			insinto "$target"
-#			newins "${S%/}/${x}" "$x" || die "failed to install $x into $target"
-#			elog "Installed $x in $target"
-#	target="/usr/share/licenses/${PN}/LICENSES/"
-#			# install other licenses applicable to parts of $PN
-#			for x in $(find "${S%/}/LICENSES/" -maxdepth 1 -mindepth 1 -type f); do
-#				y=${x#${S}}   # strip ${S} from the prefix of x
-#				bn=${y##*/}   # basename of y
-#				dn=${y%/*}    # dirname of y
-#				einfo "working with y: $y   dn: $dn   bn: $bn"
-#				einfo "Installing (ins) $y into $target ..."
-#				insinto "$target"
-#				newins "${x}" "$bn" || die "failed to install $x into $target"
-#				elog "Installed $x in $target"
-#			done
-
 	target="/usr/sbin/"
 		insinto "${target}"
 		if use extended ; then
@@ -134,6 +124,7 @@ src_install() {
 			newins "${S%/}/${PN}_noninteractive" "${PN}_noninteractive"
 			elog "Installed ${PN}_noninteractive in ${target}"
 		fi
+	# install optional content for examples
 	if use examples ; then
 		einfo "examples USE flag is set"
 		# install POSIX application template scripts
@@ -176,6 +167,15 @@ src_install() {
 			elog "installed BPN file in ${target}"
 		done
 	fi
+	# install optional content for unicode_data reference files
+	if use unicode_data ; then
+	        target="/usr/share/${PN}/"
+		einfo "Installing (ins) unicode reference data in $target"
+		insinto "$target"
+		insopts -m0644
+		doins -r "${S}/unicode_data" || die "failed to install unicode reference data in $target"
+		elog "installed unicode_data in $target"
+	fi
 
 	elog "${P} installed"
 	elog "Employ ${PN} functions after sourcing it "
@@ -190,22 +190,9 @@ src_install() {
 	elog "version_history, in the ebuild's FILESDIR, records version history"
 	elog "(package upgraded and renamed)"
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
-	elog " 0.3.0 implements POSIX command sequence framework"
-	elog " 0.3.1-10 provide bugfixes and enhancements"
-	elog " 0.4.0 deploys a new severity-aware, log-enabled, consolidated messaging system"
-	elog " 0.4.1 provides bugfixes and enhancements"
-	elog " 0.4.2 fixes QUIET and DEBUG functionality, introduces mini version of cli example"
-	elog " 0.4.3 retires legacy _extended cli framework and refactors _posix to replace it"
-	elog " 0.4.4-5 provide bugfixes and enhancements"
-	elog " 0.4.6 chose flags N,I,h,s,r,l,v,q,Q,V,[0-9] as std (free up n,i,S,R,H,L)"
-	elog " 0.4.7-34 provide bugfixes and enhancements"
-	elog " 0.5.0 is initial version of newly unified msg/log arch w unicode spt"
-	elog " 0.5.1-17 provide bugfixes and enhancements"
-	elog " 0.6.0 adds asset cache file and precook_everything_now()"
-	elog " 0.6.1-5 provide bugfixes and enhancements"
-	elog " 0.6.53 first migration to joetoo-upstream (removes unused unicode files upstream)"
-	elog " 0.6.54 begins update of license/copyright standardization icw migration"
 	elog " 1.0.0 is the first version to distribute licenses"
+	elog " 1.0.1 adds millis2time and decode_right_status"
+	elog " 1.0.3 drops precooking logic and adds compiled headers for utf8 bytecodes and registries"
 	elog ""
 	elog "Thank you for using ${PN}"
 }

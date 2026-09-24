@@ -14,6 +14,7 @@
 		<flag name="extended">Generate the header supporting an extended set of (bash) functions</flag>
 		<flag name="niopt">Generate checkshell()/de-colorization header for non-interactive shells</flag>
 		<flag name="examples">Install a template/example script empoloying the extended [bash] header</flag>
+		<flag name="unicode_data">Install a reference data files from the Unicode Consortium</flag>
 	</use>
 	<maintainer type="person">
 		<email>joe.brendler@gmail.com</email>
