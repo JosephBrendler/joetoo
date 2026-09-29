@@ -1,0 +1,15 @@
+BDEPEND=dev-util/script_header_joetoo >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7[python(+)] >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-fs/lvm2-2.02.188-r2[-udev(-)] >=sys-fs/cryptsetup-2.3.6-r2[urandom(+),openssl(+)] >=sys-apps/busybox-1.34.1[-static(-)] grub? ( >=sys-boot/grub-2.06-r1[device-mapper(+)] )
+DEFINED_PHASES=install postinst pretend setup
+DESCRIPTION=create initramfs for LUKS encrypted / lvm system
+EAPI=8
+HOMEPAGE=https://github.com/JosephBrendler/myUtilities
+INHERIT=linux-info joetoo_license
+IUSE=+grub
+KEYWORDS=~amd64 ~arm64
+LICENSE=GPL-3+
+RDEPEND=dev-util/script_header_joetoo >=sys-apps/which-2.21 >=app-misc/pax-utils-1.1.7[python(+)] >=sys-apps/file-5.29 >=app-arch/cpio-2.12-r1 >=sys-fs/lvm2-2.02.188-r2[-udev(-)] >=sys-fs/cryptsetup-2.3.6-r2[urandom(+),openssl(+)] >=sys-apps/busybox-1.34.1[-static(-)] grub? ( >=sys-boot/grub-2.06-r1[device-mapper(+)] )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/dev-util/mkinitramfs-10.0.6.tbz2
+_eclasses_=toolchain-funcs	58a918e3a42d0156f010dcfd43725be5	linux-info	efd923656513c879204fec6638eadee5	joetoo_license	dfe6b6fc4b4aa21884cf5920733551e8
+_md5_=bb2bc06769ffd5929377e4201c7b1a61
