@@ -1,28 +1,26 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 2024-2026 Joseph Brendler
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=8
 
-inherit linux-info
+inherit linux-info joetoo_license
 
 DESCRIPTION="create initramfs for LUKS encrypted / lvm system"
 HOMEPAGE="https://github.com/JosephBrendler/myUtilities"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
 
 S="${WORKDIR}/${PN}"
 
-LICENSE="MIT"
+LICENSE="GPL-3+"
 SLOT="0"
 
-KEYWORDS="amd64 ~amd64 arm64 ~arm64"
+KEYWORDS="~amd64 ~arm64"
 IUSE="+grub"
 RESTRICT="mirror"
 
 RDEPEND="dev-util/script_header_joetoo
 	>=sys-apps/which-2.21
 	>=app-misc/pax-utils-1.1.7[python(+)]
-	>=sys-libs/glibc-2.23
 	>=sys-apps/file-5.29
 	>=app-arch/cpio-2.12-r1
 	>=sys-fs/lvm2-2.02.188-r2[-udev(-)]
@@ -30,20 +28,7 @@ RDEPEND="dev-util/script_header_joetoo
 	>=sys-apps/busybox-1.34.1[-static(-)]
 	grub? ( >=sys-boot/grub-2.06-r1[device-mapper(+)] )
 "
-DEPEND="${RDEPEND}"
-
-pkg_preinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "A=${A}"
-	einfo "T=${T}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "RDEPEND=${RDEPEND}"
-	einfo "DEPEND=${DEPEND}"
-}
+BDEPEND="${RDEPEND}"
 
 pkg_pretend() {
 	if linux_config_exists ; then
@@ -68,14 +53,14 @@ pkg_pretend() {
 		# next, check that these targets are either y or m - but don't kill over this
 		targets="GENTOO_LINUX GENTOO_LINUX_PORTAGE"
 		for target in ${targets} ; do
-			linux_chkconfig_present ${target}  && \
+			linux_chkconfig_present "${target}"  && \
 			elog "${target} is present" || \
 			ewarn "${target} is not present"
 		done
 
 		# now check for some specific string settings - but don't kill over this
 		fat_def_codepage=$(linux_chkconfig_string FAT_DEFAULT_CODEPAGE)
-		[[ ${fat_def_codepage} -eq 437 ]] && \
+		[[ "${fat_def_codepage}" -eq 437 ]] && \
 			elog "fat def codepage ok (${fat_def_codepage})" || \
 			ewarn "fat def codepage NOT ok (${fat_def_codepage})"
 		fat_def_iocharset="$(linux_chkconfig_string FAT_DEFAULT_IOCHARSET)"
@@ -88,27 +73,36 @@ pkg_pretend() {
 }
 
 src_install() {
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "A=${A}"
+	elog "T=${T}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+
 	# install utility scripts and baseline initramfs sources in /usr/src
-	dodir /usr/src/${PN} && einfo "Created /usr/src/${PN} with dodir"
-	einfo 'About to issue command: cp -v '${S}'/ '${D}'/usr/src/'
+	dodir "/usr/src/${PN}" && einfo "Created /usr/src/${PN} with dodir"
+	einfo "About to issue command: cp -v ${S}/ ${D}/usr/src/"
 	cp -R "${S}/" "${D}/usr/src/" || die "Install failed!"
 	elog ""
 	dodir usr/bin/
-	einfo "About to execute command cp -v "${S}"/ckinitramfs "${D}"/usr/bin/"
+	einfo "About to execute command cp -v ${S}/ckinitramfs ${D}/usr/bin/"
 	cp -v "${S}/ckinitramfs" "${D}/usr/bin/" || die "Install failed!"
 	elog "ckinitramfs installed in /usr/bin/"
 	elog ""
 	dodir etc/mkinitramfs/
-	einfo "About to execute command cp -v "${S}"/mkinitramfs.conf "${D}"/etc/mkinitramfs/"
+	einfo "About to execute command cp -v ${S}/mkinitramfs.conf ${D}/etc/mkinitramfs/"
 	cp -v "${S}/mkinitramfs.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "mkinitramfs.conf installed in /etc/mkinitramfs/"
 	elog ""
-	einfo "About to execute command cp -v "${S}"/init.conf "${D}"/etc/mkinitramfs/"
+	einfo "About to execute command cp -v ${S}/init.conf ${D}/etc/mkinitramfs/"
 	cp -v "${S}/init.conf" "${D}/etc/mkinitramfs/" || die "Install failed!"
 	elog "init.conf installed in /etc/mkinitramfs/"
 	einfo "About to create PKG_PVR file"
-	echo "${PVR}" > ${T}/PKG_PVR
-	einfo "About to execute command cp -v "${T}"/PKG_PVR "${D}"/usr/src/mkinitramfs/PKG_PVR"
+	echo "${PVR}" > "${T}/PKG_PVR"
+	einfo "About to execute command cp -v ${T}/PKG_PVR ${D}/usr/src/mkinitramfs/PKG_PVR"
 	cp -v "${T}/PKG_PVR" "${D}/usr/src/mkinitramfs/PKG_PVR" || die "Install failed!"
 	elog "PKG_PVR file with content [${PVR}] installed in /PKG_PVR"
 	elog ""
@@ -127,7 +121,8 @@ pkg_postinst() {
 	elog " 10.0.0 integrates script_header_joetoo (POSIX), upgrades all"
 	elog " 10.0.1 provides bufixes and enhancements"
 	elog " 10.0.2 adopts new joetoo messaging engine and luks management"
-	elog " 10.0.3 provides bugfixes and enhancements"
+	elog " 10.0.3/4 provide bugfixes and enhancements"
+	elog " 10.0.5 migrates to joetoo-upstream repo; licensed, new script header"
 	elog " "
 	elog "Please report bugs to the maintainer."
 	elog ""
