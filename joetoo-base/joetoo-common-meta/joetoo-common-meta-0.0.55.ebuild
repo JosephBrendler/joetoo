@@ -2,56 +2,56 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+inherit joetoo_license
 
 DESCRIPTION="Baseline for a joetoo system"
 HOMEPAGE="https://github.com/JosephBrendler/joetoo"
-SRC_URI="https://raw.githubusercontent.com/JosephBrendler/myUtilities/master/${CATEGORY}/${PN}-${PV}.tbz2"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
+
+S="${WORKDIR}/${PN}"
 
 LICENSE="metapackage"
 SLOT="0"
 # revert to testing this version
-KEYWORDS="~arm ~amd64 ~arm64"
-
-RESTRICT="mirror"
+KEYWORDS="~amd64"
 
 # gentoo-kernel and gentoo-sources optional, and only for non-sbc
 # grub optional
 IUSE="
 	+innercore
 	+joetoolkit
-	+headless -plasma -gnome -lxde -lxqt
-	-lamp -nextcloud -mysql -mariadb
+	+headless plasma gnome lxde lxqt
+	lamp nextcloud mysql mariadb
 	+cloudsync
 	+distcc
 	+mkinitramfs +jus
-	+netifrc -networkmanager
-	-ntp +chrony
-	+sysklogd -syslog-ng
+	+netifrc networkmanager
+	ntp +chrony
+	+sysklogd syslog-ng
 	+script_header_joetoo
-	-compareConfigs -Terminal
-	-domU
-	-samba
-	+gentoo-kernel -gentoo-sources
+	compareConfigs Terminal
+	domU
+	samba
+	+gentoo-kernel gentoo-sources
 	+grub
-	+tmux -screen
+	+tmux screen
 	"
 # zero or any of ( tmux screen ) are ok
 # ?? = zero or one of, but not multiple ( gentoo-sources gentoo-kernel )
+# *** dropped ^^ ( netifrc networkmanager ) and ^^ ( headless plasma gnome lxde lxqt )
+# because those include global use flags in profiles
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )
 	lamp? ( ^^ ( mysql mariadb ) )
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
-	^^ ( netifrc networkmanager )
-	^^ ( headless plasma gnome lxde lxqt )
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
 	"
 
-# required by Portage, as we have no SRC_URI...
-S="${WORKDIR}/${PN}"
+RESTRICT="mirror"
 
 # depend on joetoo-base/joetoo-platform-meta, which will have set up
 #   make.conf, package.use, and package.accept_keywords settings
@@ -245,7 +245,6 @@ RDEPEND="
 
 BDEPEND="${RDEPEND}"
 
-
 W0="[[:space:]]*"	# zero or more space chars
 W1="[[:space:]]${W1}"	# one or more whitespace chars
 
@@ -256,10 +255,10 @@ pkg_setup() {
 	elog "checking whether /boot should be/is mounted ..."
 	if grep -v "^${W0}#" /etc/fstab | grep "${W1}/boot${W1}" >/dev/null 2>&1  ; then
 		elog "Verified /boot is supposed to be mounted; checking if it is ..."
-		if grep "${ROOT%/}/boot" /proc/mounts >/dev/null 2>&1 ; then
-			elog "Verified ${ROOT%/}/boot is mounted ; continuing ..."
+		if grep "${ROOT}/boot" /proc/mounts >/dev/null 2>&1 ; then
+			elog "Verified ${ROOT}/boot is mounted ; continuing ..."
 		else
-			elog "${ROOT%/}/boot is not mounted, trying to mount it now ..."
+			elog "${ROOT}/boot is not mounted, trying to mount it now ..."
 			if $(mount /boot) ; then
 				elog "Succeeded in mounting /boot ; continuing ..."
 			else
@@ -272,6 +271,15 @@ pkg_setup() {
 }
 
 src_install() {
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "T=${T}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "FILESDIR=${FILESDIR}"
+	elog ""
 	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
 	einfo "Installing (exe/ins) baseline files into file system tree ..."
 	for x in $(find "${S}" -type f); do
@@ -319,33 +327,39 @@ src_install() {
 	target="/etc/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /run/resolvconf/resolv.conf /etc/resolv.conf  || die "failed to symlink resolv.conf"
+		dosym -r /run/resolvconf/resolv.conf /etc/resolv.conf  || die "failed to symlink resolv.conf"
 		elog "Installed symlink ${target%/}/resolv.conf"
 		elog "Done installing (sym) links into ${target}"
 	# install symlinks for basic openvpn configs for joetoo
 	target="/etc/openvpn/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-local.ovpn /etc/openvpn/local.conf  || die "failed to symlink local.conf"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-local.ovpn /etc/openvpn/local.conf  || \
+			die "failed to symlink local.conf"
 		elog "Installed symlink ${target%/}/local.conf"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-remote.ovpn /etc/openvpn/remote.conf  || die "failed to symlink remote.conf"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-remote.ovpn /etc/openvpn/remote.conf  || \
+			die "failed to symlink remote.conf"
 		elog "Installed symlink ${target%/}/remote.conf"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.remote-up.sh || die "failed to symlink openvpn.remote-up.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.remote-up.sh || \
+			die "failed to symlink openvpn.remote-up.sh"
 		elog "Installed symlink ${target%/}/openvpn.remote-up.sh"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.local-up.sh || die "failed to symlink openvpn.local-up.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.local-up.sh || \
+			die "failed to symlink openvpn.local-up.sh"
 		elog "Installed symlink ${target%/}/openvpn.local-up.sh"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.remote-down.sh || die "failed to symlink openvpn.remote-down.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.remote-down.sh || \
+			die "failed to symlink openvpn.remote-down.sh"
 		elog "Installed symlink ${target%/}/openvpn.remote-down.sh"
-		dosym /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.local-down.sh || die "failed to symlink openvpn.local-down.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.local-down.sh || \
+			die "failed to symlink openvpn.local-down.sh"
 		elog "Installed symlink ${target%/}/openvpn.local-down.sh"
 		elog "Done installing (sym) links into ${target}"
 	# install symlinks in init.d for openvpn services
 	target="/etc/init.d/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym "${target%/}/openvpn" "${target%/}/openvpn.local" || die "failed to symlink openvpn.local"
+		dosym -r "${target%/}/openvpn" "${target%/}/openvpn.local" || die "failed to symlink openvpn.local"
 		elog "Installed symlink ${target%/}/openvpn.local"
-		dosym "${target%/}/openvpn" "${target%/}/openvpn.remote" || die "failed to symlink openvpn.remote"
+		dosym -r "${target%/}/openvpn" "${target%/}/openvpn.remote" || die "failed to symlink openvpn.remote"
 		elog "Installed symlink ${target%/}/openvpn.remote"
 		elog "Done installing (sym) vpn links into ${target} ..."
 	# install symlink in init.d for user services (assume valid users have shell programs named *sh)
@@ -356,7 +370,7 @@ src_install() {
 		# (most entries end "nologin" or "false"
 		#  users will end in an actual shell program path name)
 		for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
-			dosym "${target%/}/user" "${target%/}/user.${username}" || \
+			dosym -r "${target%/}/user" "${target%/}/user.${username}" || \
 				die "failed to symlink user.${username}"
 			elog "Installed symlink ${target%/}/user.${username}"
 		done
@@ -365,7 +379,7 @@ src_install() {
 	target="/etc/"
 		einfo "Installing (sym) files into ${target} ..."
 		insinto "${target}"
-		dosym /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
+		dosym -r /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
 		elog "Installed symlink /etc/chrony.conf"
 		elog "Done installing (sym) links into ${target} ..."
 	# install symlink for elogind service in boot runlevel if install symlinks for basic chrony config for joetoo
@@ -373,22 +387,13 @@ src_install() {
 		target="/etc/runlevels/boot/"
 			einfo "Installing (sym) files into ${target} ..."
 			insinto "${target}"
-			dosym /etc/init.d/elogind "${target%/}/elogind" || die "failed to symlink ${target%/}/elogind"
+			dosym -r /etc/init.d/elogind "${target%/}/elogind" || die "failed to symlink ${target%/}/elogind"
 			elog "Installed symlink ${target%/}/elogind"
 			elog "Done installing (sym) elogind link into ${target} ..."
 	fi
 }
 
 pkg_postinst() {
-	einfo "S=${S}"
-	einfo "D=${D}"
-	einfo "T=${T}"
-	einfo "P=${P}"
-	einfo "PN=${PN}"
-	einfo "PV=${PV}"
-	einfo "PVR=${PVR}"
-	einfo "FILESDIR=${FILESDIR}"
-	elog ""
 	elog "${P} installed"
 	elog "Please report bugs to the maintainer."
 	elog ""
@@ -436,7 +441,8 @@ pkg_postinst() {
 	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
 	elog " 0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies"
 	elog " 0.0.51 changes from dhcpcd ntp server to joetoo list"
-	elog " 0.0.53/4 adds a post_up script for conf.d/net for router-ULA NDP fix"
+	elog " 0.0.53-/4 adds a post_up script for conf.d/net for router-ULA NDP fix"
+	elog " 0.0.55 is initial migration to joetoo-upstream repo"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
