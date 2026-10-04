@@ -192,7 +192,8 @@ src_install() {
 	elog " ver 0.0.0 is the initial build for the new package with cmdline processing, etc"
 	elog " 1.0.0 is the first version to distribute licenses"
 	elog " 1.0.1 adds millis2time and decode_right_status"
-	elog " 1.0.3 drops precooking logic and adds compiled headers for utf8 bytecodes and registries"
+	elog " 1.0.3-4 drops precooking logic and adds compiled headers for utf8 bytecodes and registries"
+	elog " 1.0.5 fixes bug in FORCE_RELOAD logic"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
