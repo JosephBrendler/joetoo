@@ -36,16 +36,23 @@ IUSE="
 	+grub
 	+tmux screen
 	"
-# zero or any of ( tmux screen ) are ok
-# ?? = zero or one of, but not multiple ( gentoo-sources gentoo-kernel )
-# *** dropped ^^ ( netifrc networkmanager ) and ^^ ( headless plasma gnome lxde lxqt )
-# because those include global use flags in profiles
+# ?? = any of (zero/one of)
+# do not include ( gentoo-sources gentoo-kernel ) - xen needs both; sbcs need neither
+# do not include ( tmux screen ) - user choice of both or neither is ok
+# ?? ( netifrc networkmanager ) and ?? ( headless plasma gnome lxde lxqt ) NOT ^^ because
+#    because those include global use flags prohibited in some profiles
+#    +headless and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some (e.g. plasma) profiles
+#    +netifrc and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some profiles
+# to-do: create hardened-headless profile in joetoo and remove named desktop USE flags
+#        change to -> headless/desktop only in ebuild (to pick which make.conf, etc)
 REQUIRED_USE="
 	innercore
 	nextcloud? ( lamp )
 	lamp? ( ^^ ( mysql mariadb ) )
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
+	?? ( netifrc networkmanager )
+	?? ( headless plasma gnome lxde lxqt )
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
@@ -80,6 +87,7 @@ RDEPEND="
 		>=net-analyzer/nmap-7.80
 		>=net-dns/openresolv-3.16.5
 		>=net-vpn/openvpn-2.4.7-r1
+		>=net-wireless/iw-6.17
 		>=net-wireless/wpa_supplicant-2.8
 		>=sys-apps/busybox-1.32.0[-static(-)]
 		>=sys-apps/lshw-02.19.2b_p20210121-r3
@@ -399,50 +407,9 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog "ver 0.0.1 splits joetoo-meta into ${PN} and joetoo-platform-meta"
-	elog " 0.0.1-r1/2 provide refinements and bugfixes"
-	elog " 0.0.2 updates /root/.bashrc and /etc/env.d/99joetoo-common-meta"
-	elog " 0.0.3 updates cloudsync.conf; -r1 adds openvpn.remote/local symlinks"
-	elog " 0.0.3-r2 adds RESTRICT=\"mirror\""
-	elog " 0.0.4 moves README to /etc/portage/package.use/ and updates ebuild"
-	elog " 0.0.5 provides refinements and bugfixes"
-	elog " 0.0.5-r1 adds support for openrc user services stabled in Gentoo 9/5/25"
-	elog " 0.0.6 updates /root/.bashrc"
-	elog " 0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies"
-	elog " 0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency"
-	elog " 0.0.7-r1 adds desktop dependency on x11-misc/sddm"
-	elog " 0.0.8/9 updates a number of parts"
-	elog " 0.0.10/-r1 update distcc stuff"
-	elog " -r2-4 adds clamav dependency for USE nextcloud"
-	elog " 0.0.11 updates configs to configure and enable ipv6"
-	elog " 0.0.12 (rollback 13,14) drop 192.168.1.1 from upstream fallback for dns"
-	elog " 0.0.13-15 changes sshd_config to AddressFamily any"
-	elog " 0.0.16 adds local router ip addresses to /etc/chrony.conf"
-	elog " 0 0.17 updates resolv.conf"
-	elog " 0.0.18 updates configs incl distccd for ipv6"
-	elog " 0.0.19 updates .bashrc and skel to match that in cb-mkupd"
-	elog " 0.0.20 updates chrony.conf and adds chronyc_check_sources.sh"
-	elog " 0.0.21 updates .bashrc for root and skel"
-	elog " 0.0.22 adds sysctl.d/99joetoo-client-local.conf"
-	elog " 0.0.23 provides locale UTF-8 standardization"
-	elog " 0.0.24 drops unicode header from .bashrc"
-	elog " 0.0.25-7 refines networking and hook scripts"
-	elog " 0.0.29 adds sysctl.d lines for temp priv ipv6 ULA policy"
-	elog " 0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg"
-	elog " 0.0.31 updates ssh_config"
-	elog " 0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile"
-	elog " 0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics"
-	elog " 0.0.37 adds a profile update"
-	elog " 0.0.38-41 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients"
-	elog " 0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR"
-	elog " 0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid"
-	elog " 0.0.44 adds configs and USE flags for screen and tmux, introduces USE lxqt"
-	elog " 0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net"
-	elog " 0.0.48 updated conf.d/distccd"
-	elog " 0.0.49 added distcc-client.log to /etc/logrotate.d/distcc"
-	elog " 0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies"
-	elog " 0.0.51 changes from dhcpcd ntp server to joetoo list"
-	elog " 0.0.53-/4 adds a post_up script for conf.d/net for router-ULA NDP fix"
-	elog " 0.0.55 is initial migration to joetoo-upstream repo"
+	elog " 0.0.55 is initial migration to joetoo-upstream repo, pkgcheck scan validation, etc"
+	elog " 1.0.0 licensed and including conf.d/net postup() for no-power_save"
+	elog " 1.0.1 updates functions in conf.d/net"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
