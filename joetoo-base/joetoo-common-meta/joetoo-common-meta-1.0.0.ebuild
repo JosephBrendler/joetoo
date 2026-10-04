@@ -36,12 +36,13 @@ IUSE="
 	+grub
 	+tmux screen
 	"
-# ?? = any of (zero/one of) ( tmux screen ) are ok
-# ?? ( gentoo-sources gentoo-kernel )
-# *** to ?? from ^^ ( netifrc networkmanager ) and ^^ ( headless plasma gnome lxde lxqt )
-# because those include global use flags prohibited in some profiles
-# note: +headless and ?? ( headless plasma gnome lxde lxqt ) will produce pkgcheck scan warning for some profiles
-# note: +netifrc and ?? ( netifrc networkmanager ) will produce pkgcheck scan warning for some profiles
+# ?? = any of (zero/one of)
+# do not include ( gentoo-sources gentoo-kernel ) - xen needs both; sbcs need neither
+# do not include ( tmux screen ) - user choice of both or neither is ok
+# ?? ( netifrc networkmanager ) and ?? ( headless plasma gnome lxde lxqt ) NOT ^^ because
+#    because those include global use flags prohibited in some profiles
+#    +headless and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some (e.g. plasma) profiles
+#    +netifrc and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some profiles
 # to-do: create hardened-headless profile in joetoo and remove named desktop USE flags
 #        change to -> headless/desktop only in ebuild (to pick which make.conf, etc)
 REQUIRED_USE="
@@ -55,8 +56,6 @@ REQUIRED_USE="
 	compareConfigs? ( Terminal )
 	jus? ( script_header_joetoo )
 	cloudsync? ( script_header_joetoo )
-	?? ( gentoo-sources gentoo-kernel )
-	?? ( tmux screen )
 	"
 
 RESTRICT="mirror"
