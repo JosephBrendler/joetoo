@@ -1,0 +1,428 @@
+# Copyright 2022-2052 Joe Brendler
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=8
+inherit joetoo_license
+
+DESCRIPTION="Baseline for a joetoo system"
+HOMEPAGE="https://github.com/JosephBrendler/joetoo"
+SRC_URI="https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/${CATEGORY}/${PN}-${PV}.tbz2"
+
+S="${WORKDIR}/${PN}"
+
+LICENSE="metapackage"
+SLOT="0"
+# revert to testing this version
+KEYWORDS="~amd64"
+
+# gentoo-kernel and gentoo-sources optional, and only for non-sbc
+# grub optional
+IUSE="
+	+innercore
+	+joetoolkit
+	+headless plasma gnome lxde lxqt
+	lamp nextcloud mysql mariadb
+	+cloudsync
+	+distcc
+	+mkinitramfs +jus
+	+netifrc networkmanager
+	ntp +chrony
+	+sysklogd syslog-ng
+	+script_header_joetoo
+	compareConfigs Terminal
+	domU
+	samba
+	+gentoo-kernel gentoo-sources
+	+grub
+	+tmux screen
+	"
+# ?? = any of (zero/one of) ( tmux screen ) are ok
+# ?? ( gentoo-sources gentoo-kernel )
+# *** to ?? from ^^ ( netifrc networkmanager ) and ^^ ( headless plasma gnome lxde lxqt )
+# because those include global use flags prohibited in some profiles
+# note: +headless and ?? ( headless plasma gnome lxde lxqt ) will produce pkgcheck scan warning for some profiles
+# note: +netifrc and ?? ( netifrc networkmanager ) will produce pkgcheck scan warning for some profiles
+# to-do: create hardened-headless profile in joetoo and remove named desktop USE flags
+#        change to -> headless/desktop only in ebuild (to pick which make.conf, etc)
+REQUIRED_USE="
+	innercore
+	nextcloud? ( lamp )
+	lamp? ( ^^ ( mysql mariadb ) )
+	^^ ( ntp chrony )
+	^^ ( sysklogd syslog-ng )
+	?? ( netifrc networkmanager )
+	?? ( headless plasma gnome lxde lxqt )
+	compareConfigs? ( Terminal )
+	jus? ( script_header_joetoo )
+	cloudsync? ( script_header_joetoo )
+	?? ( gentoo-sources gentoo-kernel )
+	?? ( tmux screen )
+	"
+
+RESTRICT="mirror"
+
+# depend on joetoo-base/joetoo-platform-meta, which will have set up
+#   make.conf, package.use, and package.accept_keywords settings
+#   that will impact the way many of these dependencies install
+RDEPEND="
+	>=joetoo-base/joetoo-platform-meta-0.0.1
+	>=joetoo-base/joetoo-per-package-env-0.0.3
+	>=sys-apps/openrc-0.42.1
+	>=app-shells/bash-5.0
+	innercore? (
+		>=app-admin/eselect-1.4.26
+		>=app-admin/logrotate-3.15.1
+		>=app-admin/sudo-1.8.29-r2
+		>=app-crypt/gnupg-2.2.19
+		>=app-editors/nano-4.6
+		app-admin/eselect
+		>=app-eselect/eselect-repository-8
+		app-misc/fastfetch
+		>=app-portage/eix-0.33.9
+		>=app-portage/gentoolkit-0.4.6
+		>=app-shells/bash-completion-2.14.0
+		>=app-text/tree-1.8.0
+		>=app-text/wgetpaste-2.33-r3[ssl(+)]
+		>=dev-libs/elfutils-0.178
+		>=dev-vcs/git-2.24.1
+		>=net-analyzer/nmap-7.80
+		>=net-dns/openresolv-3.16.5
+		>=net-vpn/openvpn-2.4.7-r1
+		>=net-wireless/iw-6.17
+		>=net-wireless/wpa_supplicant-2.8
+		>=sys-apps/busybox-1.32.0[-static(-)]
+		>=sys-apps/lshw-02.19.2b_p20210121-r3
+		sys-apps/plocate
+		>=sys-apps/rng-tools-6.8
+		>=sys-apps/usbutils-012
+		>=sys-apps/util-linux-2.34-r3
+		>=sys-auth/elogind-255.17
+		>=sys-devel/bc-1.07.1
+		>=sys-fs/cryptsetup-2.3.2[urandom(+),openssl(+)]
+		>=sys-fs/dosfstools-4.1
+		>=sys-fs/lvm2-2.03[-udev(-)]
+		gentoo-kernel? (
+			sys-kernel/gentoo-kernel[-initramfs(-)]
+			sys-kernel/installkernel[-dracut(-)]
+		)
+		gentoo-sources? (
+			sys-kernel/gentoo-sources[symlink(+)]
+			sys-kernel/installkernel[-dracut(-)]
+		)
+		grub? (
+			>=sys-boot/grub-2.06
+			sys-kernel/installkernel[-dracut(-)]
+		)
+		>=sys-kernel/installkernel-48-r1
+		>=sys-kernel/linux-firmware-20200619
+		>=sys-kernel/linux-headers-5.4
+		>=sys-process/cronie-1.5.5
+		sysklogd? ( >=app-admin/sysklogd-2.1.2 )
+		syslog-ng? ( >=app-admin/syslog-ng-3.36 )
+		ntp? ( >=net-misc/ntp-4.2.8 )
+		chrony? ( >=net-misc/chrony-3.5-r2 )
+		netifrc? (
+			>=net-misc/netifrc-0.7.3
+			>=net-misc/dhcpcd-9.4.0
+			>=net-misc/ddns-0.2.6
+		)
+		networkmanager? ( >=net-misc/networkmanager-1.36.4 )
+	)
+	lamp? (
+		mysql? ( >=dev-db/mysql-8.0 )
+		mariadb? ( >=dev-db/mariadb-10.5 )
+		>=www-servers/apache-2.4.41
+		dev-lang/php
+	)
+	joetoolkit? ( >=dev-util/joetoolkit-0.4.13 )
+	nextcloud? (
+		>=www-apps/nextcloud-18.0.1[vhosts(+),mysql(+)]
+		>=app-antivirus/clamav-1.4.2-r1[clamapp(+),system-mspack(+)]
+	)
+	distcc? ( >=sys-devel/distcc-3.3.3 )
+	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
+	jus? ( >=app-portage/jus-6.2.5 )
+	script_header_joetoo? ( dev-util/script_header_joetoo )
+	Terminal? ( >=dev-util/Terminal-0.1.0 )
+	compareConfigs? ( >=dev-util/compareConfigs-0.1.0 )
+	domU? ( sys-kernel/linux-domU_joetoo_kernelimage )
+	cloudsync? ( >=net-misc/cloudsync-2.1 )
+	samba? ( >=net-fs/samba-4.15.4-r2 )
+	screen? ( >=app-misc/screen-4.7.0 )
+	tmux? (	>=app-misc/tmux-3.4-r1[utempter(+),vim-syntax(+)] )
+	gnome? (
+		app-misc/wayland-utils
+		lxde-base/lxterminal
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
+		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		x11-apps/mesa-progs
+		x11-apps/xdpyinfo
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-misc/sddm
+		x11-misc/xdotool
+	)
+	lxde? (
+		lxde-base/lxde-meta
+		lxde-base/lxterminal
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-apps/xdpyinfo
+		lxde-base/lxdm
+		lxde-base/lxsession
+		lxde-base/lxpanel
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
+		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		x11-apps/mesa-progs
+		x11-misc/xdotool
+	)
+	lxqt? (
+		lxqt-base/lxqt-meta
+		lxqt-base/lxqt-session
+		lxqt-base/lxqt-panel
+		lxqt-base/lxqt-config
+		lxqt-base/lxqt-notificationd
+		lxqt-base/lxqt-policykit
+		x11-terms/qterminal
+		x11-wm/openbox
+		x11-themes/lxqt-themes
+		x11-apps/xrandr
+		x11-apps/xdpyinfo
+		x11-base/xorg-server
+		x11-base/xorg-fonts
+		x11-libs/libxcb
+		x11-misc/xdotool
+		x11-apps/mesa-progs
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
+		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+	)
+	plasma? (
+		app-misc/wayland-utils
+		kde-apps/kde-apps-meta
+		kde-apps/kwalletmanager
+		kde-plasma/kwallet-pam
+		kde-plasma/plasma-meta[oxygen-theme(+)]
+		lxde-base/lxterminal
+		media-fonts/corefonts
+		media-fonts/croscorefonts
+		media-fonts/dejavu
+		media-fonts/hack
+		media-fonts/liberation-fonts
+		media-fonts/noto
+		media-fonts/noto-emoji
+		media-fonts/terminus-font
+		media-fonts/ubuntu-font-family
+		nextcloud? ( net-misc/nextcloud-client )
+		x11-apps/mesa-progs
+		x11-apps/xdpyinfo
+		x11-apps/xrandr
+		x11-base/xorg-fonts
+		x11-base/xorg-server
+		x11-libs/libxcb
+		x11-misc/sddm
+		x11-misc/xdotool
+	)
+"
+
+BDEPEND="${RDEPEND}"
+
+W0="[[:space:]]*"	# zero or more space chars
+W1="[[:space:]]${W1}"	# one or more whitespace chars
+
+pkg_setup() {
+	# sbc board determination no longer needed here - taken care of in joetoo-base/joetoo-platform-meta
+	# we have some content for /boot/grub - so make sure boot is mounted ...
+	# if /boot is on a separate block device, and it is not mounted, try to mount it
+	elog "checking whether /boot should be/is mounted ..."
+	if grep -v "^${W0}#" /etc/fstab | grep "${W1}/boot${W1}" >/dev/null 2>&1  ; then
+		elog "Verified /boot is supposed to be mounted; checking if it is ..."
+		if grep "${ROOT}/boot" /proc/mounts >/dev/null 2>&1 ; then
+			elog "Verified ${ROOT}/boot is mounted ; continuing ..."
+		else
+			elog "${ROOT}/boot is not mounted, trying to mount it now ..."
+			if $(mount /boot) ; then
+				elog "Succeeded in mounting /boot ; continuing ..."
+			else
+				die "Failed to mount /boot"
+			fi  # managed to mount ?
+		fi  # is mounted ?
+	else
+		elog "Verified /boot is not supposed to be mounted ; continuing ..."
+	fi  # is supposed to be mounted ?
+}
+
+src_install() {
+	elog "S=${S}"
+	elog "D=${D}"
+	elog "T=${T}"
+	elog "P=${P}"
+	elog "PN=${PN}"
+	elog "PV=${PV}"
+	elog "PVR=${PVR}"
+	elog "FILESDIR=${FILESDIR}"
+	elog ""
+	# install the basic set of configuration files for joetoo (joetoo-common-meta tree)
+	einfo "Installing (exe/ins) baseline files into file system tree ..."
+	for x in $(find "${S}" -type f); do
+#		z=$(echo $x | sed "s|${S}||")
+#		dn=$(dirname $z)
+#		bn=$(basename $z)
+		z="${x#${S%}}"
+		dn="${z%/*}"
+		bn="${z##*/}"
+		dodir "${dn}"  # equiv to if ! -d; then mkdir
+		if [[ "$bn" == "distccd.log" ]] ; then
+			# special: install empty distccd.log owned by distcc:daemon
+			target="${dn}"
+			insinto "${target}"
+			newins "${x}" "${bn}"  || die "failed to install ${bn} in ${target}"
+			fperms 0644 "${z}"  || die "failed to set fperms for ${z}"
+			fowners distcc:daemon "${z}"  || die "failed to set fowners for ${z}"
+#		elif [[ "$(basename $dn)" == "grub.d" ]] ; then
+		elif [[ "${dn##*/}" == "grub.d" ]] ; then
+			# ( basename of dirname of x e.g. matches grub.d e.g. from z = /etc/grub.d/10linux )
+			# special: install grub.d files as +x so grub-mkconfig will use them
+			target="${dn}"
+			einfo "Installing (exe) ${z} into ${target}"
+			exeinto "${target}"
+			newexe "${x}" "${bn}" || die "failed to install ${bn} in ${target}"
+			elog "installed (exe) $bn into $target"
+		elif [[ -x ${x} ]] ; then
+			# special: preserve the executability set on source file
+			einfo "Installing (exe) ${z} into ${target}"
+			target="${dn}"
+			exeinto "${target}"
+			newexe "${x}" "${bn}" || die "failed to install (exe) $bn in ${target}"
+			elog "Installed (exe) ${z} in ${target}"
+		else
+			# not special: insert config/text file
+			target="${dn}"
+			einfo "Installing (ins) ${z} into ${target}"
+			insinto "${target}" || die "failed to install (ins) $z in ${target}"
+			newins "${x}" "${bn}"
+			elog "Installed (ins) ${z} in ${target}"
+		fi
+	done
+	elog "Done installing (exe/ins) baseline files into file system tree"
+	# install symlink for openresolv support to resolv.conf
+	target="/etc/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym -r /run/resolvconf/resolv.conf /etc/resolv.conf  || die "failed to symlink resolv.conf"
+		elog "Installed symlink ${target%/}/resolv.conf"
+		elog "Done installing (sym) links into ${target}"
+	# install symlinks for basic openvpn configs for joetoo
+	target="/etc/openvpn/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-local.ovpn /etc/openvpn/local.conf  || \
+			die "failed to symlink local.conf"
+		elog "Installed symlink ${target%/}/local.conf"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-remote.ovpn /etc/openvpn/remote.conf  || \
+			die "failed to symlink remote.conf"
+		elog "Installed symlink ${target%/}/remote.conf"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.remote-up.sh || \
+			die "failed to symlink openvpn.remote-up.sh"
+		elog "Installed symlink ${target%/}/openvpn.remote-up.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-up.sh /etc/openvpn/openvpn.local-up.sh || \
+			die "failed to symlink openvpn.local-up.sh"
+		elog "Installed symlink ${target%/}/openvpn.local-up.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.remote-down.sh || \
+			die "failed to symlink openvpn.remote-down.sh"
+		elog "Installed symlink ${target%/}/openvpn.remote-down.sh"
+		dosym -r /etc/openvpn/openvpnkeys_2024/joetoo-down.sh /etc/openvpn/openvpn.local-down.sh || \
+			die "failed to symlink openvpn.local-down.sh"
+		elog "Installed symlink ${target%/}/openvpn.local-down.sh"
+		elog "Done installing (sym) links into ${target}"
+	# install symlinks in init.d for openvpn services
+	target="/etc/init.d/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym -r "${target%/}/openvpn" "${target%/}/openvpn.local" || die "failed to symlink openvpn.local"
+		elog "Installed symlink ${target%/}/openvpn.local"
+		dosym -r "${target%/}/openvpn" "${target%/}/openvpn.remote" || die "failed to symlink openvpn.remote"
+		elog "Installed symlink ${target%/}/openvpn.remote"
+		elog "Done installing (sym) vpn links into ${target} ..."
+	# install symlink in init.d for user services (assume valid users have shell programs named *sh)
+	target="/etc/init.d/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		# look for entries in /etc/passwd, the last field of which is the user's shell
+		# (most entries end "nologin" or "false"
+		#  users will end in an actual shell program path name)
+		for username in $(grep 'sh$' /etc/passwd | grep -v '^root' | cut -d':' -f1); do
+			dosym -r "${target%/}/user" "${target%/}/user.${username}" || \
+				die "failed to symlink user.${username}"
+			elog "Installed symlink ${target%/}/user.${username}"
+		done
+		elog "Done installing (sym) user service links into ${target} ..."
+	# install symlinks for basic chrony config for joetoo
+	target="/etc/"
+		einfo "Installing (sym) files into ${target} ..."
+		insinto "${target}"
+		dosym -r /etc/chrony/chrony.conf /etc/chrony.conf || die "failed to symlink /etc/chrony.conf"
+		elog "Installed symlink /etc/chrony.conf"
+		elog "Done installing (sym) links into ${target} ..."
+	# install symlink for elogind service in boot runlevel if install symlinks for basic chrony config for joetoo
+	if [ -z "$( find /etc/runlevels/boot/ -iname 'elogind' )" ] ; then
+		target="/etc/runlevels/boot/"
+			einfo "Installing (sym) files into ${target} ..."
+			insinto "${target}"
+			dosym -r /etc/init.d/elogind "${target%/}/elogind" || die "failed to symlink ${target%/}/elogind"
+			elog "Installed symlink ${target%/}/elogind"
+			elog "Done installing (sym) elogind link into ${target} ..."
+	fi
+}
+
+pkg_postinst() {
+	elog "${P} installed"
+	elog "Please report bugs to the maintainer."
+	elog ""
+	elog "version_history can be found in the ebuild files directory."
+	elog "ver 0.0.1 splits joetoo-meta into ${PN} and joetoo-platform-meta"
+	elog " 0.0.55 is initial migration to joetoo-upstream repo, pkgcheck scan validation, etc"
+	elog " 1.0.0 licensed and including conf.d/net postup() for no-power_save"
+	elog ""
+	if use gnome; then
+		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
+	fi
+	elog ""
+	ewarn "Note: with version 0.0.11+, ipv6 is enabled with changes to template config"
+	ewarn " files: (/etc/conf.d/net, /etc/resolv.conf.head & .tail, /etc/dhcpcd.conf)"
+	ewarn " and hook/ddns update scripts: (/lib/dhcpcd/dhcpcd-hooks/99-ddns-update"
+	ewarn " and /etc/dhcpcd.ddns-update.sh) delivered by this package. However,"
+	ewarn " you will also need to install an ssh key in /home/\${user}/.ssh"
+	ewarn " and ensure the dns has a copy of the public key and that the router's"
+	ewarn " ddns update script (/etc/ddns_update/update-client-host.sh) is configured"
+	ewarn " to identify it. Current naming convention is id_ddns_update_xxxxx"
+	elog ""
+	elog "Thank you for using ${PN}"
+}

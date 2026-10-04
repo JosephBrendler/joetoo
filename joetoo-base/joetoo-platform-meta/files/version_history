@@ -127,4 +127,51 @@ version 0.1.3 introduces embedded and tinker USE flags
 0.1.42 consolidates joetoo_alderlake_N_binhosts.conf
 0.1.43 adds joetoo_alderlake_hybrid_binhosts.conf
 0.1.44 introduces license, updates tools
-
+#----[ joetoo-common-meta version history ]-------------------------------------------
+# joetoo-meta split into joetoo-platform-meta (separate) and joetoo-common-meta (this)
+ver 0.0.1 splits joetoo-meta into ${PN} and joetoo-platform-meta
+0.0.1-r1/2 provide refinements and bugfixes
+0.0.2 updates /root/.bashrc and /etc/env.d/99joetoo-common-meta
+0.0.3 updates cloudsync.conf; -r1 adds openvpn.remote/local symlinks
+0.0.3-r2 adds RESTRICT=\mirror\
+0.0.4 moves README to /etc/portage/package.use/ and updates ebuild
+0.0.5 provides refinements and bugfixes
+0.0.5-r1 adds support for openrc user services stabled in Gentoo 9/5/25
+0.0.6 updates /root/.bashrc
+0.0.6-r1 adds user's .bashrc if needed; updates plasma/gnome dependencies
+0.0.7 adds /etc/skel/.bashrc (vs FILESDIR) and neofetch dependency
+0.0.7-r1 adds desktop dependency on x11-misc/sddm
+0.0.8/9 updates a number of parts
+0.0.10/-r1 update distcc stuff
+-r2-4 adds clamav dependency for USE nextcloud
+0.0.11 updates configs to configure and enable ipv6
+0.0.12 (rollback 13,14) drop 192.168.1.1 from upstream fallback for dns
+0.0.13-15 changes sshd_config to AddressFamily any
+0.0.16 adds local router ip addresses to /etc/chrony.conf
+0 0.17 updates resolv.conf
+0.0.18 updates configs incl distccd for ipv6
+0.0.19 updates .bashrc and skel to match that in cb-mkupd
+0.0.20 updates chrony.conf and adds chronyc_check_sources.sh
+0.0.21 updates .bashrc for root and skel
+0.0.22 adds sysctl.d/99joetoo-client-local.conf
+0.0.23 provides locale UTF-8 standardization
+0.0.24 drops unicode header from .bashrc
+0.0.25-7 refines networking and hook scripts
+0.0.29 adds sysctl.d lines for temp priv ipv6 ULA policy
+0.0.30 updates dhcpcd.conf, moves dhcpcd.ddns-update.sh to ddns pkg
+0.0.31 updates ssh_config
+0.0.32 moves XDG_RUNTIME_DIR stuff from .bashrc to .bash_prifile
+0.0.33-36 add ddns hooks for openvpn joetoo-up/down.sh w diagnostics
+0.0.37 adds a profile update
+0.0.38-41 updates openvpn up/down.sh and ovpn configs to support ddns ipv4/6 clients
+0.0.42 updates .bash_profile to specify more standardized XDG_RUNTIME_DIR
+0.0.43 changes gentoo repo to type git; r1 removes legacy XDG bandaid
+0.0.44 adds configs and USE flags for screen and tmux, introduces USE lxqt
+0.0.45-7 updates /etc/skel/.bashrc and /etc/conf.d/net
+0.0.48 updated conf.d/distccd
+0.0.49 added distcc-client.log to /etc/logrotate.d/distcc
+0.0.50 changes from neofetch to fastfetch, updates/prunes old dependencies
+0.0.51 changes from dhcpcd ntp server to joetoo list
+0.0.53/4 adds a post_up script for conf.d/net for router-ULA NDP fix
+0.0.55 is initial migration to joetoo-upstream repo, pkgcheck scan validation, etc
+1.0.0 licensed and including conf.d/net postup() for no-power_save

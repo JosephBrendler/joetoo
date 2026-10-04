@@ -43,6 +43,7 @@ IUSE="
 #--------------------------------------------------------------------------------------
 
 # ^^ ( headless plasma gnome lxde lxqt )  <-- removed because it is really the profile's job to enforce this
+# maybe change to ?? ( ... ) which means "any of" or "zero or one of"
 # and pkgcheck scan QA objects to this as a REQUIRED_USE
 REQUIRED_USE="
 	sbc? ( ^^ (
