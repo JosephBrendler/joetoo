@@ -321,6 +321,9 @@ src_install() {
 			exeinto "${target}"
 			newexe "${x}" "${bn}" || die "failed to install (exe) $bn in ${target}"
 			elog "Installed (exe) ${z} in ${target}"
+		elif [[ "$dn" == "LICENSES" || "$bn" == "LICENSE"* || "$bn" == "COPYRIGHT.exceptions" ]]; then
+			# skip copyright/licenses - let eclass install below
+			elog "Deferred [$bn] installation to joetoo_license.eclass"
 		else
 			# not special: insert config/text file
 			target="${dn}"
@@ -330,6 +333,10 @@ src_install() {
 			elog "Installed (ins) ${z} in ${target}"
 		fi
 	done
+
+	# run eclass joetoo_license code
+	joetoo_license_src_install
+
 	elog "Done installing (exe/ins) baseline files into file system tree"
 	# install symlink for openresolv support to resolv.conf
 	target="/etc/"
