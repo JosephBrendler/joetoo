@@ -409,6 +409,8 @@ pkg_postinst() {
 	elog "ver 0.0.1 splits joetoo-meta into ${PN} and joetoo-platform-meta"
 	elog " 0.0.55 is initial migration to joetoo-upstream repo, pkgcheck scan validation, etc"
 	elog " 1.0.0 licensed and including conf.d/net postup() for no-power_save"
+	elog " 1.0.1 updates functions in conf.d/net"
+	elog " 1.0.2 removed joetoo profiles files that dont belong to upstream sources"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
