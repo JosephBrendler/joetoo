@@ -321,7 +321,7 @@ src_install() {
 			exeinto "${target}"
 			newexe "${x}" "${bn}" || die "failed to install (exe) $bn in ${target}"
 			elog "Installed (exe) ${z} in ${target}"
-		elif [[ "$dn" == "LICENSES" || "$bn" == "LICENSE"* || "$bn" == "COPYRIGHT.exceptions" ]]; then
+		elif [[ "$dn" == "/LICENSES" || "$bn" == "LICENSE"* || "$bn" == "COPYRIGHT.exceptions" ]]; then
 			# skip copyright/licenses - let eclass install below
 			elog "Deferred [$bn] installation to joetoo_license.eclass"
 		else
