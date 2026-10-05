@@ -194,6 +194,7 @@ src_install() {
 	elog " 1.0.1 adds millis2time and decode_right_status"
 	elog " 1.0.3-4 drops precooking logic and adds compiled headers for utf8 bytecodes and registries"
 	elog " 1.0.5 fixes bug in FORCE_RELOAD logic"
+	elog " 1.0.6/7 adds ssh_wrapper function"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
