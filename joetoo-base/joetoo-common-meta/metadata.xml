@@ -31,7 +31,7 @@
 		<flag name="chrony">Pull in chrony to sync with time source</flag>
 		<flag name="sysklogd">Pull in sysklogd as system logger</flag>
 		<flag name="syslog-ng">Pull in syslog-ng as system logger</flag>
-		<flag name="script_header_joetoo">Pull in the joetoo script header</flag>
+		<flag name="script-header-joetoo">Pull in the joetoo script header</flag>
 		<flag name="compareConfigs">Pull in the joetoo's initramfs builder and required components</flag>
 		<flag name="Terminal">Pull in the joetoo Terminal c++ shared obj library and test program</flag>
 		<flag name="domU">Pull in joetoo's sys-kernel/linux-domU_joetoo_kernelimage</flag>

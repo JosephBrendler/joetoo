@@ -28,7 +28,7 @@ IUSE="
 	+netifrc networkmanager
 	ntp +chrony
 	+sysklogd syslog-ng
-	+script_header_joetoo
+	+script-header-joetoo
 	compareConfigs Terminal
 	domU
 	samba
@@ -43,6 +43,8 @@ IUSE="
 #    because those include global use flags prohibited in some profiles
 #    +headless and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some (e.g. plasma) profiles
 #    +netifrc and ^^ would error for pkgcheck scan, but ?? ( ... ) will only warn for some profiles
+# Decision: remove those lines entirely until e.g. hardened-lxqt profile can take over
+#    picking WHICH desktop, and the current line ca be replaced by ^^( headless desktop )
 # to-do: create hardened-headless profile in joetoo and remove named desktop USE flags
 #        change to -> headless/desktop only in ebuild (to pick which make.conf, etc)
 REQUIRED_USE="
@@ -51,11 +53,9 @@ REQUIRED_USE="
 	lamp? ( ^^ ( mysql mariadb ) )
 	^^ ( ntp chrony )
 	^^ ( sysklogd syslog-ng )
-	?? ( netifrc networkmanager )
-	?? ( headless plasma gnome lxde lxqt )
 	compareConfigs? ( Terminal )
-	jus? ( script_header_joetoo )
-	cloudsync? ( script_header_joetoo )
+	jus? ( script-header-joetoo )
+	cloudsync? ( script-header-joetoo )
 	"
 
 RESTRICT="mirror"
@@ -118,7 +118,7 @@ RDEPEND="
 		>=sys-process/cronie-1.5.5
 		sysklogd? ( >=app-admin/sysklogd-2.1.2 )
 		syslog-ng? ( >=app-admin/syslog-ng-3.36 )
-		ntp? ( >=net-misc/ntp-4.2.8 )
+		ntp? ( >=net-misc/ntpsec-1.2.4 )
 		chrony? ( >=net-misc/chrony-3.5-r2 )
 		netifrc? (
 			>=net-misc/netifrc-0.7.3
@@ -141,7 +141,7 @@ RDEPEND="
 	distcc? ( >=sys-devel/distcc-3.3.3 )
 	mkinitramfs? ( >=dev-util/mkinitramfs-6.5 )
 	jus? ( >=app-portage/jus-6.2.5 )
-	script_header_joetoo? ( dev-util/script_header_joetoo )
+	script-header-joetoo? ( dev-util/script_header_joetoo )
 	Terminal? ( >=dev-util/Terminal-0.1.0 )
 	compareConfigs? ( >=dev-util/compareConfigs-0.1.0 )
 	domU? ( sys-kernel/linux-domU_joetoo_kernelimage )
