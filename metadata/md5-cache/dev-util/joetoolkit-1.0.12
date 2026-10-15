@@ -11,6 +11,6 @@ RDEPEND=dev-util/script_header_joetoo[extended] app-admin/eselect iptools? ( >=n
 REQUIRED_USE=router? ( iptools )
 RESTRICT=mirror
 SLOT=0
-SRC_URI=https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/dev-util/joetoolkit-1.0.10.tbz2
+SRC_URI=https://raw.githubusercontent.com/JosephBrendler/joetoo-upstream/master/dev-util/joetoolkit-1.0.12.tbz2
 _eclasses_=joetoo_license	dfe6b6fc4b4aa21884cf5920733551e8
-_md5_=189735daa0b0590f216989efcd5c1e9f
+_md5_=99cd8e5ce40bbaf966ac0f1cab90590c
