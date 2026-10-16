@@ -419,6 +419,8 @@ pkg_postinst() {
 	elog " 1.0.1 updates functions in conf.d/net"
 	elog " 1.0.2 removed joetoo profiles files that dont belong to upstream sources"
 	elog " 1.0.3 fixes history desync/jump-shift in bash-5.3_p20 upstream tool redraw mods"
+	elog " 1.0.4 adds 01joetoo_inputrc, removes ssh configs joetoo 01_ overrides anyway"
+	elog " 1.0.5 updates locale check in .bashrc"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
