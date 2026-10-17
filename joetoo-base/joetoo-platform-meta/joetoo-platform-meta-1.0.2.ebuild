@@ -410,6 +410,8 @@ pkg_postinst() {
 	elog ""
 	elog "version_history can be found in the ebuild files directory."
 	elog " 1.0.0 migrates this package to joetoo-upstream repo ${PN}"
+	elog " 1.0.1 refactors to script-header- USE flag; restricted _ char"
+	elog " 1.0.2 adds --usepkg-exclude= in make.conf for kernel+ "
 	elog ""
 	elog "Thank you for using ${PN}"
 }
