@@ -151,7 +151,6 @@ RDEPEND="
 	tmux? (	>=app-misc/tmux-3.4-r1[utempter(+),vim-syntax(+)] )
 	gnome? (
 		app-misc/wayland-utils
-		lxde-base/lxterminal
 		media-fonts/corefonts
 		media-fonts/croscorefonts
 		media-fonts/dejavu
@@ -173,7 +172,6 @@ RDEPEND="
 	)
 	lxde? (
 		lxde-base/lxde-meta
-		lxde-base/lxterminal
 		x11-apps/xrandr
 		x11-base/xorg-fonts
 		x11-base/xorg-server
@@ -229,7 +227,6 @@ RDEPEND="
 		kde-apps/kwalletmanager
 		kde-plasma/kwallet-pam
 		kde-plasma/plasma-meta[oxygen-theme(+)]
-		lxde-base/lxterminal
 		media-fonts/corefonts
 		media-fonts/croscorefonts
 		media-fonts/dejavu
