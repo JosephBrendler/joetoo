@@ -172,6 +172,7 @@ RDEPEND="
 	)
 	lxde? (
 		lxde-base/lxde-meta
+		lxde-base/lxterminal
 		x11-apps/xrandr
 		x11-base/xorg-fonts
 		x11-base/xorg-server
@@ -245,6 +246,7 @@ RDEPEND="
 		x11-libs/libxcb
 		x11-misc/sddm
 		x11-misc/xdotool
+		x11-terms/qterminal
 	)
 "
 
