@@ -2,9 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription>
-		This package provides per-package environment configurations
-		for joetoo systems
-		More to follow...
+		This package provides per-package environment configurations for joetoo systems -
+		use /etc/package.env/package.env to enforce per-package policies
 	</longdescription>
 	<maintainer type="person">
 		<email>joseph.brendler@gmail.com</email>
@@ -14,6 +13,6 @@
 		<flag name="TBD">TBD (this flag currently has no functionality)</flag>
 	</use>
 	<upstream>
-		<remote-id type="github">https://github.com/JosephBrendler/joetoo</remote-id>
+		<remote-id type="github">JosephBrendler/joetoo-upstream</remote-id>
 	</upstream>
 </pkgmetadata>
