@@ -1,0 +1,4 @@
+# DEPRECATED: former acct-group/gpio /i2c /spi
+# NOTICE: When upstream Gentoo developers assign official, system-wide UIDs and GIDs, they register
+# them centrally in the Official Gentoo UID/GID Assignment Table using numbers primarily in the 101–749 range.
+# Upstream ultimately codified gpio as GID 225, i2c as 226, and spi as 227.
