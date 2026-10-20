@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>joseph.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<longdescription>
+		account group - provide a GID for sys-apps/sbc-gpio to enable with a udev rule
+		and thus for gpio users to employ
+	</longdescription>
+</pkgmetadata>

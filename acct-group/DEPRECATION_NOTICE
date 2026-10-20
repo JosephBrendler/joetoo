@@ -1,4 +1,6 @@
-# DEPRECATED: former acct-group/gpio /i2c are now deprecated
+# DEPRECATED: former acct-group/i2c::joetoo is now deprecated
 # NOTICE: When upstream Gentoo developers assign official, system-wide UIDs and GIDs, they register
 # them centrally in the Official Gentoo UID/GID Assignment Table using numbers primarily in the 101–749 range.
 # Upstream ultimately codified gpio as GID 225, i2c as 226, and spi as 227.
+# Upstream now provides acct-group/i2c, with 226, but there is still no upstream acct-group/gpio or /spi
+# The joetoo local acct-group/gpio and /spi still use 370 and 372 respectively, for continuity
