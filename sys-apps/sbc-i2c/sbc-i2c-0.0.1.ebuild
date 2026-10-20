@@ -1,7 +1,6 @@
 # Copyright (c) 2022-2026 Joseph Brendler
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Adapted from GenPi64 work by sakaki <sakaki@deciban.com>
-# License: GPL v3+
 # NO WARRANTY
 
 EAPI=8
@@ -22,11 +21,10 @@ RESTRICT="mirror"
 
 #ACCT_DEPEND=""
 
-DEPEND="
-	>=sys-apps/openrc-0.41
+RDEPEND="
+	 acct-group/i2c
 	>=virtual/udev-215
-	>=app-shells/bash-4.0"
-RDEPEND="${DEPEND}"
+"
 
 src_install() {
 	insinto "/lib/udev/rules.d"
@@ -36,5 +34,9 @@ src_install() {
 pkg_postinst() {
 	elog "Members of the i2c group may access I2C devices through the installed udev rule."
 	elog "Add users to the i2c group if non-root I2C access is desired."
+	elog ""
+	elog "To use the i2c interface, ensure it is enabled in the board's"
+	elog "boot/device-tree configuration (e.g. /boot/config.txt or /boot/joetooEnv.txt)"
+	elog ""
 	elog "Complete.  Thanks for using ${PN}"
 }

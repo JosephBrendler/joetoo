@@ -1,9 +1,15 @@
+# Copyright 2022-2026 Joseph Brendler
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Adapted from GenPi64 work by Sakaki, which in turn followed
+# Raspbian /etc/udev/rules.d/99-com.rules.
+
 # ensure members of gpio group can read/write GPIO devices
-# based on Raspbian /etc/udev/rules.d/99-com.rules
+# note: this replaces the old raspbian/sakaki sysfs /sys/class/gpio access method which is now obsolete
+
+# raspberry pi-specific legacy gpiomem device
 SUBSYSTEM=="bcm2835-gpiomem", GROUP="gpio", MODE="0660"
-SUBSYSTEM=="gpio", GROUP="gpio", MODE="0660"
-SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c '\
-	chown -R root:gpio /sys/class/gpio && chmod -R 770 /sys/class/gpio;\
-	chown -R root:gpio /sys/devices/virtual/gpio && chmod -R 770 /sys/devices/virtual/gpio;\
-	chown -R root:gpio /sys$devpath && chmod -R 770 /sys$devpath\
-'"
+
+# modern gpio character devices used by libgpiod
+#SUBSYSTEM=="gpio", GROUP="gpio", MODE="0660"   # modernized below to specifically address gpiochip
+SUBSYSTEM=="gpio", KERNEL=="gpiochip*", GROUP="gpio", MODE="0660"

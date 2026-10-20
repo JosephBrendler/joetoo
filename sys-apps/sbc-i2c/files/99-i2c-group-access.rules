@@ -1,5 +1,5 @@
 # Copyright 2022-2026 Joseph Brendler
-# SPDX-License-Identifier: GPL-3.0-only
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Adapted from GenPi64 work by Sakaki, which in turn followed
 # Raspbian /etc/udev/rules.d/99-com.rules.

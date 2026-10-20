@@ -1,50 +1,42 @@
-# Copyright (c) 2022-2052 Joe Brendler <joseph.brendler@gmail.com>
-# Adapted from work abandoned by sakaki <sakaki@deciban.com>
-# License: GPL v3+
+# Copyright (c) 2022-2026 Joseph Brendler
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Adapted from GenPi64 work by sakaki <sakaki@deciban.com>
 # NO WARRANTY
 
 EAPI=8
 
-KEYWORDS="~arm ~arm64"
-
-DESCRIPTION="udev rule to allow spi group RPi SPI access"
+DESCRIPTION="udev rule to allow spi group SPI access"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI=""
-LICENSE="GPL-3+"
-SLOT="0"
-IUSE=""
-RESTRICT="mirror"
+#SRC_URI=""   # pkgcheck dislikes empty globals
 
-# required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-ACCT_DEPEND="
+LICENSE="GPL-3+"
+SLOT="0"
+
+KEYWORDS="~arm ~arm64"
+
+#IUSE=""   # pkgcheck dislikes empty globals
+RESTRICT="mirror"
+
+#ACCT_DEPEND=""
+
+RDEPEND="
 	acct-group/spi
-"
-DEPEND="
-	${ACCT_DEPEND}
-	!sys-apps/rpi3-spidev
 	>=virtual/udev-215
-	>=app-shells/bash-4.0"
-RDEPEND="${DEPEND}"
+"
 
 src_install() {
 	insinto "/lib/udev/rules.d"
 	doins "${FILESDIR}/99-spi-group-access.rules"
 }
 
-add_wheel_members_to_spi_group() {
-	local nextuser
-	for nextuser in $(grep "^wheel:" /etc/group | cut -d: -f4 | tr "," " "); do
-		usermod -a -G spi ${nextuser}
-	done
-}
-
 pkg_postinst() {
-	if [[ -z ${REPLACING_VERSIONS} ]] ; then
-		elog "Adding all members of wheel to the spi group"
-		add_wheel_members_to_spi_group
-		elog "To use the SPI interface, please ensure it is enabled in your"
-		elog "boot configuration (e.g. /boot/config.txt or /boot/joetooEnv.txt)"
-	fi
+	elog "Members of the spi group may access SPI devices through the installed udev rule."
+	elog "Add users to the spi group if non-root SPI access is desired."
+	elog ""
+	elog "To use the SPI interface, ensure it is enabled in the board's"
+	elog "boot/device-tree configuration (e.g. /boot/config.txt or /boot/joetooEnv.txt)"
+	elog ""
+	elog "Complete.  Thanks for using ${PN}"
 }

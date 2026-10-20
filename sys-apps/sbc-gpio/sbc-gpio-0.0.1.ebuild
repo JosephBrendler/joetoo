@@ -1,45 +1,38 @@
 # Copyright (c) 2022-2026 Joseph Brendler
-# Adapted from abandoned work of sakaki <sakaki@deciban.com>
-# License: GPL v3+
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Adapted from GenPi64 work by sakaki <sakaki@deciban.com>
 # NO WARRANTY
 
 EAPI=8
 
-KEYWORDS="~arm ~arm64"
-
 DESCRIPTION="udev rules to allow gpio group GPIO access"
 HOMEPAGE="https://github.com/joetoo"
-SRC_URI=""
+#SRC_URI=""   # pkgcheck dislikes empty globals
+
+S="${WORKDIR}"
+
 LICENSE="GPL-3+"
 SLOT="0"
-IUSE=""
-RESTRICT="mirror"
 
-# required by Portage, as we have no SRC_URI...
-S="${WORKDIR}"
+#KEYWORDS="~arm ~arm64"
+
+#IUSE=""   # pkgcheck dislikes empty globals
+RESTRICT="mirror"
 
 #ACCT_DEPEND=""
 
-DEPEND="
+RDEPEND="
+	acct-group/gpio
 	>=virtual/udev-215
-	>=app-shells/bash-4.0"
-RDEPEND="${DEPEND}"
+"
 
 src_install() {
 	insinto "/lib/udev/rules.d"
 	doins "${FILESDIR}/99-gpio-group-access.rules"
 }
 
-add_wheel_members_to_gpio_group() {
-	local nextuser
-	for nextuser in $(grep "^wheel:" /etc/group | cut -d: -f4 | tr "," " "); do
-		usermod -a -G gpio ${nextuser}
-	done
-}
-
 pkg_postinst() {
-	if [[ -z ${REPLACING_VERSIONS} ]] ; then
-		elog "Adding all members of wheel to the gpio group"
-		add_wheel_members_to_gpio_group
-	fi
+	elog "Members of the gpio group may access gpio devices through the installed udev rule."
+	elog "Add users to the gpio group if non-root gpio access is desired."
+	elog "Complete.  Thanks for using ${PN}"
 }
