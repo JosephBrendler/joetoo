@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2052 Joe Brendler
+# Copyright (c) 2022-2026 Joseph Brendler
 # Adapted from abandoned work of sakaki <sakaki@deciban.com>
 # License: GPL v3+
 # NO WARRANTY
@@ -18,11 +18,9 @@ RESTRICT="mirror"
 # required by Portage, as we have no SRC_URI...
 S="${WORKDIR}"
 
-ACCT_DEPEND="
-	>=acct-group/gpio-0a
-"
+#ACCT_DEPEND=""
+
 DEPEND="
-	${ACCT_DEPEND}
 	>=virtual/udev-215
 	>=app-shells/bash-4.0"
 RDEPEND="${DEPEND}"

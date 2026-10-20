@@ -6,7 +6,7 @@
 		<name>Joe Brendler</name>
 </maintainer>
 <longdescription>
-		Provides udev rule for SPI access on a single board computer (sbc)
+		Provides udev rule for I2C access on a single board computer (sbc)
 		Ensures I2C can be used by anyone in the i2c group (not just root)
 		(Adapted from raspbian)
 </longdescription>

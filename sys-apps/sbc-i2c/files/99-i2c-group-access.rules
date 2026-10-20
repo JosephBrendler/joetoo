@@ -1,3 +1,8 @@
+# Copyright 2022-2026 Joseph Brendler
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# Adapted from GenPi64 work by Sakaki, which in turn followed
+# Raspbian /etc/udev/rules.d/99-com.rules.
+
 # ensure members of i2c group can read/write I2C devices
-# taken from Raspbian /etc/udev/rules.d/99-com.rules
 SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"
