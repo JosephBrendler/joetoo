@@ -12,7 +12,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 The complete text of the GNU General Public License version 3 is
 provided in:
 
-    [LICENSES/GPL-3.0-or-later.txt](LICENSES/GPL-3.0-or-later.txt)
+[LICENSES/GPL-3.0-or-later.txt](LICENSES/GPL-3.0-or-later.txt)
 
 This repository also contains material derived from or incorporating
 work by other copyright holders. Such material remains subject to its
