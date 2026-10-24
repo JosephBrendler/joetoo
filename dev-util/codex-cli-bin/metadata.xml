@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<longdescription>
+		custom ebuild for the installation of OpenAI's codex CLI.
+		This is a tool designed to supportTerminal Workflow: Piping output,
+		generating code blocks from strings, running automated workspace scans,
+		etc. It is a low-overhead (Light text-only client ~50MB binary)
+		alternative to running codex in VS Code, KDE Plasma 6 Widget, or to
+		running the full Electron Desktop App.
+	</longdescription>
+	<maintainer type="person">
+		<email>joe.brendler@gmail.com</email>
+		<name>Joe Brendler</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">openai/codex</remote-id> 
+	</upstream>
+</pkgmetadata>
