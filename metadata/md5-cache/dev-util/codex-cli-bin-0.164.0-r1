@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile configure install postinst unpack
+DESCRIPTION=OpenAI Codex command-line coding agent (upstream prebuilt binaries)
+EAPI=8
+HOMEPAGE=https://github.com/openai/codex https://developers.openai.com/codex
+LICENSE=Apache-2.0 BSD MIT LGPL-2+
+RDEPEND=arm64? ( >=sys-libs/glibc-2.18 sys-devel/gcc )
+RESTRICT=strip test
+SLOT=0
+SRC_URI=amd64? ( https://github.com/openai/codex/releases/download/rust-v0.164.0/codex-package-x86_64-unknown-linux-musl.tar.gz -> codex-cli-bin-0.164.0-amd64-package.tar.gz ) arm64? ( https://github.com/openai/codex/releases/download/rust-v0.164.0/codex-package-aarch64-unknown-linux-musl.tar.gz -> codex-cli-bin-0.164.0-arm64-package.tar.gz ) https://raw.githubusercontent.com/openai/codex/rust-v0.164.0/LICENSE -> codex-cli-bin-0.164.0.LICENSE https://raw.githubusercontent.com/openai/codex/rust-v0.164.0/NOTICE -> codex-cli-bin-0.164.0.NOTICE https://raw.githubusercontent.com/openai/codex/rust-v0.164.0/codex-rs/vendor/bubblewrap/COPYING -> codex-cli-bin-0.164.0.bubblewrap-COPYING
+_md5_=678bb10e1a9b9917dc6dfc4c95363bb6
