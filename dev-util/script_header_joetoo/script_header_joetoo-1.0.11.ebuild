@@ -196,6 +196,8 @@ src_install() {
 	elog " 1.0.5 fixes bug in FORCE_RELOAD logic"
 	elog " 1.0.6-8 adds ssh_wrapper fn integrated in swr"
 	elog " 1.0.9 adds is_valid_timestamp function"
+	elog " 1.0.10 adds joetoo-template ssh support in script_header_joetoo_ssh"
+	elog " 1.0.11 is a bugfix preserving ssh_wrapper exit status in swr()"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
