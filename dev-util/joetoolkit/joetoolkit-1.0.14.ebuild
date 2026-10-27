@@ -222,6 +222,8 @@ pkg_postinst() {
 	elog " 1.0.0 was the first licensed version of ${PN}"
 	elog " 1.0.1-11 provide bugfixes and enhancements"
 	elog " 1.0.12 adds joetoo-template tool"
+	elog " 1.0.13 updates joetoo-locale-verify and eset_locale.sh"
+	elog " 1.0.14 adds aliases for git, gh w no-pager"
 	elog ""
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
