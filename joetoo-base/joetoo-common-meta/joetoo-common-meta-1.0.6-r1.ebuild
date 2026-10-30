@@ -167,7 +167,7 @@ RDEPEND="
 		x11-base/xorg-fonts
 		x11-base/xorg-server
 		x11-libs/libxcb
-		x11-misc/sddm
+		gui-apps/sddm
 		x11-misc/xdotool
 	)
 	lxde? (
@@ -244,7 +244,7 @@ RDEPEND="
 		x11-base/xorg-fonts
 		x11-base/xorg-server
 		x11-libs/libxcb
-		x11-misc/sddm
+		gui-apps/sddm
 		x11-misc/xdotool
 		x11-terms/qterminal
 	)
@@ -420,6 +420,7 @@ pkg_postinst() {
 	elog " 1.0.3 fixes history desync/jump-shift in bash-5.3_p20 upstream tool redraw mods"
 	elog " 1.0.4 adds 01joetoo_inputrc, removes ssh configs joetoo 01_ overrides anyway"
 	elog " 1.0.5 updates locale check in .bashrc"
+	elog " 1.0.6 removes logrotate from crontab, favoring cron.daily/logroate from eponymous"
 	elog ""
 	if use gnome; then
 		ewarn "USE = gnome was specified *** note:dependencies list is developmental ***"
