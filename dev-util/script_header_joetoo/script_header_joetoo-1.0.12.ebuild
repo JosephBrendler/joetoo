@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="amd64 arm arm64 x86"
 
 # automatically also pull in dev-util/script-header-joetoo-extended
-IUSE="+extended +niopt +examples unicode_data"
+IUSE="+extended +niopt +examples unicode-data"
 REQUIRED_USE="
 	examples? ( extended )
 "
@@ -167,14 +167,14 @@ src_install() {
 			elog "installed BPN file in ${target}"
 		done
 	fi
-	# install optional content for unicode_data reference files
-	if use unicode_data ; then
+	# install optional content for unicode-data reference files
+	if use unicode-data ; then
 	        target="/usr/share/${PN}/"
 		einfo "Installing (ins) unicode reference data in $target"
 		insinto "$target"
 		insopts -m0644
 		doins -r "${S}/unicode_data" || die "failed to install unicode reference data in $target"
-		elog "installed unicode_data in $target"
+		elog "USE unicode-data is set; installed unicode reference data (unicode_data) in $target"
 	fi
 
 	elog "${P} installed"
@@ -197,6 +197,8 @@ src_install() {
 	elog " 1.0.6-8 adds ssh_wrapper fn integrated in swr"
 	elog " 1.0.9 adds is_valid_timestamp function"
 	elog " 1.0.10 adds joetoo-template ssh support in script_header_joetoo_ssh"
+	elog " 1.0.11 is a bugfix preserving ssh_wrapper exit status in swr()"
+	elog " 1.0.12 adds information emoji to replace face_grin for severity 6 (info)"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
