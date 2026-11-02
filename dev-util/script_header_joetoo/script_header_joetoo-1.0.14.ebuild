@@ -53,34 +53,35 @@ src_install() {
 		insinto "${target}"
 		newins "${S%/}/${PN}" "${PN}"
 		elog "Installed ${PN} in ${target}"
-		# install unicode hex codepoint definitions
-		einfo "Installing (ins) ${PN}_unicode into ${target} ..."
-		insinto "${target}"
-		newins "${S%/}/${PN}_unicode" "${PN}_unicode"
-		elog "Installed ${PN}_unicode in ${target}"
-		# install unicode registry definitions
-		einfo "Installing (ins) ${PN}_registries into ${target} ..."
-		insinto "${target}"
-		newins "${S%/}/${PN}_registries" "${PN}_registries"
-		elog "Installed ${PN}_registries in ${target}"
-		# install uiasset definitions
-		einfo "Installing (ins) ${PN}_uiassets into ${target} ..."
-		insinto "${target}"
-		newins "${S%/}/${PN}_uiassets" "${PN}_uiassets"
-		elog "Installed ${PN}_uiassets in ${target}"
-		# install ssh key management module
-		einfo "Installing (ins) ${PN}_ssh into ${target} ..."
-		insinto "${target}"
-		newins "${S%/}/${PN}_ssh" "${PN}_ssh"
-		elog "Installed ${PN}_ssh in ${target}"
+
+		# install '_'-delimitted sub-headers not managed by USE flags
+		#   unicode hex codepoint definitions
+		#   unicode registry definitions
+		#   uiasset definitions
+		#   ssh key management module
+		#   compatability header
+		for helper in unicode registries uiassets ssh compat; do
+			x="${PN}_${helper}"
+			einfo "Installing (ins) ${x} into ${target} ..."
+			insinto "${target}"
+			newins "${S%/}/${x}" "${x}"
+			elog "Installed ${x} in ${target}"
+		done
+
+		# install '.'-delimitted ShellCheck stub-headers not managed by USE flags
+		for helper in shellcheck_var_stub shellcheck_func_stub; do
+			x="${PN}.${helper}"
+			einfo "Installing (ins) ${x} into ${target} ..."
+			insinto "${target}"
+			newins "${S%/}/${x}" "${x}"
+			elog "Installed ${x} in ${target}"
+		done
+
 		# install demonstrate_header script
 		einfo "Installing (ins) demonstrate_header into ${target} ..."
 		exeinto "${target}"
 		newexe "${S%/}/demonstrate_header" "demonstrate_header"
 		elog "Installed demonstrate_header in ${target}"
-		# install compatability header
-		newins "${S%/}/${PN}_compat" "${PN}_compat" || die "failed to install ${PN}_compat"
-		elog "Installed ${PN}_compat in ${target}"
 	target="/etc/${PN}/"
 			# install a BUILD assignment file for ${PN}
 			einfo "Installing (ins) BUILD assignment file in ${target}"
@@ -199,6 +200,8 @@ src_install() {
 	elog " 1.0.10 adds joetoo-template ssh support in script_header_joetoo_ssh"
 	elog " 1.0.11 is a bugfix preserving ssh_wrapper exit status in swr()"
 	elog " 1.0.12 adds information emoji to replace face_grin for severity 6 (info)"
+	elog " 1.0.13 fixes a bug in SED_LOG_FILTER for stripping LF"
+	elog " 1.0.14 adds shellcheck stub header compiler"
 	elog ""
 	elog "Thank you for using ${PN}"
 }
