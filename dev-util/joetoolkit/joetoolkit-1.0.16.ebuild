@@ -224,6 +224,8 @@ pkg_postinst() {
 	elog " 1.0.12 adds joetoo-template tool"
 	elog " 1.0.13 updates joetoo-locale-verify and eset_locale.sh"
 	elog " 1.0.14 adds aliases for git, gh w no-pager"
+	elog " 1.0.15 adds openrc-run for validate_scripts, info level show_config"
+	elog " 1.0.16 fixes shellcheck latency in validate_scripts with header stubs"
 	elog ""
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
