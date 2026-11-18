@@ -26,11 +26,13 @@ SLOT="0"
 KEYWORDS=""
 #IUSE=""   # pkgcheck scan dislikes empty globals
 
-# Note: modifying bwrap can break Codex's embedded digest check
-RESTRICT="strip test"
+# Note: modifying bwrap can break Codex's embedded digest check (hence strip, test)
+RESTRICT="mirror strip test"
 
 # upstream arm64 rg is GNU-linked even in the musl-named package
 RDEPEND="
+	>=sys-apps/bubblewrap-0.13.0
+	>=sys-apps/ripgrep-15.2.0
 	arm64? (
 		>=sys-libs/glibc-2.18
 		sys-devel/gcc
