@@ -226,6 +226,8 @@ pkg_postinst() {
 	elog " 1.0.14 adds aliases for git, gh w no-pager"
 	elog " 1.0.15 adds openrc-run for validate_scripts, info level show_config"
 	elog " 1.0.16 fixes shellcheck latency in validate_scripts with header stubs"
+	elog " 1.0.17 makes validate_scripts y/n confirmation severity sensitive"
+	elog " 1.0.18 updated validate_scripts and improved others"
 	elog ""
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
