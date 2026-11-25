@@ -228,6 +228,8 @@ pkg_postinst() {
 	elog " 1.0.16 fixes shellcheck latency in validate_scripts with header stubs"
 	elog " 1.0.17 makes validate_scripts y/n confirmation severity sensitive"
 	elog " 1.0.18 updated validate_scripts and improved others"
+	elog " 1.0.19 adds shellcheck_stub_filter"
+	elog " 1.0.20 improves validate_scripts, shellcheck_stub_filter, tarup"
 	elog ""
 	elog "This software is still evolving.  Please report bugs to the maintainer."
 	elog ""
